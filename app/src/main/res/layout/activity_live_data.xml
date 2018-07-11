@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/appstats"
+    tools:context=".LiveDataActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp">
+
+        <ImageView
+            android:id="@+id/btn_connection"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/ic_action_portable_wifi_off" />
+
+
+    </RelativeLayout>
+
+    <ViewText
+        android:id="@+id/tv_boost"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tv_boost2"
+        android:layout_marginEnd="186dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_egt"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="172dp"
+        android:layout_marginStart="82dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_oil_pressure"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/tv_boost9"
+        android:layout_marginStart="275dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_fuel"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tv_boost8"
+        android:layout_marginEnd="310dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_turbo"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/tv_boost9"
+        android:layout_marginBottom="71dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_dfrp"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tv_boost7"
+        android:layout_marginEnd="116dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_timing"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_boost8"
+        android:layout_alignTop="@+id/tv_boost6"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_coolant"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_boost7"
+        android:layout_alignTop="@+id/tv_boost4"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_gear"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_boost5"
+        android:layout_alignTop="@+id/tv_boost3"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_afrp"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_boost"
+        android:layout_alignTop="@+id/tv_boost10"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ViewText
+        android:id="@+id/tv_tune"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="110dp"
+        android:ems="10"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+
+</RelativeLayout>

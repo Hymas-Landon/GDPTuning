@@ -3,109 +3,176 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_gdp"
     tools:context=".TuneActivity">
 
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="223dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="61dp"
-        android:background="@color/colorOrange"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="TUNE 1" />
 
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="223dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/btn1"
-        android:layout_marginTop="134dp"
-        android:background="@color/colorOrange"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="TUNE 2" />
-
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="223dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/switchbg"
+        android:layout_width="241dp"
+        android:layout_height="325dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:background="@color/colorOrange"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="TUNE 3" />
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/tune_switch_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="223dp"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="136dp"
-        android:background="@color/colorOrange"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="TUNE 4" />
-
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="223dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="66dp"
-        android:background="@color/colorOrange"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="TUNE 5" />
 
     <ImageView
         android:id="@+id/btn_connection"
-        android:layout_width="71dp"
-        android:layout_height="47dp"
+        android:layout_width="58dp"
+        android:layout_height="35dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/wificonnected" />
 
     <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="319dp"
+        android:layout_height="190dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="46dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tune_title" />
+
+    <ImageView
         android:id="@+id/btn_info"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/helpbutton" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="392dp"
-        android:layout_height="205dp"
-        android:layout_alignBaseline="@+id/btn4"
-        android:layout_alignParentStart="true"
-        android:text="Tune Selection"
-        android:textAlignment="center"
-        android:textColor="#b3b3b3"
-        android:textSize="80dp"
-        android:textStyle="bold" />
+    <ToggleButton
+        android:id="@+id/btn1"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/switchbg"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/tune_off"
+        android:textOff=""
+        android:textOn=""
+        />
 
+    <ToggleButton
+        android:id="@+id/tgl_num1"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey1"
+        android:layout_marginEnd="190dp"
+        android:layout_alignEnd="@id/switchbg"
+        android:layout_alignTop="@+id/btn1"
+        android:textOff=""
+        android:textOn=""
+        />
+
+    <ToggleButton
+        android:id="@+id/btn2"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/switchbg"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="115dp"
+        android:background="@drawable/tune_off"
+        android:textOff=""
+        android:textOn=""
+        />
+
+    <ToggleButton
+        android:id="@+id/tgl_num2"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey2"
+        android:layout_alignTop="@+id/btn2"
+        android:layout_marginEnd="190dp"
+        android:layout_alignEnd="@id/switchbg"
+        android:textOff=""
+        android:textOn=""
+        />
+
+    <ToggleButton
+        android:id="@+id/btn3"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/switchbg"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/tune_off"
+        android:textOff=""
+        android:textOn="" />
+
+    <ToggleButton
+        android:id="@+id/tgl_num3"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey3"
+        android:layout_alignTop="@+id/btn3"
+        android:layout_marginEnd="190dp"
+        android:layout_alignEnd="@id/switchbg"
+        android:textOff=""
+        android:textOn=""
+        />
+    <ToggleButton
+        android:id="@+id/btn4"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="245dp"
+        android:layout_alignEnd="@+id/switchbg"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/tune_off"
+        android:textOff=""
+        android:textOn=""
+        />
+
+    <ToggleButton
+        android:id="@+id/tgl_num4"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey4"
+        android:layout_marginEnd="190dp"
+        android:layout_alignEnd="@id/switchbg"
+        android:layout_alignTop="@+id/btn4"
+        android:textOff=""
+        android:textOn=""
+        />
+
+    <ToggleButton
+        android:id="@+id/btn5"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/switchbg"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="310dp"
+        android:background="@drawable/tune_off"
+        android:textOff=""
+        android:textOn=""
+        />
+
+    <ToggleButton
+        android:id="@+id/tgl_num5"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey5"
+        android:layout_alignTop="@+id/btn5"
+        android:layout_marginEnd="190dp"
+        android:layout_alignEnd="@id/switchbg"
+        android:textOff=""
+        android:textOn=""
+        />
 
 </RelativeLayout>

@@ -10,8 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,11 +43,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_tune);
 
         //set widget
-         btn1 = findViewById(R.id.btn1);
+         btn1 = findViewById(R.id.btn2);
          btn2 = findViewById(R.id.btn2);
          btn3 = findViewById(R.id.btn3);
-         btn4 = findViewById(R.id.btn4);
-         btn5 = findViewById(R.id.btn5);
+         btn4 = findViewById(R.id.btn1);
+         btn5 = findViewById(R.id.btn1);
         btn_connection = findViewById(R.id.btn_connection);
 
          //Set On Click Listener
@@ -262,7 +260,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                 btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
                 btn4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 break;
-            case R.id.btn5:
+            case R.id.btn1:
                 swicthMode(5);
                 btn1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
                 btn2.setBackgroundColor(getResources().getColor(R.color.colorOrange));

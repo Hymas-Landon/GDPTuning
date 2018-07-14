@@ -1,9 +1,9 @@
 package com.g33kali.gdp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -111,6 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    protected static void pause(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException exception) {
+            // do nothing
+        }
+    }
+
     //Send to sGDP server to verify connection
     public void sendRequest(){
         // prepare the Request
@@ -120,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi);
+                        btn_connection.setImageResource(R.drawable.wificonnected);
                         try {
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
@@ -137,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi_off);
+                        btn_connection.setImageResource(R.drawable.wifi_not_connected);
                         Log.d("Error.Response", error.toString());
                     }
                 }

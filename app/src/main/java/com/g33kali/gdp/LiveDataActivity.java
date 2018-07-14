@@ -1,9 +1,9 @@
 package com.g33kali.gdp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,7 +21,6 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,7 +35,7 @@ public class LiveDataActivity extends AppCompatActivity {
     boolean isProcessing = false;
 
     String device = "GDP";
-    int tuneMode= 0;
+    int tuneMode = 0;
     Timer timer;
 
     @Override
@@ -48,17 +47,17 @@ public class LiveDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_live_data);
 
         btn_connection = findViewById(R.id.btn_connection);
-        tvBoost = findViewById(R.id.tv_boost);
-        tvEgt = findViewById(R.id.tv_egt);
-        tvOilPressure = findViewById(R.id.tv_oil_pressure);
-        tvFule = findViewById(R.id.tv_fuel);
-        tvTrubo = findViewById(R.id.tv_turbo);
-        tvDfrp = findViewById(R.id.tv_dfrp);
-        tvTiming = findViewById(R.id.tv_timing);
-        tvCoolant = findViewById(R.id.tv_coolant);
-        tvGear = findViewById(R.id.tv_gear);
-        tvAfrp = findViewById(R.id.tv_afrp);
-        tvTune = findViewById(R.id.tv_tune);
+//        tvBoost = findViewById(R.id.tv_boost);
+//        tvEgt = findViewById(R.id.tv_egt);
+//        tvOilPressure = findViewById(R.id.tv_oil_pressure);
+//        tvFule = findViewById(R.id.tv_fuel);
+//        tvTrubo = findViewById(R.id.tv_turbo);
+//        tvDfrp = findViewById(R.id.tv_dfrp);
+//        tvTiming = findViewById(R.id.tv_timing);
+//        tvCoolant = findViewById(R.id.tv_coolant);
+//        tvGear = findViewById(R.id.tv_gear);
+//        tvAfrp = findViewById(R.id.tv_afrp);
+//        tvTune = findViewById(R.id.tv_tune);
 
         queue = Volley.newRequestQueue(this);
         sendRequest();
@@ -117,7 +116,7 @@ public class LiveDataActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi);
+                        btn_connection.setImageResource(R.drawable.wificonnected);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ",variables.toString());
@@ -138,7 +137,7 @@ public class LiveDataActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        btn_connection.setImageResource(R.drawable.wificonnected);
+                        btn_connection.setImageResource(R.drawable.wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -181,7 +180,7 @@ public class LiveDataActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         isConnected = true;
 
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi);
+                        btn_connection.setImageResource(R.drawable.wificonnected);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ",variables.toString());
@@ -213,7 +212,7 @@ public class LiveDataActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        btn_connection.setImageResource(R.drawable.wificonnected);
+                        btn_connection.setImageResource(R.drawable.wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)

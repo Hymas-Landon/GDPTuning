@@ -1,9 +1,9 @@
 package com.g33kali.gdp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class TuneActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button btn1, btn2, btn3, btn4, btn5;
+    Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5;
 
     ImageView btn_info, btn_connection;
     RequestQueue queue;
@@ -43,11 +43,16 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_tune);
 
         //set widget
-         btn1 = findViewById(R.id.btn2);
+        btn1 = findViewById(R.id.btn1);
          btn2 = findViewById(R.id.btn2);
          btn3 = findViewById(R.id.btn3);
-         btn4 = findViewById(R.id.btn1);
-         btn5 = findViewById(R.id.btn1);
+        btn4 = findViewById(R.id.btn4);
+        btn5 = findViewById(R.id.btn5);
+        btn_num1 = findViewById(R.id.tgl_num1);
+        btn_num2 = findViewById(R.id.tgl_num2);
+        btn_num3 = findViewById(R.id.tgl_num3);
+        btn_num4 = findViewById(R.id.tgl_num4);
+        btn_num5 = findViewById(R.id.tgl_num5);
         btn_connection = findViewById(R.id.btn_connection);
 
          //Set On Click Listener
@@ -56,55 +61,94 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
         btn5.setOnClickListener(this);
+        btn_num1.setOnClickListener(this);
+        btn_num2.setOnClickListener(this);
+        btn_num3.setOnClickListener(this);
+        btn_num4.setOnClickListener(this);
+        btn_num5.setOnClickListener(this);
         btn_connection.setOnClickListener(this);
 
         queue = Volley.newRequestQueue(this);
         sendRequest();
 
     }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch(id){
             case R.id.btn1:
-                swicthMode(1);
-                btn1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                btn2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn4.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            case R.id.tgl_num1:
+                switchMode(1);
+                btn1.setBackgroundResource(R.drawable.tune_on);
+                btn2.setBackgroundResource(R.drawable.tune_off);
+                btn3.setBackgroundResource(R.drawable.tune_off);
+                btn4.setBackgroundResource(R.drawable.tune_off);
+                btn5.setBackgroundResource(R.drawable.tune_off);
+                btn_num1.setBackgroundResource(R.drawable.orange1);
+                btn_num2.setBackgroundResource(R.drawable.grey2);
+                btn_num3.setBackgroundResource(R.drawable.grey3);
+                btn_num4.setBackgroundResource(R.drawable.grey4);
+                btn_num5.setBackgroundResource(R.drawable.grey5);
                 break;
             case R.id.btn2:
-                swicthMode(2);
-                btn1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn4.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            case R.id.tgl_num2:
+                switchMode(2);
+                btn1.setBackgroundResource(R.drawable.tune_off);
+                btn2.setBackgroundResource(R.drawable.tune_on);
+                btn3.setBackgroundResource(R.drawable.tune_off);
+                btn4.setBackgroundResource(R.drawable.tune_off);
+                btn5.setBackgroundResource(R.drawable.tune_off);
+                btn_num1.setBackgroundResource(R.drawable.grey1);
+                btn_num2.setBackgroundResource(R.drawable.orange2);
+                btn_num3.setBackgroundResource(R.drawable.grey3);
+                btn_num4.setBackgroundResource(R.drawable.grey4);
+                btn_num5.setBackgroundResource(R.drawable.grey5);
                 break;
             case R.id.btn3:
-                swicthMode(3);
-                btn1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                btn4.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            case R.id.tgl_num3:
+                switchMode(3);
+                btn1.setBackgroundResource(R.drawable.tune_off);
+                btn2.setBackgroundResource(R.drawable.tune_off);
+                btn3.setBackgroundResource(R.drawable.tune_on);
+                btn4.setBackgroundResource(R.drawable.tune_off);
+                btn5.setBackgroundResource(R.drawable.tune_off);
+                btn_num1.setBackgroundResource(R.drawable.grey1);
+                btn_num2.setBackgroundResource(R.drawable.grey2);
+                btn_num3.setBackgroundResource(R.drawable.orange3);
+                btn_num4.setBackgroundResource(R.drawable.grey4);
+                btn_num5.setBackgroundResource(R.drawable.grey5);
                 break;
             case R.id.btn4:
-                swicthMode(4);
-                btn1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            case R.id.tgl_num4:
+                switchMode(4);
+                btn1.setBackgroundResource(R.drawable.tune_off);
+                btn2.setBackgroundResource(R.drawable.tune_off);
+                btn3.setBackgroundResource(R.drawable.tune_off);
+                btn4.setBackgroundResource(R.drawable.tune_on);
+                btn5.setBackgroundResource(R.drawable.tune_off);
+                btn_num1.setBackgroundResource(R.drawable.grey1);
+                btn_num2.setBackgroundResource(R.drawable.grey2);
+                btn_num3.setBackgroundResource(R.drawable.grey3);
+                btn_num4.setBackgroundResource(R.drawable.orange4);
+                btn_num5.setBackgroundResource(R.drawable.grey5);
                 break;
             case R.id.btn5:
-                btn1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-                btn4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            case R.id.tgl_num5:
+                switchMode(5);
+                btn1.setBackgroundResource(R.drawable.tune_off);
+                btn2.setBackgroundResource(R.drawable.tune_off);
+                btn3.setBackgroundResource(R.drawable.tune_off);
+                btn4.setBackgroundResource(R.drawable.tune_off);
+                btn5.setBackgroundResource(R.drawable.tune_on);
+                btn_num1.setBackgroundResource(R.drawable.grey1);
+                btn_num2.setBackgroundResource(R.drawable.grey2);
+                btn_num3.setBackgroundResource(R.drawable.grey3);
+                btn_num4.setBackgroundResource(R.drawable.grey4);
+                btn_num5.setBackgroundResource(R.drawable.orange5);
                 break;
             case  R.id.btn_connection:
-                displayDeviceInfo();
+//                displayDeviceInfo();
                 break;
-
         }
     }
     @Override
@@ -123,7 +167,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi);
+                        btn_connection.setImageResource(R.drawable.wificonnected);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ",variables.toString());
@@ -144,7 +188,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi_off);
+                        btn_connection.setImageResource(R.drawable.wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -176,7 +220,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    void swicthMode(int mode){
+    void switchMode(int mode) {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/change_mode?params="+mode, null,
                 new Response.Listener<JSONObject>()
@@ -184,7 +228,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi);
+                        btn_connection.setImageResource(R.drawable.wificonnected);
                         try {
 
                             tuneMode = response.getInt("return_value");
@@ -201,7 +245,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        btn_connection.setImageResource(R.drawable.ic_action_portable_wifi_off);
+                        btn_connection.setImageResource(R.drawable.wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -260,8 +304,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                 btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
                 btn4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 break;
-            case R.id.btn1:
-                swicthMode(5);
+            case 5:
                 btn1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
                 btn2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
                 btn3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
@@ -277,42 +320,42 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //Show Connection details
-    void displayDeviceInfo(){
-        if (isConnected){
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Connected")
-                    .setContentText("You are connected to "+device)
-                    .setConfirmText("ok")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance
-                            sDialog.dismiss();
-                        }
-                    })
-                    .show();
-        }else {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("No Connection")
-                    .setContentText("Your are not connected to GDP device")
-                    .setCancelText("Retry")
-                    .setConfirmText("Connect")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendRequest();
-                            sDialog.dismiss();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    })
-                    .show();
-        }
-
-    }
+//    void displayDeviceInfo(){
+//        if (isConnected){
+//            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+//                    .setTitleText("Connected")
+//                    .setContentText("You are connected to "+device)
+//                    .setConfirmText("ok")
+//                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                        @Override
+//                        public void onClick(SweetAlertDialog sDialog) {
+//                            // reuse previous dialog instance
+//                            sDialog.dismiss();
+//                        }
+//                    })
+//                    .show();
+//        }else {
+//            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+//                    .setTitleText("No Connection")
+//                    .setContentText("Your are not connected to GDP device")
+//                    .setCancelText("Retry")
+//                    .setConfirmText("Connect")
+//                    .showCancelButton(true)
+//                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                        @Override
+//                        public void onClick(SweetAlertDialog sDialog) {
+//                            sendRequest();
+//                            sDialog.dismiss();
+//                        }
+//                    })
+//                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                        @Override
+//                        public void onClick(SweetAlertDialog sDialog) {
+//                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//                        }
+//                    })
+//                    .show();
+//        }
+//
+//    }
 }

@@ -2,4 +2,7 @@
     <string name="app_name">GDP</string>
     <string name="splash_img">Start Up Image</string>
     <string name="current_wifi">Current Wifi Status</string>
+    <string name="parse">parse</string>
+    <string name="gauges_view">Gauges View</string>
+    <string name="progressive_graph_view">Progressive Graph View</string>
 </resources>

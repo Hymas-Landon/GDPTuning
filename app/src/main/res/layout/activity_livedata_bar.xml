@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gdp"
+    tools:context=".LiveDataActivity">
+
+    <Button
+        android:id="@+id/select_tune"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_empty"
+        android:text="@string/gauges_view"
+        android:textStyle="bold" />
+
+    <com.github.anastr.speedviewlib.ProgressiveGauge
+        android:id="@+id/progressiveGauge"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="52dp"
+        android:layout_marginEnd="33dp"
+        />
+
+    <!--<Button-->
+        <!--android:id="@+id/select_tune"-->
+        <!--android:layout_width="160dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:background="@drawable/tuneswitchingbutton"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/text_view_result"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textColor="@color/colorOrange"/>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/btn_connection"-->
+        <!--android:layout_width="58dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginEnd="11dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:srcCompat="@drawable/wificonnected" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/btn_info"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="28dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:srcCompat="@drawable/helpbutton" />-->
+
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+
+    <!--<de.nitri.gauge.Gauge-->
+        <!--android:id="@+id/gauge1"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginTop="130dp"-->
+        <!--android:layout_marginEnd="45dp"-->
+        <!--gauge:faceColor="@color/colorBlackTransparent"-->
+        <!--gauge:needleColor="@color/colorOrange"-->
+        <!--gauge:labelTextSize="25"-->
+        <!--gauge:scaleColor="@color/colorOrange"-->
+        <!--gauge:initialValue="0"-->
+        <!--gauge:maxValue="120"-->
+        <!--gauge:minValue="0"-->
+        <!--gauge:totalNicks="150"-->
+        <!--gauge:valuePerNick="1" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+        <!--android:id="@+id/gauge2"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="130dp"-->
+        <!--android:layout_marginStart="175dp"-->
+        <!--gauge:faceColor="@color/colorBlackTransparent"-->
+        <!--gauge:needleColor="@color/colorOrange"-->
+        <!--gauge:labelTextSize="25"-->
+        <!--gauge:scaleColor="@color/colorOrange"-->
+        <!--gauge:initialValue="0"-->
+        <!--gauge:maxValue="120"-->
+        <!--gauge:minValue="0"-->
+        <!--gauge:totalNicks="150"-->
+        <!--gauge:valuePerNick="1" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+        <!--android:id="@+id/gauge3"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_marginTop="85dp"-->
+        <!--android:layout_marginStart="30dp"-->
+        <!--gauge:faceColor="@color/colorBlackTransparent"-->
+        <!--gauge:needleColor="@color/colorOrange"-->
+        <!--gauge:labelTextSize="15"-->
+        <!--gauge:scaleColor="@color/colorOrange"-->
+        <!--gauge:initialValue="0"-->
+        <!--gauge:maxValue="120"-->
+        <!--gauge:minValue="0"-->
+        <!--gauge:totalNicks="150"-->
+        <!--gauge:valuePerNick="1" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+        <!--android:id="@+id/gauge4"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_marginTop="235dp"-->
+        <!--android:layout_marginStart="30dp"-->
+        <!--gauge:faceColor="@color/colorBlackTransparent"-->
+        <!--gauge:needleColor="@color/colorOrange"-->
+        <!--gauge:labelTextSize="15"-->
+        <!--gauge:scaleColor="@color/colorOrange"-->
+        <!--gauge:initialValue="0"-->
+        <!--gauge:maxValue="120"-->
+        <!--gauge:minValue="0"-->
+        <!--gauge:totalNicks="150"-->
+        <!--gauge:valuePerNick="1" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+        <!--android:id="@+id/gauge5"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_marginTop="85dp"-->
+        <!--android:layout_marginStart="460dp"-->
+        <!--gauge:faceColor="@color/colorBlackTransparent"-->
+        <!--gauge:needleColor="@color/colorOrange"-->
+        <!--gauge:labelTextSize="15"-->
+        <!--gauge:scaleColor="@color/colorOrange"-->
+        <!--gauge:initialValue="0"-->
+        <!--gauge:maxValue="120"-->
+        <!--gauge:minValue="0"-->
+        <!--gauge:totalNicks="150"-->
+        <!--gauge:valuePerNick="1" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+        <!--android:id="@+id/gauge6"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_marginTop="235dp"-->
+        <!--android:layout_marginStart="460dp"-->
+        <!--gauge:faceColor="@color/colorBlackTransparent"-->
+        <!--gauge:needleColor="@color/colorOrange"-->
+        <!--gauge:labelTextSize="15"-->
+        <!--gauge:scaleColor="@color/colorOrange"-->
+        <!--gauge:initialValue="0"-->
+        <!--gauge:maxValue="120"-->
+        <!--gauge:minValue="0"-->
+        <!--gauge:totalNicks="150"-->
+        <!--gauge:valuePerNick="1" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/gauge1_large"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_alignStart="@+id/gauge1"-->
+        <!--android:layout_alignTop="@id/gauge1"-->
+        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/gauge2_large"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_alignStart="@+id/gauge2"-->
+        <!--android:layout_alignTop="@id/gauge2"-->
+        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/gauge1_small"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_alignStart="@+id/gauge3"-->
+        <!--android:layout_alignTop="@id/gauge3"-->
+        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/gauge2_small"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_alignStart="@+id/gauge4"-->
+        <!--android:layout_alignTop="@id/gauge4"-->
+        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/gauge3_small"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_alignStart="@+id/gauge5"-->
+        <!--android:layout_alignTop="@id/gauge5"-->
+        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/gauge4_small"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:layout_alignStart="@+id/gauge6"-->
+        <!--android:layout_alignTop="@id/gauge6"-->
+        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_width="417dp"-->
+        <!--android:layout_height="39dp"-->
+        <!--android:layout_below="@+id/btn_connection"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--gauge:srcCompat="@drawable/live_data" />-->
+
+
+</RelativeLayout>

@@ -28,6 +28,7 @@
         <activity android:name=".LiveDataActivity" android:screenOrientation="landscape" >
 
         </activity>
+        <activity android:name=".LiveDataBarActivity" android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

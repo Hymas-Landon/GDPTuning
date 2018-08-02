@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="orange_palette">
+        <item>@color/colorDarkOrange</item>
+        <item>@color/colorOrange</item>
+        <item>@color/colorDarkOrange</item>
+    </array>
+</resources>

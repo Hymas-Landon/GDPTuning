@@ -13,212 +13,233 @@
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/button_empty"
+        android:background="@drawable/gradient_orange"
         android:text="@string/gauges_view"
         android:textStyle="bold" />
 
-    <com.github.anastr.speedviewlib.ProgressiveGauge
-        android:id="@+id/progressiveGauge"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_alignParentBottom="true"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="253dp"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:background="@drawable/live_data"
+        android:contentDescription="@string/live_data" />
+
+    <TextView
+        android:id="@+id/text_view_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorOrange"
+        android:textSize="20sp"
+        tools:ignore="RelativeOverlap" />
+
+    <ImageView
+        android:id="@+id/wifi_switch"
+        android:layout_width="58dp"
+        android:layout_height="35dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="52dp"
-        android:layout_marginEnd="33dp"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/wifi_not_connected" />
 
-    <!--<Button-->
-        <!--android:id="@+id/select_tune"-->
-        <!--android:layout_width="160dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:background="@drawable/tuneswitchingbutton"/>-->
+    <ImageView
+        android:id="@+id/btn_info"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/info_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/helpbutton" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/text_view_result"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="20sp"-->
-        <!--android:textColor="@color/colorOrange"/>-->
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge1"
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_alignBottom="@id/imageLinearGauge4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        app:sv_image="@drawable/progressive_gauge"
+        app:sv_speedTextColor="@color/colorOrange"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20sp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="@color/colorOrange"
+        app:sv_textSize="20sp"
+        app:sv_unitTextSize="0dp" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/btn_connection"-->
-        <!--android:layout_width="58dp"-->
-        <!--android:layout_height="35dp"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginEnd="11dp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:srcCompat="@drawable/wificonnected" />-->
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge2"
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/imageLinearGauge1"
+        android:layout_marginStart="190dp"
+        app:sv_image="@drawable/progressive_gauge"
+        app:sv_speedTextColor="@color/colorOrange"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20sp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="@color/colorOrange"
+        app:sv_textSize="20sp"
+        app:sv_unitTextSize="0dp" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/btn_info"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="28dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:srcCompat="@drawable/helpbutton" />-->
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge3"
+        android:layout_width="130dp"
+        android:layout_height="150dp"
+        android:layout_alignStart="@+id/imageLinearGauge4"
+        android:layout_marginTop="90dp"
+        app:sv_image="@drawable/progressive_gauge"
+        app:sv_speedTextColor="@color/colorOrange"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20sp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="@color/colorOrange"
+        app:sv_textSize="20sp"
+        app:sv_unitTextSize="0dp" />
 
-    <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge4"
+        android:layout_width="130dp"
+        android:layout_height="150dp"
+        android:layout_alignStart="@id/imageLinearGauge2"
+        android:layout_marginStart="-160dp"
+        android:layout_marginTop="210dp"
+        app:sv_image="@drawable/progressive_gauge"
+        app:sv_speedTextColor="@color/colorOrange"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20sp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="@color/colorOrange"
+        app:sv_textSize="0dp"
+        app:sv_unitTextSize="0dp" />
 
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge5"
+        android:layout_width="130dp"
+        android:layout_height="150dp"
+        android:layout_alignStart="@+id/imageLinearGauge6"
+        android:layout_alignTop="@+id/imageLinearGauge3"
+        app:sv_image="@drawable/progressive_gauge"
+        app:sv_speedTextColor="@color/colorOrange"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20sp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="@color/colorOrange"
+        app:sv_textSize="0dp"
+        app:sv_unitTextSize="0dp" />
 
-    <!--<de.nitri.gauge.Gauge-->
-        <!--android:id="@+id/gauge1"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_marginTop="130dp"-->
-        <!--android:layout_marginEnd="45dp"-->
-        <!--gauge:faceColor="@color/colorBlackTransparent"-->
-        <!--gauge:needleColor="@color/colorOrange"-->
-        <!--gauge:labelTextSize="25"-->
-        <!--gauge:scaleColor="@color/colorOrange"-->
-        <!--gauge:initialValue="0"-->
-        <!--gauge:maxValue="120"-->
-        <!--gauge:minValue="0"-->
-        <!--gauge:totalNicks="150"-->
-        <!--gauge:valuePerNick="1" />-->
+    <Button
+        android:id="@+id/btn_home"
+        android:layout_width="42dp"
+        android:layout_height="38dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:background="@drawable/home_press" />
 
-    <!--<de.nitri.gauge.Gauge-->
-        <!--android:id="@+id/gauge2"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_marginTop="130dp"-->
-        <!--android:layout_marginStart="175dp"-->
-        <!--gauge:faceColor="@color/colorBlackTransparent"-->
-        <!--gauge:needleColor="@color/colorOrange"-->
-        <!--gauge:labelTextSize="25"-->
-        <!--gauge:scaleColor="@color/colorOrange"-->
-        <!--gauge:initialValue="0"-->
-        <!--gauge:maxValue="120"-->
-        <!--gauge:minValue="0"-->
-        <!--gauge:totalNicks="150"-->
-        <!--gauge:valuePerNick="1" />-->
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge6"
+        android:layout_width="130dp"
+        android:layout_height="150dp"
+        android:layout_alignStart="@+id/imageLinearGauge1"
+        android:layout_alignTop="@+id/imageLinearGauge4"
+        android:layout_marginStart="-160dp"
+        app:sv_image="@drawable/progressive_gauge"
+        app:sv_speedTextColor="@color/colorOrange"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20sp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="@color/colorOrange"
+        app:sv_textSize="0dp"
+        app:sv_unitTextSize="0dp" />
 
-    <!--<de.nitri.gauge.Gauge-->
-        <!--android:id="@+id/gauge3"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_marginTop="85dp"-->
-        <!--android:layout_marginStart="30dp"-->
-        <!--gauge:faceColor="@color/colorBlackTransparent"-->
-        <!--gauge:needleColor="@color/colorOrange"-->
-        <!--gauge:labelTextSize="15"-->
-        <!--gauge:scaleColor="@color/colorOrange"-->
-        <!--gauge:initialValue="0"-->
-        <!--gauge:maxValue="120"-->
-        <!--gauge:minValue="0"-->
-        <!--gauge:totalNicks="150"-->
-        <!--gauge:valuePerNick="1" />-->
+    <TextView
+        android:id="@+id/num1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge1"
+        android:layout_alignTop="@id/imageLinearGauge1"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="@string/egt"
+        android:textAlignment="center"
+        android:textColor="@color/colorOrange"
+        android:textSize="30sp" />
 
-    <!--<de.nitri.gauge.Gauge-->
-        <!--android:id="@+id/gauge4"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_marginTop="235dp"-->
-        <!--android:layout_marginStart="30dp"-->
-        <!--gauge:faceColor="@color/colorBlackTransparent"-->
-        <!--gauge:needleColor="@color/colorOrange"-->
-        <!--gauge:labelTextSize="15"-->
-        <!--gauge:scaleColor="@color/colorOrange"-->
-        <!--gauge:initialValue="0"-->
-        <!--gauge:maxValue="120"-->
-        <!--gauge:minValue="0"-->
-        <!--gauge:totalNicks="150"-->
-        <!--gauge:valuePerNick="1" />-->
+    <TextView
+        android:id="@+id/num2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge2"
+        android:layout_alignTop="@id/num1"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="-35dp"
+        android:gravity="center"
+        android:text="@string/turbo_vanes"
+        android:textAlignment="center"
+        android:textColor="@color/colorOrange"
+        android:textSize="30sp" />
 
-    <!--<de.nitri.gauge.Gauge-->
-        <!--android:id="@+id/gauge5"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_marginTop="85dp"-->
-        <!--android:layout_marginStart="460dp"-->
-        <!--gauge:faceColor="@color/colorBlackTransparent"-->
-        <!--gauge:needleColor="@color/colorOrange"-->
-        <!--gauge:labelTextSize="15"-->
-        <!--gauge:scaleColor="@color/colorOrange"-->
-        <!--gauge:initialValue="0"-->
-        <!--gauge:maxValue="120"-->
-        <!--gauge:minValue="0"-->
-        <!--gauge:totalNicks="150"-->
-        <!--gauge:valuePerNick="1" />-->
+    <TextView
+        android:id="@+id/num3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge3"
+        android:layout_alignTop="@id/imageLinearGauge3"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="-2dp"
+        android:gravity="center"
+        android:text="@string/oil_pressure"
+        android:textAlignment="center"
+        android:textColor="@color/colorOrange"
+        android:textSize="20sp" />
 
-    <!--<de.nitri.gauge.Gauge-->
-        <!--android:id="@+id/gauge6"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_marginTop="235dp"-->
-        <!--android:layout_marginStart="460dp"-->
-        <!--gauge:faceColor="@color/colorBlackTransparent"-->
-        <!--gauge:needleColor="@color/colorOrange"-->
-        <!--gauge:labelTextSize="15"-->
-        <!--gauge:scaleColor="@color/colorOrange"-->
-        <!--gauge:initialValue="0"-->
-        <!--gauge:maxValue="120"-->
-        <!--gauge:minValue="0"-->
-        <!--gauge:totalNicks="150"-->
-        <!--gauge:valuePerNick="1" />-->
+    <TextView
+        android:id="@+id/num4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge4"
+        android:layout_alignTop="@id/imageLinearGauge4"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="23dp"
+        android:gravity="center"
+        android:text="@string/boost"
+        android:textAlignment="center"
+        android:textColor="@color/colorOrange"
+        android:textSize="20sp" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/gauge1_large"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_alignStart="@+id/gauge1"-->
-        <!--android:layout_alignTop="@id/gauge1"-->
-        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
+    <TextView
+        android:id="@+id/num5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge5"
+        android:layout_alignTop="@id/imageLinearGauge5"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:text="@string/fuel_rate"
+        android:textAlignment="center"
+        android:textColor="@color/colorOrange"
+        android:textSize="20sp" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/gauge2_large"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_alignStart="@+id/gauge2"-->
-        <!--android:layout_alignTop="@id/gauge2"-->
-        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/gauge1_small"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_alignStart="@+id/gauge3"-->
-        <!--android:layout_alignTop="@id/gauge3"-->
-        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/gauge2_small"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_alignStart="@+id/gauge4"-->
-        <!--android:layout_alignTop="@id/gauge4"-->
-        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/gauge3_small"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_alignStart="@+id/gauge5"-->
-        <!--android:layout_alignTop="@id/gauge5"-->
-        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/gauge4_small"-->
-        <!--android:layout_width="140dp"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_alignStart="@+id/gauge6"-->
-        <!--android:layout_alignTop="@id/gauge6"-->
-        <!--gauge:srcCompat="@drawable/gauge_cover" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/imageView"-->
-        <!--android:layout_width="417dp"-->
-        <!--android:layout_height="39dp"-->
-        <!--android:layout_below="@+id/btn_connection"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--gauge:srcCompat="@drawable/live_data" />-->
-
+    <TextView
+        android:id="@+id/num6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge6"
+        android:layout_alignTop="@id/imageLinearGauge6"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/coolant"
+        android:textAlignment="center"
+        android:textColor="@color/colorOrange"
+        android:textSize="20sp" />
 
 </RelativeLayout>

@@ -1,35 +1,79 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!--This is the default look of the app-->
+    <style name="AppThemeNoActionBarOrange" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorOrange</item>
+        <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:buttonStyle">@style/ButtonOrange</item>
     </style>
 
-    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+    <!--Button Color Orange-->
+    <style name="ButtonOrange">
+        <item name="android:background">@drawable/gradient_orange</item>
+        <item name="android:gravity">center</item>
     </style>
 
-    <style name="hintText" parent="@android:style/TextAppearance">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
+    <!--Home Button Orange-->
+    <style name="OtherButtons">
+        <item name="android:background">@drawable/home_orange</item>
+    </style>
+
+    <!--This is for the green theme-->
+    <style name="AppThemeNoActionBarGreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorGreen</item>
+        <item name="colorPrimaryDark">@color/colorDarkGreen</item>
+        <item name="colorAccent">@color/colorGreen</item>
+        <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="android:buttonStyle">@style/ButtonGreen</item>
+    </style>
+
+    <!--Button Color Green-->
+    <style name="ButtonGreen">
+        <item name="android:background">@drawable/gradient_green</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:paddingTop">18dp</item>
+    </style>
+
+    <!--This is for the Red theme-->
+    <style name="AppThemeNoActionBarRed" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorRed</item>
+        <item name="colorPrimaryDark">@color/colorDarkRed</item>
+        <item name="colorAccent">@color/colorRed</item>
+        <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:buttonStyle">@style/ButtonRed</item>
+    </style>
+
+    <!--Button Color Red-->
+    <style name="ButtonRed">
+        <item name="android:background">@drawable/gradient_red</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:paddingTop">18dp</item>
+    </style>
+
+    <!--This is for the blue theme-->
+    <style name="AppThemeNoActionBarBlue" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorBlue</item>
+        <item name="colorPrimaryDark">@color/colorDarkBlue</item>
+        <item name="colorAccent">@color/colorBlue</item>
+        <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:buttonStyle">@style/ButtonBlue</item>
+    </style>
+
+    <!--Button Color Blue-->
+    <style name="ButtonBlue">
+        <item name="android:background">@drawable/gradient_blue</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <!--This is for the action screen to load correctly-->
+    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
 
 </resources>

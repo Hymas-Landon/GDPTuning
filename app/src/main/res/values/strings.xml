@@ -20,7 +20,7 @@
     <string name="wifi_ssid">Wifi SSID</string>
     <string name="change_settings">Change Settings</string>
     <string name="show_wifi">Display WiFi Settings</string>
-    <string name="change_wifi_settings">Change WiFi Settings</string>
+    <string name="change_wifi_settings">CHANGE WIFI SETTINGS</string>
     <string name="link_speed">Link Speed</string>
     <string name="no_connection">Wifi not Connected</string>
     <string name="button_for_gauge_6">Button for Gauge 6</string>

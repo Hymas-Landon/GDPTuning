@@ -10,11 +10,11 @@
 
     <TextView
         android:id="@+id/tvBoost_text"
-        android:layout_width="wrap_content"
+        android:layout_width="42dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/select_tune"
-        android:layout_marginStart="-20dp"
-        android:layout_toEndOf="@+id/gauge1"
+        android:layout_alignBottom="@+id/btn1"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="293dp"
         android:textColor="@color/colorOrange"
         android:textSize="20sp" />
 
@@ -29,11 +29,12 @@
     <ImageView
         android:id="@+id/wifi_switch"
         android:layout_width="58dp"
-        android:layout_height="35dp"
+        android:layout_height="26dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
-        android:background="@drawable/wifi_not_connected" />
+        android:layout_marginTop="4.5dp"
+        android:background="@drawable/wifi_not_connected_pressed" />
 
     <ImageView
         android:id="@+id/btn_info"

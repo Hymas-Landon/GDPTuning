@@ -28,7 +28,7 @@ public class WifiActivity extends AppCompatActivity implements View.OnClickListe
     TextView connected;
     Button btnWifiSettings, btn_home;
     //WiFi Variables
-    private ToggleButton wifiSwitch;
+    private ToggleButton wifi_switch;
     private WifiManager wifiManager;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class WifiActivity extends AppCompatActivity implements View.OnClickListe
         btnWifiSettings = findViewById(R.id.cur_wifi);
 
         //Working with wifi
-        wifiSwitch = findViewById(R.id.wifi_switch);
+        wifi_switch = findViewById(R.id.wifi_switch);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
         txtWifiInfo = findViewById(R.id.current_ssid);
@@ -63,28 +63,28 @@ public class WifiActivity extends AppCompatActivity implements View.OnClickListe
         txtWifiInfo.setText(ssid);
         wifiSpeed.setText(String.valueOf(linkSpeed));
         connected = findViewById(R.id.connection);
-        wifiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        wifi_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if ((isChecked) && (mWifi.isConnected())) {
                     wifiManager.setWifiEnabled(true);
-                    wifiSwitch.setBackgroundResource(R.drawable.wificonnected);
+                    wifi_switch.setBackgroundResource(R.drawable.wificonnected);
                     connected.setText(R.string.wifi_connection);
                 } else {
                     wifiManager.setWifiEnabled(false);
-                    wifiSwitch.setBackgroundResource(R.drawable.wifi_not_connected);
+                    wifi_switch.setBackgroundResource(R.drawable.wifi_not_connected);
                     connected.setText(R.string.no_connection);
                 }
             }
         });
 
         if ((wifiManager.isWifiEnabled()) && (mWifi.isConnected())) {
-            wifiSwitch.setChecked(true);
-            wifiSwitch.setBackgroundResource(R.drawable.wificonnected);
+            wifi_switch.setChecked(true);
+            wifi_switch.setBackgroundResource(R.drawable.wificonnected);
             connected.setText(R.string.wifi_connection);
         } else {
-            wifiSwitch.setChecked(false);
-            wifiSwitch.setBackgroundResource(R.drawable.wifi_not_connected);
+            wifi_switch.setChecked(false);
+            wifi_switch.setBackgroundResource(R.drawable.wifi_not_connected);
             connected.setText(R.string.no_connection);
         }
 

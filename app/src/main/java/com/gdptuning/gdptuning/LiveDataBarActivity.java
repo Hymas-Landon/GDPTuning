@@ -1,10 +1,6 @@
 package com.gdptuning.gdptuning;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +24,6 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,14 +31,13 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
-    TextView tvBoost, tvEgt, tvOilPressure, tvFule, tvTrubo, tvDfrp, tvTiming, tvCoolant, tvGear, tvAfrp, tvTune;
+    TextView tvBoost, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvDfrp, tvTiming, tvCoolant, tvGear, tvAfrp, tvTune;
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
 
     ImageView btn_info, wifi_switch;
     Button btn_tune, btn_home;
-    Typeface tf1;
     RequestQueue queue;
     boolean isConnected = false;
     boolean isProcessing = false;
@@ -74,15 +68,7 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
 
         btn_home.setOnClickListener(this);
 
-
-        Random num = new Random();
-        int number[] = new int[6];
-
-        for (int i = 0; i < number.length; i++) {
-            number[i] = (i + 1) * num.nextInt(35);
-        }
-
-
+        //Gauges for linear bar gauges
         ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
         ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
         ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
@@ -90,33 +76,13 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
         ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
         ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
 
-
-// change speed
-        imageLinearGauge1.speedTo(number[0]);
-        imageLinearGauge2.speedTo(number[1]);
-        imageLinearGauge3.speedTo(number[2]);
-        imageLinearGauge4.speedTo(number[3]);
-        imageLinearGauge5.speedTo(number[4]);
-        imageLinearGauge6.speedTo(number[5]);
-
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = null;
-        if (connManager != null) {
-            mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        }
-
-
         //Working with wifi
         wifi_switch = findViewById(R.id.wifi_switch);
         wifi_switch.setOnClickListener(this);
 
         queue = Volley.newRequestQueue(this);
 
-        sendRequest();
-
-        timer = new
-
-                Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             int num = 1;
 
@@ -193,13 +159,13 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
+                                .setCancelText("Cancel")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
+//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -237,9 +203,9 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                             tvTune.setText("Tune :" + tuneMode);
                             tvBoost.setText(variables.getString("boost"));
                             tvEgt.setText(variables.getString("egt"));
-                            tvFule.setText(variables.getString("fule"));
-                            tvOilPressure.setText(variables.getString("oil_pressur"));
-                            tvTrubo.setText(variables.getString("turbo"));
+                            tvFuel.setText(variables.getString("fuel"));
+                            tvOilPressure.setText(variables.getString("oil_pressure"));
+                            tvTurbo.setText(variables.getString("turbo"));
                             tvDfrp.setText(variables.getString("frp"));
                             tvTiming.setText(variables.getString("timing"));
                             tvCoolant.setText(variables.getString("coolant"));
@@ -266,13 +232,13 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
+                                .setCancelText("Cancel")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
+//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -300,12 +266,52 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
 
         switch (id) {
             case R.id.wifi_switch:
-                startActivity(new Intent(LiveDataBarActivity.this, WifiActivity.class));
+                displayDevicecInfo();
                 break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataBarActivity.this, MainActivity.class));
                 break;
         }
+    }
+
+    //Show Connection details
+    void displayDevicecInfo() {
+        if (isConnected) {
+            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Connected")
+                    .setContentText("You are connected to " + device)
+                    .setConfirmText("ok")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            // reuse previous dialog instance
+                            sDialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("No Connection")
+                    .setContentText("You are not connected to a GDP device")
+                    .setCancelText("Cancel")
+                    .setConfirmText("Connect")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+//                            sendRequest();
+                            sDialog.dismiss();
+                        }
+                    })
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                        }
+                    })
+                    .show();
+        }
+
     }
 }
 

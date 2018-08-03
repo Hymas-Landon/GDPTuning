@@ -12,7 +12,7 @@
 
     <!--Button Color Orange-->
     <style name="ButtonOrange">
-        <item name="android:background">@drawable/gradient_orange</item>
+        <item name="android:background">@drawable/button_press_orange</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -73,7 +73,6 @@
     </style>
 
     <!--This is for the action screen to load correctly-->
-    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.Light.NoActionBar">
-    </style>
+    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
 </resources>

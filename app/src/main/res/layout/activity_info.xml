@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_gdp"
     tools:context=".InfoActivity">
 
@@ -16,16 +16,26 @@
         android:layout_marginStart="11dp"
         android:background="@drawable/home_press" />
 
-    <ToggleButton
+    <ImageView
         android:id="@+id/wifi_switch"
         android:layout_width="58dp"
-        android:layout_height="35dp"
+        android:layout_height="26dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
-        android:background="@drawable/wifi_not_connected"
-        android:textOff=""
-        android:textOn="" />
+        android:layout_marginTop="4.5dp"
+        android:background="@drawable/wifi_not_connected_pressed" />
+
+    <com.cbr.gradienttextview.GradientTextView
+        android:id="@+id/config_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/bahnschrift"
+        android:text="This is the Info page!"
+        android:textColor="@color/colorOrange"
+        android:textSize="50sp" />
 
     <ImageView
         android:id="@+id/btn_info"

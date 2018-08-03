@@ -20,6 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ImageView iv = findViewById(R.id.iv);
 
+
         final Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         iv.startAnimation(fade_in);
 
@@ -41,4 +42,5 @@ public class SplashActivity extends AppCompatActivity {
         };
         timer.start();
     }
+
 }

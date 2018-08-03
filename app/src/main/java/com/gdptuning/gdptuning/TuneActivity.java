@@ -1,10 +1,6 @@
 package com.gdptuning.gdptuning;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -29,15 +25,12 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
-    Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
-    ImageView btn_info, wifi_switch;
     boolean isConnected = false;
     String device = "GDP";
+    Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
+    ImageView btn_info, wifi_switch;
     int tuneMode = 0;
     private RequestQueue queue;
-
-    private WifiManager wifiManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +39,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_tune);
-
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = null;
-        if (connManager != null) {
-            mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        }
 
 
         //set widget
@@ -221,14 +208,14 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
 
 
     //Send to sGDP server to verify connection
-    public void sendRequest(){
+    public void sendRequest() {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -238,7 +225,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                         wifi_switch.setImageResource(R.drawable.wifi_pressed);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ",variables.toString());
+                            Log.d("TEST2 ", variables.toString());
                             tuneMode = variables.getInt("tune_mode");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
@@ -261,13 +248,13 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
+                                .setCancelText("Cancel")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
+//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -289,7 +276,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
     void switchMode(int mode) {
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/change_mode?params="+mode, null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/change_mode?params=" + mode, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -316,13 +303,13 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
+                                .setCancelText("Cancel")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
+//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -361,13 +348,13 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
                     .setContentText("Your are not connected to GDP device")
-                    .setCancelText("Retry")
+                    .setCancelText("Cancel")
                     .setConfirmText("Connect")
                     .showCancelButton(true)
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-                            sendRequest();
+//                            sendRequest();
                             sDialog.dismiss();
                         }
                     })

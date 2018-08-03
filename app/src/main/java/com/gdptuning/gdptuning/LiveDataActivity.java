@@ -1,9 +1,6 @@
 package com.gdptuning.gdptuning;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,7 +36,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
-
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
@@ -85,7 +80,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         change();
 
         queue = Volley.newRequestQueue(this);
-        sendRequest();
 
         //set widget home
         btn_home = findViewById(R.id.btn_home);
@@ -93,19 +87,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         //onclick
         btn_home.setOnClickListener(this);
 
-
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connManager != null;
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        //Values to use for test until connected to the JSON file
-
-        Random num = new Random();
-        int number[] = new int[6];
-
-        for (int i = 0; i < number.length; i++) {
-            number[i] = (i + 1) * num.nextInt(35);
-        }
 
         //Gauges information
         gauge1 = findViewById(R.id.gauge1);
@@ -115,22 +96,12 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         gauge5 = findViewById(R.id.gauge5);
         gauge6 = findViewById(R.id.gauge6);
 
-
-//        Gauges count = new Gauges();
-
-
         //Working with wifi
         wifi_switch = findViewById(R.id.wifi_switch);
         wifi_switch.setOnClickListener(this);
 
 
-        queue = Volley.newRequestQueue(this);
-
-        sendRequest();
-
-        timer = new
-
-                Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             int num = 1;
 
@@ -155,10 +126,12 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onResume() {
+
         super.onResume();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             int num = 1;
+
 
             @Override
             public void run() {
@@ -168,7 +141,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                         updateRequest();
                     }
                 }
-
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
@@ -207,13 +179,13 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
+                                .setCancelText("Cancel")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
+//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -300,13 +272,13 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
+                                .setCancelText("Cancel")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
+//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -334,12 +306,52 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
 
         switch (id) {
             case R.id.wifi_switch:
-                startActivity(new Intent(LiveDataActivity.this, WifiActivity.class));
+                displayDevicecInfo();
                 break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataActivity.this, MainActivity.class));
                 break;
         }
+    }
+
+    //Show Connection details
+    void displayDevicecInfo() {
+        if (isConnected) {
+            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Connected")
+                    .setContentText("You are connected to " + device)
+                    .setConfirmText("ok")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            // reuse previous dialog instance
+                            sDialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("No Connection")
+                    .setContentText("You are not connected to a GDP device")
+                    .setCancelText("Cancel")
+                    .setConfirmText("Connect")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+//                            sendRequest();
+                            sDialog.dismiss();
+                        }
+                    })
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                        }
+                    })
+                    .show();
+        }
+
     }
 
 

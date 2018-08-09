@@ -1,6 +1,8 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView btn_info, wifi_switch;
     Button btn_tune, btn_live, btn_diagnostics, btn_configuration, btn_home;
     Timer timer;
+    WifiManager wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-
         //Working with wifi
         wifi_switch = findViewById(R.id.wifi_switch);
         wifi_switch.setOnClickListener(this);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifi.isWifiEnabled()) {
+            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+        } else {
+            wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+        }
 
         //Set widgets
         btn_tune = findViewById(R.id.btn_tune);
@@ -59,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_configuration = findViewById(R.id.btn_config);
         btn_diagnostics = findViewById(R.id.btn_diag);
         btn_home = findViewById(R.id.btn_home);
-
 
         //Set OnClick Listener
         wifi_switch.setOnClickListener(this);
@@ -88,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -111,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         int id = v.getId();
-
         switch (id) {
             case R.id.btn_tune:
                 startActivity(new Intent(MainActivity.this, TuneActivity.class));
@@ -135,8 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
                 break;
         }
-
-
     }
 
     //Send to sGDP server to verify connection
@@ -175,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -187,14 +189,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 })
                                 .show();
                         isProcessing = false;
-
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
-
     }
 
     //Show Connection details
@@ -207,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance
                             sDialog.dismiss();
                         }
                     })
@@ -222,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-//                            sendRequest();
                             sDialog.dismiss();
                         }
                     })
@@ -237,5 +234,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 }
-
-

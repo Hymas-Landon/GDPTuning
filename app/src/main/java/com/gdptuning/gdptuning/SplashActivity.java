@@ -1,6 +1,7 @@
 package com.gdptuning.gdptuning;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -11,6 +12,9 @@ import android.widget.ImageView;
 
 public class SplashActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
+    boolean firstTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,27 +24,42 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ImageView iv = findViewById(R.id.iv);
 
-
         final Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         iv.startAnimation(fade_in);
 
         final Intent i = new Intent(this, MainActivity.class);
-        Thread timer = new Thread() {
-            public void run() {
 
-                try {
-                    synchronized (this) {
-                        sleep(4500);
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        firstTime = sharedPreferences.getBoolean("firstTime", true);
+
+        if (firstTime) {
+            Thread timer = new Thread() {
+                @Override
+                public void run() {
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    firstTime = false;
+                    editor.putBoolean("firstTime", false);
+                    editor.apply();
+
+                    try {
+                        synchronized (this) {
+                            sleep(4500);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        startActivity(i);
+                        finish();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    startActivity(i);
-                    finish();
                 }
-            }
-        };
-        timer.start();
+            };
+            timer.start();
+        } else {
+            startActivity(i);
+            finish();
+        }
     }
-
 }
+

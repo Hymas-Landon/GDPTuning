@@ -1,6 +1,8 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -30,9 +32,9 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
     boolean isConnected = false;
     String device = "GDP";
     RequestQueue queue;
-
     Button btn_home;
     ImageView wifi_switch;
+    WifiManager wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +52,15 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 
         //Working with wifi
         wifi_switch = findViewById(R.id.wifi_switch);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         queue = VolleySingleton.getInstance(this).getRequestQueue();
-
-
+        if (wifi.isWifiEnabled()) {
+            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+        } else {
+            wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+        }
         wifi_switch.setOnClickListener(this);
+        sendRequest();
     }
 
 

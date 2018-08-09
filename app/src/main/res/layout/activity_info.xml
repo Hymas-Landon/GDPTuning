@@ -23,8 +23,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
-        android:layout_marginTop="4.5dp"
-        android:background="@drawable/wifi_not_connected_pressed" />
+        android:layout_marginTop="4.5dp" />
 
     <com.cbr.gradienttextview.GradientTextView
         android:id="@+id/config_page"

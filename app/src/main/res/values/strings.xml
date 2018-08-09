@@ -37,4 +37,5 @@
     <string name="gauge_2_small">Gauge 2 Small</string>
     <string name="gauge_3_small">Gauge 3 Small</string>
     <string name="gauge_4_small">Gauge 4 Small</string>
+    <string name="wifi_button">wifi_button</string>
 </resources>

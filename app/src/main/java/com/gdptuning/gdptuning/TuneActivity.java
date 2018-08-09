@@ -1,6 +1,8 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     ImageView btn_info, wifi_switch;
     int tuneMode = 0;
+    WifiManager wifi;
     private RequestQueue queue;
 
     @Override
@@ -39,7 +42,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_tune);
-
 
         //set widget
         btn1 = findViewById(R.id.btn1);
@@ -70,9 +72,15 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
         //Working with wifi
         queue = VolleySingleton.getInstance(this).getRequestQueue();
-
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifi_switch = findViewById(R.id.wifi_switch);
         wifi_switch.setOnClickListener(this);
-
+        if (wifi.isWifiEnabled()) {
+            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+        } else {
+            wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+        }
+        sendRequest();
     }
 
     @Override
@@ -203,8 +211,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                 btn4.setBackgroundResource(R.drawable.tune_off);
                 btn5.setBackgroundResource(R.drawable.tune_off);
         }
-
-
     }
 
     @Override
@@ -212,7 +218,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         finish();
         return true;
     }
-
 
     //Send to sGDP server to verify connection
     public void sendRequest() {
@@ -254,7 +259,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -268,10 +272,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
-
     }
 
     void switchMode(int mode) {
@@ -309,7 +311,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -323,10 +324,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
-
     }
 
     //Show Connection details
@@ -354,7 +353,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-//                            sendRequest();
                             sDialog.dismiss();
                         }
                     })

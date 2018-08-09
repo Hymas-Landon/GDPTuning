@@ -8,16 +8,6 @@
     android:background="@drawable/background_gdp"
     tools:context=".LiveDataActivity">
 
-    <TextView
-        android:id="@+id/tvBoost_text"
-        android:layout_width="42dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn1"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="293dp"
-        android:textColor="@color/colorOrange"
-        android:textSize="20sp" />
-
     <Button
         android:id="@+id/select_tune"
         android:layout_width="200dp"
@@ -34,7 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
         android:layout_marginTop="4.5dp"
-        android:background="@drawable/wifi_not_connected_pressed" />
+        android:contentDescription="@string/wifi_button" />
 
     <ImageView
         android:id="@+id/btn_info"
@@ -371,7 +361,7 @@
         android:contentDescription="@string/button_for_gauge_5" />
 
     <TextView
-        android:id="@+id/num1"
+        android:id="@+id/egt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn1"
@@ -383,7 +373,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/num2"
+        android:id="@+id/boost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn2"
@@ -395,7 +385,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/num3"
+        android:id="@+id/turbo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn3"
@@ -407,7 +397,7 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/num4"
+        android:id="@+id/oil_pressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn4"
@@ -419,7 +409,7 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/num5"
+        android:id="@+id/fuel_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn5"
@@ -431,7 +421,7 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/num6"
+        android:id="@+id/coolant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn"

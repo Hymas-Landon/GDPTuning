@@ -1,6 +1,8 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.anastr.speedviewlib.ImageLinearGauge;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +34,7 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
-    TextView tvBoost, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvDfrp, tvTiming, tvCoolant, tvGear, tvAfrp, tvTune;
+    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvDfrp, tvTiming, tvCoolant, tvGear, tvAfrp, tvTune;
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
@@ -41,6 +44,7 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
     RequestQueue queue;
     boolean isConnected = false;
     boolean isProcessing = false;
+    WifiManager wifi;
 
     public void change() {
         //Button variables
@@ -64,23 +68,31 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_livedata_bar);
         change();
 
+
         btn_home = findViewById(R.id.btn_home);
 
         btn_home.setOnClickListener(this);
 
-        //Gauges for linear bar gauges
-        ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
-        ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
-        ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
-        ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
-        ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
-        ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
+        tvEgt = findViewById(R.id.egt);
+        tvBoostView = findViewById(R.id.boost);
+        tvTurbo = findViewById(R.id.turbo);
+        tvOilPressure = findViewById(R.id.oil_pressure);
+        tvFuel = findViewById(R.id.fuel_rate);
+        tvCoolant = findViewById(R.id.coolant);
 
         //Working with wifi
         wifi_switch = findViewById(R.id.wifi_switch);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifi_switch.setOnClickListener(this);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifi.isWifiEnabled()) {
+            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+        } else {
+            wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+        }
 
         queue = Volley.newRequestQueue(this);
+        sendRequest();
 
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -94,7 +106,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         updateRequest();
                     }
                 }
-
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
@@ -120,7 +131,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         updateRequest();
                     }
                 }
-
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
@@ -135,12 +145,25 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         isConnected = true;
                         wifi_switch.setImageResource(R.drawable.wifi_pressed);
                         try {
-                            JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
-                            String deviceName = response.getString("name");
-                            deviceName += response.getString("id");
-                            device = deviceName;
+                            JSONArray variables = response.getJSONArray("variables");
+
+                            for (int i = 0; i < variables.length(); i++) {
+                                JSONObject variable = variables.getJSONObject(i);
+                                Log.d("TEST2 ", variables.toString());
+                                tuneMode = variable.getInt("tune_mode");
+                                String deviceName = response.getString("name");
+                                deviceName += response.getString("id");
+                                device = deviceName;
+                            }
+
+                            /*This is not my code but I won't delete it just in case we need it for reference */
+//                            JSONObject variables = response.getJSONObject("variables");
+//                            Log.d("TEST2 ", variables.toString());
+//                            tuneMode = variables.getInt("tune_mode");
+//                            String deviceName = response.getString("name");
+//                            deviceName += response.getString("id");
+//                            device = deviceName;
+                            /*End of the code that does not belong to me*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -165,7 +188,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -179,10 +201,8 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
-
     }
 
     //Send to sGDP server to get live data
@@ -197,20 +217,65 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
 
                         wifi_switch.setImageResource(R.drawable.wifi_pressed);
                         try {
-                            JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
-                            tvTune.setText("Tune :" + tuneMode);
-                            tvBoost.setText(variables.getString("boost"));
-                            tvEgt.setText(variables.getString("egt"));
-                            tvFuel.setText(variables.getString("fuel"));
-                            tvOilPressure.setText(variables.getString("oil_pressure"));
-                            tvTurbo.setText(variables.getString("turbo"));
-                            tvDfrp.setText(variables.getString("frp"));
-                            tvTiming.setText(variables.getString("timing"));
-                            tvCoolant.setText(variables.getString("coolant"));
-                            tvGear.setText(variables.getString("gear"));
-                            tvAfrp.setText(variables.getString("frp"));
+
+                            JSONArray variables = response.getJSONArray("variables");
+
+                            for (int i = 0; i < variables.length(); i++) {
+                                JSONObject variable = variables.getJSONObject(i);
+
+                                /*This is not my code but I won't delete it just in case we need it for reference */
+//
+//                                JSONObject variables = response.getJSONObject("variables");
+//                            Log.d("TEST2 ", variables.toString());
+//                            tuneMode = variables.getInt("tune_mode");
+//                            tvTune.setText("Tune :" + tuneMode);
+//                            tvBoost.setText(variables.getString("boost"));
+//                            tvEgt.setText(variables.getString("egt"));
+//                            tvFuel.setText(variables.getString("fuel"));
+//                            tvOilPressure.setText(variables.getString("oil_pressure"));
+//                            tvTurbo.setText(variables.getString("turbo"));
+//                            tvDfrp.setText(variables.getString("frp"));
+//                            tvTiming.setText(variables.getString("timing"));
+//                            tvCoolant.setText(variables.getString("coolant"));
+//                            tvGear.setText(variables.getString("gear"));
+//                            tvAfrp.setText(variables.getString("frp"));
+
+                                /*End of the code that does not belong to me*/
+
+                                int egt = variable.getInt("egt");
+                                int boost = variable.getInt("boost");
+                                int turbo = variable.getInt("egt");
+                                int oilPressure = variable.getInt("oil_pressur");
+                                int fuel = variable.getInt("fule");
+                                int coolant = variable.getInt("coolant");
+                                int gear = variable.getInt("gear");
+                                int timing = variable.getInt("timing");
+                                int frp = variable.getInt("frp");
+
+                                //move gauge to value
+                                //Gauges for linear bar gauges
+                                ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
+                                imageLinearGauge1.speedTo(egt);
+                                ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
+                                imageLinearGauge2.speedTo(boost);
+                                ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
+                                imageLinearGauge3.speedTo(turbo);
+                                ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
+                                imageLinearGauge4.speedTo(oilPressure);
+                                ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
+                                imageLinearGauge5.speedTo(fuel);
+                                ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
+                                imageLinearGauge6.speedTo(coolant);
+
+                                //assign textViews
+                                tvEgt = findViewById(R.id.egt);
+                                tvBoostView = findViewById(R.id.boost);
+                                tvTurbo = findViewById(R.id.turbo);
+                                tvOilPressure = findViewById(R.id.oil_pressure);
+                                tvFuel = findViewById(R.id.fuel_rate);
+                                tvCoolant = findViewById(R.id.coolant);
+
+                            }
 
                             Log.d("Response", response.toString());
 
@@ -238,7 +303,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-//                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -299,7 +363,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-//                            sendRequest();
                             sDialog.dismiss();
                         }
                     })

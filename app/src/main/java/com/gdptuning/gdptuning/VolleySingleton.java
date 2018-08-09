@@ -25,4 +25,6 @@ public class VolleySingleton extends AppCompatActivity {
     public RequestQueue getRequestQueue() {
         return mRequestQueue;
     }
+
+
 }

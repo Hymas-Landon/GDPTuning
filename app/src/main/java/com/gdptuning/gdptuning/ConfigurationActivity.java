@@ -1,6 +1,8 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,11 +32,9 @@ public class ConfigurationActivity extends AppCompatActivity implements View.OnC
     boolean isConnected = false;
     String device = "GDP";
     RequestQueue queue;
-
-
     Button btn_home;
     ImageView wifi_switch;
-    private ToggleButton wifiSwitch;
+    WifiManager wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +45,19 @@ public class ConfigurationActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_configuration);
 
         //Working with wifi
-        wifi_switch = findViewById(R.id.wifi_switch);
         queue = VolleySingleton.getInstance(this).getRequestQueue();
+        wifi_switch = findViewById(R.id.wifi_switch);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifi_switch.setOnClickListener(this);
-
-
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifi.isWifiEnabled()) {
+            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+        } else {
+            wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+        }
         btn_home = findViewById(R.id.btn_home);
         btn_home.setOnClickListener(this);
+        sendRequest();
     }
 
     @Override

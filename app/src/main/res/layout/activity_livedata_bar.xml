@@ -42,8 +42,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
-        android:layout_marginTop="4.5dp"
-        android:background="@drawable/wifi_not_connected_pressed" />
+        android:layout_marginTop="4.5dp" />
 
     <ImageView
         android:id="@+id/btn_info"
@@ -160,7 +159,7 @@
         app:sv_unitTextSize="0dp" />
 
     <TextView
-        android:id="@+id/num1"
+        android:id="@+id/egt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/imageLinearGauge1"
@@ -174,11 +173,11 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/num2"
+        android:id="@+id/turbo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/imageLinearGauge2"
-        android:layout_alignTop="@id/num1"
+        android:layout_alignTop="@id/egt"
         android:layout_marginStart="-10dp"
         android:layout_marginTop="-35dp"
         android:gravity="center"
@@ -188,7 +187,7 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/num3"
+        android:id="@+id/oil_pressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/imageLinearGauge3"
@@ -202,7 +201,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/num4"
+        android:id="@+id/boost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/imageLinearGauge4"
@@ -216,7 +215,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/num5"
+        android:id="@+id/fuel_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/imageLinearGauge5"
@@ -230,7 +229,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/num6"
+        android:id="@+id/coolant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/imageLinearGauge6"

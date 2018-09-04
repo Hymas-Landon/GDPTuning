@@ -14,37 +14,67 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher2_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeNoActionBarOrange">
-
-
+        android:theme="@style/AppThemeNoActionBarOrangeMain">
         <activity
-            android:name="com.gdptuning.gdptuning.MainActivity"
-            android:screenOrientation="landscape" />
+            android:name=".MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name="com.gdptuning.gdptuning.SplashActivity"
+            android:name=".SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoActionBarSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gdptuning.gdptuning.WifiActivity" />
-        <activity android:name="com.gdptuning.gdptuning.InfoActivity" />
         <activity
-            android:name="com.gdptuning.gdptuning.TuneActivity"
+            android:name=".WifiActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.gdptuning.gdptuning.LiveDataActivity"
+            android:name=".InfoActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.gdptuning.gdptuning.LiveDataBarActivity"
+            android:name=".TuneActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ConfigurationActivity"
+            android:name=".LiveDataActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
-        <activity android:name=".DiagnosticsActivity" />
+        <activity
+            android:name=".LiveDataBarActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".FeaturesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".DiagnosticsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".LiveDataActivity2"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoActionBarOrangeMain.SlidrActivityTheme" />
+        <activity
+            android:name=".LiveDataActivityNewSpeed"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape" />
+        <activity android:name=".LiveDataActivityNewSpeed2" />
+        <activity
+            android:name=".LiveDataBarActivity2"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

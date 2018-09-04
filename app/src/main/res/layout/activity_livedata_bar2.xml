@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LiveDataBarActivity2">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_middle_logo" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="253dp"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/live_data"
+        android:contentDescription="@string/live_data" />
+
+    <TextView
+        android:id="@+id/text_view_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/speedtext_color"
+        android:textSize="20dp"
+        tools:ignore="RelativeOverlap" />
+
+    <Button
+        android:id="@+id/btn_home"
+        android:layout_width="42dp"
+        android:layout_height="38dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/home_grey" />
+
+    <ImageView
+        android:id="@+id/wifi_switch"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="17dp" />
+
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge2_1"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-63dp"
+        app:sv_image="?attr/bar_color"
+        app:sv_maxSpeed="35000"
+        app:sv_minSpeed="0"
+        app:sv_speedTextColor="?attr/speedtext_color"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20dp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="?attr/speedtext_color"
+        app:sv_textSize="20dp"
+        app:sv_unitTextColor="?attr/speedtext_color"
+        app:sv_unitTextSize="0dp"
+        app:sv_withTremble="false" />
+
+    <com.github.anastr.speedviewlib.ImageLinearGauge
+        android:id="@+id/imageLinearGauge2_2"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="150dp"
+        app:sv_image="?attr/bar_color"
+        app:sv_maxSpeed="40"
+        app:sv_minSpeed="0"
+        app:sv_speedTextColor="?attr/speedtext_color"
+        app:sv_speedTextPosition="LEFT"
+        app:sv_speedTextSize="20dp"
+        app:sv_speedometerBackColor="@color/colorGray"
+        app:sv_speedometerColor="?attr/speedtext_color"
+        app:sv_unitTextColor="?attr/speedtext_color"
+        app:sv_unitTextSize="0dp"
+        app:sv_withTremble="false" />
+
+    <TextView
+        android:id="@+id/egt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge2_1"
+        android:layout_alignTop="@id/imageLinearGauge2_1"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="@string/frp"
+        android:textAlignment="center"
+        android:textColor="?attr/speedtext_color"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/turbo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/imageLinearGauge2_2"
+        android:layout_alignTop="@id/imageLinearGauge2_2"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="@string/timing"
+        android:textAlignment="center"
+        android:textColor="?attr/speedtext_color"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tunenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tune"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
+
+    <TextView
+        android:id="@+id/gear_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/gear_position"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="54dp"
+        android:text="@string/back" />
+
+</RelativeLayout>

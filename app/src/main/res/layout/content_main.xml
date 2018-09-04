@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    tools:showIn="@layout/app_bar_main">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:padding="20dp"
+        android:text="@string/navigation_drawer"
+        android:textSize="30dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_middle" />
+
+    <ImageView
+        android:id="@+id/wifi_switch"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="17dp" />
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="187dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/logogdp" />
+
+
+    <Button
+        android:id="@+id/btn_tune"
+        android:layout_width="410dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="255dp"
+        android:drawableEnd="?attr/tune_icon"
+        android:paddingEnd="5dp"
+        android:paddingStart="20dp"
+        android:text="TUNE SWITCHING"
+        android:textAlignment="textStart"
+        android:textSize="34dp" />
+
+    <Button
+        android:id="@+id/btn_live_data"
+        android:layout_width="410dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="350dp"
+        android:drawableEnd="?attr/livedata_icon"
+        android:paddingEnd="5dp"
+        android:paddingStart="20dp"
+        android:text="LIVE DATA"
+        android:textAlignment="textStart"
+        android:textSize="34dp" />
+
+    <Button
+        android:id="@+id/btn_config"
+        android:layout_width="410dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btn_tune"
+        android:drawableEnd="?attr/configuration_icon"
+        android:paddingEnd="5dp"
+        android:paddingStart="20dp"
+        android:text="@string/bonus_features"
+        android:textAlignment="textStart"
+        android:textSize="34dp" />
+
+    <Button
+        android:id="@+id/btn_diag"
+        android:layout_width="410dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btn_live_data"
+        android:drawableEnd="?attr/diagnostics_icon"
+        android:paddingEnd="5dp"
+        android:paddingStart="20dp"
+        android:text="DIAGNOSTICS"
+        android:textAlignment="textStart"
+        android:textSize="34dp" />
+
+    <TextView
+        android:id="@+id/tunenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tune"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
+
+    <TextView
+        android:id="@+id/gear_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/gear_position"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
+
+</RelativeLayout>

@@ -3,17 +3,15 @@ package com.gdptuning.gdptuning;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 
 public class SplashActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    boolean firstTime;
+    Boolean firstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,44 +20,32 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        ImageView iv = findViewById(R.id.iv);
-
-        final Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        iv.startAnimation(fade_in);
-
-        final Intent i = new Intent(this, MainActivity.class);
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         firstTime = sharedPreferences.getBoolean("firstTime", true);
 
         if (firstTime) {
-            Thread timer = new Thread() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     firstTime = false;
-                    editor.putBoolean("firstTime", false);
+                    editor.putBoolean("firstTime", firstTime);
                     editor.apply();
 
-                    try {
-                        synchronized (this) {
-                            sleep(4500);
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        startActivity(i);
-                        finish();
-                    }
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
                 }
-            };
-            timer.start();
+            }, 5000);
         } else {
+            Intent i = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }
+
+
     }
 }
-

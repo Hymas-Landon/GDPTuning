@@ -5,40 +5,43 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gdp"
     tools:context=".TuneActivity">
-
-
-    <ImageView
-        android:id="@+id/switchbg"
-        android:layout_width="250dp"
-        android:layout_height="325dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="35dp"
-        android:background="@drawable/tune_switch_bg"
-        android:contentDescription="@string/switch_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/wifi_switch"
-        android:layout_width="58dp"
-        android:layout_height="26dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="4.5dp" />
 
     <Button
         android:id="@+id/btn_home"
         android:layout_width="42dp"
         android:layout_height="38dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="11dp"
-        android:background="@drawable/home_press" />
+        android:layout_marginTop="11dp"
+        android:background="@drawable/home_grey" />
+
+    <ImageView
+        android:id="@+id/wifi_switch"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="17dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_middle_logo" />
+
+    <ImageView
+        android:id="@+id/switchbg"
+        android:layout_width="250dp"
+        android:layout_height="325dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/tune_switch_bg"
+        android:contentDescription="@string/switch_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/tune_title"
@@ -52,16 +55,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/tune_title" />
 
-    <ImageView
-        android:id="@+id/btn_info"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="@string/info_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/helpbutton" />
 
     <ToggleButton
         android:id="@+id/btn1"
@@ -70,18 +63,18 @@
         android:layout_alignEnd="@+id/switchbg"
         android:layout_alignTop="@+id/tgl_num1"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/tune_off"
         android:textOff=""
         android:textOn="" />
 
     <ToggleButton
         android:id="@+id/tgl_num1"
-        android:layout_width="40dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="55dp"
         android:layout_alignEnd="@id/switchbg"
-        android:layout_marginEnd="195dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginEnd="201dp"
+        android:layout_marginTop="90dp"
         android:background="@drawable/grey1"
         android:textOff=""
         android:textOn="" />
@@ -93,7 +86,7 @@
         android:layout_alignEnd="@+id/switchbg"
         android:layout_alignTop="@+id/tgl_num2"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/tune_off"
         android:textOff=""
         android:textOn="" />
@@ -103,8 +96,8 @@
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:layout_alignEnd="@id/switchbg"
-        android:layout_marginEnd="195dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginTop="155dp"
         android:background="@drawable/grey2"
         android:textOff=""
         android:textOn="" />
@@ -116,7 +109,7 @@
         android:layout_alignEnd="@+id/switchbg"
         android:layout_alignTop="@+id/tgl_num3"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/tune_off"
         android:textOff=""
         android:textOn="" />
@@ -126,8 +119,8 @@
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:layout_alignEnd="@id/switchbg"
-        android:layout_marginEnd="195dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginTop="220dp"
         android:background="@drawable/grey3"
         android:textOff=""
         android:textOn="" />
@@ -139,7 +132,7 @@
         android:layout_alignEnd="@+id/switchbg"
         android:layout_alignTop="@+id/tgl_num4"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/tune_off"
         android:textOff=""
         android:textOn="" />
@@ -149,8 +142,8 @@
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:layout_alignEnd="@id/switchbg"
-        android:layout_marginEnd="195dp"
-        android:layout_marginTop="245dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginTop="285dp"
         android:background="@drawable/grey4"
         android:textOff=""
         android:textOn="" />
@@ -162,7 +155,7 @@
         android:layout_alignEnd="@+id/switchbg"
         android:layout_alignTop="@+id/tgl_num5"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/tune_off"
         android:textOff=""
         android:textOn="" />
@@ -172,11 +165,34 @@
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:layout_alignEnd="@id/switchbg"
-        android:layout_marginEnd="195dp"
-        android:layout_marginTop="310dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginTop="350dp"
         android:background="@drawable/grey5"
         android:textOff=""
         android:textOn="" />
 
+    <TextView
+        android:id="@+id/tunenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tune"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
+
+    <TextView
+        android:id="@+id/gear_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/gear_position"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
 
 </RelativeLayout>

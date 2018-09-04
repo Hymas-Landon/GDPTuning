@@ -1,19 +1,55 @@
 <resources>
 
     <!--This is the default look of the app-->
-    <style name="AppThemeNoActionBarOrange" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <style name="AppThemeNoActionBarOrangeMain" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/colorOrange</item>
+        <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
+        <item name="configuration_icon">@drawable/configuration_icon</item>
+        <item name="livedata_icon">@drawable/livedata_icon</item>
+        <item name="tune_icon">@drawable/tune_icon</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="bar_color">@drawable/progressive_gauge</item>
         <item name="android:textStyle">bold</item>
         <item name="android:buttonStyle">@style/ButtonOrange</item>
+        <item name="android:windowBackground">@drawable/gradient_orange_</item>
+        <item name="android:listViewStyle">@style/ViewListStyle</item>
+        <item name="android:actionBarStyle">@style/ThemeActionBar</item>
+        <item name="speedtext_color">@color/colorOrange</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/ThemeActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@null</item>
+        <!-- Support library compatibility -->
+        <item name="background">@null</item>
+    </style>
+
+
+    <style name="ViewListStyle">
+        <item name="android:background">@color/colorGray</item>
+        <item name="android:textColor">@color/colorOrange</item>
+        <item name="android:listSelector">@drawable/ic_settings_white_24dp</item>
+    </style>
+
+    <style name="AppThemeNoActionBarOrangeMain.SlidrActivityTheme">
+        <item name="android:windowIsTranslucent">true
+        </item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <!--Button Color Orange-->
     <style name="ButtonOrange">
         <item name="android:background">@drawable/button_press_orange</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="colors">
+        <item name="android:color">#F05423</item>
     </style>
 
     <!--Home Button Orange-->
@@ -23,56 +59,101 @@
 
     <!--This is for the green theme-->
     <style name="AppThemeNoActionBarGreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorGreen</item>
-        <item name="colorPrimaryDark">@color/colorDarkGreen</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
+        <item name="configuration_icon">@drawable/configuration_icon</item>
+        <item name="livedata_icon">@drawable/livedata_icon</item>
+        <item name="tune_icon">@drawable/tune_icon</item>
         <item name="colorAccent">@color/colorGreen</item>
+        <item name="bar_color">@drawable/progressive_gauge_green</item>
+        <item name="speedtext_color">@color/colorGreen</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:windowBackground">@drawable/gradient_green_</item>
         <item name="android:buttonStyle">@style/ButtonGreen</item>
+        <item name="android:listViewStyle">@style/ViewListStyle</item>
     </style>
 
     <!--Button Color Green-->
     <style name="ButtonGreen">
-        <item name="android:background">@drawable/gradient_green</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:paddingTop">18dp</item>
+        <item name="android:background">@drawable/button_press_green</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!--This is for the Red theme-->
     <style name="AppThemeNoActionBarRed" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorRed</item>
-        <item name="colorPrimaryDark">@color/colorDarkRed</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/colorRed</item>
+        <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
+        <item name="configuration_icon">@drawable/configuration_icon</item>
+        <item name="livedata_icon">@drawable/livedata_icon</item>
+        <item name="tune_icon">@drawable/tune_icon</item>
+        <item name="bar_color">@drawable/progressive_gauge_red</item>
+        <item name="speedtext_color">@color/colorRed</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
         <item name="android:buttonStyle">@style/ButtonRed</item>
+        <item name="android:windowBackground">@drawable/gradient_red_</item>
     </style>
 
     <!--Button Color Red-->
     <style name="ButtonRed">
         <item name="android:background">@drawable/gradient_red</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:paddingTop">18dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!--This is for the blue theme-->
     <style name="AppThemeNoActionBarBlue" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorBlue</item>
-        <item name="colorPrimaryDark">@color/colorDarkBlue</item>
-        <item name="colorAccent">@color/colorBlue</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorAccent">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:buttonStyle">@style/ButtonBlue</item>
+        <item name="diagnostics_icon">@drawable/diagnostics_white</item>
+        <item name="configuration_icon">@drawable/configuration_icon_white</item>
+        <item name="livedata_icon">@drawable/livedata_icon_white</item>
+        <item name="tune_icon">@drawable/tune_icon_white</item>
+        <item name="tune_on">@drawable/tune_on_blue</item>
+        <item name="bar_color">@drawable/progressive_gauge_blue</item>
+        <item name="speedtext_color">@color/colorWhite</item>
+        <item name="android:windowBackground">@drawable/gradient_blue_</item>
     </style>
 
     <!--Button Color Blue-->
     <style name="ButtonBlue">
         <item name="android:background">@drawable/gradient_blue</item>
-        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+
     <!--This is for the action screen to load correctly-->
-    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="AppThemeNoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
+
+
+    // Attributes for the different themes
+    <attr name="diagnostics_icon" format="reference" />
+    <attr name="configuration_icon" format="reference" />
+    <attr name="livedata_icon" format="reference" />
+    <attr name="tune_icon" format="reference" />
+    <attr name="tune_on" format="reference" />
+    <attr name="bar_color" format="reference" />
+    <attr name="speedtext_color" format="reference" />
+
 
 </resources>

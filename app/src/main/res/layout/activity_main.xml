@@ -1,117 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity"
+    tools:openDrawer="start">
 
-
-    <ImageView
+    <include
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/gradient_orange_top_gradient" />
+        android:layout_height="match_parent" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/gradient_orange_bottom_gradient" />
-
-    <ImageView
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/bg_middle" />
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorBlackTransparent"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:itemIconTint="@color/colorGray"
+        app:itemTextColor="@color/colorGray"
+        app:menu="@menu/activity_main_drawer" />
 
-    <ImageView
-        android:id="@+id/wifi_switch"
-        android:layout_width="58dp"
-        android:layout_height="26dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="4.5dp" />
-
-    <ImageView
-        android:layout_width="400dp"
-        android:layout_height="187dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/logogdp" />
-
-
-    <Button
-        android:id="@+id/btn_tune"
-        android:layout_width="410dp"
-        android:layout_height="65dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="220dp"
-        android:drawableEnd="@drawable/tune_icon"
-        android:paddingEnd="5dp"
-        android:paddingStart="20dp"
-        android:text="TUNE SWITCHING"
-        android:textAlignment="textStart"
-        android:textSize="34sp" />
-
-    <Button
-        android:id="@+id/btn_live_data"
-        android:layout_width="410dp"
-        android:layout_height="65dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="300dp"
-        android:drawableEnd="@drawable/livedata_icon"
-        android:paddingEnd="5dp"
-        android:paddingStart="20dp"
-        android:text="LIVE DATA"
-        android:textAlignment="textStart"
-        android:textSize="34sp" />
-
-    <Button
-        android:id="@+id/btn_config"
-        android:layout_width="410dp"
-        android:layout_height="65dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/btn_tune"
-        android:drawableEnd="@drawable/configuration_icon"
-        android:paddingEnd="5dp"
-        android:paddingStart="20dp"
-        android:text="CONFIGURATION"
-        android:textAlignment="textStart"
-        android:textSize="34sp" />
-
-    <Button
-        android:id="@+id/btn_diag"
-        android:layout_width="410dp"
-        android:layout_height="65dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/btn_live_data"
-        android:drawableEnd="@drawable/diagnostics_icon"
-        android:paddingEnd="5dp"
-        android:paddingStart="20dp"
-        android:text="DIAGNOSTICS"
-        android:textAlignment="textStart"
-        android:textSize="34sp" />
-
-    <ImageView
-        android:id="@+id/btn_info"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        app:srcCompat="@drawable/helpbutton" />
-
-
-    <Button
-        android:id="@+id/btn_home"
-        android:layout_width="42dp"
-        android:layout_height="38dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="11dp"
-        android:background="@drawable/home_orange" />
-
-
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

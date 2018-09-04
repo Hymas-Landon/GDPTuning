@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gdp"
     tools:context=".WifiActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_middle_logo" />
 
     <Button
         android:id="@+id/btn_home"
         android:layout_width="42dp"
         android:layout_height="38dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="11dp"
-        android:background="@drawable/home_press" />
+        android:layout_marginTop="11dp"
+        android:background="@drawable/home_grey" />
+
+    <ImageView
+        android:id="@+id/wifi_switch"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="17dp" />
 
     <View
         android:id="@+id/password_line"
@@ -22,7 +35,7 @@
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="280dp"
-        android:background="@color/colorOrange" />
+        android:background="?attr/speedtext_color" />
 
     <View
         android:id="@+id/ssid_line"
@@ -30,36 +43,14 @@
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
-        android:background="@color/colorOrange" />
-
-    <ToggleButton
-        android:id="@+id/wifi_switch"
-        android:layout_width="58dp"
-        android:layout_height="26dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="4.5dp"
-        android:textOff=""
-        android:textOn="" />
-
-    <ImageView
-        android:id="@+id/btn_info"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="@string/info_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/helpbutton" />
+        android:background="?attr/speedtext_color" />
 
     <TextView
         android:id="@+id/text_device"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textColor="@color/colorOrange" />
+        android:textColor="?attr/speedtext_color" />
 
     <TextView
         android:id="@+id/connection"
@@ -68,8 +59,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/connected"
-        android:textColor="@color/colorOrange"
-        android:textSize="20sp"
+        android:textColor="?attr/speedtext_color"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
     <TextView
@@ -78,8 +69,8 @@
         android:layout_alignBottom="@+id/password_line"
         android:layout_alignStart="@+id/password_line"
         android:text="@string/link_speed"
-        android:textColor="@color/colorOrange"
-        android:textSize="35sp" />
+        android:textColor="?attr/speedtext_color"
+        android:textSize="35dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -87,8 +78,8 @@
         android:layout_alignBottom="@+id/ssid_line"
         android:layout_alignStart="@+id/ssid_line"
         android:text="@string/wifi_ssid"
-        android:textColor="@color/colorOrange"
-        android:textSize="35sp" />
+        android:textColor="?attr/speedtext_color"
+        android:textSize="35dp" />
 
     <TextView
         android:id="@+id/current_ssid"
@@ -97,8 +88,8 @@
         android:layout_alignBottom="@+id/ssid_line"
         android:layout_centerHorizontal="true"
         android:text=""
-        android:textColor="@color/colorOrange"
-        android:textSize="35sp"
+        android:textColor="?attr/speedtext_color"
+        android:textSize="35dp"
         android:textStyle="bold" />
 
     <TextView
@@ -108,8 +99,8 @@
         android:layout_alignBottom="@+id/password_line"
         android:layout_centerHorizontal="true"
         android:text=""
-        android:textColor="@color/colorOrange"
-        android:textSize="35sp"
+        android:textColor="?attr/speedtext_color"
+        android:textSize="35dp"
         android:textStyle="bold" />
 
     <Button
@@ -122,7 +113,29 @@
         android:background="@drawable/gradient_orange"
         android:onClick="goToWifiSettings"
         android:text="@string/change_wifi_settings"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tunenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="250dp"
+        android:text="@string/tune"
+        android:textColor="@color/colorGray" />
+
+    <TextView
+        android:id="@+id/gear_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="150dp"
+        android:text="@string/gear_position"
+        android:textColor="@color/colorGray" />
 
 </RelativeLayout>

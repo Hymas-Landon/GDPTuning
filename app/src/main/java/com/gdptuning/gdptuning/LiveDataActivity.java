@@ -2,6 +2,7 @@ package com.gdptuning.gdptuning;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -22,7 +23,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,15 +35,16 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
+    //        final String url = "https://api.myjson.com/bins/17x8hg";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
-    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvDfrp, tvTiming, tvCoolant,
-            tvGear, tvAfrp, tvTune;
-    ImageView btn_info, wifi_switch;
-    Button btn_tune, btn_home, btn_parse;
+    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant,
+            tvGear, tvTune;
+    ImageView wifi_switch;
+    Button btn_home, btn_more;
     RequestQueue queue;
     WifiManager wifi;
 
@@ -55,28 +56,24 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
     Gauge gauge5;
     Gauge gauge6;
 
-    //This is only temporary to allow change of screens
-    public void change() {
-        //Button
-        btn_tune = findViewById(R.id.select_tune);
-        //Set onClick listeners
-        btn_tune.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent click = new Intent(LiveDataActivity.this, LiveDataBarActivity.class);
-                startActivity(click);
-            }
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getColorTheme() == Utils.THEME_DEFAULT) {
+            setTheme(R.style.AppThemeNoActionBarOrangeMain);
+        } else if (getColorTheme() == Utils.THEME_GREEN) {
+            setTheme(R.style.AppThemeNoActionBarGreen);
+        } else if (getColorTheme() == Utils.THEME_BLUE) {
+            setTheme(R.style.AppThemeNoActionBarBlue);
+        } else if (getColorTheme() == Utils.THEME_RED) {
+            setTheme(R.style.AppThemeNoActionBarRed);
+        }
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
         setContentView(R.layout.activity_live_data);
-        change();
 
         //set widget home
         btn_home = findViewById(R.id.btn_home);
@@ -88,9 +85,19 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         tvOilPressure = findViewById(R.id.oil_pressure);
         tvFuel = findViewById(R.id.fuel_rate);
         tvCoolant = findViewById(R.id.coolant);
+        btn_more = findViewById(R.id.moreGauges);
+        tvTune = findViewById(R.id.tunenum);
+        tvGear = findViewById(R.id.gear_position);
 
         //onclick
         btn_home.setOnClickListener(this);
+        btn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LiveDataActivity.this, LiveDataActivity2.class);
+                startActivity(i);
+            }
+        });
 
         //Gauges information
         gauge1 = findViewById(R.id.gauge1);
@@ -106,13 +113,14 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         wifi_switch = findViewById(R.id.wifi_switch);
         wifi_switch.setOnClickListener(this);
         if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+            wifi_switch.setImageResource(R.drawable.gray_wifi);
         } else {
-            wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
         }
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
+            int num = 1;
 
             @Override
             public void run() {
@@ -123,7 +131,33 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
             }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
+        }, 0, 1);//put here time 1000 milliseconds=1 second
+    }
+
+    private int getColorTheme() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(LiveDataActivity.this, MainActivity.class);
+        startActivity(i);
     }
 
     @Override
@@ -148,7 +182,7 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
             }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
+        }, 0, 1);//put here time 1000 milliseconds=1 second
     }
 
     //Send to sGDP server to verify connection
@@ -159,30 +193,21 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.wifi_pressed);
+                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            tuneMode = variables.getInt("tune_mode");
+                            int gear = variables.getInt("gear");
+                            String deviceName = response.getString("name");
+                            deviceName += response.getString("id");
+                            device = deviceName;
 
-                            JSONArray variables = response.getJSONArray("variables");
+                            char pos = (char) gear;
 
-                            for (int i = 0; i < variables.length(); i++) {
-                                JSONObject variable = variables.getJSONObject(i);
-                                Log.d("TEST2 ", variables.toString());
-                                tuneMode = variable.getInt("tune_mode");
-                                String deviceName = response.getString("name");
-                                deviceName += response.getString("id");
-                                device = deviceName;
+                            tvTune.setText("TUNE: " + tuneMode);
+                            tvGear.setText("GEAR: " + pos);
 
-
-                                /*This is not my code but I won't delete it just in case we need it for reference */
-//                            JSONObject variables = response.getJSONObject("variables");
-//                            Log.d("TEST2 ", variables.toString());
-//                            tuneMode = variables.getInt("tune_mode");
-//                            String deviceName = response.getString("name");
-//                            deviceName += response.getString("id");
-//                            device = deviceName;
-
-                                /*End of the code that does not belong to me*/
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -194,13 +219,13 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device")
-                                .setCancelText("Cancel")
+                                .setContentText("You are not connected to a GDP device")
+                                .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -231,69 +256,98 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.wifi_pressed);
+                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
 
-                            JSONArray variables = response.getJSONArray("variables");
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int tuneMode = variables.getInt("tune_mode");
+                            int gear = variables.getInt("gear");
+                            String deviceName = response.getString("name");
+                            deviceName += response.getString("id");
+                            device = deviceName;
 
-                            for (int i = 0; i < variables.length(); i++) {
-                                JSONObject variable = variables.getJSONObject(i);
+                            char pos = (char) gear;
 
+                            tvTune.setText("TUNE: " + tuneMode);
+                            tvGear.setText("GEAR: " + pos);
 
-                                /*This is not my code but I won't delete it just in case we need it for reference*/
-//                            JSONObject variables = response.getJSONObject("variables");
-//                            Log.d("TEST2 ", variables.toString());
+                            int egt = variables.getInt("egt");
+                            int boost = variables.getInt("boost");
+                            int turbo = variables.getInt("egt");
+                            int oilPressure = variables.getInt("oil_pressur");
+                            int fuel = variables.getInt("fule");
+                            int coolant = variables.getInt("coolant");
 
-//                            tuneMode = variables.getInt("tune_mode");
-//                            tvTune.setText(tuneMode);
-//                            tvBoostView.setText(variables.getString("boost"));
-//                            tvEgt.setText(variables.getString("egt"));
-//                            tvFuel.setText(variables.getString("fule"));
-//                            tvOilPressure.setText(variables.getString("oil_pressur"));
-//                            tvTurbo.setText(variables.getString("turbo"));
-//                            tvDfrp.setText(variables.getString("frp"));
-//                            tvTiming.setText(variables.getString("timing"));
-//                            tvCoolant.setText(variables.getString("coolant"));
-//                            tvGear.setText(variables.getString("gear"));
-//                            tvAfrp.setText(variables.getString("frp"));
-                                /*End of the code that does not belong to me*/
+                            int egtText = (int) (egt * 1.8 + 32);
+                            int boostText = (int) ((boost * 0.1450377));
+                            int oilPressureText = (int) (oilPressure * 0.145);
+                            int coolantText = (int) (coolant * 1.8 + 32);
 
-                                int egt = variable.getInt("egt");
-                                int boost = variable.getInt("boost");
-                                int turbo = variable.getInt("egt");
-                                int oilPressure = variable.getInt("oil_pressur");
-                                int fuel = variable.getInt("fule");
-                                int coolant = variable.getInt("coolant");
-                                int gear = variable.getInt("gear");
-                                int timing = variable.getInt("timing");
-                                int frp = variable.getInt("frp");
-                                Log.d("TEST:", "This is boost: " + boost);
+                            //Set the text on the gauges
+                            tvEgt.setText(String.valueOf(egtText + "\u2109"));
+                            tvBoostView.setText(String.valueOf(boostText + " PSI"));
+                            tvTurbo.setText(String.valueOf(turbo + " %"));
+                            tvOilPressure.setText(String.valueOf(oilPressureText + " PSI"));
+                            tvFuel.setText(String.valueOf(fuel + " MM3"));
+                            tvCoolant.setText(String.valueOf(coolantText + "\u2109"));
 
-                                //Set the text on the gauges
-                                tvEgt.setText(String.valueOf(egt));
-                                tvBoostView.setText(String.valueOf(boost));
-                                tvTurbo.setText(String.valueOf(turbo));
-                                tvOilPressure.setText(String.valueOf(oilPressure));
-                                tvFuel.setText(String.valueOf(fuel));
-                                tvCoolant.setText(String.valueOf(coolant));
+                            //Gauge 1
+                            gauge1.setMajorNickInterval(10);
+                            gauge1.setValuePerNick(20);
+                            gauge1.setMinValue(0);
+                            gauge1.setMaxValue(2000);
+                            gauge1.setTotalNicks(120);
+                            gauge1.setValue((float) ((egt * 1.8) + 32));
 
-                                //Move the value of the gauge
-                                gauge1.moveToValue(egt);
-                                gauge2.moveToValue(boost);
-                                gauge3.moveToValue(turbo);
-                                gauge4.moveToValue(oilPressure);
-                                gauge5.moveToValue(fuel);
-                                gauge6.moveToValue(coolant);
-
-
-                                Log.d("Response", response.toString());
+                            //Gauge 2
+                            gauge2.setMajorNickInterval(5);
+                            gauge2.setValuePerNick(1);
+                            gauge2.setMinValue(0);
+                            gauge2.setMaxValue(70);
+                            gauge2.setTotalNicks(90);
+                            if (boost > 5) {
+                                gauge2.setValue((float) (boost * 0.1450377));
+                            } else {
+                                gauge2.setValue(0);
                             }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // display response
+                            //Gauge 3
+                            gauge3.setMajorNickInterval(10);
+                            gauge3.setValuePerNick(1);
+                            gauge3.setMinValue(0);
+                            gauge3.setMaxValue(100);
+                            gauge3.setTotalNicks(140);
+                            gauge3.setValue(turbo);
 
+                            //Gauge 4
+                            gauge4.setMajorNickInterval(40);
+                            gauge4.setValuePerNick(1);
+                            gauge4.setMinValue(0);
+                            gauge4.setMaxValue(380);
+                            gauge4.setTotalNicks(520);
+                            gauge4.setValue((float) (oilPressure * 0.145));
+
+                            //Gauge 5
+                            gauge5.setMajorNickInterval(20);
+                            gauge5.setValuePerNick(1);
+                            gauge5.setMinValue(0);
+                            gauge5.setMaxValue(160);
+                            gauge5.setTotalNicks(200);
+                            gauge5.setValue(fuel);
+
+                            //Gauge 6
+                            gauge6.setMajorNickInterval(40);
+                            gauge6.setValuePerNick(1);
+                            gauge6.setMinValue(-40);
+                            gauge6.setMaxValue(320);
+                            gauge6.setTotalNicks(480);
+                            gauge6.setValue((float) ((coolant * 1.8) + 32));
+
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                         isProcessing = false;
                     }
                 },
@@ -301,18 +355,19 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.wifi_not_connected_pressed);
+                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Cancel")
+                                .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
+                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -366,12 +421,13 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
                     .setContentText("You are not connected to a GDP device")
-                    .setCancelText("Cancel")
+                    .setCancelText("Retry")
                     .setConfirmText("Connect")
                     .showCancelButton(true)
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
+                            sendRequest();
                             sDialog.dismiss();
                         }
                     })

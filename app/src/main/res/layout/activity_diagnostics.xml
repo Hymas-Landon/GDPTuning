@@ -1,49 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoActivity">
+    tools:context=".DiagnosticsActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="-60dp"
-        android:background="@drawable/orange_bg_top" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-67dp"
-        android:background="@drawable/orange_bg_bottom" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="350dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/bg_middle" />
-
-    <ImageView
-        android:id="@+id/wifi_switch"
-        android:layout_width="58dp"
-        android:layout_height="26dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="4.5dp" />
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_middle_logo" />
 
     <Button
         android:id="@+id/btn_home"
         android:layout_width="42dp"
         android:layout_height="38dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="11dp"
         android:layout_marginStart="11dp"
-        android:background="@drawable/home_orange" />
+        android:background="@drawable/home_grey" />
+
+    <ImageView
+        android:id="@+id/wifi_switch"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="17dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,15 +35,31 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="This is the diagnostics page!"
-        android:textColor="@color/colorOrange"
+        android:textColor="?attr/speedtext_color"
         android:textSize="50sp" />
 
-    <ImageView
-        android:id="@+id/btn_info"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        app:srcCompat="@drawable/helpbutton" />
+    <TextView
+        android:id="@+id/tunenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tune"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
+
+    <TextView
+        android:id="@+id/gear_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/gear_position"
+        android:textColor="@color/colorGray"
+        android:textSize="26dp" />
 
 </RelativeLayout>

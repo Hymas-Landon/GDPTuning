@@ -27,6 +27,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,12 +75,18 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
         wifi_switch.setOnClickListener(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.wifi_pressed);
+            wifi_switch.setImageResource(R.drawable.gray_wifi);
         } else {
             wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
         }
         btn_home = findViewById(R.id.btn_home);
-        btn_home.setOnClickListener(this);
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -95,6 +102,10 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
 
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
+    }
+
+    public void options() {
+        Array[] options = new Array[3];
     }
 
     @Override
@@ -131,9 +142,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
         switch (id) {
             case R.id.wifi_switch:
                 displayDevicecInfo();
-                break;
-            case R.id.btn_home:
-                startActivity(new Intent(FeaturesActivity.this, MainActivity.class));
                 break;
         }
     }

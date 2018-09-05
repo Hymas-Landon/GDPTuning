@@ -17,6 +17,9 @@
         <item name="android:listViewStyle">@style/ViewListStyle</item>
         <item name="android:actionBarStyle">@style/ThemeActionBar</item>
         <item name="speedtext_color">@color/colorOrange</item>
+        <item name="features_text_color">@color/colorWhite</item>
+        <item name="triangle_button_right">@drawable/select_right_orange</item>
+        <item name="triangle_button_left">@drawable/select_left_orange</item>
         <item name="android:windowActionBarOverlay">true</item>
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/ThemeActionBar</item>
@@ -68,8 +71,11 @@
         <item name="colorAccent">@color/colorGreen</item>
         <item name="bar_color">@drawable/progressive_gauge_green</item>
         <item name="speedtext_color">@color/colorGreen</item>
+        <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
+        <item name="triangle_button_right">@drawable/select_right_green</item>
+        <item name="triangle_button_left">@drawable/select_left_green</item>
         <item name="android:windowBackground">@drawable/gradient_green_</item>
         <item name="android:buttonStyle">@style/ButtonGreen</item>
         <item name="android:listViewStyle">@style/ViewListStyle</item>
@@ -92,8 +98,11 @@
         <item name="tune_icon">@drawable/tune_icon</item>
         <item name="bar_color">@drawable/progressive_gauge_red</item>
         <item name="speedtext_color">@color/colorRed</item>
+        <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
+        <item name="triangle_button_right">@drawable/select_right_red</item>
+        <item name="triangle_button_left">@drawable/select_lft_red</item>
         <item name="android:buttonStyle">@style/ButtonRed</item>
         <item name="android:windowBackground">@drawable/gradient_red_</item>
     </style>
@@ -119,7 +128,10 @@
         <item name="tune_icon">@drawable/tune_icon_white</item>
         <item name="tune_on">@drawable/tune_on_blue</item>
         <item name="bar_color">@drawable/progressive_gauge_blue</item>
+        <item name="triangle_button_right">@drawable/select_right_blue</item>
+        <item name="triangle_button_left">@drawable/select_left_blue</item>
         <item name="speedtext_color">@color/colorWhite</item>
+        <item name="features_text_color">@color/colorWhite</item>
         <item name="android:windowBackground">@drawable/gradient_blue_</item>
     </style>
 
@@ -154,6 +166,9 @@
     <attr name="tune_on" format="reference" />
     <attr name="bar_color" format="reference" />
     <attr name="speedtext_color" format="reference" />
+    <attr name="features_text_color" format="reference" />
+    <attr name="triangle_button_right" format="reference" />
+    <attr name="triangle_button_left" format="reference" />
 
 
 </resources>

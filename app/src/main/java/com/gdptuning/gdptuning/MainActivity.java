@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int GAUGEPLAIN = 4;
     private static int GAUGEDIGITAL = 5;
     private static int GAUGEPROGRESS = 6;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     Timer timer;
     WifiManager wifi;
     TextView tvTune, tvGear;
@@ -75,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_live = findViewById(R.id.btn_live_data);
 
-        if (getButtonListener() == GAUGEPROGRESS) {
+        //Readings on gauge
+        if (getVehicleType() == VFORD1) {
             btn_live.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(i);
                 }
             });
-        } else if (getButtonListener() == GAUGEPLAIN) {
+        } else if (getVehicleType() == VFORD2) {
             btn_live.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -91,7 +97,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(i);
                 }
             });
-        } else if (getButtonListener() == GAUGEDIGITAL) {
+        } else if (getVehicleType() == VGM1) {
+            btn_live.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MainActivity.this, LiveDataActivityNewSpeed.class);
+                    startActivity(i);
+                }
+            });
+        }
+
+        //Gauge Selection
+        if (getGaugeListener() == GAUGEPROGRESS) {
+            btn_live.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MainActivity.this, LiveDataBarActivity.class);
+                    startActivity(i);
+                }
+            });
+        } else if (getGaugeListener() == GAUGEPLAIN) {
+            btn_live.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MainActivity.this, LiveDataActivity.class);
+                    startActivity(i);
+                }
+            });
+        } else if (getGaugeListener() == GAUGEDIGITAL) {
             btn_live.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -201,19 +234,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        SharedPreferences mySharedPreferences = getSharedPreferences("GaugeStyle", MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
-        SharedPreferences.Editor mEdit = mySharedPreferences.edit();
 
         int id = item.getItemId();
         if (id == R.id.settings_drawer) {
             Intent i = new Intent(MainActivity.this, FeaturesActivity.class);
-            startActivity(i);
-        } else if (id == R.id.info_drawer) {
-            Intent i = new Intent(MainActivity.this, InfoActivity.class);
-            startActivity(i);
-        } else if (id == R.id.wifi_settings) {
-            Intent i = new Intent(MainActivity.this, WifiActivity.class);
             startActivity(i);
         } else if (id == R.id.green) {
             Utils.changeToTheme(this, Utils.THEME_GREEN);
@@ -228,23 +253,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Utils.changeToTheme(this, Utils.THEME_DEFAULT);
             edit.putInt("theme", Utils.THEME_DEFAULT);
         } else if (id == R.id.progress_gauge) {
-            mEdit.putInt("gauge", GAUGEPROGRESS);
+            edit.putInt("gauge", GAUGEPROGRESS);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.plain_gauge) {
-            mEdit.putInt("gauge", GAUGEPLAIN);
+            edit.putInt("gauge", GAUGEPLAIN);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.digital_gauge) {
-            mEdit.putInt("gauge", GAUGEDIGITAL);
+            edit.putInt("gauge", GAUGEDIGITAL);
+            finish();
+            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.ford_11_16) {
+            edit.putInt("gauge", VFORD1);
+            finish();
+            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.ford_17up) {
+            edit.putInt("gauge", VFORD2);
+            finish();
+            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.ram_13up) {
+            edit.putInt("gauge", VRAM);
+            finish();
+            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.gm_7_14) {
+            edit.putInt("gauge", VGM1);
+            finish();
+            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.gm_15up) {
+            edit.putInt("gauge", VGM2);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         }
         edit.apply();
-        mEdit.apply();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -255,9 +304,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
-    private int getButtonListener() {
-        SharedPreferences mySharedPreferences = getSharedPreferences("GaugeStyle", MODE_PRIVATE);
+    private int getGaugeListener() {
+        SharedPreferences mySharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mySharedPreferences.getInt("gauge", GAUGEDIGITAL);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("type", VFORD1);
     }
 
     @Override

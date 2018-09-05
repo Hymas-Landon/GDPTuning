@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/settings_drawer"
@@ -61,6 +62,42 @@
         android:icon="@drawable/ic_color_green_24dp"
         android:menuCategory="system"
         android:title="Digital Gauge" />
+
+    <item
+        android:id="@+id/ford_11_16"
+        android:icon="@drawable/ic_color_green_24dp"
+        android:menuCategory="system"
+        android:title="Ford 11-16" />
+
+    <item
+        android:id="@+id/ford_17up"
+        android:icon="@drawable/ic_color_green_24dp"
+        android:menuCategory="system"
+        android:title="Ford 17+" />
+
+    <item
+        android:id="@+id/ram_13up"
+        android:icon="@drawable/ic_color_green_24dp"
+        android:menuCategory="system"
+        android:title="Ram 13+" />
+
+    <item
+        android:id="@+id/gm_7_14"
+        android:icon="@drawable/ic_color_green_24dp"
+        android:menuCategory="system"
+        android:title="GM 7.5-14" />
+
+    <item
+        android:id="@+id/gm_15up"
+        android:icon="@drawable/ic_color_green_24dp"
+        android:menuCategory="system"
+        android:title="GM 15+" />
+
+    <item
+        android:id="@+id/app_bar_switch"
+        android:title="Enable Metric Units"
+        app:actionLayout="@layout/switch_item"
+        app:showAsAction="always" />
 
 
 </menu>

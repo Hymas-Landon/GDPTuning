@@ -34,7 +34,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
-    Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5;
+    Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     int tuneMode = 0;
     WifiManager wifi;
     ImageView wifi_switch;
@@ -88,10 +88,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         btn_num3.setOnClickListener(this);
         btn_num4.setOnClickListener(this);
         btn_num5.setOnClickListener(this);
-        wifi_switch.setOnClickListener(new View.OnClickListener() {
+        btn_home = findViewById(R.id.btn_home);
+        btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(TuneActivity.this, InfoActivity.class);
+            public void onClick(View mView) {
+                Intent i = new Intent(TuneActivity.this, MainActivity.class);
                 startActivity(i);
             }
         });

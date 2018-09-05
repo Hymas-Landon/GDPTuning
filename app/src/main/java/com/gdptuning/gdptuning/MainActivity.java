@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Timer timer;
     WifiManager wifi;
     TextView tvTune, tvGear;
-    ImageView wifi_switch;
     Button btn_tune, btn_live, btn_diagnostics, btn_configuration;
     SharedPreferences mPreferences;
 
@@ -79,33 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btn_live = findViewById(R.id.btn_live_data);
-
-        //Readings on gauge
-        if (getVehicleType() == VFORD1) {
-            btn_live.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MainActivity.this, LiveDataBarActivity.class);
-                    startActivity(i);
-                }
-            });
-        } else if (getVehicleType() == VFORD2) {
-            btn_live.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MainActivity.this, LiveDataActivity.class);
-                    startActivity(i);
-                }
-            });
-        } else if (getVehicleType() == VGM1) {
-            btn_live.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MainActivity.this, LiveDataActivityNewSpeed.class);
-                    startActivity(i);
-                }
-            });
-        }
 
         //Gauge Selection
         if (getGaugeListener() == GAUGEPROGRESS) {
@@ -150,14 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //Working with wifi
-        wifi_switch = findViewById(R.id.wifi_switch);
-        wifi_switch.setOnClickListener(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
 
         //Set widgets
         btn_tune = findViewById(R.id.btn_tune);
@@ -167,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvTune = findViewById(R.id.tunenum);
 
         //Set OnClick Listener
-        wifi_switch.setOnClickListener(this);
         btn_tune.setOnClickListener(this);
         btn_configuration.setOnClickListener(this);
         btn_diagnostics.setOnClickListener(this);
@@ -268,27 +231,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.ford_11_16) {
-            edit.putInt("gauge", VFORD1);
+            edit.putInt("vehicle", VFORD1);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.ford_17up) {
-            edit.putInt("gauge", VFORD2);
+            edit.putInt("vehicle", VFORD2);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.ram_13up) {
-            edit.putInt("gauge", VRAM);
+            edit.putInt("vehicle", VRAM);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.gm_7_14) {
-            edit.putInt("gauge", VGM1);
+            edit.putInt("vehicle", VGM1);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.gm_15up) {
-            edit.putInt("gauge", VGM2);
+            edit.putInt("vehicle", VGM2);
             finish();
             Intent i = new Intent(MainActivity.this, MainActivity.class);
             startActivity(i);
@@ -311,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int getVehicleType() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("type", VFORD1);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -321,9 +284,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.btn_tune:
                 startActivity(new Intent(MainActivity.this, TuneActivity.class));
-                break;
-            case R.id.wifi_switch:
-                displayDevicecInfo();
                 break;
             case R.id.btn_config:
                 startActivity(new Intent(MainActivity.this, FeaturesActivity.class));
@@ -342,7 +302,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -368,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -408,7 +366,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
@@ -435,7 +392,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)

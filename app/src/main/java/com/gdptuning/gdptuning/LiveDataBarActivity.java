@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -39,8 +38,11 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
-
-    ImageView wifi_switch;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     Button btn_home, btn_more;
     RequestQueue queue;
     boolean isConnected = false;
@@ -84,15 +86,8 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
         btn_more.setOnClickListener(this);
 
         //Working with wifi
-        wifi_switch = findViewById(R.id.wifi_switch);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch.setOnClickListener(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
 
         queue = Volley.newRequestQueue(this);
         sendRequest();
@@ -116,6 +111,11 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -172,7 +172,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -198,7 +197,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -238,7 +236,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     public void onResponse(JSONObject response) {
                         isConnected = true;
 
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
@@ -256,37 +253,68 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                             int egt = variables.getInt("egt");
                             int boost = variables.getInt("boost");
                             int turbo = variables.getInt("turbo");
-                            int oilPressure = variables.getInt("oil_pressur");
                             int fuel = variables.getInt("fule");
                             int coolant = variables.getInt("coolant");
 
-                            //Gauge1
-                            ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
-                            imageLinearGauge1.speedTo(egt);
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                int fordOilTemp = variables.getInt("myOilTemp");
+                                //Gauge1
+                                ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
+                                imageLinearGauge1.speedTo(egt);
 
-                            //Gauge2
-                            ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
-                            if (boost > 5) {
-                                imageLinearGauge2.speedTo((float) (boost * 0.1450377));
-                            } else {
-                                imageLinearGauge2.speedTo(0);
+                                //Gauge2
+                                ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
+                                if (boost > 5) {
+                                    imageLinearGauge2.speedTo((float) (boost * 0.1450377));
+                                } else {
+                                    imageLinearGauge2.speedTo(0);
+                                }
+
+                                //Gauge3
+                                ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
+                                imageLinearGauge3.speedTo(turbo);
+
+                                //Gauge4
+                                ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
+                                imageLinearGauge4.speedTo(fordOilTemp);
+
+                                //Gauge5
+                                ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
+                                imageLinearGauge5.speedTo(fuel);
+
+                                //Gauge6
+                                ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
+                                imageLinearGauge6.speedTo(coolant);
+                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) {
+                                int oilPressure = variables.getInt("oil_pressur");
+                                //Gauge1
+                                ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
+                                imageLinearGauge1.speedTo(egt);
+
+                                //Gauge2
+                                ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
+                                if (boost > 5) {
+                                    imageLinearGauge2.speedTo((float) (boost * 0.1450377));
+                                } else {
+                                    imageLinearGauge2.speedTo(0);
+                                }
+
+                                //Gauge3
+                                ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
+                                imageLinearGauge3.speedTo(turbo);
+
+                                //Gauge4
+                                ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
+                                imageLinearGauge4.speedTo(oilPressure);
+
+                                //Gauge5
+                                ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
+                                imageLinearGauge5.speedTo(fuel);
+
+                                //Gauge6
+                                ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
+                                imageLinearGauge6.speedTo(coolant);
                             }
-
-                            //Gauge3
-                            ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
-                            imageLinearGauge3.speedTo(turbo);
-
-                            //Gauge4
-                            ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
-                            imageLinearGauge4.speedTo(oilPressure);
-
-                            //Gauge5
-                            ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
-                            imageLinearGauge5.speedTo(fuel);
-
-                            //Gauge6
-                            ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
-                            imageLinearGauge6.speedTo(coolant);
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
@@ -299,7 +327,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -339,9 +366,6 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
         int id = v.getId();
 
         switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataBarActivity.this, MainActivity.class));
                 break;

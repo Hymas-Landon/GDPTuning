@@ -7,16 +7,7 @@
         android:icon="@drawable/ic_settings_white_24dp"
         android:menuCategory="system"
         android:title="@string/settings" />
-    <item
-        android:id="@+id/info_drawer"
-        android:icon="@drawable/ic_info_outline_white_24dp"
-        android:menuCategory="system"
-        android:title="@string/info" />
-    <item
-        android:id="@+id/wifi_settings"
-        android:icon="@drawable/gray_wifi"
-        android:menuCategory="system"
-        android:title="@string/wifi_settings" />
+
     <item
         android:id="@+id/blue"
         android:icon="@drawable/ic_color_blue_24dp"

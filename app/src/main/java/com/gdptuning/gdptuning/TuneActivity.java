@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -37,7 +36,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     int tuneMode = 0;
     WifiManager wifi;
-    ImageView wifi_switch;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     TextView tvTune, tvGear;
     Timer timer;
     private RequestQueue queue;
@@ -75,7 +78,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         btn_num5 = findViewById(R.id.tgl_num5);
         tvTune = findViewById(R.id.tunenum);
         tvGear = findViewById(R.id.gear_position);
-        wifi_switch = findViewById(R.id.wifi_switch);
 
         //Set On Click Listener
         btn1.setOnClickListener(this);
@@ -117,6 +119,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -496,7 +503,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -524,7 +530,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -564,7 +569,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -590,7 +594,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)

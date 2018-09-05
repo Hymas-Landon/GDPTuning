@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:ignore="spusage"
     tools:context=".LiveDataActivityNewSpeed2">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="410dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_middle_logo" />
+        android:background="@drawable/bg_middle_logo"
+        android:contentDescription="@string/background_with_logo" />
 
     <TextView
         android:id="@+id/tunenum"
@@ -22,7 +24,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/tune"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/gear_position"
@@ -34,13 +37,15 @@
         android:layout_marginTop="8dp"
         android:text="@string/gear_position"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/speedGauge1"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginStart="-63dp"
+        android:layout_marginEnd="150dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="110dp"
         app:sv_backgroundCircleColor="@color/colorBlackTransparent"
         app:sv_endDegree="360"
@@ -98,7 +103,7 @@
         android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/live_data"
         android:contentDescription="@string/live_data" />
 

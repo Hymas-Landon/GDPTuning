@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -40,7 +39,11 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
     String device = "GDP";
     RequestQueue queue;
     Button btn_home;
-    ImageView wifi_switch;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
@@ -73,15 +76,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         btn_home.setOnClickListener(this);
 
         //Working with wifi
-        wifi_switch = findViewById(R.id.wifi_switch);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         queue = VolleySingleton.getInstance(this).getRequestQueue();
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
-        wifi_switch.setOnClickListener(this);
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -172,9 +168,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         int id = v.getId();
 
         switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
             case R.id.btn_home:
                 startActivity(new Intent(DiagnosticsActivity.this, MainActivity.class));
                 break;
@@ -197,7 +190,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -221,7 +213,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
                     }
                 }
@@ -240,7 +231,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
@@ -267,7 +257,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(DiagnosticsActivity.this, SweetAlertDialog.WARNING_TYPE)

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -31,7 +30,7 @@ import java.util.TimerTask;
 
 import de.nitri.gauge.Gauge;
 
-public class LiveDataActivity2 extends AppCompatActivity implements View.OnClickListener {
+public class LiveDataActivity2 extends AppCompatActivity {
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
@@ -41,8 +40,12 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     TextView tvTiming, tvGear, tvTune, tvFrp;
-    ImageView wifi_switch;
     Button btn_home, btn_back;
     RequestQueue queue;
     WifiManager wifi;
@@ -68,7 +71,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-
         setContentView(R.layout.activity_live_data2);
 
         //set widget home
@@ -82,7 +84,12 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
         tvGear = findViewById(R.id.gear_position);
 
         //onclick
-        btn_home.setOnClickListener(this);
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                startActivity(new Intent(LiveDataActivity2.this, MainActivity.class));
+            }
+        });
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,13 +105,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
         //Working with wifi
         queue = Volley.newRequestQueue(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch = findViewById(R.id.wifi_switch);
-        wifi_switch.setOnClickListener(this);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -125,6 +125,11 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -181,7 +186,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -207,7 +211,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity2.this, SweetAlertDialog.WARNING_TYPE)
@@ -245,7 +248,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -295,7 +297,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity2.this, SweetAlertDialog.WARNING_TYPE)
@@ -325,21 +326,6 @@ public class LiveDataActivity2 extends AppCompatActivity implements View.OnClick
         );
         // add it to the RequestQueue
         queue.add(getRequest);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
-            case R.id.btn_home:
-                startActivity(new Intent(LiveDataActivity2.this, MainActivity.class));
-                break;
-        }
     }
 
     //Show Connection details

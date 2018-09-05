@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -41,9 +40,13 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant,
             tvGear, tvTune;
-    ImageView wifi_switch;
     Button btn_home, btn_more;
     RequestQueue queue;
     WifiManager wifi;
@@ -110,13 +113,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         //Working with wifi
         queue = Volley.newRequestQueue(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch = findViewById(R.id.wifi_switch);
-        wifi_switch.setOnClickListener(this);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -151,6 +147,11 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -193,7 +194,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -219,7 +219,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -256,7 +255,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
@@ -275,74 +273,141 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                             int egt = variables.getInt("egt");
                             int boost = variables.getInt("boost");
                             int turbo = variables.getInt("egt");
-                            int oilPressure = variables.getInt("oil_pressur");
                             int fuel = variables.getInt("fule");
                             int coolant = variables.getInt("coolant");
-
                             int egtText = (int) (egt * 1.8 + 32);
                             int boostText = (int) ((boost * 0.1450377));
-                            int oilPressureText = (int) (oilPressure * 0.145);
                             int coolantText = (int) (coolant * 1.8 + 32);
 
-                            //Set the text on the gauges
-                            tvEgt.setText(String.valueOf(egtText + "\u2109"));
-                            tvBoostView.setText(String.valueOf(boostText + " PSI"));
-                            tvTurbo.setText(String.valueOf(turbo + " %"));
-                            tvOilPressure.setText(String.valueOf(oilPressureText + " PSI"));
-                            tvFuel.setText(String.valueOf(fuel + " MM3"));
-                            tvCoolant.setText(String.valueOf(coolantText + "\u2109"));
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                int fordOilTemp = variables.getInt("myOilTemp");
+                                int fordOilText = (int) (fordOilTemp * 0.145);
 
-                            //Gauge 1
-                            gauge1.setMajorNickInterval(10);
-                            gauge1.setValuePerNick(20);
-                            gauge1.setMinValue(0);
-                            gauge1.setMaxValue(2000);
-                            gauge1.setTotalNicks(120);
-                            gauge1.setValue((float) ((egt * 1.8) + 32));
+                                //Set the text on the gauges
+                                tvEgt.setText(String.valueOf(egtText + "\u2109"));
+                                tvBoostView.setText(String.valueOf(boostText + " PSI"));
+                                tvTurbo.setText(String.valueOf(turbo + " %"));
+                                tvOilPressure.setText(String.valueOf(fordOilText + " PSI"));
+                                tvFuel.setText(String.valueOf(fuel + " MM3"));
+                                tvCoolant.setText(String.valueOf(coolantText + "\u2109"));
 
-                            //Gauge 2
-                            gauge2.setMajorNickInterval(5);
-                            gauge2.setValuePerNick(1);
-                            gauge2.setMinValue(0);
-                            gauge2.setMaxValue(70);
-                            gauge2.setTotalNicks(90);
-                            if (boost > 5) {
-                                gauge2.setValue((float) (boost * 0.1450377));
-                            } else {
-                                gauge2.setValue(0);
+                                //Gauge 1
+                                gauge1.setMajorNickInterval(10);
+                                gauge1.setValuePerNick(20);
+                                gauge1.setMinValue(0);
+                                gauge1.setMaxValue(2000);
+                                gauge1.setTotalNicks(120);
+                                gauge1.setValue((float) ((egt * 1.8) + 32));
+
+                                //Gauge 2
+                                gauge2.setMajorNickInterval(5);
+                                gauge2.setValuePerNick(1);
+                                gauge2.setMinValue(0);
+                                gauge2.setMaxValue(70);
+                                gauge2.setTotalNicks(90);
+                                if (boost > 5) {
+                                    gauge2.setValue((float) (boost * 0.1450377));
+                                } else {
+                                    gauge2.setValue(0);
+                                }
+
+                                //Gauge 3
+                                gauge3.setMajorNickInterval(10);
+                                gauge3.setValuePerNick(1);
+                                gauge3.setMinValue(0);
+                                gauge3.setMaxValue(100);
+                                gauge3.setTotalNicks(140);
+                                gauge3.setValue(turbo);
+
+                                //Gauge 4
+                                gauge4.setMajorNickInterval(40);
+                                gauge4.setValuePerNick(1);
+                                gauge4.setMinValue(0);
+                                gauge4.setMaxValue(350);
+                                gauge4.setTotalNicks(520);
+                                gauge4.setValue((float) (fordOilTemp * 0.145));
+
+                                //Gauge 5
+                                gauge5.setMajorNickInterval(20);
+                                gauge5.setValuePerNick(1);
+                                gauge5.setMinValue(0);
+                                gauge5.setMaxValue(160);
+                                gauge5.setTotalNicks(200);
+                                gauge5.setValue(fuel);
+
+                                //Gauge 6
+                                gauge6.setMajorNickInterval(40);
+                                gauge6.setValuePerNick(1);
+                                gauge6.setMinValue(-40);
+                                gauge6.setMaxValue(320);
+                                gauge6.setTotalNicks(480);
+                                gauge6.setValue((float) ((coolant * 1.8) + 32));
+
+
+                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) {
+                                int oilPressure = variables.getInt("oil_pressur");
+                                int oilPressureText = (int) (oilPressure * 0.145);
+
+                                //Set the text on the gauges
+                                tvEgt.setText(String.valueOf(egtText + "\u2109"));
+                                tvBoostView.setText(String.valueOf(boostText + " PSI"));
+                                tvTurbo.setText(String.valueOf(turbo + " %"));
+                                tvOilPressure.setText(String.valueOf(oilPressureText + " PSI"));
+                                tvFuel.setText(String.valueOf(fuel + " MM3"));
+                                tvCoolant.setText(String.valueOf(coolantText + "\u2109"));
+
+                                //Gauge 1
+                                gauge1.setMajorNickInterval(10);
+                                gauge1.setValuePerNick(20);
+                                gauge1.setMinValue(0);
+                                gauge1.setMaxValue(2000);
+                                gauge1.setTotalNicks(120);
+                                gauge1.setValue((float) ((egt * 1.8) + 32));
+
+                                //Gauge 2
+                                gauge2.setMajorNickInterval(5);
+                                gauge2.setValuePerNick(1);
+                                gauge2.setMinValue(0);
+                                gauge2.setMaxValue(70);
+                                gauge2.setTotalNicks(90);
+                                if (boost > 5) {
+                                    gauge2.setValue((float) (boost * 0.1450377));
+                                } else {
+                                    gauge2.setValue(0);
+                                }
+
+                                //Gauge 3
+                                gauge3.setMajorNickInterval(10);
+                                gauge3.setValuePerNick(1);
+                                gauge3.setMinValue(0);
+                                gauge3.setMaxValue(100);
+                                gauge3.setTotalNicks(140);
+                                gauge3.setValue(turbo);
+
+                                //Gauge 4
+                                gauge4.setMajorNickInterval(40);
+                                gauge4.setValuePerNick(1);
+                                gauge4.setMinValue(0);
+                                gauge4.setMaxValue(380);
+                                gauge4.setTotalNicks(520);
+                                gauge4.setValue((float) (oilPressure * 0.145));
+
+                                //Gauge 5
+                                gauge5.setMajorNickInterval(20);
+                                gauge5.setValuePerNick(1);
+                                gauge5.setMinValue(0);
+                                gauge5.setMaxValue(160);
+                                gauge5.setTotalNicks(200);
+                                gauge5.setValue(fuel);
+
+                                //Gauge 6
+                                gauge6.setMajorNickInterval(40);
+                                gauge6.setValuePerNick(1);
+                                gauge6.setMinValue(-40);
+                                gauge6.setMaxValue(320);
+                                gauge6.setTotalNicks(480);
+                                gauge6.setValue((float) ((coolant * 1.8) + 32));
                             }
-
-                            //Gauge 3
-                            gauge3.setMajorNickInterval(10);
-                            gauge3.setValuePerNick(1);
-                            gauge3.setMinValue(0);
-                            gauge3.setMaxValue(100);
-                            gauge3.setTotalNicks(140);
-                            gauge3.setValue(turbo);
-
-                            //Gauge 4
-                            gauge4.setMajorNickInterval(40);
-                            gauge4.setValuePerNick(1);
-                            gauge4.setMinValue(0);
-                            gauge4.setMaxValue(380);
-                            gauge4.setTotalNicks(520);
-                            gauge4.setValue((float) (oilPressure * 0.145));
-
-                            //Gauge 5
-                            gauge5.setMajorNickInterval(20);
-                            gauge5.setValuePerNick(1);
-                            gauge5.setMinValue(0);
-                            gauge5.setMaxValue(160);
-                            gauge5.setTotalNicks(200);
-                            gauge5.setValue(fuel);
-
-                            //Gauge 6
-                            gauge6.setMajorNickInterval(40);
-                            gauge6.setValuePerNick(1);
-                            gauge6.setMinValue(-40);
-                            gauge6.setMaxValue(320);
-                            gauge6.setTotalNicks(480);
-                            gauge6.setValue((float) ((coolant * 1.8) + 32));
 
                             Log.d("Response", response.toString());
                         } catch (JSONException e1) {
@@ -355,7 +420,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -393,9 +457,6 @@ public class LiveDataActivity extends AppCompatActivity implements View.OnClickL
         int id = v.getId();
 
         switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataActivity.this, MainActivity.class));
                 break;

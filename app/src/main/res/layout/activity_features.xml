@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="410dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_middle_logo" />
+        android:background="@drawable/bg_middle_logo"
+        android:contentDescription="@string/background_with_logo" />
 
     <Button
         android:id="@+id/btn_home"
@@ -32,7 +33,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/tune"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/gear_position"
@@ -44,7 +46,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/gear_position"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
     <ImageView
         android:id="@+id/arrowRight"

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DiagnosticsActivity">
+    tools:context=".DiagnosticsActivity"
+    tools:ignore="spusage">
 
     <ImageView
         android:layout_width="match_parent"
@@ -71,7 +72,8 @@
         android:layout_marginEnd="-264dp"
         android:layout_alignEnd="@+id/clear_codes"
         android:layout_alignTop="@+id/clear_codes"
-        android:text="Reset \nTransmission" />
+        android:text="Reset \nTransmission"
+        tools:ignore="HardcodedText" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="750dp"
@@ -80,6 +82,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="70dp"
         android:background="@color/colorDarkGray" />
+
+    <TextView
+        android:id="@+id/diagnostics_title"
+        android:textSize="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorWhite"
+        android:text="@string/diagnostics" />
 
 
 </RelativeLayout>

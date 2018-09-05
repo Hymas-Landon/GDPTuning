@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -41,9 +40,13 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
     boolean isProcessing = false;
     String device = "GDP";
     int tuneMode = 0;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     Timer timer;
     TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant, tvGear, tvTune;
-    ImageView wifi_switch;
     Button btn_home, btn_more;
     RequestQueue queue;
     WifiManager wifi;
@@ -111,13 +114,6 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
         //Working with wifi
         queue = Volley.newRequestQueue(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch = findViewById(R.id.wifi_switch);
-        wifi_switch.setOnClickListener(this);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -137,6 +133,11 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -194,7 +195,6 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -220,7 +220,6 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivityNewSpeed.this, SweetAlertDialog.WARNING_TYPE)
@@ -258,7 +257,6 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
 
@@ -275,38 +273,67 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
                             float egt = variables.getInt("egt");
                             float boost = variables.getInt("boost");
                             float turbo = variables.getInt("turbo");
-                            float oilPressure = variables.getInt("oil_pressur");
                             float fuel = variables.getInt("fule");
                             float coolant = variables.getInt("coolant");
 
-                            //Gauge1
-                            ImageSpeedometer imageSpeedometer1 = findViewById(R.id.speedGauge1);
-                            imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                float fordOilTemp = variables.getInt("myOilTemp");
+                                //Gauge1
+                                ImageSpeedometer imageSpeedometer1 = findViewById(R.id.speedGauge1);
+                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
 
-                            //Gauge2
-                            ImageSpeedometer imageSpeedometer2 = findViewById(R.id.speedGauge2);
-                            if (boost > 5) {
-                                imageSpeedometer2.speedTo((float) (boost * 0.1450377));
-                            } else {
-                                imageSpeedometer2.speedTo(0);
+                                //Gauge2
+                                ImageSpeedometer imageSpeedometer2 = findViewById(R.id.speedGauge2);
+                                if (boost > 5) {
+                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
+                                } else {
+                                    imageSpeedometer2.speedTo(0);
+                                }
+
+                                //Gauge3
+                                ImageSpeedometer imageSpeedometer3 = findViewById(R.id.speedGauge3);
+                                imageSpeedometer3.speedTo(turbo);
+
+                                //Gauge4
+                                ImageSpeedometer imageSpeedometer4 = findViewById(R.id.speedGauge4);
+                                imageSpeedometer4.speedTo((float) (fordOilTemp * 0.145));
+
+                                //Gauge5
+                                ImageSpeedometer imageSpeedometer5 = findViewById(R.id.speedGauge5);
+                                imageSpeedometer5.speedTo(fuel);
+
+                                //Gauge6
+                                ImageSpeedometer imageSpeedometer6 = findViewById(R.id.speedGauge6);
+                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
+                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
+                                float oilPressure = variables.getInt("oil_pressur");
+                                ImageSpeedometer imageSpeedometer1 = findViewById(R.id.speedGauge1);
+                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
+
+                                //Gauge2
+                                ImageSpeedometer imageSpeedometer2 = findViewById(R.id.speedGauge2);
+                                if (boost > 5) {
+                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
+                                } else {
+                                    imageSpeedometer2.speedTo(0);
+                                }
+
+                                //Gauge3
+                                ImageSpeedometer imageSpeedometer3 = findViewById(R.id.speedGauge3);
+                                imageSpeedometer3.speedTo(turbo);
+
+                                //Gauge4
+                                ImageSpeedometer imageSpeedometer4 = findViewById(R.id.speedGauge4);
+                                imageSpeedometer4.speedTo((float) (oilPressure * 0.145));
+
+                                //Gauge5
+                                ImageSpeedometer imageSpeedometer5 = findViewById(R.id.speedGauge5);
+                                imageSpeedometer5.speedTo(fuel);
+
+                                //Gauge6
+                                ImageSpeedometer imageSpeedometer6 = findViewById(R.id.speedGauge6);
+                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
                             }
-
-                            //Gauge3
-                            ImageSpeedometer imageSpeedometer3 = findViewById(R.id.speedGauge3);
-                            imageSpeedometer3.speedTo(turbo);
-
-                            //Gauge4
-                            ImageSpeedometer imageSpeedometer4 = findViewById(R.id.speedGauge4);
-                            imageSpeedometer4.speedTo((float) (oilPressure * 0.145));
-
-                            //Gauge5
-                            ImageSpeedometer imageSpeedometer5 = findViewById(R.id.speedGauge5);
-                            imageSpeedometer5.speedTo(fuel);
-
-                            //Gauge6
-                            ImageSpeedometer imageSpeedometer6 = findViewById(R.id.speedGauge6);
-                            imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
-
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -314,11 +341,12 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
                         isProcessing = false;
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener()
+
+                {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivityNewSpeed.this, SweetAlertDialog.WARNING_TYPE)
@@ -356,9 +384,6 @@ public class LiveDataActivityNewSpeed extends AppCompatActivity implements View.
         int id = v.getId();
 
         switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataActivityNewSpeed.this, MainActivity.class));
                 break;

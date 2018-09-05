@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -39,7 +38,11 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
-    ImageView wifi_switch;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     Button btn_home, btn_back;
     RequestQueue queue;
     boolean isConnected = false;
@@ -77,15 +80,8 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
         btn_back.setOnClickListener(this);
 
         //Working with wifi
-        wifi_switch = findViewById(R.id.wifi_switch);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch.setOnClickListener(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
 
         queue = Volley.newRequestQueue(this);
         sendRequest();
@@ -125,10 +121,15 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(LiveDataBarActivity2.this, LiveDataActivity.class);
+        Intent i = new Intent(LiveDataBarActivity2.this, LiveDataBarActivity.class);
         startActivity(i);
     }
 
@@ -165,7 +166,6 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -191,7 +191,6 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataBarActivity2.this, SweetAlertDialog.WARNING_TYPE)
@@ -231,7 +230,6 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     public void onResponse(JSONObject response) {
                         isConnected = true;
 
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
 
@@ -266,7 +264,6 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataBarActivity2.this, SweetAlertDialog.WARNING_TYPE)
@@ -306,9 +303,6 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
         int id = v.getId();
 
         switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataBarActivity2.this, MainActivity.class));
                 break;

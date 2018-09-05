@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="450dp"
+    tools:ignore="spusage"
     tools:showIn="@layout/app_bar_main">
 
     <TextView
@@ -17,14 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_middle" />
+        android:background="@drawable/bg_middle"
+        android:contentDescription="@string/plain_background" />
 
     <ImageView
         android:layout_width="400dp"
         android:layout_height="187dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="55dp"
-        android:background="@drawable/logogdp" />
+        android:background="@drawable/logogdp"
+        android:contentDescription="@string/gdp_logo" />
 
 
     <Button
@@ -36,7 +39,7 @@
         android:drawableEnd="?attr/tune_icon"
         android:paddingEnd="5dp"
         android:paddingStart="20dp"
-        android:text="TUNE SWITCHING"
+        android:text="@string/tune_switching"
         android:textAlignment="textStart"
         android:textSize="34dp" />
 
@@ -49,7 +52,7 @@
         android:drawableEnd="?attr/livedata_icon"
         android:paddingEnd="5dp"
         android:paddingStart="20dp"
-        android:text="LIVE DATA"
+        android:text="@string/live_data"
         android:textAlignment="textStart"
         android:textSize="34dp" />
 
@@ -75,7 +78,7 @@
         android:drawableEnd="?attr/diagnostics_icon"
         android:paddingEnd="5dp"
         android:paddingStart="20dp"
-        android:text="DIAGNOSTICS"
+        android:text="@string/diagnostics"
         android:textAlignment="textStart"
         android:textSize="34dp" />
 
@@ -89,7 +92,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/tune"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/gear_position"
@@ -101,6 +105,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/gear_position"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

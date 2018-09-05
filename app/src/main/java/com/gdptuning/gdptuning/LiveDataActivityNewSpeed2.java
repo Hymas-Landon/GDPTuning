@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -41,9 +40,13 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
     boolean isProcessing = false;
     String device = "GDP";
     int tuneMode = 0;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     Timer timer;
     TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant, tvGear, tvTune;
-    ImageView wifi_switch;
     Button btn_home, btn_back;
     RequestQueue queue;
     WifiManager wifi;
@@ -112,13 +115,6 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
         //Working with wifi
         queue = Volley.newRequestQueue(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch = findViewById(R.id.wifi_switch);
-        wifi_switch.setOnClickListener(this);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -152,6 +148,11 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override
@@ -196,7 +197,6 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -222,7 +222,6 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivityNewSpeed2.this, SweetAlertDialog.WARNING_TYPE)
@@ -260,7 +259,6 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -297,7 +295,6 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivityNewSpeed2.this, SweetAlertDialog.WARNING_TYPE)
@@ -335,9 +332,6 @@ public class LiveDataActivityNewSpeed2 extends AppCompatActivity implements View
         int id = v.getId();
 
         switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
             case R.id.btn_home:
                 startActivity(new Intent(LiveDataActivityNewSpeed2.this, MainActivity.class));
                 break;

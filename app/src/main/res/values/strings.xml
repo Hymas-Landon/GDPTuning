@@ -32,7 +32,7 @@
     <string name="help_button">Help Button</string>
     <string name="gauge_1">Gauge 1</string>
     <string name="gauge_2">Gauge 2</string>
-    <string name="live_data">Live Data</string>
+    <string name="live_data">LIVE DATA</string>
     <string name="gauge_1_small">Gauge 1 Small</string>
     <string name="gauge_2_small">Gauge 2 Small</string>
     <string name="gauge_3_small">Gauge 3 Small</string>
@@ -131,6 +131,11 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="read_codes">READ CODES</string>
     <string name="clear_codes">CLEAR CODES</string>
+    <string name="diagnostics">DIAGNOSTICS</string>
+    <string name="plain_background">Plain Background</string>
+    <string name="gdp_logo">GDP Logo</string>
+    <string name="tune_switching">TUNE SWITCHING</string>
+    <string name="background_with_logo">Background With Logo</string>
 
 
 </resources>

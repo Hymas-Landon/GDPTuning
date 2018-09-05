@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,12 +26,11 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class FeaturesActivity extends AppCompatActivity implements View.OnClickListener {
+public class FeaturesActivity extends AppCompatActivity {
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
@@ -40,8 +38,12 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     Button btn_home;
-    ImageView wifi_switch;
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
@@ -70,15 +72,8 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
 
         //Working with wifi
         queue = VolleySingleton.getInstance(this).getRequestQueue();
-        wifi_switch = findViewById(R.id.wifi_switch);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi_switch.setOnClickListener(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifi.isWifiEnabled()) {
-            wifi_switch.setImageResource(R.drawable.gray_wifi);
-        } else {
-            wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
-        }
         btn_home = findViewById(R.id.btn_home);
         btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,10 +97,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
 
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
-    }
-
-    public void options() {
-        Array[] options = new Array[3];
     }
 
     @Override
@@ -132,18 +123,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
         super.onBackPressed();
         Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
         startActivity(i);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.wifi_switch:
-                displayDevicecInfo();
-                break;
-        }
     }
 
     @Override
@@ -201,7 +180,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
@@ -225,7 +203,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
                     }
                 }
@@ -244,7 +221,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi);
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
@@ -271,7 +247,6 @@ public class FeaturesActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        wifi_switch.setImageResource(R.drawable.gray_wifi_not_connected);
                         Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)

@@ -5,6 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:ignore="spusage"
     tools:context=".TuneActivity">
 
     <Button
@@ -20,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="410dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_middle_logo" />
+        android:background="@drawable/bg_middle_logo"
+        android:contentDescription="@string/background_with_logo" />
 
     <ImageView
         android:id="@+id/switchbg"
@@ -172,7 +174,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/tune"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/gear_position"
@@ -184,6 +187,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/gear_position"
         android:textColor="@color/colorGray"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

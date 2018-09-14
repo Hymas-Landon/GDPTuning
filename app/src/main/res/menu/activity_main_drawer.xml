@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/settings_drawer"
@@ -9,86 +8,10 @@
         android:title="@string/settings" />
 
     <item
-        android:id="@+id/blue"
-        android:icon="@drawable/ic_color_blue_24dp"
-        android:iconTint="@color/colorBlue"
+        android:id="@+id/selectVehicle"
+        android:icon="@drawable/ic_directions_car_black_24dp"
         android:menuCategory="system"
-        android:title="Blue" />
-
-    <item
-        android:id="@+id/orange"
-        android:icon="@drawable/ic_color_orange_24dp"
-        android:iconTint="@color/colorOrange"
-        android:menuCategory="system"
-        android:title="Orange" />
-
-    <item
-        android:id="@+id/green"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:iconTint="@color/colorGreen"
-        android:menuCategory="system"
-        android:title="Green" />
-
-    <item
-        android:id="@+id/red"
-        android:icon="@drawable/ic_color_red_24dp"
-        android:iconTint="@color/colorRed"
-        android:menuCategory="system"
-        android:title="Red" />
-
-    <item
-        android:id="@+id/progress_gauge"
-        android:icon="@drawable/progressive_gauge"
-        android:menuCategory="system"
-        android:title="Progressive Bar" />
-
-    <item
-        android:id="@+id/plain_gauge"
-        android:icon="@drawable/ic_color_red_24dp"
-        android:menuCategory="system"
-        android:title="Needle Gauge" />
-
-    <item
-        android:id="@+id/digital_gauge"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:menuCategory="system"
-        android:title="Digital Gauge" />
-
-    <item
-        android:id="@+id/ford_11_16"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:menuCategory="system"
-        android:title="Ford 11-16" />
-
-    <item
-        android:id="@+id/ford_17up"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:menuCategory="system"
-        android:title="Ford 17+" />
-
-    <item
-        android:id="@+id/ram_13up"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:menuCategory="system"
-        android:title="Ram 13+" />
-
-    <item
-        android:id="@+id/gm_7_14"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:menuCategory="system"
-        android:title="GM 7.5-14" />
-
-    <item
-        android:id="@+id/gm_15up"
-        android:icon="@drawable/ic_color_green_24dp"
-        android:menuCategory="system"
-        android:title="GM 15+" />
-
-    <item
-        android:id="@+id/app_bar_switch"
-        android:title="Enable Metric Units"
-        app:actionLayout="@layout/switch_item"
-        app:showAsAction="always" />
+        android:title="Select Vehicle" />
 
 
 </menu>

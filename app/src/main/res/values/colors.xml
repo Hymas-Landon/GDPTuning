@@ -15,9 +15,10 @@
     <color name="colorGreen">#26d829</color>
     <color name="colorDarkGreen">#155a19</color>
     <color name="colorDarkGray">#393838</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorBlackTransparent">#80000000</color>
     <color name="colorBlack">#000000</color>
-    <color name="background_material_light">#020000</color>
+    <color name="background_material_light">#ffffff</color>
     <color name="colorClick">#abcdef</color>
+    <color name="transparent">#00000000</color>
 </resources>

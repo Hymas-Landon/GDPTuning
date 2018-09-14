@@ -4,6 +4,7 @@
     <style name="AppThemeNoActionBarOrangeMain" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="gauges_color">@drawable/gauge_test</item>
         <item name="colorAccent">@color/colorOrange</item>
         <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
         <item name="configuration_icon">@drawable/configuration_icon</item>
@@ -18,12 +19,14 @@
         <item name="android:actionBarStyle">@style/ThemeActionBar</item>
         <item name="speedtext_color">@color/colorOrange</item>
         <item name="features_text_color">@color/colorWhite</item>
+        <item name="gauge_text">@color/colorOrange</item>
         <item name="triangle_button_right">@drawable/select_right_orange</item>
         <item name="triangle_button_left">@drawable/select_left_orange</item>
         <item name="android:windowActionBarOverlay">true</item>
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/ThemeActionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
     </style>
 
     <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
@@ -34,9 +37,11 @@
 
 
     <style name="ViewListStyle">
-        <item name="android:background">@color/colorGray</item>
-        <item name="android:textColor">@color/colorOrange</item>
-        <item name="android:listSelector">@drawable/ic_settings_white_24dp</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+    <style name="ViewListStyleBlue">
+        <item name="android:background">@color/colorBlack</item>
     </style>
 
     <style name="AppThemeNoActionBarOrangeMain.SlidrActivityTheme">
@@ -63,6 +68,7 @@
     <!--This is for the green theme-->
     <style name="AppThemeNoActionBarGreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
+        <item name="gauges_color">@drawable/gauge_green</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
         <item name="configuration_icon">@drawable/configuration_icon</item>
@@ -74,6 +80,7 @@
         <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
+        <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_green</item>
         <item name="triangle_button_left">@drawable/select_left_green</item>
         <item name="android:windowBackground">@drawable/gradient_green_</item>
@@ -91,6 +98,7 @@
     <style name="AppThemeNoActionBarRed" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="gauges_color">@drawable/gauge_red</item>
         <item name="colorAccent">@color/colorRed</item>
         <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
         <item name="configuration_icon">@drawable/configuration_icon</item>
@@ -101,6 +109,7 @@
         <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
+        <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_red</item>
         <item name="triangle_button_left">@drawable/select_lft_red</item>
         <item name="android:buttonStyle">@style/ButtonRed</item>
@@ -121,6 +130,7 @@
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="gauges_color">@drawable/gauge_blue</item>
         <item name="android:buttonStyle">@style/ButtonBlue</item>
         <item name="diagnostics_icon">@drawable/diagnostics_white</item>
         <item name="configuration_icon">@drawable/configuration_icon_white</item>
@@ -128,11 +138,14 @@
         <item name="tune_icon">@drawable/tune_icon_white</item>
         <item name="tune_on">@drawable/tune_on_blue</item>
         <item name="bar_color">@drawable/progressive_gauge_blue</item>
+        <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_blue</item>
         <item name="triangle_button_left">@drawable/select_left_blue</item>
         <item name="speedtext_color">@color/colorWhite</item>
         <item name="features_text_color">@color/colorWhite</item>
+        <item name="android:listViewStyle">@style/ViewListStyleBlue</item>
         <item name="android:windowBackground">@drawable/gradient_blue_</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
     </style>
 
     <!--Button Color Blue-->
@@ -144,7 +157,11 @@
 
 
     <!--This is for the action screen to load correctly-->
-    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppThemeNoActionBarSplash" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="android:color">@color/colorBlack</item>
+        <item name="android:colorBackground">@color/colorBlack</item>
+    </style>
 
     <style name="AppThemeNoActionBar">
         <item name="android:windowActionBar">false</item>
@@ -169,6 +186,8 @@
     <attr name="features_text_color" format="reference" />
     <attr name="triangle_button_right" format="reference" />
     <attr name="triangle_button_left" format="reference" />
+    <attr name="gauges_color" format="reference" />
+    <attr name="gauge_text" format="reference" />
 
 
 </resources>

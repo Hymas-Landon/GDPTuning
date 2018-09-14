@@ -11,8 +11,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ActionBarContextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -51,14 +54,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
+    int item_select = 0;
+
     Timer timer;
     WifiManager wifi;
     TextView tvTune, tvGear;
-    Button btn_tune, btn_live, btn_diagnostics, btn_configuration;
+    Button btn_tune, btn_live, btn_diagnostics, btn_configuration, vehicle;
     SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         if (getColorTheme() == Utils.THEME_DEFAULT) {
             setTheme(R.style.AppThemeNoActionBarOrangeMain);
@@ -114,11 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        ActionBarContextView mActionBarContextView;
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         //Working with wifi
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -134,6 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_tune.setOnClickListener(this);
         btn_configuration.setOnClickListener(this);
         btn_diagnostics.setOnClickListener(this);
+        vehicle = findViewById(R.id.selectVehicle);
+        vehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                registerForContextMenu(mView);
+                openContextMenu(mView);
+            }
+        });
 
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         sendRequest();
@@ -152,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -179,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
         }
     }
 
@@ -195,71 +210,111 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+        Intent i = new Intent(this, MainActivity.class);
+        switch (item.getItemId()) {
+            case R.id.ford_11_16_radio:
+                item_select = 1;
+                item.setChecked(true);
+                edit.putInt("vehicle", VFORD1);
+                edit.apply();
+                recreate();
+                return true;
+            case R.id.ford_17up_radio:
+                item_select = 2;
+                item.setChecked(true);
+                edit.putInt("vehicle", VFORD2);
+                edit.apply();
+                recreate();
+                return true;
+            case R.id.ram_13up_radio:
+                item_select = 3;
+                item.setChecked(true);
+                edit.putInt("vehicle", VRAM);
+                edit.apply();
+                recreate();
+                return true;
+            case R.id.gm_7_14_radio:
+                item_select = 4;
+                item.setChecked(true);
+                edit.putInt("vehicle", VGM1);
+                edit.apply();
+                recreate();
+                return true;
+            case R.id.gm_15up_radio:
+                item_select = 5;
+                item.setChecked(true);
+                edit.putInt("vehicle", VGM2);
+                edit.apply();
+                recreate();
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
 
         int id = item.getItemId();
         if (id == R.id.settings_drawer) {
-            Intent i = new Intent(MainActivity.this, FeaturesActivity.class);
-            startActivity(i);
-        } else if (id == R.id.green) {
-            Utils.changeToTheme(this, Utils.THEME_GREEN);
-            edit.putInt("theme", Utils.THEME_GREEN);
-        } else if (id == R.id.red) {
-            Utils.changeToTheme(this, Utils.THEME_RED);
-            edit.putInt("theme", Utils.THEME_RED);
-        } else if (id == R.id.blue) {
-            Utils.changeToTheme(this, Utils.THEME_BLUE);
-            edit.putInt("theme", Utils.THEME_BLUE);
-        } else if (id == R.id.orange) {
-            Utils.changeToTheme(this, Utils.THEME_DEFAULT);
-            edit.putInt("theme", Utils.THEME_DEFAULT);
-        } else if (id == R.id.progress_gauge) {
-            edit.putInt("gauge", GAUGEPROGRESS);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.plain_gauge) {
-            edit.putInt("gauge", GAUGEPLAIN);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.digital_gauge) {
-            edit.putInt("gauge", GAUGEDIGITAL);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.ford_11_16) {
-            edit.putInt("vehicle", VFORD1);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.ford_17up) {
-            edit.putInt("vehicle", VFORD2);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.ram_13up) {
-            edit.putInt("vehicle", VRAM);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.gm_7_14) {
-            edit.putInt("vehicle", VGM1);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(i);
-        } else if (id == R.id.gm_15up) {
-            edit.putInt("vehicle", VGM2);
-            finish();
-            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            Intent i = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(i);
         }
         edit.apply();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+        MenuInflater mMenuInflater = getMenuInflater();
+        mMenuInflater.inflate(R.menu.radio_menu, menu);
+        MenuItem ford1 = menu.findItem(R.id.ford_11_16_radio);
+        MenuItem ford2 = menu.findItem(R.id.ford_17up_radio);
+        MenuItem ram = menu.findItem(R.id.ram_13up_radio);
+        MenuItem gm1 = menu.findItem(R.id.gm_7_14_radio);
+        MenuItem gm2 = menu.findItem(R.id.gm_15up_radio);
+
+        if (item_select == 1) {
+            ford1.setChecked(true);
+            edit.putInt("vehicle", VFORD1);
+            edit.apply();
+        } else if (item_select == 2) {
+            ford2.setChecked(true);
+            edit.putInt("vehicle", VFORD2);
+            edit.apply();
+        } else if (item_select == 3) {
+            ram.setChecked(true);
+            edit.putInt("vehicle", VRAM);
+            edit.apply();
+        } else if (item_select == 4) {
+            gm1.setChecked(true);
+            edit.putInt("vehicle", VGM1);
+            edit.apply();
+        } else if (item_select == 5) {
+            gm2.setChecked(true);
+            edit.putInt("vehicle", VGM2);
+            edit.apply();
+        }
+        if (getVehicleType() == VFORD1) {
+            ford1.setChecked(true);
+        } else if (getVehicleType() == VFORD2) {
+            ford2.setChecked(true);
+        } else if (getVehicleType() == VRAM) {
+            ram.setChecked(true);
+        } else if (getVehicleType() == VGM1) {
+            gm1.setChecked(true);
+        } else if (getVehicleType() == VGM2) {
+            gm2.setChecked(true);
+        }
     }
 
     private int getColorTheme() {
@@ -331,7 +386,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -396,7 +453,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -440,7 +499,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device")
+                    .setContentText("Your are not connected to a GDP device. Retry by " +
+                            "tapping 'Retry' or check your wifi settings by tapping " +
+                            "'Connect'.")
                     .setCancelText("Retry")
                     .setConfirmText("Connect")
                     .showCancelButton(true)

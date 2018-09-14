@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,78 +22,83 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.anastr.speedviewlib.ImageLinearGauge;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LiveDataBarActivity extends AppCompatActivity implements View.OnClickListener {
+import de.nitri.gauge.Gauge;
 
-    //ESP32 aREST server address
-    final String url = "http://192.168.7.1";
-    //    final String url = "https://api.myjson.com/bins/sh7ic";
-    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvFrp, tvTiming, tvCoolant, tvGear, tvTune;
-    String device = "GDP";
-    int tuneMode = 0;
-    Timer timer;
+import static android.content.Context.MODE_PRIVATE;
+
+public class LiveDataNeedleFragment2 extends Fragment {
+
     private static int VFORD1 = 7;
     private static int VFORD2 = 8;
     private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
-    Button btn_home, btn_more;
-    RequestQueue queue;
+    //ESP32 aREST server address
+    final String url = "http://192.168.7.1";
+    //    final String url = "https://api.myjson.com/bins/fxv1w";
     boolean isConnected = false;
     boolean isProcessing = false;
+    String device = "GDP";
+    int tuneMode = 0;
+    Timer timer;
+    TextView tvTiming, tvGear, tvTune, tvFrp;
+    Button btn_home, btn_back;
+    RequestQueue queue;
     WifiManager wifi;
 
+    //Gauges
+    Gauge gauge2_1;
+    Gauge gauge2_2;
+
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        if (getColorTheme() == Utils.THEME_DEFAULT) {
-            setTheme(R.style.AppThemeNoActionBarOrangeMain);
-        } else if (getColorTheme() == Utils.THEME_GREEN) {
-            setTheme(R.style.AppThemeNoActionBarGreen);
-        } else if (getColorTheme() == Utils.THEME_BLUE) {
-            setTheme(R.style.AppThemeNoActionBarBlue);
-        } else if (getColorTheme() == Utils.THEME_RED) {
-            setTheme(R.style.AppThemeNoActionBarRed);
-        }
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View mView = inflater.inflate(R.layout.fragment_livedata_needle_2, container, false);
+
+        //set widget home
+        btn_home = mView.findViewById(R.id.btn_home);
+        btn_back = mView.findViewById(R.id.back);
+
+        //connect textViews
+        tvTiming = mView.findViewById(R.id.timing);
+        tvFrp = mView.findViewById(R.id.frp);
+        tvTune = mView.findViewById(R.id.tunenum);
+        tvGear = mView.findViewById(R.id.gear_position);
 
 
-        setContentView(R.layout.activity_livedata_bar);
+        return mView;
 
-        //find views
-        btn_home = findViewById(R.id.btn_home);
-        btn_more = findViewById(R.id.moreGauges);
-        tvEgt = findViewById(R.id.egt);
-        tvBoostView = findViewById(R.id.boost);
-        tvTurbo = findViewById(R.id.turbo);
-        tvOilPressure = findViewById(R.id.oil_pressure);
-        tvFuel = findViewById(R.id.fuel_rate);
-        tvCoolant = findViewById(R.id.coolant);
-        tvGear = findViewById(R.id.gear_position);
-        tvTune = findViewById(R.id.tunenum);
+    }
 
-        //set OnClickListeners
-        btn_home.setOnClickListener(this);
-        btn_more.setOnClickListener(this);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //onclick
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
+
+        gauge2_1 = getView().findViewById(R.id.gauge2_1);
+        gauge2_2 = getView().findViewById(R.id.gauge2_2);
 
         //Working with wifi
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        wifi = (WifiManager) Objects.requireNonNull(getActivity()).getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         sendRequest();
-
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             int num = 1;
@@ -105,48 +112,23 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     }
                 }
             }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
-    }
-
-    private int getColorTheme() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+        }, 0, 1);//put here time 1000 milliseconds=1 second
     }
 
     private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(LiveDataBarActivity.this, MainActivity.class);
-        startActivity(i);
-    }
-
-    @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         timer.cancel();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -161,7 +143,12 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     }
                 }
             }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
+        }, 0, 1);//put here time 1000 milliseconds=1 second
+    }
+
+    public void onBackPressed() {
+        Intent i = new Intent(getActivity(), LiveDataActivity.class);
+        startActivity(i);
     }
 
     //Send to sGDP server to verify connection
@@ -199,9 +186,9 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("You are not connected to a GDP device")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -217,8 +204,7 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                                     public void onClick(SweetAlertDialog sDialog) {
                                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                                     }
-                                })
-                                .show();
+                                }).show();
                     }
                 }
         );
@@ -235,12 +221,10 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-
                         try {
-
                             JSONObject variables = response.getJSONObject("variables");
-
-                            tuneMode = variables.getInt("tune_mode");
+                            Log.d("TEST2 ", variables.toString());
+                            int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
@@ -250,75 +234,30 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
 
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
-                            int egt = variables.getInt("egt");
-                            int boost = variables.getInt("boost");
-                            int turbo = variables.getInt("turbo");
-                            int fuel = variables.getInt("fule");
-                            int coolant = variables.getInt("coolant");
 
-                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                TextView oilText = findViewById(R.id.title4);
-                                oilText.setText("Oil \nTemp");
-                                int fordOilTemp = variables.getInt("oil_temp");
-                                //Gauge1
-                                ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
-                                imageLinearGauge1.speedTo(egt);
+                            float frp = variables.getInt("frp");
+                            float timing = variables.getInt(("timing"));
 
-                                //Gauge2
-                                ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
-                                if (boost > 5) {
-                                    imageLinearGauge2.speedTo((float) (boost * 0.1450377));
-                                } else {
-                                    imageLinearGauge2.speedTo(0);
-                                }
+                            float frpText = (float) (frp * 145.0377);
 
-                                //Gauge3
-                                ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
-                                imageLinearGauge3.speedTo(turbo);
+                            tvFrp.setText(String.valueOf(frpText));
+                            tvTiming.setText(String.valueOf(timing));
 
-                                //Gauge4
-                                ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
-                                imageLinearGauge4.speedTo(fordOilTemp);
+                            //Gauge1
+                            gauge2_1.setMajorNickInterval(100);
+                            gauge2_1.setValuePerNick(50);
+                            gauge2_1.setMinValue(0);
+                            gauge2_1.setMaxValue(35000);
+                            gauge2_1.setTotalNicks(800);
+                            gauge2_1.setValue(frpText);
 
-                                //Gauge5
-                                ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
-                                imageLinearGauge5.speedTo(fuel);
-
-                                //Gauge6
-                                ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
-                                imageLinearGauge6.speedTo(coolant);
-                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) {
-                                TextView oilText = findViewById(R.id.title4);
-                                oilText.setText("Oil \nPressure");
-                                int oilPressure = variables.getInt("oil_pressur");
-                                //Gauge1
-                                ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge1);
-                                imageLinearGauge1.speedTo(egt);
-
-                                //Gauge2
-                                ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2);
-                                if (boost > 5) {
-                                    imageLinearGauge2.speedTo((float) (boost * 0.1450377));
-                                } else {
-                                    imageLinearGauge2.speedTo(0);
-                                }
-
-                                //Gauge3
-                                ImageLinearGauge imageLinearGauge3 = findViewById(R.id.imageLinearGauge3);
-                                imageLinearGauge3.speedTo(turbo);
-
-                                //Gauge4
-                                ImageLinearGauge imageLinearGauge4 = findViewById(R.id.imageLinearGauge4);
-                                imageLinearGauge4.speedTo(oilPressure);
-
-                                //Gauge5
-                                ImageLinearGauge imageLinearGauge5 = findViewById(R.id.imageLinearGauge5);
-                                imageLinearGauge5.speedTo(fuel);
-
-                                //Gauge6
-                                ImageLinearGauge imageLinearGauge6 = findViewById(R.id.imageLinearGauge6);
-                                imageLinearGauge6.speedTo(coolant);
-                            }
+                            //Gauge2
+                            gauge2_2.setMajorNickInterval(10);
+                            gauge2_2.setValuePerNick(1);
+                            gauge2_2.setMinValue(-40);
+                            gauge2_2.setMaxValue(40);
+                            gauge2_2.setTotalNicks(100);
+                            gauge2_2.setValue(timing);
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
@@ -333,7 +272,7 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
                                 .setCancelText("Retry")
@@ -353,36 +292,19 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                                     }
                                 })
                                 .show();
+
                         isProcessing = false;
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
-
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.btn_home:
-                startActivity(new Intent(LiveDataBarActivity.this, MainActivity.class));
-                break;
-            case R.id.moreGauges:
-                startActivity(new Intent(LiveDataBarActivity.this, LiveDataBarActivity2.class));
-                break;
-        }
     }
 
     //Show Connection details
     void displayDevicecInfo() {
         if (isConnected) {
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Connected")
                     .setContentText("You are connected to " + device)
                     .setConfirmText("ok")
@@ -395,7 +317,7 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     })
                     .show();
         } else {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
                     .setContentText("You are not connected to a GDP device")
                     .setCancelText("Retry")
@@ -416,8 +338,5 @@ public class LiveDataBarActivity extends AppCompatActivity implements View.OnCli
                     })
                     .show();
         }
-
     }
 }
-
-

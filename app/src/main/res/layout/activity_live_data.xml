@@ -1,420 +1,449 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:gauge="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="spusage"
-    tools:context=".LiveDataActivity">
+    tools:context=".LiveDataActivity"
+    tools:ignore="spusage">
 
-    <ImageView
+    <!--<fragment-->
+    <!--android:id="@+id/needle_gauge_fragment"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:name="com.gdptuning.gdptuning.LiveDataNeedleFragment"/>-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="410dp"-->
+    <!--android:layout_marginTop="50dp"-->
+    <!--android:background="@drawable/bg_middle_logo"-->
+    <!--android:contentDescription="@string/background_with_logo" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btn_home"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_marginStart="20dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="HOME"-->
+    <!--android:textSize="26dp"-->
+    <!--android:textColor="@color/colorGray"-->
+    <!--android:background="@color/transparent"/>-->
+
+    <!--<de.nitri.gauge.Gauge-->
+    <!--android:id="@+id/gauge1"-->
+    <!--android:layout_width="230dp"-->
+    <!--android:layout_height="230dp"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_marginEnd="10dp"-->
+    <!--android:layout_marginTop="130dp"-->
+    <!--gauge:faceColor="@color/colorBlackTransparent"-->
+    <!--gauge:initialValue="0"-->
+    <!--gauge:labelTextSize="16"-->
+    <!--gauge:needleColor="?attr/speedtext_color"-->
+    <!--gauge:scaleColor="?attr/speedtext_color" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+    <!--android:id="@+id/gauge2"-->
+    <!--android:layout_width="230dp"-->
+    <!--android:layout_height="230dp"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_marginStart="200dp"-->
+    <!--android:layout_marginTop="130dp"-->
+    <!--gauge:faceColor="@color/colorBlackTransparent"-->
+    <!--gauge:initialValue="0"-->
+    <!--gauge:labelTextSize="16"-->
+    <!--gauge:needleColor="?attr/speedtext_color"-->
+    <!--gauge:scaleColor="?attr/speedtext_color" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+    <!--android:id="@+id/gauge3"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_marginStart="30dp"-->
+    <!--android:layout_marginTop="60dp"-->
+    <!--gauge:faceColor="@color/colorBlackTransparent"-->
+    <!--gauge:labelTextSize="12"-->
+    <!--gauge:needleColor="?attr/speedtext_color"-->
+    <!--gauge:scaleColor="?attr/speedtext_color" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+    <!--android:id="@+id/gauge4"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_marginStart="30dp"-->
+    <!--android:layout_marginTop="255dp"-->
+    <!--gauge:faceColor="@color/colorBlackTransparent"-->
+    <!--gauge:labelTextSize="12"-->
+    <!--gauge:needleColor="?attr/speedtext_color"-->
+    <!--gauge:scaleColor="?attr/speedtext_color" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+    <!--android:id="@+id/gauge5"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_marginStart="455dp"-->
+    <!--android:layout_marginTop="60dp"-->
+    <!--gauge:faceColor="@color/colorBlackTransparent"-->
+    <!--gauge:labelTextSize="12"-->
+    <!--gauge:needleColor="?attr/speedtext_color"-->
+    <!--gauge:scaleColor="?attr/speedtext_color" />-->
+
+    <!--<de.nitri.gauge.Gauge-->
+    <!--android:id="@+id/gauge6"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_marginStart="455dp"-->
+    <!--android:layout_marginTop="255dp"-->
+    <!--gauge:faceColor="@color/colorBlackTransparent"-->
+    <!--gauge:labelTextSize="12"-->
+    <!--gauge:needleColor="?attr/speedtext_color"-->
+    <!--gauge:scaleColor="?attr/speedtext_color" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/gauge1_large"-->
+    <!--android:layout_width="230dp"-->
+    <!--android:layout_height="230dp"-->
+    <!--android:layout_alignStart="@+id/gauge1"-->
+    <!--android:layout_alignTop="@id/gauge1"-->
+    <!--android:contentDescription="@string/gauge_1"-->
+    <!--app:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/gauge2_large"-->
+    <!--android:layout_width="230dp"-->
+    <!--android:layout_height="230dp"-->
+    <!--android:layout_alignStart="@+id/gauge2"-->
+    <!--android:layout_alignTop="@id/gauge2"-->
+    <!--android:contentDescription="@string/gauge_2"-->
+    <!--app:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/gauge1_small"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_alignStart="@+id/gauge3"-->
+    <!--android:layout_alignTop="@id/gauge3"-->
+    <!--android:contentDescription="@string/gauge_1_small"-->
+    <!--app:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/gauge2_small"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_alignStart="@+id/gauge4"-->
+    <!--android:layout_alignTop="@id/gauge4"-->
+    <!--android:contentDescription="@string/gauge_2_small"-->
+    <!--app:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/gauge3_small"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_alignStart="@+id/gauge5"-->
+    <!--android:layout_alignTop="@id/gauge5"-->
+    <!--android:contentDescription="@string/gauge_3_small"-->
+    <!--app:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/gauge4_small"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_alignStart="@+id/gauge6"-->
+    <!--android:layout_alignTop="@id/gauge6"-->
+    <!--android:contentDescription="@string/gauge_4_small"-->
+    <!--app:srcCompat="@drawable/gauge_cover" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/liveDataView"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginTop="0dp"-->
+    <!--android:textColor="@color/colorGray"-->
+    <!--android:textSize="46dp"-->
+    <!--android:text="@string/live_data" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/title1"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/gauge1"-->
+    <!--android:layout_alignEnd="@+id/gauge1"-->
+    <!--android:layout_alignStart="@+id/gauge1"-->
+    <!--android:layout_alignTop="@+id/gauge1"-->
+    <!--android:layout_marginBottom="-150dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="@string/egt"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="22dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/title2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/gauge2"-->
+    <!--android:layout_alignEnd="@+id/gauge2"-->
+    <!--android:layout_alignStart="@+id/gauge2"-->
+    <!--android:layout_alignTop="@+id/gauge2"-->
+    <!--android:layout_marginBottom="-144dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="@string/boost"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="22dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/title3"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/gauge3"-->
+    <!--android:layout_alignEnd="@+id/gauge3"-->
+    <!--android:layout_alignStart="@+id/gauge3"-->
+    <!--android:layout_alignTop="@+id/gauge3"-->
+    <!--android:layout_marginBottom="-90dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="@string/turbo_vanes"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="18dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/title4"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/gauge4"-->
+    <!--android:layout_alignEnd="@+id/gauge4"-->
+    <!--android:layout_alignStart="@+id/gauge4"-->
+    <!--android:layout_alignTop="@+id/gauge4"-->
+    <!--android:layout_marginBottom="-85dp"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="18dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/title5"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/gauge5"-->
+    <!--android:layout_alignEnd="@+id/gauge5"-->
+    <!--android:layout_alignStart="@+id/gauge5"-->
+    <!--android:layout_alignTop="@+id/gauge5"-->
+    <!--android:layout_marginBottom="-90dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="@string/fuel_rate"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="18dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/title6"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/gauge6"-->
+    <!--android:layout_alignEnd="@+id/gauge6"-->
+    <!--android:layout_alignStart="@+id/gauge6"-->
+    <!--android:layout_alignTop="@+id/gauge6"-->
+    <!--android:layout_marginBottom="-110dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="@string/coolant"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="18dp" />-->
+
+
+    <!--<ImageView-->
+    <!--android:id="@id/btn1"-->
+    <!--android:layout_width="110dp"-->
+    <!--android:layout_height="55dp"-->
+    <!--android:layout_alignBottom="@id/gauge1"-->
+    <!--android:layout_alignEnd="@id/gauge1"-->
+    <!--android:layout_marginBottom="-60dp"-->
+    <!--android:layout_marginEnd="60dp"-->
+    <!--android:background="@drawable/button"-->
+    <!--android:contentDescription="@string/button_for_gauge_5" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@id/btn2"-->
+    <!--android:layout_width="110dp"-->
+    <!--android:layout_height="55dp"-->
+    <!--android:layout_alignBottom="@id/gauge2"-->
+    <!--android:layout_alignEnd="@id/gauge2"-->
+    <!--android:layout_marginBottom="-60dp"-->
+    <!--android:layout_marginEnd="60dp"-->
+    <!--android:background="@drawable/button"-->
+    <!--android:contentDescription="@string/button_for_gauge_5" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@id/btn3"-->
+    <!--android:layout_width="65dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_alignBottom="@id/gauge3"-->
+    <!--android:layout_alignStart="@id/gauge3"-->
+    <!--android:layout_marginBottom="-32dp"-->
+    <!--android:layout_marginStart="-20dp"-->
+    <!--android:background="@drawable/button"-->
+    <!--android:contentDescription="@string/button_for_gauge_5" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@id/btn4"-->
+    <!--android:layout_width="65dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_alignBottom="@id/gauge4"-->
+    <!--android:layout_alignStart="@id/gauge4"-->
+    <!--android:layout_marginBottom="-32dp"-->
+    <!--android:layout_marginStart="-20dp"-->
+    <!--android:background="@drawable/button"-->
+    <!--android:contentDescription="@string/button_for_gauge_5" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@id/btn5"-->
+    <!--android:layout_width="65dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_alignBottom="@id/gauge5"-->
+    <!--android:layout_alignStart="@id/gauge5"-->
+    <!--android:layout_marginBottom="-32dp"-->
+    <!--android:layout_marginStart="-20dp"-->
+    <!--android:background="@drawable/button"-->
+    <!--android:contentDescription="@string/button_for_gauge_5" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/btn6"-->
+    <!--android:layout_width="65dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_alignBottom="@id/gauge6"-->
+    <!--android:layout_alignStart="@id/gauge6"-->
+    <!--android:layout_marginBottom="-32dp"-->
+    <!--android:layout_marginStart="-20dp"-->
+    <!--android:background="@drawable/button"-->
+    <!--android:contentDescription="@string/button_for_gauge_5" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/egt"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/btn1"-->
+    <!--android:layout_alignEnd="@+id/btn1"-->
+    <!--android:layout_alignStart="@+id/btn1"-->
+    <!--android:layout_alignTop="@+id/btn1"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="22dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/boost"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/btn2"-->
+    <!--android:layout_alignEnd="@+id/btn2"-->
+    <!--android:layout_alignStart="@+id/btn2"-->
+    <!--android:layout_alignTop="@+id/btn2"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="22dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/turbo"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/btn3"-->
+    <!--android:layout_alignEnd="@+id/btn3"-->
+    <!--android:layout_alignStart="@+id/btn3"-->
+    <!--android:layout_alignTop="@+id/btn3"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="16dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/oil_pressure"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/btn4"-->
+    <!--android:layout_alignEnd="@+id/btn4"-->
+    <!--android:layout_alignStart="@+id/btn4"-->
+    <!--android:layout_alignTop="@+id/btn4"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="16dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/fuel_rate"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/btn5"-->
+    <!--android:layout_alignEnd="@+id/btn5"-->
+    <!--android:layout_alignStart="@+id/btn5"-->
+    <!--android:layout_alignTop="@+id/btn5"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="16dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/coolant"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/btn6"-->
+    <!--android:layout_alignEnd="@+id/btn6"-->
+    <!--android:layout_alignStart="@+id/btn6"-->
+    <!--android:layout_alignTop="@+id/btn6"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="?attr/speedtext_color"-->
+    <!--android:textSize="16dp" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/moreGauges"-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="25dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_marginEnd="54dp"-->
+    <!--android:text="@string/more" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tunenum"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_marginEnd="125dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/tune"-->
+    <!--android:textColor="@color/colorGray"-->
+    <!--android:textSize="26dp"-->
+    <!--tools:ignore="RelativeOverlap" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/gear_position"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_marginEnd="20dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/gear_position"-->
+    <!--android:textColor="@color/colorGray"-->
+    <!--android:textSize="26dp"-->
+    <!--tools:ignore="RelativeOverlap" />-->
+
+
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:id="@+id/appbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingTop="@dimen/appbar_padding_top"-->
+    <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="410dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/bg_middle_logo"
-        android:contentDescription="@string/background_with_logo" />
-
-    <Button
-        android:id="@+id/btn_home"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/home_grey" />
-
-    <de.nitri.gauge.Gauge
-        android:id="@+id/gauge1"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="145dp"
-        gauge:faceColor="@color/colorBlackTransparent"
-        gauge:initialValue="0"
-        gauge:labelTextSize="16"
-        gauge:needleColor="?attr/speedtext_color"
-        gauge:scaleColor="?attr/speedtext_color" />
-
-    <de.nitri.gauge.Gauge
-        android:id="@+id/gauge2"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="145dp"
-        gauge:faceColor="@color/colorBlackTransparent"
-        gauge:initialValue="0"
-        gauge:labelTextSize="16"
-        gauge:needleColor="?attr/speedtext_color"
-        gauge:scaleColor="?attr/speedtext_color" />
-
-    <de.nitri.gauge.Gauge
-        android:id="@+id/gauge3"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="85dp"
-        gauge:faceColor="@color/colorBlackTransparent"
-        gauge:labelTextSize="12"
-        gauge:needleColor="?attr/speedtext_color"
-        gauge:scaleColor="?attr/speedtext_color" />
-
-    <de.nitri.gauge.Gauge
-        android:id="@+id/gauge4"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="265dp"
-        gauge:faceColor="@color/colorBlackTransparent"
-        gauge:labelTextSize="12"
-        gauge:needleColor="?attr/speedtext_color"
-        gauge:scaleColor="?attr/speedtext_color" />
-
-    <de.nitri.gauge.Gauge
-        android:id="@+id/gauge5"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_marginStart="440dp"
-        android:layout_marginTop="85dp"
-        gauge:faceColor="@color/colorBlackTransparent"
-        gauge:labelTextSize="12"
-        gauge:needleColor="?attr/speedtext_color"
-        gauge:scaleColor="?attr/speedtext_color" />
-
-    <de.nitri.gauge.Gauge
-        android:id="@+id/gauge6"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_marginStart="440dp"
-        android:layout_marginTop="265dp"
-        gauge:faceColor="@color/colorBlackTransparent"
-        gauge:labelTextSize="12"
-        gauge:needleColor="?attr/speedtext_color"
-        gauge:scaleColor="?attr/speedtext_color" />
-
-    <ImageView
-        android:id="@+id/gauge1_large"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_alignStart="@+id/gauge1"
-        android:layout_alignTop="@id/gauge1"
-        android:contentDescription="@string/gauge_1"
-        app:srcCompat="@drawable/gauge_cover" />
-
-    <ImageView
-        android:id="@+id/gauge2_large"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_alignStart="@+id/gauge2"
-        android:layout_alignTop="@id/gauge2"
-        android:contentDescription="@string/gauge_2"
-        app:srcCompat="@drawable/gauge_cover" />
-
-    <ImageView
-        android:id="@+id/gauge1_small"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_alignStart="@+id/gauge3"
-        android:layout_alignTop="@id/gauge3"
-        android:contentDescription="@string/gauge_1_small"
-        app:srcCompat="@drawable/gauge_cover" />
-
-    <ImageView
-        android:id="@+id/gauge2_small"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_alignStart="@+id/gauge4"
-        android:layout_alignTop="@id/gauge4"
-        android:contentDescription="@string/gauge_2_small"
-        app:srcCompat="@drawable/gauge_cover" />
-
-    <ImageView
-        android:id="@+id/gauge3_small"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_alignStart="@+id/gauge5"
-        android:layout_alignTop="@id/gauge5"
-        android:contentDescription="@string/gauge_3_small"
-        app:srcCompat="@drawable/gauge_cover" />
-
-    <ImageView
-        android:id="@+id/gauge4_small"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_alignStart="@+id/gauge6"
-        android:layout_alignTop="@id/gauge6"
-        android:contentDescription="@string/gauge_4_small"
-        app:srcCompat="@drawable/gauge_cover" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="253dp"
-        android:layout_height="36dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/live_data"
-        android:contentDescription="@string/live_data" />
-
-    <TextView
-        android:id="@+id/title1"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gauge1"
-        android:layout_alignEnd="@+id/gauge1"
-        android:layout_alignStart="@+id/gauge1"
-        android:layout_alignTop="@+id/gauge1"
-        android:layout_marginBottom="-120dp"
-        android:gravity="center"
-        android:text="@string/egt"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="16dp" />
+        android:layout_marginTop="50dp" />
 
-    <ImageView
-        android:id="@id/btn1"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/gauge1"
-        android:layout_alignEnd="@id/gauge1"
-        android:layout_marginBottom="-45dp"
-        android:layout_marginEnd="75dp"
-        android:background="@drawable/button"
-        android:contentDescription="@string/button_for_gauge_5" />
+    <!--</android.support.design.widget.AppBarLayout>-->
 
-    <TextView
-        android:id="@+id/title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gauge3"
-        android:layout_alignEnd="@+id/gauge3"
-        android:layout_alignStart="@+id/gauge3"
-        android:layout_alignTop="@+id/gauge3"
-        android:layout_marginBottom="-70dp"
-        android:gravity="center"
-        android:text="@string/turbo_vanes"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <ImageView
-        android:id="@id/btn3"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/gauge3"
-        android:layout_alignStart="@id/gauge3"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="-25dp"
-        android:background="@drawable/button"
-        android:contentDescription="@string/button_for_gauge_5" />
-
-    <TextView
-        android:id="@+id/title5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gauge5"
-        android:layout_alignEnd="@+id/gauge5"
-        android:layout_alignStart="@+id/gauge5"
-        android:layout_alignTop="@+id/gauge5"
-        android:layout_marginBottom="-70dp"
-        android:gravity="center"
-        android:text="@string/fuel_rate"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <ImageView
-        android:id="@id/btn2"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/gauge2"
-        android:layout_alignEnd="@id/gauge2"
-        android:layout_marginBottom="-45dp"
-        android:layout_marginEnd="75dp"
-        android:background="@drawable/button"
-        android:contentDescription="@string/button_for_gauge_5" />
-
-    <TextView
-        android:id="@+id/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gauge2"
-        android:layout_alignEnd="@+id/gauge2"
-        android:layout_alignStart="@+id/gauge2"
-        android:layout_alignTop="@+id/gauge2"
-        android:layout_marginBottom="-120dp"
-        android:gravity="center"
-        android:text="@string/boost"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="16dp" />
-
-    <ImageView
-        android:id="@id/btn5"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/gauge5"
-        android:layout_alignStart="@id/gauge5"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="-25dp"
-        android:background="@drawable/button"
-        android:contentDescription="@string/button_for_gauge_5" />
-
-    <TextView
-        android:id="@+id/title6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gauge6"
-        android:layout_alignEnd="@+id/gauge6"
-        android:layout_alignStart="@+id/gauge6"
-        android:layout_alignTop="@+id/gauge6"
-        android:layout_marginBottom="-80dp"
-        android:gravity="center"
-        android:text="@string/coolant"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-
-    <TextView
-        android:id="@+id/title4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gauge4"
-        android:layout_alignEnd="@+id/gauge4"
-        android:layout_alignStart="@+id/gauge4"
-        android:layout_alignTop="@+id/gauge4"
-        android:layout_marginBottom="-70dp"
-        android:gravity="center"
-        android:text="@string/oil_pressure"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <ImageView
-        android:id="@id/btn4"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/gauge4"
-        android:layout_alignStart="@id/gauge4"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="-25dp"
-        android:background="@drawable/button"
-        android:contentDescription="@string/button_for_gauge_5" />
-
-
-    <ImageView
-        android:id="@+id/btn"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/gauge6"
-        android:layout_alignStart="@id/gauge6"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="-25dp"
-        android:background="@drawable/button"
-        android:contentDescription="@string/button_for_gauge_5" />
-
-    <TextView
-        android:id="@+id/egt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn1"
-        android:layout_alignEnd="@+id/btn1"
-        android:layout_alignStart="@+id/btn1"
-        android:layout_alignTop="@+id/btn1"
-        android:gravity="center"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/boost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn2"
-        android:layout_alignEnd="@+id/btn2"
-        android:layout_alignStart="@+id/btn2"
-        android:layout_alignTop="@+id/btn2"
-        android:gravity="center"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/turbo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn3"
-        android:layout_alignEnd="@+id/btn3"
-        android:layout_alignStart="@+id/btn3"
-        android:layout_alignTop="@+id/btn3"
-        android:gravity="center"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <TextView
-        android:id="@+id/oil_pressure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn4"
-        android:layout_alignEnd="@+id/btn4"
-        android:layout_alignStart="@+id/btn4"
-        android:layout_alignTop="@+id/btn4"
-        android:gravity="center"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <TextView
-        android:id="@+id/fuel_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn5"
-        android:layout_alignEnd="@+id/btn5"
-        android:layout_alignStart="@+id/btn5"
-        android:layout_alignTop="@+id/btn5"
-        android:gravity="center"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <TextView
-        android:id="@+id/coolant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn"
-        android:layout_alignEnd="@+id/btn"
-        android:layout_alignStart="@+id/btn"
-        android:layout_alignTop="@+id/btn"
-        android:gravity="center"
-        android:textColor="?attr/speedtext_color"
-        android:textSize="12dp" />
-
-    <Button
-        android:id="@+id/moreGauges"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="54dp"
-        android:text="@string/more" />
-
-    <TextView
-        android:id="@+id/tunenum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="125dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/tune"
-        android:textColor="@color/colorGray"
-        android:textSize="26dp"
-        tools:ignore="RelativeOverlap" />
-
-    <TextView
-        android:id="@+id/gear_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/gear_position"
-        android:textColor="@color/colorGray"
-        android:textSize="26dp"
-        tools:ignore="RelativeOverlap" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </RelativeLayout>

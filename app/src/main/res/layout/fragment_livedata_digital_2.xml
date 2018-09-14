@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="spusage"
-    tools:context=".LiveDataActivityNewSpeed2">
+    tools:context=".LiveDataActivityNewSpeed2"
+    tools:ignore="spusage">
 
     <ImageView
         android:layout_width="match_parent"
@@ -44,8 +44,8 @@
         android:id="@+id/speedGauge1"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginEnd="150dp"
         android:layout_alignParentEnd="true"
+        android:layout_marginEnd="150dp"
         android:layout_marginTop="110dp"
         app:sv_backgroundCircleColor="@color/colorBlackTransparent"
         app:sv_endDegree="360"

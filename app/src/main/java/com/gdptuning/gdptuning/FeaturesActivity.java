@@ -45,7 +45,7 @@ public class FeaturesActivity extends AppCompatActivity {
     private static int VRAM = 11;
     Button btn_home;
     WifiManager wifi;
-    TextView tvTune, tvGear;
+    TextView tvTune, tvGear, select1, select2, select3, select4;
     Timer timer;
 
     @Override
@@ -65,6 +65,128 @@ public class FeaturesActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_features);
+
+        //Id's
+        select1 = findViewById(R.id.selector1);
+        select2 = findViewById(R.id.selector2);
+        select3 = findViewById(R.id.selector3);
+        select3 = findViewById(R.id.selector4);
+
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+
+        if (getVehicleType() == VFORD1) {
+            //Selector 1
+            final String[] metric = new String[2];
+            metric[0] = "Enable";
+            metric[1] = "Disable";
+            select1.setText(metric[0]);
+
+            //Selector 2
+            final String[] gauge = new String[3];
+            gauge[0] = "Digital Gauge";
+            gauge[1] = "Needle Gauge";
+            gauge[2] = "Progress Gauge";
+            select2.setText(gauge[0]);
+
+            //Selector 3
+            final String[] color = new String[4];
+            color[0] = "Orange(default)";
+            color[1] = "Green";
+            color[2] = "Blue";
+            color[3] = "Red";
+            select3.setText(color[0]);
+            edit.putString("metric", metric[0]);
+        } else if (getVehicleType() == VFORD2) {
+            //Selector 1
+            final String[] metric = new String[2];
+            metric[0] = "Enable";
+            metric[1] = "Disable";
+            select1.setText(metric[0]);
+
+            //Selector 2
+            final String[] gauge = new String[3];
+            gauge[0] = "Digital Gauge";
+            gauge[1] = "Needle Gauge";
+            gauge[2] = "Progress Gauge";
+            select2.setText(gauge[0]);
+
+            //Selector 3
+            final String[] color = new String[4];
+            color[0] = "Orange(default)";
+            color[1] = "Green";
+            color[2] = "Blue";
+            color[3] = "Red";
+            select3.setText(color[0]);
+            edit.putString("metric", metric[0]);
+        } else if (getVehicleType() == VRAM) {
+            //Selector 1
+            final String[] metric = new String[2];
+            metric[0] = "Enable";
+            metric[1] = "Disable";
+            select1.setText(metric[0]);
+
+            //Selector 2
+            final String[] gauge = new String[3];
+            gauge[0] = "Digital Gauge";
+            gauge[1] = "Needle Gauge";
+            gauge[2] = "Progress Gauge";
+            select2.setText(gauge[0]);
+
+            //Selector 3
+            final String[] color = new String[4];
+            color[0] = "Orange(default)";
+            color[1] = "Green";
+            color[2] = "Blue";
+            color[3] = "Red";
+            select3.setText(color[0]);
+            edit.putString("metric", metric[0]);
+        } else if (getVehicleType() == VGM1) {
+            //Selector 1
+            final String[] metric = new String[2];
+            metric[0] = "Enable";
+            metric[1] = "Disable";
+            select1.setText(metric[0]);
+
+            //Selector 2
+            final String[] gauge = new String[3];
+            gauge[0] = "Digital Gauge";
+            gauge[1] = "Needle Gauge";
+            gauge[2] = "Progress Gauge";
+            select2.setText(gauge[0]);
+
+            //Selector 3
+            final String[] color = new String[4];
+            color[0] = "Orange(default)";
+            color[1] = "Green";
+            color[2] = "Blue";
+            color[3] = "Red";
+            select3.setText(color[0]);
+            edit.putString("metric", metric[0]);
+        } else if (getVehicleType() == VGM2) {
+            //Selector 1
+            final String[] metric = new String[2];
+            metric[0] = "Enable";
+            metric[1] = "Disable";
+            select1.setText(metric[0]);
+
+            //Selector 2
+            final String[] gauge = new String[3];
+            gauge[0] = "Digital Gauge";
+            gauge[1] = "Needle Gauge";
+            gauge[2] = "Progress Gauge";
+            select2.setText(gauge[0]);
+
+            //Selector 3
+            final String[] color = new String[4];
+            color[0] = "Orange(default)";
+            color[1] = "Green";
+            color[2] = "Blue";
+            color[3] = "Red";
+            select3.setText(color[0]);
+            edit.putString("metric", metric[0]);
+        }
 
         //Set textView
         tvGear = findViewById(R.id.gear_position);
@@ -116,6 +238,11 @@ public class FeaturesActivity extends AppCompatActivity {
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     @Override

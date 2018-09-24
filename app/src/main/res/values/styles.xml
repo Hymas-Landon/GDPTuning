@@ -14,7 +14,7 @@
         <item name="bar_color">@drawable/progressive_gauge</item>
         <item name="android:textStyle">bold</item>
         <item name="android:buttonStyle">@style/ButtonOrange</item>
-        <item name="android:windowBackground">@drawable/gradient_orange_</item>
+        <item name="android:windowBackground">@color/colorBlack</item>
         <item name="android:listViewStyle">@style/ViewListStyle</item>
         <item name="android:actionBarStyle">@style/ThemeActionBar</item>
         <item name="speedtext_color">@color/colorOrange</item>
@@ -22,12 +22,19 @@
         <item name="gauge_text">@color/colorOrange</item>
         <item name="triangle_button_right">@drawable/select_right_orange</item>
         <item name="triangle_button_left">@drawable/select_left_orange</item>
+        <item name="tab_off_color">@color/colorDarkOrange</item>
         <item name="android:windowActionBarOverlay">true</item>
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/ThemeActionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="background_color">@drawable/gradient_orange_</item>
         <item name="android:colorBackground">@color/background_material_light</item>
     </style>
+
+    <style name="AppThemeNoActionBarOrangeMain.drawer" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textSize">40dp</item>
+    </style>
+
 
     <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:background">@null</item>
@@ -47,7 +54,7 @@
     <style name="AppThemeNoActionBarOrangeMain.SlidrActivityTheme">
         <item name="android:windowIsTranslucent">true
         </item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/colorBlack</item>
     </style>
 
     <!--Button Color Orange-->
@@ -79,12 +86,14 @@
         <item name="speedtext_color">@color/colorGreen</item>
         <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
+        <item name="tab_off_color">@color/colorDarkGreen</item>
         <item name="android:textStyle">bold</item>
         <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_green</item>
         <item name="triangle_button_left">@drawable/select_left_green</item>
-        <item name="android:windowBackground">@drawable/gradient_green_</item>
+        <item name="android:windowBackground">@color/colorBlack</item>
         <item name="android:buttonStyle">@style/ButtonGreen</item>
+        <item name="background_color">@drawable/gradient_green_</item>
         <item name="android:listViewStyle">@style/ViewListStyle</item>
     </style>
 
@@ -112,8 +121,10 @@
         <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_red</item>
         <item name="triangle_button_left">@drawable/select_lft_red</item>
+        <item name="tab_off_color">@color/colorDarkRed</item>
         <item name="android:buttonStyle">@style/ButtonRed</item>
-        <item name="android:windowBackground">@drawable/gradient_red_</item>
+        <item name="background_color">@drawable/gradient_red_</item>
+        <item name="android:windowBackground">@color/colorBlack</item>
     </style>
 
     <!--Button Color Red-->
@@ -143,9 +154,11 @@
         <item name="triangle_button_left">@drawable/select_left_blue</item>
         <item name="speedtext_color">@color/colorWhite</item>
         <item name="features_text_color">@color/colorWhite</item>
+        <item name="tab_off_color">@color/colorGray</item>
         <item name="android:listViewStyle">@style/ViewListStyleBlue</item>
-        <item name="android:windowBackground">@drawable/gradient_blue_</item>
+        <item name="android:windowBackground">@color/colorBlack</item>
         <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="background_color">@drawable/gradient_blue_</item>
     </style>
 
     <!--Button Color Blue-->
@@ -177,6 +190,7 @@
 
     // Attributes for the different themes
     <attr name="diagnostics_icon" format="reference" />
+    <attr name="background_color" format="reference" />
     <attr name="configuration_icon" format="reference" />
     <attr name="livedata_icon" format="reference" />
     <attr name="tune_icon" format="reference" />
@@ -188,6 +202,7 @@
     <attr name="triangle_button_left" format="reference" />
     <attr name="gauges_color" format="reference" />
     <attr name="gauge_text" format="reference" />
+    <attr name="tab_off_color" format="reference" />
 
 
 </resources>

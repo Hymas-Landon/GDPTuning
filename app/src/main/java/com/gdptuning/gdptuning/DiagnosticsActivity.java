@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,6 +30,11 @@ import java.util.TimerTask;
 
 public class DiagnosticsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
@@ -39,14 +42,10 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
     String device = "GDP";
     RequestQueue queue;
     Button btn_home;
-    private static int VFORD1 = 7;
-    private static int VFORD2 = 8;
-    private static int VGM1 = 9;
-    private static int VGM2 = 10;
-    private static int VRAM = 11;
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
+    int diagnostics_code = 0;
 
 
     @Override
@@ -156,12 +155,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         super.onDestroy();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
     @Override
     public void onClick(View v) {
 
@@ -174,12 +167,12 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            finish();
+    void setCode(int diag_code) {
+        Log.d("Response", " " + diag_code);
+        switch (diag_code) {
+            case 1:
+
         }
-        return super.onKeyDown(keyCode, event);
     }
 
     //Send to sGDP server to verify connection
@@ -198,6 +191,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
+                            int diagRequest = variables.getInt("diag_functions");
 
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + gear);
@@ -281,6 +275,56 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                                 .show();
 
                         isProcessing = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void requestCode(int codeNum) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + codeNum, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            diagnostics_code = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setCode(diagnostics_code);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(DiagnosticsActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
                     }
                 }
         );

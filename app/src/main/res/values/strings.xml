@@ -136,6 +136,11 @@
     <string name="gdp_logo">GDP Logo</string>
     <string name="tune_switching">TUNE SWITCHING</string>
     <string name="background_with_logo">Background With Logo</string>
+    <string name="features">Features</string>
+    <string name="configuration">CONFIGURATION</string>
+    <string name="program">PROGRAM</string>
+    <string name="read_settings">READ SETTINGS</string>
+    <string name="home">HOME</string>
 
 
 </resources>

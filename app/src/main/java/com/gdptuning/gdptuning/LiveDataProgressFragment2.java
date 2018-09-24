@@ -2,16 +2,16 @@ package com.gdptuning.gdptuning;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,125 +26,64 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnClickListener {
+import de.nitri.gauge.Gauge;
 
-    //ESP32 aREST server address
-    final String url = "http://192.168.7.1";
-    //    final String url = "https://api.myjson.com/bins/sh7ic";
-    TextView tvGear, tvTune;
-    String device = "GDP";
-    int tuneMode = 0;
-    Timer timer;
+public class LiveDataProgressFragment2 extends Fragment {
+
     private static int VFORD1 = 7;
     private static int VFORD2 = 8;
     private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
-    Button btn_home, btn_back;
-    RequestQueue queue;
+    //ESP32 aREST server address
+    final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
+    String device = "GDP";
+    int tuneMode = 0;
+    Timer timer;
+    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant;
+    RequestQueue queue;
     WifiManager wifi;
 
+    //Gauges
+    Gauge gauge1;
+    Gauge gauge2;
+    Gauge gauge3;
+    Gauge gauge4;
+    Gauge gauge5;
+    Gauge gauge6;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        if (getColorTheme() == Utils.THEME_DEFAULT) {
-            setTheme(R.style.AppThemeNoActionBarOrangeMain);
-        } else if (getColorTheme() == Utils.THEME_GREEN) {
-            setTheme(R.style.AppThemeNoActionBarGreen);
-        } else if (getColorTheme() == Utils.THEME_BLUE) {
-            setTheme(R.style.AppThemeNoActionBarBlue);
-        } else if (getColorTheme() == Utils.THEME_RED) {
-            setTheme(R.style.AppThemeNoActionBarRed);
-        }
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View mView = inflater.inflate(R.layout.fragment_livedata_progress_2, container, false);
 
+        //connect textViews
+        tvEgt = mView.findViewById(R.id.egt);
+        tvBoostView = mView.findViewById(R.id.boost);
+        tvTurbo = mView.findViewById(R.id.turbo);
+        tvOilPressure = mView.findViewById(R.id.oil_pressure);
+        tvFuel = mView.findViewById(R.id.fuel_rate);
+        tvCoolant = mView.findViewById(R.id.coolant);
 
-        setContentView(R.layout.activity_livedata_bar2);
+        return mView;
+    }
 
-        //find views
-        btn_home = findViewById(R.id.btn_home);
-        btn_back = findViewById(R.id.back);
-        tvGear = findViewById(R.id.gear_position);
-        tvTune = findViewById(R.id.tunenum);
-
-        //set OnClick Listeners
-        btn_home.setOnClickListener(this);
-        btn_back.setOnClickListener(this);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         //Working with wifi
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        wifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         sendRequest();
-
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
-
-            @Override
-            public void run() {
-                if (isConnected) {
-                    if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
-                        updateRequest();
-                    }
-                }
-            }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
-
-    private int getColorTheme() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
-    }
-
-    private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(LiveDataBarActivity2.this, LiveDataBarActivity.class);
-        startActivity(i);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        timer.cancel();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
 
             @Override
             public void run() {
@@ -169,16 +108,9 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
-                            int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-
-                            char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + pos);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -193,9 +125,9 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(LiveDataBarActivity2.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("You are not connected to a GDP device")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -211,8 +143,7 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                                     public void onClick(SweetAlertDialog sDialog) {
                                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                                     }
-                                })
-                                .show();
+                                }).show();
                     }
                 }
         );
@@ -229,34 +160,28 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-
-                            tuneMode = variables.getInt("tune_mode");
-                            int gear = variables.getInt("gear");
+                            Log.d("TEST2 ", variables.toString());
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
 
-                            char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + pos);
                             float frp = variables.getInt("frp");
                             float timing = variables.getInt(("timing"));
 
                             //Gauge1
-                            ImageLinearGauge imageLinearGauge1 = findViewById(R.id.imageLinearGauge2_1);
+                            ImageLinearGauge imageLinearGauge1 = Objects.requireNonNull(getView()).findViewById(R.id.imageLinearGauge2_1);
                             imageLinearGauge1.speedTo((float) (frp * 145.0377));
 
                             //Gauge2
-                            ImageLinearGauge imageLinearGauge2 = findViewById(R.id.imageLinearGauge2_2);
+                            ImageLinearGauge imageLinearGauge2 = Objects.requireNonNull(getView()).findViewById(R.id.imageLinearGauge2_2);
                             imageLinearGauge2.speedTo(timing);
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
+
                         isProcessing = false;
                     }
                 },
@@ -266,7 +191,7 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(LiveDataBarActivity2.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("Your are not connected to GDP device")
                                 .setCancelText("Retry")
@@ -286,36 +211,19 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                                     }
                                 })
                                 .show();
+
                         isProcessing = false;
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
-
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.btn_home:
-                startActivity(new Intent(LiveDataBarActivity2.this, MainActivity.class));
-                break;
-            case R.id.back:
-                startActivity(new Intent(LiveDataBarActivity2.this, LiveDataBarActivity.class));
-                break;
-        }
     }
 
     //Show Connection details
     void displayDevicecInfo() {
         if (isConnected) {
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Connected")
                     .setContentText("You are connected to " + device)
                     .setConfirmText("ok")
@@ -328,7 +236,7 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     })
                     .show();
         } else {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
                     .setContentText("You are not connected to a GDP device")
                     .setCancelText("Retry")
@@ -349,8 +257,5 @@ public class LiveDataBarActivity2 extends AppCompatActivity implements View.OnCl
                     })
                     .show();
         }
-
     }
 }
-
-

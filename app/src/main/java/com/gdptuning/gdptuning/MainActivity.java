@@ -6,15 +6,12 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ActionBarContextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,15 +34,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String sharedPrefFile = "com.gpdtuning.sharedPref";
-    //ESP32 aREST server address
-    final String url = "http://192.168.7.1";
-    boolean isConnected = false;
-    boolean isProcessing = false;
-    String device = "GDP";
-    RequestQueue queue;
     private static int GAUGEPLAIN = 4;
     private static int GAUGEDIGITAL = 5;
     private static int GAUGEPROGRESS = 6;
@@ -54,12 +45,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
+    //ESP32 aREST server address
+    final String url = "http://192.168.7.1";
+    boolean isConnected = false;
+    boolean isProcessing = false;
+    String device = "GDP";
+    RequestQueue queue;
     int item_select = 0;
+
+    Menu menu;
 
     Timer timer;
     WifiManager wifi;
     TextView tvTune, tvGear;
-    Button btn_tune, btn_live, btn_diagnostics, btn_configuration, vehicle;
+    Button btn_tune, btn_live, btn_diagnostics, btn_configuration;
     SharedPreferences mPreferences;
 
     @Override
@@ -115,15 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        ActionBarContextView mActionBarContextView;
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         //Working with wifi
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -139,14 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_tune.setOnClickListener(this);
         btn_configuration.setOnClickListener(this);
         btn_diagnostics.setOnClickListener(this);
-        vehicle = findViewById(R.id.selectVehicle);
-        vehicle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View mView) {
-                registerForContextMenu(mView);
-                openContextMenu(mView);
-            }
-        });
+
 
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         sendRequest();
@@ -210,15 +193,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
-        Intent i = new Intent(this, MainActivity.class);
         switch (item.getItemId()) {
+            case R.id.settings_drawer:
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
+                return true;
             case R.id.ford_11_16_radio:
                 item_select = 1;
                 item.setChecked(true);
                 edit.putInt("vehicle", VFORD1);
+                edit.putBoolean("read_settings", false);
                 edit.apply();
                 recreate();
                 return true;
@@ -226,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 item_select = 2;
                 item.setChecked(true);
                 edit.putInt("vehicle", VFORD2);
+                edit.putBoolean("read_settings", false);
                 edit.apply();
                 recreate();
                 return true;
@@ -233,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 item_select = 3;
                 item.setChecked(true);
                 edit.putInt("vehicle", VRAM);
+                edit.putBoolean("read_settings", false);
                 edit.apply();
                 recreate();
                 return true;
@@ -240,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 item_select = 4;
                 item.setChecked(true);
                 edit.putInt("vehicle", VGM1);
+                edit.putBoolean("read_settings", false);
                 edit.apply();
                 recreate();
                 return true;
@@ -247,36 +237,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 item_select = 5;
                 item.setChecked(true);
                 edit.putInt("vehicle", VGM2);
+                edit.putBoolean("read_settings", false);
                 edit.apply();
                 recreate();
                 return true;
         }
-        return super.onContextItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-        int id = item.getItemId();
-        if (id == R.id.settings_drawer) {
-            Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(i);
-        }
-        edit.apply();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+    public boolean onCreateOptionsMenu(Menu menu) {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
         MenuInflater mMenuInflater = getMenuInflater();
-        mMenuInflater.inflate(R.menu.radio_menu, menu);
+        mMenuInflater.inflate(R.menu.activity_main_drawer, menu);
         MenuItem ford1 = menu.findItem(R.id.ford_11_16_radio);
         MenuItem ford2 = menu.findItem(R.id.ford_17up_radio);
         MenuItem ram = menu.findItem(R.id.ram_13up_radio);
@@ -315,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (getVehicleType() == VGM2) {
             gm2.setChecked(true);
         }
+        return true;
     }
 
     private int getColorTheme() {

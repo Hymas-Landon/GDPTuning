@@ -2,7 +2,6 @@ package com.gdptuning.gdptuning;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -33,8 +31,6 @@ import java.util.TimerTask;
 
 import de.nitri.gauge.Gauge;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class LiveDataNeedleFragment2 extends Fragment {
 
     private static int VFORD1 = 7;
@@ -50,8 +46,7 @@ public class LiveDataNeedleFragment2 extends Fragment {
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
-    TextView tvTiming, tvGear, tvTune, tvFrp;
-    Button btn_home, btn_back;
+    TextView tvTiming, tvFrp;
     RequestQueue queue;
     WifiManager wifi;
 
@@ -65,15 +60,9 @@ public class LiveDataNeedleFragment2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_livedata_needle_2, container, false);
 
-        //set widget home
-        btn_home = mView.findViewById(R.id.btn_home);
-        btn_back = mView.findViewById(R.id.back);
-
         //connect textViews
         tvTiming = mView.findViewById(R.id.timing);
         tvFrp = mView.findViewById(R.id.frp);
-        tvTune = mView.findViewById(R.id.tunenum);
-        tvGear = mView.findViewById(R.id.gear_position);
 
 
         return mView;
@@ -83,14 +72,6 @@ public class LiveDataNeedleFragment2 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //onclick
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View mView) {
-                startActivity(new Intent(getActivity(), MainActivity.class));
-            }
-        });
 
         gauge2_1 = getView().findViewById(R.id.gauge2_1);
         gauge2_2 = getView().findViewById(R.id.gauge2_2);
@@ -115,12 +96,6 @@ public class LiveDataNeedleFragment2 extends Fragment {
         }, 0, 1);//put here time 1000 milliseconds=1 second
     }
 
-    private int getVehicleType() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
-    }
-
-
     @Override
     public void onPause() {
         super.onPause();
@@ -130,20 +105,7 @@ public class LiveDataNeedleFragment2 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
 
-            @Override
-            public void run() {
-                if (isConnected) {
-                    if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
-                        updateRequest();
-                    }
-                }
-            }
-        }, 0, 1);//put here time 1000 milliseconds=1 second
     }
 
     public void onBackPressed() {
@@ -162,17 +124,9 @@ public class LiveDataNeedleFragment2 extends Fragment {
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
-                            int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-
-                            char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + pos);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -224,16 +178,9 @@ public class LiveDataNeedleFragment2 extends Fragment {
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
-                            int tuneMode = variables.getInt("tune_mode");
-                            int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-
-                            char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + pos);
 
                             float frp = variables.getInt("frp");
                             float timing = variables.getInt(("timing"));

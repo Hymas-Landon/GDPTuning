@@ -26,9 +26,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private static int gaugeIndex = 0;
     private static int enableMetric = 0;
     private static int disableMetric = 1;
-    private static int digital = 0;
-    private static int needle = 1;
-    private static int progress = 2;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
@@ -40,7 +37,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     TextView tvTune, tvGear, select1, select2, select3;
     Timer timer;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3;
-    int select_item1, select_item2, select_item3;
 
 
     @Override
@@ -61,9 +57,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_settings);
 
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPreferences.edit();
-
         //Id's
         select1 = findViewById(R.id.selector1);
         select2 = findViewById(R.id.selector2);
@@ -78,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else if (getSettings1() == disableMetric) {
             select1.setText(metric[1]);
         }
+
         //Selector 2
         final String[] gauge = new String[3];
         gauge[0] = "Digital Gauge";
@@ -122,7 +116,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View mView) {
                 select1.setText(metric[0]);
-                select_item1 = 0;
                 edit.putInt("settings1", enableMetric);
                 edit.apply();
             }
@@ -135,7 +128,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View mView) {
                 select1.setText(metric[1]);
-                select_item1 = 1;
                 edit.putInt("settings1", disableMetric);
                 edit.apply();
             }
@@ -151,13 +143,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     gaugeIndex = gaugeIndex - 1;
                     select2.setText(gauge[gaugeIndex]);
                     if (gaugeIndex == 0) {
-                        select_item2 = 0;
                         edit.putInt("gauge", GAUGEDIGITAL);
                     } else if (gaugeIndex == 1) {
-                        select_item2 = 1;
                         edit.putInt("gauge", GAUGEPLAIN);
                     } else if (gaugeIndex == 2) {
-                        select_item2 = 2;
                         edit.putInt("gauge", GAUGEPROGRESS);
                     }
                 } else {
@@ -178,13 +167,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     gaugeIndex = gaugeIndex + 1;
                     select2.setText(gauge[gaugeIndex]);
                     if (gaugeIndex == 0) {
-                        select_item2 = 0;
                         edit.putInt("gauge", GAUGEDIGITAL);
                     } else if (gaugeIndex == 1) {
-                        select_item2 = 1;
                         edit.putInt("gauge", GAUGEPLAIN);
                     } else if (gaugeIndex == 2) {
-                        select_item2 = 2;
                         edit.putInt("gauge", GAUGEPROGRESS);
                     }
                 } else {
@@ -204,16 +190,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     colorIndex = colorIndex - 1;
                     select3.setText(color[colorIndex]);
                     if (colorIndex == 0) {
-                        select_item3 = 0;
                         edit.putInt("theme", Utils.THEME_DEFAULT);
                     } else if (colorIndex == 1) {
-                        select_item3 = 1;
                         edit.putInt("theme", Utils.THEME_GREEN);
                     } else if (colorIndex == 2) {
-                        select_item3 = 2;
                         edit.putInt("theme", Utils.THEME_BLUE);
                     } else if (colorIndex == 3) {
-                        select_item3 = 3;
                         edit.putInt("theme", Utils.THEME_RED);
                     }
                 } else {
@@ -233,16 +215,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     colorIndex = colorIndex + 1;
                     select3.setText(color[colorIndex]);
                     if (colorIndex == 0) {
-                        select_item3 = 0;
                         edit.putInt("theme", Utils.THEME_DEFAULT);
                     } else if (colorIndex == 1) {
-                        select_item3 = 1;
                         edit.putInt("theme", Utils.THEME_GREEN);
                     } else if (colorIndex == 2) {
-                        select_item3 = 2;
                         edit.putInt("theme", Utils.THEME_BLUE);
                     } else if (colorIndex == 3) {
-                        select_item3 = 3;
                         edit.putInt("theme", Utils.THEME_RED);
                     }
                 } else {

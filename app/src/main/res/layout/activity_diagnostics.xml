@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_color"
     tools:context=".DiagnosticsActivity"
     tools:ignore="spusage">
 
@@ -14,11 +15,9 @@
 
     <Button
         android:id="@+id/btn_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
         android:background="@color/transparent"
         android:text="HOME"
         android:textColor="@color/colorGray"
@@ -28,10 +27,10 @@
         android:id="@+id/tunenum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="125dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="125dp"
         android:text="@string/tune"
         android:textColor="@color/colorGray"
         android:textSize="26dp" />
@@ -40,10 +39,10 @@
         android:id="@+id/gear_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="20dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/gear_position"
         android:textColor="@color/colorGray"
         android:textSize="26dp" />
@@ -52,49 +51,51 @@
         android:id="@+id/read_codes"
         android:layout_width="225dp"
         android:layout_height="70dp"
-        android:textSize="22dp"
         android:layout_alignStart="@+id/clear_codes"
         android:layout_alignTop="@+id/clear_codes"
         android:layout_marginStart="-264dp"
-        android:text="@string/read_codes" />
+        android:text="@string/read_codes"
+        android:textSize="22dp" />
 
     <Button
         android:id="@+id/clear_codes"
         android:layout_width="225dp"
         android:layout_height="70dp"
-        android:textSize="22dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="110dp"
-        android:text="@string/clear_codes" />
+        android:text="@string/clear_codes"
+        android:textSize="22dp" />
 
     <Button
         android:id="@+id/reset_trans"
         android:layout_width="225dp"
         android:layout_height="70dp"
-        android:textSize="22dp"
-        android:layout_marginEnd="-264dp"
-        android:layout_alignEnd="@+id/clear_codes"
         android:layout_alignTop="@+id/clear_codes"
+        android:layout_alignEnd="@+id/clear_codes"
+        android:layout_marginEnd="-264dp"
         android:text="Reset \nTransmission"
+        android:textSize="22dp"
         tools:ignore="HardcodedText" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_codes"
         android:layout_width="750dp"
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="70dp"
-        android:background="@color/colorDarkGray" />
+        android:background="#c0393838"
+        tools:listitem="@layout/code_recycler_blueprint" />
 
     <TextView
         android:id="@+id/diagnostics_title"
-        android:textSize="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:text="@string/diagnostics"
         android:textColor="@color/colorWhite"
-        android:text="@string/diagnostics" />
+        android:textSize="40dp" />
 
 
 </RelativeLayout>

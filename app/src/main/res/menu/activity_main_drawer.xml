@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:theme="@style/AppThemeNoActionBarOrangeMain.drawer">
+
 
     <item
-        android:id="@+id/settings_drawer"
-        android:icon="@drawable/ic_settings_white_24dp"
+        android:id="@+id/hamburger"
+        android:icon="@drawable/ic_hamburger_white_24dp"
         android:menuCategory="system"
-        android:title="@string/settings" />
+        android:title="@string/settings"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group>
 
-    <item
-        android:id="@+id/selectVehicle"
-        android:icon="@drawable/ic_directions_car_black_24dp"
-        android:menuCategory="system"
-        android:title="Select Vehicle" />
+                <item
+                    android:id="@+id/settings_drawer"
+                    android:icon="@drawable/ic_settings_white_24dp"
+                    android:menuCategory="system"
+                    android:title="@string/settings"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/selectVehicle"
+                    android:icon="@drawable/ic_directions_car_black_24dp"
+                    android:menuCategory="system"
+                    android:title="Select Vehicle"
+                    app:showAsAction="never">
+                    <menu>
+                        <group android:checkableBehavior="single">
+                            <item
+                                android:id="@+id/ford_11_16_radio"
+                                android:title="Ford 11-16"
+                                app:actionLayout="@layout/switch_item" />
+                            <item
+                                android:id="@+id/ford_17up_radio"
+                                android:title="Ford 17+"
+                                app:actionLayout="@layout/switch_item" />
+                            <item
+                                android:id="@+id/gm_7_14_radio"
+                                android:title="GM 7.5-14"
+                                app:actionLayout="@layout/switch_item" />
+                            <item
+                                android:id="@+id/gm_15up_radio"
+                                android:title="GM 15+"
+                                app:actionLayout="@layout/switch_item" />
+                            <item
+                                android:id="@+id/ram_13up_radio"
+                                android:title="Ram 13+"
+                                app:actionLayout="@layout/switch_item" />
+                        </group>
+
+                    </menu>
+                </item>
+            </group>
+        </menu>
+    </item>
 
 
 </menu>

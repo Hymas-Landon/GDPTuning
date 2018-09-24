@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
@@ -36,11 +37,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     int tuneMode = 0;
     WifiManager wifi;
-    private static int VFORD1 = 7;
-    private static int VFORD2 = 8;
-    private static int VGM1 = 9;
-    private static int VGM2 = 10;
-    private static int VRAM = 11;
     TextView tvTune, tvGear;
     Timer timer;
     private RequestQueue queue;
@@ -121,11 +117,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
-    private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
-    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -158,7 +149,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
 
             @Override
             public void run() {
@@ -500,6 +490,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
@@ -566,6 +557,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
@@ -673,45 +665,5 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         );
         // add it to the RequestQueue
         queue.add(getRequest);
-    }
-
-    //Show Connection details
-    void displayDeviceInfo() {
-        if (isProcessing) {
-            if (isConnected) {
-                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Connected")
-                        .setContentText("You are connected to " + device)
-                        .setConfirmText("ok")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                // reuse previous dialog instance
-                                sDialog.dismiss();
-                            }
-                        })
-                        .show();
-            } else {
-                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("No Connection")
-                        .setContentText("Your are not connected to GDP device")
-                        .setCancelText("Retry")
-                        .setConfirmText("Connect")
-                        .showCancelButton(true)
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismiss();
-                            }
-                        })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                            }
-                        })
-                        .show();
-            }
-        }
     }
 }

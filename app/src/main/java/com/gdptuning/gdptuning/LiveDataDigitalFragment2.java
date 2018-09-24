@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -34,8 +33,6 @@ import java.util.TimerTask;
 
 import de.nitri.gauge.Gauge;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class LiveDataDigitalFragment2 extends Fragment {
 
     private static int VFORD1 = 7;
@@ -51,11 +48,9 @@ public class LiveDataDigitalFragment2 extends Fragment {
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
-    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant, tvGear, tvTune;
-    Button btn_home, btn_back;
+    TextView tvBoostView, tvEgt, tvOilPressure, tvFuel, tvTurbo, tvCoolant;
     RequestQueue queue;
     WifiManager wifi;
-
 
     //Gauges
     Gauge gauge1;
@@ -70,10 +65,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_livedata_digital_2, container, false);
 
-        //set widget home
-        btn_home = mView.findViewById(R.id.btn_home);
-        btn_back = mView.findViewById(R.id.moreGauges);
-
         //connect textViews
         tvEgt = mView.findViewById(R.id.egt);
         tvBoostView = mView.findViewById(R.id.boost);
@@ -81,9 +72,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
         tvOilPressure = mView.findViewById(R.id.oil_pressure);
         tvFuel = mView.findViewById(R.id.fuel_rate);
         tvCoolant = mView.findViewById(R.id.coolant);
-        btn_back = mView.findViewById(R.id.back);
-        tvGear = mView.findViewById(R.id.gear_position);
-        tvTune = mView.findViewById(R.id.tunenum);
 
 
         return mView;
@@ -92,15 +80,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //onclick
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View mView) {
-                Intent i = new Intent(getActivity(), MainActivity.class);
-                startActivity(i);
-            }
-        });
 
 
         //Working with wifi
@@ -122,14 +101,14 @@ public class LiveDataDigitalFragment2 extends Fragment {
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
-    private int getColorTheme() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
-    private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
+    private boolean isMetric() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("metric", false);
     }
 
     @Override
@@ -142,20 +121,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
-
-            @Override
-            public void run() {
-                if (isConnected) {
-                    if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
-                        updateRequest();
-                    }
-                }
-            }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     public void onBackPressed() {
@@ -175,16 +140,9 @@ public class LiveDataDigitalFragment2 extends Fragment {
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
-                            int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-
-                            char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + pos);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -237,16 +195,9 @@ public class LiveDataDigitalFragment2 extends Fragment {
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
-                            int tuneMode = variables.getInt("tune_mode");
-                            int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-
-                            char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + pos);
 
                             float frp = variables.getInt("frp");
                             float timing = variables.getInt(("timing"));

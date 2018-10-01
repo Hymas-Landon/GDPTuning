@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -62,7 +61,11 @@ public class VehiclesActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_vehicles);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        EditText mEditText = findViewById(R.id.vehicle_name);
+        mEditText.setSingleLine(true);
 
         mPreferences = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
 
@@ -138,13 +141,8 @@ public class VehiclesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-            finish();
-        }
+        Intent i = new Intent(VehiclesActivity.this, MainActivity.class);
+        startActivity(i);
     }
 
     private int getColorTheme() {

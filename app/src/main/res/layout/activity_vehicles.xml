@@ -70,6 +70,8 @@
         android:hint="ADD NEW VEHICLE"
         android:textColorHint="?attr/features_text_color"
         android:textAlignment="center"
+        android:maxLines="1"
+        android:lines="1"
         android:textSize="30dp"
         android:textColor="?attr/features_text_color" />
 

@@ -1,20 +1,31 @@
 package com.gdptuning.gdptuning;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+
+import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Timer;
@@ -68,6 +79,25 @@ public class FeaturesFragment3 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        //Working with wifi
+        queue = VolleySingleton.getInstance(getContext()).getRequestQueue();
+        wifi = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifi = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        key_fob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                if (getVehicleType() == VGM1 || getVehicleType() == VGM2) {
+                    learnNewKeyFob();
+                } else {
+                    Toast mToast = Toast.makeText(getContext(), "Sorry, this feature currently only " +
+                            "works for GM vehicles", Toast.LENGTH_LONG);
+                    mToast.show();
+                }
+            }
+        });
 
 
         //Selector 1
@@ -277,6 +307,54 @@ public class FeaturesFragment3 extends Fragment {
         return mSharedPreferences.getBoolean("high_idle", false);
     }
 
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
+    }
+
+    //Send to sGDP server to verify connection
+    void learnNewKeyFob() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 44, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        Toast mToast = Toast.makeText(getContext(), "Message sent to learn new key fob", Toast.LENGTH_SHORT);
+                        mToast.show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
 
 
 }

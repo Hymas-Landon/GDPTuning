@@ -261,6 +261,7 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     public void setTireSize(int tireSize) {
+        tireSize = getTireSize();
         switch (tireSize) {
             case 31:
                 changeTireSize(23);
@@ -444,7 +445,6 @@ public class FeaturesActivity extends AppCompatActivity {
         return mSharedPreferences.getBoolean("strobe_light", false);
     }
 
-
     public boolean isHighIdle() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("high_idle", false);
@@ -585,7 +585,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                     }
                                 })
                                 .show();
-
                         isProcessing = false;
                     }
                 }

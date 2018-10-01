@@ -241,7 +241,7 @@
         android:text="LEARN KEY FOB"
         android:textSize="20dp" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/high_idle"
         android:layout_width="140dp"
         android:layout_height="50dp"
@@ -249,7 +249,9 @@
         android:layout_alignBottom="@id/arrowRight5"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="-90dp"
-        android:text="HIGH IDLE"
+        android:textOn="HIGH IDLE ON"
+        android:textOff="HIGH IDLE OFF"
+        android:background="?attr/button_bg"
         android:textSize="20dp" />
 
 </RelativeLayout>

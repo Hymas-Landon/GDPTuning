@@ -118,17 +118,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
         isProcessing = false;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    public void onBackPressed() {
-        Intent i = new Intent(getActivity(), LiveDataActivityNewSpeed.class);
-        startActivity(i);
-    }
-
-
     //Send to sGDP server to verify connection
     public void sendRequest() {
         // prepare the Request

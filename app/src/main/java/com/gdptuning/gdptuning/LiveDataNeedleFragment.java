@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -62,7 +61,6 @@ public class LiveDataNeedleFragment extends Fragment {
     Gauge gauge4;
     Gauge gauge5;
     Gauge gauge6;
-    Button btn_home;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
@@ -94,18 +92,6 @@ public class LiveDataNeedleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-        //set widget home
-        btn_home = getView().findViewById(R.id.btn_home);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View mView) {
-                Intent i = new Intent(getActivity(), MainActivity.class);
-                startActivity(i);
-            }
-        });
-
 
         //Working with wifi
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));

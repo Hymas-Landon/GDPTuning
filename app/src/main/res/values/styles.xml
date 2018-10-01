@@ -24,6 +24,7 @@
         <item name="triangle_button_left">@drawable/select_left_orange</item>
         <item name="tab_off_color">@color/colorDarkOrange</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="button_bg">@drawable/button_press_orange</item>
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/ThemeActionBar</item>
         <item name="windowActionBarOverlay">true</item>
@@ -91,6 +92,7 @@
         <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_green</item>
         <item name="triangle_button_left">@drawable/select_left_green</item>
+        <item name="button_bg">@drawable/button_press_green</item>
         <item name="android:windowBackground">@color/colorBlack</item>
         <item name="android:buttonStyle">@style/ButtonGreen</item>
         <item name="background_color">@drawable/gradient_green_</item>
@@ -118,6 +120,7 @@
         <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
+        <item name="button_bg">@drawable/button_press_red</item>
         <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_red</item>
         <item name="triangle_button_left">@drawable/select_lft_red</item>
@@ -149,6 +152,7 @@
         <item name="tune_icon">@drawable/tune_icon_white</item>
         <item name="tune_on">@drawable/tune_on_blue</item>
         <item name="bar_color">@drawable/progressive_gauge_blue</item>
+        <item name="button_bg">@drawable/button_press_blue</item>
         <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_blue</item>
         <item name="triangle_button_left">@drawable/select_left_blue</item>
@@ -189,6 +193,7 @@
 
 
     // Attributes for the different themes
+    <attr name="button_bg" format="reference" />
     <attr name="diagnostics_icon" format="reference" />
     <attr name="background_color" format="reference" />
     <attr name="configuration_icon" format="reference" />

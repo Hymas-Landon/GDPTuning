@@ -7,16 +7,6 @@
     android:layout_marginTop="100dp"
     tools:ignore="spusage">
 
-    <Button
-        android:id="@+id/btn_home"
-        android:layout_width="125dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:background="@color/transparent"
-        android:text="HOME"
-        android:textColor="@color/colorGray"
-        android:textSize="26dp" />
-
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/speedGauge1"
         android:layout_width="230dp"

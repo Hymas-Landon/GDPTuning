@@ -37,9 +37,6 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String sharedPrefFile = "com.gpdtuning.sharedPref";
-    private static int GAUGEPLAIN = 4;
-    private static int GAUGEDIGITAL = 5;
-    private static int GAUGEPROGRESS = 6;
     private static int VFORD1 = 7;
     private static int VFORD2 = 8;
     private static int VGM1 = 9;
@@ -52,9 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String device = "GDP";
     RequestQueue queue;
     int item_select = 0;
-
     Menu menu;
-
     Timer timer;
     WifiManager wifi;
     TextView tvTune, tvGear;
@@ -63,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         if (getColorTheme() == Utils.THEME_DEFAULT) {
             setTheme(R.style.AppThemeNoActionBarOrangeMain);
         } else if (getColorTheme() == Utils.THEME_GREEN) {
@@ -82,33 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btn_live = findViewById(R.id.btn_live_data);
-
-        //Gauge Selection
-        if (getGaugeListener() == GAUGEPROGRESS) {
-            btn_live.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MainActivity.this, LiveDataBarActivity.class);
-                    startActivity(i);
-                }
-            });
-        } else if (getGaugeListener() == GAUGEPLAIN) {
-            btn_live.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MainActivity.this, LiveDataActivity.class);
-                    startActivity(i);
-                }
-            });
-        } else if (getGaugeListener() == GAUGEDIGITAL) {
-            btn_live.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MainActivity.this, LiveDataActivityNewSpeed.class);
-                    startActivity(i);
-                }
-            });
-        }
 
         mPreferences = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
 
@@ -129,7 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_tune.setOnClickListener(this);
         btn_configuration.setOnClickListener(this);
         btn_diagnostics.setOnClickListener(this);
-
+        btn_live.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                Intent i = new Intent(MainActivity.this, LiveDataActivity.class);
+                startActivity(i);
+            }
+        });
 
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         sendRequest();
@@ -181,18 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        sendRequest();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        sendRequest();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -200,6 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.settings_drawer:
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
+                return true;
+            case R.id.users_vehicle:
+                Intent i2 = new Intent(MainActivity.this, VehiclesActivity.class);
+                startActivity(i2);
                 return true;
             case R.id.ford_11_16_radio:
                 item_select = 1;
@@ -295,11 +259,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int getColorTheme() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
-    }
-
-    private int getGaugeListener() {
-        SharedPreferences mySharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mySharedPreferences.getInt("gauge", GAUGEDIGITAL);
     }
 
     private int getVehicleType() {

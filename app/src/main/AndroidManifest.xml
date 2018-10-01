@@ -46,10 +46,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".LiveDataBarActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".FeaturesActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
@@ -58,13 +54,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".LiveDataActivityNewSpeed"
-            android:launchMode="singleTop"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".SettingsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
+        <activity android:name=".VehiclesActivity" />
     </application>
 
 </manifest>

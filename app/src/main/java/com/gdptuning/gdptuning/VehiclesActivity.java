@@ -6,13 +6,15 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -20,7 +22,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
@@ -29,20 +30,20 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LiveDataBarActivity extends AppCompatActivity {
+public class VehiclesActivity extends AppCompatActivity {
 
+    private static final String sharedPrefFile = "com.gpdtuning.sharedPref";
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
-    int tuneMode = 0;
-    Timer timer;
     RequestQueue queue;
+    Timer timer;
     WifiManager wifi;
-    TextView tvGear, tvTune;
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
+    TextView tvTune, tvGear;
+    SharedPreferences mPreferences;
+    Button save_vehicle, select_vehicle, btn_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,50 +61,51 @@ public class LiveDataBarActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        setContentView(R.layout.activity_livedata_bar);
+        setContentView(R.layout.activity_vehicles);
 
 
-        //tab id
-        mTabLayout = findViewById(R.id.tabs_progress);
+        mPreferences = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
 
-        //add tabs
-        mTabLayout.addTab(mTabLayout.newTab().setText("Page 1"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Page 2"));
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
 
-        //set viewPager
-        mViewPager = findViewById(R.id.container_progress);
+        //Working with wifi
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-        PagerBar adapter = new PagerBar(getSupportFragmentManager(), mTabLayout.getTabCount());
-        mViewPager.setAdapter(adapter);
-
-        //swipe code
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        //Set widgets
+        save_vehicle = findViewById(R.id.save_vehicle);
+        select_vehicle = findViewById(R.id.confirm_selection);
+        btn_home = findViewById(R.id.btn_home);
+        btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            public void onClick(View mView) {
+                Intent i = new Intent(VehiclesActivity.this, MainActivity.class);
+                startActivity(i);
             }
+        });
+        tvGear = findViewById(R.id.gear_position);
+        tvTune = findViewById(R.id.tunenum);
 
+        //Set onClick Listeners
+        save_vehicle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageSelected(int position) {
-                mTabLayout.setScrollPosition(position, 0, true);
-                mTabLayout.setSelected(true);
-            }
+            public void onClick(View mView) {
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
             }
         });
 
-        tvTune = findViewById(R.id.tunenum);
-        tvGear = findViewById(R.id.gear_position);
-        //Working with wifi
-        queue = Volley.newRequestQueue(this);
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        select_vehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+
+            }
+        });
+
+
+        queue = VolleySingleton.getInstance(this).getRequestQueue();
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
 
             @Override
             public void run() {
@@ -113,15 +115,11 @@ public class LiveDataBarActivity extends AppCompatActivity {
                         updateRequest();
                     }
                 }
+
             }
-        }, 0, 1);//put here time 1000 milliseconds=1 second
+        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
-
-    private int getColorTheme() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
-    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -137,36 +135,21 @@ public class LiveDataBarActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(LiveDataBarActivity.this, MainActivity.class);
-        startActivity(i);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            finish();
+        }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        timer.cancel();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
-
-            @Override
-            public void run() {
-                if (isConnected) {
-                    if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
-                        updateRequest();
-                    }
-                }
-            }
-        }, 0, 1);//put here time 1000 milliseconds=1 second
+    private int getColorTheme() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
     //Send to sGDP server to verify connection
@@ -180,7 +163,7 @@ public class LiveDataBarActivity extends AppCompatActivity {
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
+                            int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
@@ -191,8 +174,8 @@ public class LiveDataBarActivity extends AppCompatActivity {
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
 
-                        } catch (JSONException mE) {
-                            mE.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                         // display response
                         Log.d("Response", response.toString());
@@ -204,15 +187,18 @@ public class LiveDataBarActivity extends AppCompatActivity {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(VehiclesActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device")
+                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
                                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
+                                        sendRequest();
                                         sDialog.dismiss();
                                     }
                                 })
@@ -221,7 +207,9 @@ public class LiveDataBarActivity extends AppCompatActivity {
                                     public void onClick(SweetAlertDialog sDialog) {
                                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                                     }
-                                }).show();
+                                })
+                                .show();
+                        isProcessing = false;
                     }
                 }
         );
@@ -252,25 +240,25 @@ public class LiveDataBarActivity extends AppCompatActivity {
 
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
-                            Log.d("Response", response.toString());
 
-                        } catch (JSONException mE) {
-                            mE.printStackTrace();
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
                         }
                         isProcessing = false;
                     }
                 },
-                new Response.ErrorListener()
-
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(LiveDataBarActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(VehiclesActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -297,7 +285,6 @@ public class LiveDataBarActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
-
     //Show Connection details
     void displayDevicecInfo() {
         if (isConnected) {
@@ -308,7 +295,6 @@ public class LiveDataBarActivity extends AppCompatActivity {
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance
                             sDialog.dismiss();
                         }
                     })
@@ -316,7 +302,9 @@ public class LiveDataBarActivity extends AppCompatActivity {
         } else {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device")
+                    .setContentText("Your are not connected to a GDP device. Retry by " +
+                            "tapping 'Retry' or check your wifi settings by tapping " +
+                            "'Connect'.")
                     .setCancelText("Retry")
                     .setConfirmText("Connect")
                     .showCancelButton(true)

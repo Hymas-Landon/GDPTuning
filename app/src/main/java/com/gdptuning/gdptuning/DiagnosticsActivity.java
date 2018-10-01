@@ -121,36 +121,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        sendRequest();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sendRequest();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        sendRequest();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        timer.cancel();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        timer.cancel();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
     }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.RequestQueue;
 
@@ -34,7 +35,8 @@ public class FeaturesFragment3 extends Fragment {
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
-    Button btn_home, key_fob, high_idle;
+    Button btn_home, key_fob;
+    ToggleButton toggle_high_idle;
     WifiManager wifi;
     TextView select1, select2, select3, select4, select5, selector_words_first_3, selector_words_second_3, selector_words_third_3, selector_words_fourth_3, selector_words_fifth_3;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3, arrowLeft4, arrowRight4, arrowLeft5, arrowRight5;
@@ -57,6 +59,8 @@ public class FeaturesFragment3 extends Fragment {
         selector_words_third_3 = mView.findViewById(R.id.third_selector_features_3);
         selector_words_fourth_3 = mView.findViewById(R.id.fourth_selector_features_3);
         selector_words_fifth_3 = mView.findViewById(R.id.fifth_selector_features_3);
+        key_fob = mView.findViewById(R.id.key_fob);
+        toggle_high_idle = mView.findViewById(R.id.high_idle);
 
         return mView;
     }
@@ -206,8 +210,8 @@ public class FeaturesFragment3 extends Fragment {
             }
         });
 
-        //Selector 4
-        selector_words_fourth_3.setText("AUXILLARY OUTPUT 3");
+        //Selector 5
+        selector_words_fifth_3.setText("AUXILLARY OUTPUT 3");
         final String[] aux3 = new String[2];
         aux3[0] = "OFF";
         aux3[1] = "ON";
@@ -240,16 +244,7 @@ public class FeaturesFragment3 extends Fragment {
                 edit.apply();
             }
         });
-    }
 
-    public int getDaytimeLights() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("daytime_lights", 1);
-    }
-
-    public int getRemoteStart() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("remote_start", 3);
     }
 
     public boolean isAux1() {
@@ -276,5 +271,12 @@ public class FeaturesFragment3 extends Fragment {
         SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("strobe_light", false);
     }
+
+    public boolean isHighIdle() {
+        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("high_idle", false);
+    }
+
+
 
 }

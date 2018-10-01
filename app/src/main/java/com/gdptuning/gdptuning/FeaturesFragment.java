@@ -74,7 +74,7 @@ public class FeaturesFragment extends Fragment {
         if (!isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
-                selector_words_first.setText("TPMS SETTINGS");
+                selector_words_first.setText("TPMS settings");
                 final String[] pressureTPMS = new String[1];
                 pressureTPMS[0] = "0 psi";
                 select1.setText(pressureTPMS[0]);
@@ -94,7 +94,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("TURN SIGNAL LAMP OUTAGE DISABLE");
+                selector_words_second.setText("Turn signal lamp outage disable");
                 final String[] lampOutageDisable = new String[1];
                 lampOutageDisable[0] = "0";
                 select2.setText(lampOutageDisable[0]);
@@ -116,7 +116,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third.setText("TIRE SIZE");
+                selector_words_third.setText("Tire size");
                 final String[] tireSize = new String[1];
                 tireSize[0] = "0\"";
                 select3.setText(tireSize[0]);
@@ -138,7 +138,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth.setText("FOG LIGHTS WITH HIGH BEAM");
+                selector_words_fourth.setText("Fog lights with high beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select4.setText(fogLights[0]);
@@ -168,7 +168,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS SETTINGS");
+                selector_words_first.setText("TPMS settings");
                 final String[] pressureTPMS = new String[1];
                 pressureTPMS[0] = "0psi";
                 select1.setText(pressureTPMS[0]);
@@ -193,7 +193,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS SETTINGS");
+                selector_words_first.setText("TPMS settings");
                 final String[] pressureTPMS = new String[1];
                 pressureTPMS[0] = "0psi";
                 select1.setText(pressureTPMS[0]);
@@ -214,7 +214,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("TIRE SIZE");
+                selector_words_second.setText("Tire size");
                 final String[] tireSize = new String[1];
                 tireSize[0] = "0\"";
                 select2.setText(tireSize[0]);
@@ -235,7 +235,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third.setText("FOG LIGHTS WITH HIGH BEAM");
+                selector_words_third.setText("Fog lights with high beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select3.setText(fogLights[0]);
@@ -258,7 +258,7 @@ public class FeaturesFragment extends Fragment {
         } else if (isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
-                selector_words_first.setText("TPMS SETTINGS");
+                selector_words_first.setText("TPMS settings");
                 final String[] pressureTPMS = new String[13];
                 pressureTPMS[0] = "25psi";
                 pressureTPMS[1] = "30psi";
@@ -419,7 +419,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("TURN SIGNAL LAMP OUTAGE DISABLE");
+                selector_words_second.setText("Turn signal lamp outage disable");
                 final String[] lampOutageDisable = new String[2];
                 lampOutageDisable[0] = "No";
                 lampOutageDisable[1] = "Yes";
@@ -452,7 +452,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third.setText("TIRE SIZE");
+                selector_words_third.setText("Tire size");
                 final String[] tireSize = new String[7];
                 tireSize[0] = "31\"";
                 tireSize[1] = "32\"";
@@ -557,7 +557,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth.setText("FOG LIGHTS WITH HIGH BEAM");
+                selector_words_fourth.setText("Fog lights with high beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "No";
                 fogLights[1] = "Yes";
@@ -599,7 +599,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS SETTINGS");
+                selector_words_first.setText("TPMS settings");
                 final String[] pressureTPMS = new String[13];
                 pressureTPMS[0] = "25psi";
                 pressureTPMS[1] = "30psi";
@@ -766,7 +766,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS SETTINGS");
+                selector_words_first.setText("TPMS settings");
                 final String[] pressureTPMS = new String[13];
                 pressureTPMS[0] = "25psi";
                 pressureTPMS[1] = "30psi";
@@ -927,7 +927,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_third.setText("TIRE SIZE");
+                selector_words_third.setText("Tire size");
                 final String[] tireSize = new String[7];
                 tireSize[0] = "31\"";
                 tireSize[1] = "32\"";
@@ -1032,7 +1032,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_fourth.setText("FOG LIGHTS WITH HIGH BEAM");
+                selector_words_fourth.setText("Fog lights with high beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "No";
                 fogLights[1] = "Yes";

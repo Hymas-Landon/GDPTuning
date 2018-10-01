@@ -180,7 +180,16 @@ public class FeaturesActivity extends AppCompatActivity {
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-
+                setTpms(getTPMS());
+                setTireSize(getTireSize());
+                setRemoteStart(getRemoteStart());
+                setNavOverride(isNavOverride());
+                setDaytimeLights(getDaytimeLights());
+                setFogLights(isFogLights());
+                setLEDTurnSignals(isLampCurrent());
+                setWindowRemote(isRemoteWindow());
+                setHighIdle(isHighIdle());
+                setWorkLight(isWorkLight());
             }
         });
         btn_read = findViewById(R.id.read_settings);
@@ -287,7 +296,7 @@ public class FeaturesActivity extends AppCompatActivity {
         }
     }
 
-    public void setFogLights(int foglights) {
+    public void setFogLights(boolean foglights) {
         if (!isFogLights()) {
             changeFogLights(30);
         } else if (isFogLights()) {
@@ -295,7 +304,7 @@ public class FeaturesActivity extends AppCompatActivity {
         }
     }
 
-    public void setLEDTurnSignals(int turnSignals) {
+    public void setLEDTurnSignals(boolean turnSignals) {
         if (!isLampCurrent()) {
             changeLEDTurnSignals(32);
         } else if (isLampCurrent()) {
@@ -315,7 +324,7 @@ public class FeaturesActivity extends AppCompatActivity {
         }
     }
 
-    public void setWindowRemote(int windowRemote) {
+    public void setWindowRemote(boolean windowRemote) {
         if (!isRemoteWindow()) {
             changeWindowRemote(38);
         } else if (isRemoteWindow()) {
@@ -331,7 +340,7 @@ public class FeaturesActivity extends AppCompatActivity {
         }
     }
 
-    public void setNavOverride(int navOverride) {
+    public void setNavOverride(boolean navOverride) {
         if (!isNavOverride()) {
             changeNav(42);
         } else if (isNavOverride()) {
@@ -339,7 +348,7 @@ public class FeaturesActivity extends AppCompatActivity {
         }
     }
 
-    public void setHighIdle(int highIdle) {
+    public void setHighIdle(boolean highIdle) {
         if (isHighIdle()) {
             changeHighIdle(45);
         } else if (!isHighIdle()) {
@@ -347,7 +356,7 @@ public class FeaturesActivity extends AppCompatActivity {
         }
     }
 
-    public void setWorkLight(int worklight) {
+    public void setWorkLight(boolean worklight) {
         if (isWorkLight()) {
             changeWorkLight(47);
         } else if (!isWorkLight()) {
@@ -683,7 +692,7 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     //Send to sGDP server to verify connection
-    void changeFogLights(int foglights) {
+    void changeFogLights(final int foglights) {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + foglights, null,
                 new Response.Listener<JSONObject>() {
@@ -695,9 +704,16 @@ public class FeaturesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        boolean foglightsBool = false;
+                        if (fogLightsNum == 30) {
+                            foglightsBool = false;
+                        } else if (fogLightsNum == 31) {
+                            foglightsBool = true;
+                        }
                         // display response
                         Log.d("Response", response.toString());
-                        setFogLights(fogLightsNum);
+                        setFogLights(foglightsBool);
                     }
                 },
                 new Response.ErrorListener() {
@@ -745,9 +761,15 @@ public class FeaturesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        boolean turnSigBool = false;
+                        if (turnSigNum == 32) {
+                            turnSigBool = false;
+                        } else if (turnSigNum == 33) {
+                            turnSigBool = true;
+                        }
                         // display response
                         Log.d("Response", response.toString());
-                        setLEDTurnSignals(turnSigNum);
+                        setLEDTurnSignals(turnSigBool);
                     }
                 },
                 new Response.ErrorListener() {
@@ -845,9 +867,15 @@ public class FeaturesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        boolean windowBool = false;
+                        if (windowNum == 38) {
+                            windowBool = false;
+                        } else if (windowNum == 39) {
+                            windowBool = true;
+                        }
                         // display response
                         Log.d("Response", response.toString());
-                        setWindowRemote(windowNum);
+                        setWindowRemote(windowBool);
                     }
                 },
                 new Response.ErrorListener() {
@@ -945,9 +973,15 @@ public class FeaturesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        boolean navBool = false;
+                        if (navNum == 42) {
+                            navBool = false;
+                        } else if (navNum == 43) {
+                            navBool = true;
+                        }
                         // display response
                         Log.d("Response", response.toString());
-                        setNavOverride(navNum);
+                        setNavOverride(navBool);
                     }
                 },
                 new Response.ErrorListener() {
@@ -995,9 +1029,15 @@ public class FeaturesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        boolean highIdleBool = false;
+                        if (highIdleNum == 46) {
+                            highIdleBool = false;
+                        } else if (highIdleNum == 45) {
+                            highIdleBool = true;
+                        }
                         // display response
                         Log.d("Response", response.toString());
-                        setHighIdle(highIdleNum);
+                        setHighIdle(highIdleBool);
                     }
                 },
                 new Response.ErrorListener() {
@@ -1045,9 +1085,15 @@ public class FeaturesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        boolean workLightsBool = false;
+                        if (workNum == 48) {
+                            workLightsBool = false;
+                        } else if (workNum == 47) {
+                            workLightsBool = true;
+                        }
                         // display response
                         Log.d("Response", response.toString());
-                        setWorkLight(workNum);
+                        setWorkLight(workLightsBool);
                     }
                 },
                 new Response.ErrorListener() {

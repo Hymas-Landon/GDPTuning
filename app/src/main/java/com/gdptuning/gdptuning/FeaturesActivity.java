@@ -15,7 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -51,7 +50,8 @@ public class FeaturesActivity extends AppCompatActivity {
     Timer timer;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-    int tpmsNum, turnSigNum, tireSizeNum, fogLightsNum, dayRunNum, remoteStartNum, navNum, windowNum, strobeNum, workNum, auxNum1, auxNum2, auxNum3, highIdleNum, keyFobNum;
+    int tpmsNum, turnSigNum, tireSizeNum, fogLightsNum, dayRunNum, remoteStartNum, navNum,
+            windowNum, strobeNum, workNum, auxNum1, auxNum2, auxNum3, highIdleNum, keyFobNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,8 +180,7 @@ public class FeaturesActivity extends AppCompatActivity {
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                Toast toast = Toast.makeText(FeaturesActivity.this, "Program Button Clicked", Toast.LENGTH_LONG);
-                toast.show();
+
             }
         });
         btn_read = findViewById(R.id.read_settings);
@@ -218,157 +217,143 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     public void setTpms(int tpms) {
-        tpms = getTPMS();
         switch (tpms) {
             case 25:
-                tpms = 10;
-                switchTpms(tpms);
+                changeTpms(10);
                 break;
             case 30:
-                tpms = 11;
-                switchTpms(tpms);
+                changeTpms(11);
                 break;
             case 35:
-                tpms = 12;
-                switchTpms(tpms);
+                changeTpms(12);
                 break;
             case 40:
-                tpms = 13;
-                switchTpms(tpms);
+                changeTpms(13);
                 break;
             case 45:
-                tpms = 14;
-                switchTpms(tpms);
+                changeTpms(14);
                 break;
             case 50:
-                tpms = 15;
-                switchTpms(tpms);
+                changeTpms(15);
                 break;
             case 55:
-                tpms = 16;
-                switchTpms(tpms);
+                changeTpms(16);
                 break;
             case 60:
-                tpms = 17;
-                switchTpms(tpms);
+                changeTpms(17);
                 break;
             case 65:
-                tpms = 18;
-                switchTpms(tpms);
+                changeTpms(18);
                 break;
             case 70:
-                tpms = 19;
-                switchTpms(tpms);
+                changeTpms(19);
                 break;
             case 75:
-                tpms = 20;
-                switchTpms(tpms);
+                changeTpms(20);
                 break;
             case 80:
-                tpms = 21;
-                switchTpms(tpms);
+                changeTpms(21);
                 break;
             case 0:
-                tpms = 22;
-                switchTpms(tpms);
+                changeTpms(22);
                 break;
         }
     }
 
-    public int setTireSize(int tireSize) {
-        if (getTireSize() == 31) {
-            tireSize = 23;
-        } else if (getTireSize() == 32) {
-            tireSize = 24;
-        } else if (getTireSize() == 33) {
-            tireSize = 25;
-        } else if (getTireSize() == 34) {
-            tireSize = 26;
-        } else if (getTireSize() == 35) {
-            tireSize = 27;
-        } else if (getTireSize() == 36) {
-            tireSize = 28;
-        } else if (getTireSize() == 37) {
-            tireSize = 29;
+    public void setTireSize(int tireSize) {
+        switch (tireSize) {
+            case 31:
+                changeTireSize(23);
+                break;
+            case 32:
+                changeTireSize(24);
+                break;
+            case 33:
+                changeTireSize(25);
+                break;
+            case 34:
+                changeTireSize(26);
+                break;
+            case 35:
+                changeTireSize(27);
+                break;
+            case 36:
+                changeTireSize(28);
+                break;
+            case 37:
+                changeTireSize(29);
+                break;
         }
-        return tireSize;
     }
 
-    public int setDaytimeLights(int daytimeLights) {
-        if (getDaytimeLights() == 1) {
-            daytimeLights = 35;
-        } else if (getDaytimeLights() == 2) {
-            daytimeLights = 36;
-        } else if (getDaytimeLights() == 3) {
-            daytimeLights = 37;
-        } else if (getDaytimeLights() == 5) {
-            daytimeLights = 34;
-        }
-        return daytimeLights;
-    }
-
-    public int setFogLights(int foglights) {
+    public void setFogLights(int foglights) {
         if (!isFogLights()) {
-            foglights = 30;
+            changeFogLights(30);
         } else if (isFogLights()) {
-            foglights = 31;
+            changeFogLights(31);
         }
-        return foglights;
     }
 
-    public int setLEDTurnSignals(int turnSignals) {
+    public void setLEDTurnSignals(int turnSignals) {
         if (!isLampCurrent()) {
-            turnSignals = 32;
+            changeLEDTurnSignals(32);
         } else if (isLampCurrent()) {
-            turnSignals = 33;
+            changeLEDTurnSignals(33);
         }
-        return turnSignals;
     }
 
-    public int setWindowRemote(int windowRemote) {
+    public void setDaytimeLights(int daytimeLights) {
+        if (getDaytimeLights() == 1) {
+            changeDaytimeLights(35);
+        } else if (getDaytimeLights() == 2) {
+            changeDaytimeLights(36);
+        } else if (getDaytimeLights() == 3) {
+            changeDaytimeLights(37);
+        } else if (getDaytimeLights() == 5) {
+            changeDaytimeLights(34);
+        }
+    }
+
+    public void setWindowRemote(int windowRemote) {
         if (!isRemoteWindow()) {
-            windowRemote = 38;
+            changeWindowRemote(38);
         } else if (isRemoteWindow()) {
-            windowRemote = 39;
+            changeWindowRemote(39);
         }
-        return windowRemote;
     }
 
-    public int setRemoteStart(int remoteStart) {
+    public void setRemoteStart(int remoteStart) {
         if (getRemoteStart() == 2) {
-            remoteStart = 40;
+            changeRemoteStart(40);
         } else if (getRemoteStart() == 3) {
-            remoteStart = 41;
+            changeRemoteStart(41);
         }
-        return remoteStart;
     }
 
-    public int setNavOverride(int navOverride) {
+    public void setNavOverride(int navOverride) {
         if (!isNavOverride()) {
-            navOverride = 42;
+            changeNav(42);
         } else if (isNavOverride()) {
-            navOverride = 43;
+            changeNav(43);
         }
-        return navOverride;
     }
 
-    public int setWorkLight(int worklight) {
-        if (isWorkLight()) {
-            worklight = 47;
-        } else if (!isWorkLight()) {
-            worklight = 48;
-        }
-        return worklight;
-    }
-
-    public int setHighIdle(int highIdle) {
+    public void setHighIdle(int highIdle) {
         if (isHighIdle()) {
-            highIdle = 45;
+            changeHighIdle(45);
         } else if (!isHighIdle()) {
-            highIdle = 46;
+            changeHighIdle(46);
         }
-        return highIdle;
     }
+
+    public void setWorkLight(int worklight) {
+        if (isWorkLight()) {
+            changeWorkLight(47);
+        } else if (!isWorkLight()) {
+            changeWorkLight(48);
+        }
+    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -649,7 +634,7 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     //Send to sGDP server to verify connection
-    void switchTpms(int tpms) {
+    void changeTpms(int tpms) {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + tpms, null,
                 new Response.Listener<JSONObject>() {
@@ -664,6 +649,456 @@ public class FeaturesActivity extends AppCompatActivity {
                         // display response
                         Log.d("Response", response.toString());
                         setTpms(tpmsNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeFogLights(int foglights) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + foglights, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            fogLightsNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setFogLights(fogLightsNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeLEDTurnSignals(int ledTurnSignals) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + ledTurnSignals, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            turnSigNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setLEDTurnSignals(turnSigNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeDaytimeLights(int daytimeLights) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + daytimeLights, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            dayRunNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setDaytimeLights(dayRunNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeWindowRemote(int windowRemote) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + windowRemote, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            windowNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setWindowRemote(windowNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeRemoteStart(int remoteStart) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + remoteStart, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            remoteStartNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setRemoteStart(remoteStartNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeNav(int navOverride) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + navOverride, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            navNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setNavOverride(navNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeHighIdle(int highIdle) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + highIdle, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            highIdleNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setHighIdle(highIdleNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeWorkLight(int workLight) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + workLight, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            workNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setWorkLight(workNum);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to GDP device")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void changeTireSize(int tiresize) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + tiresize, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            tireSizeNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                        setTireSize(tireSizeNum);
                     }
                 },
                 new Response.ErrorListener() {

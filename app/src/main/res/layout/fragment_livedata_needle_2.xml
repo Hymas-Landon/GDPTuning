@@ -57,11 +57,11 @@
         android:layout_alignTop="@+id/gauge2_1"
         android:layout_alignEnd="@+id/gauge2_1"
         android:layout_alignBottom="@+id/gauge2_1"
-        android:layout_marginBottom="-120dp"
+        android:layout_marginBottom="-160dp"
         android:gravity="center"
         android:text="@string/frp"
         android:textColor="?attr/speedtext_color"
-        android:textSize="16dp" />
+        android:textSize="26dp" />
 
     <ImageView
         android:id="@id/btn1"
@@ -93,11 +93,11 @@
         android:layout_alignTop="@+id/gauge2_2"
         android:layout_alignEnd="@+id/gauge2_2"
         android:layout_alignBottom="@+id/gauge2_2"
-        android:layout_marginBottom="-120dp"
+        android:layout_marginBottom="-160dp"
         android:gravity="center"
         android:text="@string/timing"
         android:textColor="?attr/speedtext_color"
-        android:textSize="16dp" />
+        android:textSize="26dp" />
 
     <TextView
         android:id="@+id/frp"

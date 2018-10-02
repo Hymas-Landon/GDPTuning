@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,7 +42,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
-    Button btn_home;
+    Button btn_home, btn_read, btn_clear, btn_reset_trans;
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
@@ -67,12 +68,36 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_diagnostics);
 
         //set home widget
+        btn_read = findViewById(R.id.read_codes);
+        btn_clear = findViewById(R.id.clear_codes);
+        btn_reset_trans = findViewById(R.id.reset_trans);
         btn_home = findViewById(R.id.btn_home);
         tvGear = findViewById(R.id.gear_position);
         tvTune = findViewById(R.id.tunenum);
 
         //OnClickListener
         btn_home.setOnClickListener(this);
+        btn_read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Read Button Pressed", Toast.LENGTH_SHORT);
+                mToast.show();
+            }
+        });
+        btn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Clear Button Pressed", Toast.LENGTH_SHORT);
+                mToast.show();
+            }
+        });
+        btn_reset_trans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Reset Button Pressed", Toast.LENGTH_SHORT);
+                mToast.show();
+            }
+        });
 
         //Working with wifi
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);

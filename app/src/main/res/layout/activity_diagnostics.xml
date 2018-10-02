@@ -94,8 +94,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/diagnostics"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorGray"
         android:textSize="40dp" />
-
 
 </RelativeLayout>

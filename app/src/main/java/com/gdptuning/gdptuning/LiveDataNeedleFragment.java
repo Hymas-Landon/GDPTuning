@@ -113,25 +113,26 @@ public class LiveDataNeedleFragment extends Fragment {
         }, 0, 1);//put here time 1000 milliseconds=1 second
     }
 
-    public void onBackPressed() {
-        Intent i = new Intent(getActivity(), MainActivity.class);
-        startActivity(i);
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getInt("vehicle", VFORD1);
+    }
+
+    private boolean isMetric() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("metric", false);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         timer.cancel();
+        isProcessing = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    private int getVehicleType() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     //Send to sGDP server to verify connection
@@ -292,7 +293,7 @@ public class LiveDataNeedleFragment extends Fragment {
                                 tvBoostView.setText(String.valueOf(boostText + " psi"));
                                 tvTurbo.setText(String.valueOf(turbo + " %"));
                                 tvOilPressure.setText(String.valueOf(oilPressureText + " psi"));
-                                tvFuel.setText(String.valueOf(fuel + " mm3"));
+                                tvFuel.setText(String.valueOf(fuel + "mm3"));
                                 tvCoolant.setText(String.valueOf(coolantText + "\u2109"));
 
                                 //Gauge 1

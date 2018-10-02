@@ -108,11 +108,6 @@ public class LiveDataNeedleFragment2 extends Fragment {
 
     }
 
-    public void onBackPressed() {
-        Intent i = new Intent(getActivity(), LiveDataActivity.class);
-        startActivity(i);
-    }
-
     //Send to sGDP server to verify connection
     public void sendRequest() {
         // prepare the Request

@@ -143,7 +143,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth_2.setText("Windows up/down with remote key fob");
+                selector_words_fourth_2.setText("Windows up/down with key fob");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select4.setText(fogLights[0]);
@@ -173,7 +173,7 @@ public class FeaturesFragment2 extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first_2.setText("TPMS SETTINGS");
+                selector_words_first_2.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[1];
                 pressureTPMS[0] = "0";
                 select1.setText(pressureTPMS[0]);
@@ -198,7 +198,7 @@ public class FeaturesFragment2 extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first_2.setText("TPMS SETTINGS");
+                selector_words_first_2.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[1];
                 pressureTPMS[0] = "0";
                 select1.setText(pressureTPMS[0]);
@@ -219,7 +219,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second_2.setText("TIRE SIZE");
+                selector_words_second_2.setText("Tire Size");
                 final String[] tireSize = new String[1];
                 tireSize[0] = "0";
                 select2.setText(tireSize[0]);
@@ -240,7 +240,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third_2.setText("FOG LIGHTS WITH HIGH BEAM");
+                selector_words_third_2.setText("Fog Lights With High Beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select3.setText(fogLights[0]);
@@ -429,7 +429,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth_2.setText("Windows Up/Down With Remote Keyfob");
+                selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
                 final String[] remoteWindow = new String[2];
                 remoteWindow[0] = "NO";
                 remoteWindow[1] = "YES";
@@ -464,7 +464,7 @@ public class FeaturesFragment2 extends Fragment {
 
             if (getVehicleType() == VGM2) {
                 //Selector 1
-                selector_words_first_2.setText("Daytime running light configuration");
+                selector_words_first_2.setText("Daytime Running Light Configuration");
                 final String[] daytimeLight = new String[7];
                 daytimeLight[0] = "Low Beam";
                 daytimeLight[1] = "Fog Lights";
@@ -597,7 +597,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third_2.setText("Navigation Override(Allows destination entry while driving)");
+                selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
                 final String[] navOverride = new String[2];
                 navOverride[0] = "No";
                 navOverride[1] = "Yes";
@@ -630,7 +630,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth_2.setText("Windows up/down with remote keyfob");
+                selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
                 final String[] remoteWindow = new String[2];
                 remoteWindow[0] = "No";
                 remoteWindow[1] = "Yes";
@@ -663,10 +663,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
             }
         }
-
-
     }
-
 
     private int getVehicleType() {
         SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);

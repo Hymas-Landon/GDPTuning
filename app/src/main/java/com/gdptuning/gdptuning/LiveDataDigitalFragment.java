@@ -120,7 +120,6 @@ public class LiveDataDigitalFragment extends Fragment {
         return mSharedPreferences.getBoolean("metric", false);
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -133,10 +132,6 @@ public class LiveDataDigitalFragment extends Fragment {
         super.onResume();
     }
 
-    public void onBackPressed() {
-        Intent i = new Intent(getActivity(), MainActivity.class);
-        startActivity(i);
-    }
 
     //Send to sGDP server to verify connection
     public void sendRequest() {

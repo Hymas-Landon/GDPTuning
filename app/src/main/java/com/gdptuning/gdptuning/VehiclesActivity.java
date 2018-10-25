@@ -187,7 +187,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
                         new SweetAlertDialog(VehiclesActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                .setContentText("You are not connected to a GDP device. Retry by " +
                                         "tapping 'Retry' or check your wifi settings by tapping " +
                                         "'Connect'.")
                                 .setCancelText("Retry")
@@ -254,7 +254,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
                         new SweetAlertDialog(VehiclesActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                .setContentText("You are not connected to a GDP device. Retry by " +
                                         "tapping 'Retry' or check your wifi settings by tapping " +
                                         "'Connect'.")
                                 .setCancelText("Retry")
@@ -300,7 +300,7 @@ public class VehiclesActivity extends AppCompatActivity {
         } else {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
-                    .setContentText("Your are not connected to a GDP device. Retry by " +
+                    .setContentText("You are not connected to a GDP device. Retry by " +
                             "tapping 'Retry' or check your wifi settings by tapping " +
                             "'Connect'.")
                     .setCancelText("Retry")

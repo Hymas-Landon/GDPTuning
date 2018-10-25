@@ -82,14 +82,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -103,7 +103,7 @@ public class FeaturesFragment extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -111,7 +111,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -125,7 +125,7 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -133,7 +133,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -147,14 +147,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
                 arrowRight4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -177,14 +177,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -202,14 +202,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -223,14 +223,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
@@ -244,14 +244,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'Read' the current settings from your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });

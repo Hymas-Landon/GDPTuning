@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                .setContentText("You are not connected to a GDP device. Retry by " +
                                         "tapping 'Retry' or check your wifi settings by tapping " +
                                         "'Connect'.")
                                 .setCancelText("Retry")
@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                .setContentText("You are not connected to a GDP device. Retry by " +
                                         "tapping 'Retry' or check your wifi settings by tapping " +
                                         "'Connect'.")
                                 .setCancelText("Retry")
@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isConnected) {
             new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Connected")
-                    .setContentText("You are connected to " + device)
+                    .setContentText("Youare connected to " + device)
                     .setConfirmText("ok")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -433,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
-                    .setContentText("Your are not connected to a GDP device. Retry by " +
+                    .setContentText("You are not connected to a GDP device. Retry by " +
                             "tapping 'Retry' or check your wifi settings by tapping " +
                             "'Connect'.")
                     .setCancelText("Retry")

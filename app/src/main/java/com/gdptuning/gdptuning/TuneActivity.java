@@ -525,7 +525,9 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -590,7 +592,9 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)
@@ -643,7 +647,9 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
                                 .setCancelText("Retry")
                                 .setConfirmText("Connect")
                                 .showCancelButton(true)

@@ -21,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.anastr.speedviewlib.ImageSpeedometer;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
@@ -191,13 +190,13 @@ public class LiveDataDigitalFragment2 extends Fragment {
                             float frp = variables.getInt("frp");
                             float timing = variables.getInt(("timing"));
 
-                            //Gauge1
-                            ImageSpeedometer imageSpeedometer1 = Objects.requireNonNull(getView()).findViewById(R.id.speedGauge1);
-                            imageSpeedometer1.speedTo((float) (frp * 145.0377));
-
-                            //Gauge2
-                            ImageSpeedometer imageSpeedometer2 = Objects.requireNonNull(getView()).findViewById(R.id.speedGauge2);
-                            imageSpeedometer2.speedTo(timing);
+//                            //Gauge1
+//                            ImageSpeedometer imageSpeedometer1 = Objects.requireNonNull(getView()).findViewById(R.id.speedGauge1);
+//                            imageSpeedometer1.speedTo((float) (frp * 145.0377));
+//
+//                            //Gauge2
+//                            ImageSpeedometer imageSpeedometer2 = Objects.requireNonNull(getView()).findViewById(R.id.speedGauge2);
+//                            imageSpeedometer2.speedTo(timing);
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();

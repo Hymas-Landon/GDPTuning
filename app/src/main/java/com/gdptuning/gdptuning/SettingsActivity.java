@@ -144,10 +144,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     select2.setText(gauge[gaugeIndex]);
                     if (gaugeIndex == 0) {
                         edit.putInt("gauge", GAUGEDIGITAL);
-                    } else if (gaugeIndex == 1) {
-                        edit.putInt("gauge", GAUGEPLAIN);
-                    } else if (gaugeIndex == 2) {
-                        edit.putInt("gauge", GAUGEPROGRESS);
+//                    } else if (gaugeIndex == 1) {
+//                        edit.putInt("gauge", GAUGEPLAIN);
+//                    } else if (gaugeIndex == 2) {
+//                        edit.putInt("gauge", GAUGEPROGRESS);
+//                    }
                     }
                 } else {
                     select2.setText(gauge[0]);

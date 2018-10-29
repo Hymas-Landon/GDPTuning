@@ -52,16 +52,6 @@
         android:textSize="26dp"
         tools:ignore="RelativeOverlap" />
 
-    <TextView
-        android:id="@+id/diagnostics_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/configuration"
-        android:textColor="@color/colorGray"
-        android:textSize="40dp" />
-
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"

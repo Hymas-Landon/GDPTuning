@@ -87,14 +87,4 @@
         android:background="#c0393838"
         tools:listitem="@layout/code_recycler_blueprint" />
 
-    <TextView
-        android:id="@+id/diagnostics_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/diagnostics"
-        android:textColor="@color/colorGray"
-        android:textSize="40dp" />
-
 </RelativeLayout>

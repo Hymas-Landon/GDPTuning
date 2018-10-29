@@ -21,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.anastr.speedviewlib.ImageSpeedometer;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
@@ -214,68 +213,68 @@ public class LiveDataDigitalFragment extends Fragment {
                             float fuel = variables.getInt("fule");
                             float coolant = variables.getInt("coolant");
 
-                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                TextView oilText = getView().findViewById(R.id.title4);
-                                oilText.setText("Oil \nTemp");
-                                float fordOilTemp = variables.getInt("oil_temp");
-                                //Gauge1
-                                ImageSpeedometer imageSpeedometer1 = getView().findViewById(R.id.speedGauge1);
-                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
-
-                                //Gauge2
-                                ImageSpeedometer imageSpeedometer2 = getView().findViewById(R.id.speedGauge2);
-                                if (boost > 5) {
-                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
-                                } else {
-                                    imageSpeedometer2.speedTo(0);
-                                }
-
-                                //Gauge3
-                                ImageSpeedometer imageSpeedometer3 = getView().findViewById(R.id.speedGauge3);
-                                imageSpeedometer3.speedTo(turbo);
-
-                                //Gauge4
-                                ImageSpeedometer imageSpeedometer4 = getView().findViewById(R.id.speedGauge4);
-                                imageSpeedometer4.speedTo((float) ((fordOilTemp * 1.8) + 32));
-
-                                //Gauge5
-                                ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge5);
-                                imageSpeedometer5.speedTo(fuel);
-
-                                //Gauge6
-                                ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge6);
-                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
-                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
-                                TextView oilText = getView().findViewById(R.id.title4);
-                                oilText.setText("Oil \nPressure");
-                                float oilPressure = variables.getInt("oil_pressur");
-                                ImageSpeedometer imageSpeedometer1 = getView().findViewById(R.id.speedGauge1);
-                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
-
-                                //Gauge2
-                                ImageSpeedometer imageSpeedometer2 = getView().findViewById(R.id.speedGauge2);
-                                if (boost > 5) {
-                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
-                                } else {
-                                    imageSpeedometer2.speedTo(0);
-                                }
-
-                                //Gauge3
-                                ImageSpeedometer imageSpeedometer3 = getView().findViewById(R.id.speedGauge3);
-                                imageSpeedometer3.speedTo(turbo);
-
-                                //Gauge4
-                                ImageSpeedometer imageSpeedometer4 = getView().findViewById(R.id.speedGauge4);
-                                imageSpeedometer4.speedTo((float) (oilPressure * 0.145));
-
-                                //Gauge5
-                                ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge5);
-                                imageSpeedometer5.speedTo(fuel);
-
-                                //Gauge6
-                                ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge6);
-                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
-                            }
+//                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+//                                TextView oilText = getView().findViewById(R.id.title4);
+//                                oilText.setText("Oil \nTemp");
+//                                float fordOilTemp = variables.getInt("oil_temp");
+//                                //Gauge1
+//                                ImageSpeedometer imageSpeedometer1 = getView().findViewById(R.id.speedGauge1);
+//                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
+//
+//                                //Gauge2
+//                                ImageSpeedometer imageSpeedometer2 = getView().findViewById(R.id.speedGauge2);
+//                                if (boost > 5) {
+//                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
+//                                } else {
+//                                    imageSpeedometer2.speedTo(0);
+//                                }
+//
+//                                //Gauge3
+//                                ImageSpeedometer imageSpeedometer3 = getView().findViewById(R.id.speedGauge3);
+//                                imageSpeedometer3.speedTo(turbo);
+//
+//                                //Gauge4
+//                                ImageSpeedometer imageSpeedometer4 = getView().findViewById(R.id.speedGauge4);
+//                                imageSpeedometer4.speedTo((float) ((fordOilTemp * 1.8) + 32));
+//
+//                                //Gauge5
+//                                ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge5);
+//                                imageSpeedometer5.speedTo(fuel);
+//
+//                                //Gauge6
+//                                ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge6);
+//                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
+//                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
+//                                TextView oilText = getView().findViewById(R.id.title4);
+//                                oilText.setText("Oil \nPressure");
+//                                float oil_pressure = variables.getInt("oil_pressur");
+//                                ImageSpeedometer imageSpeedometer1 = getView().findViewById(R.id.speedGauge1);
+//                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
+//
+//                                //Gauge2
+//                                ImageSpeedometer imageSpeedometer2 = getView().findViewById(R.id.speedGauge2);
+//                                if (boost > 5) {
+//                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
+//                                } else {
+//                                    imageSpeedometer2.speedTo(0);
+//                                }
+//
+//                                //Gauge3
+//                                ImageSpeedometer imageSpeedometer3 = getView().findViewById(R.id.speedGauge3);
+//                                imageSpeedometer3.speedTo(turbo);
+//
+//                                //Gauge4
+//                                ImageSpeedometer imageSpeedometer4 = getView().findViewById(R.id.speedGauge4);
+//                                imageSpeedometer4.speedTo((float) (oil_pressure * 0.145));
+//
+//                                //Gauge5
+//                                ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge5);
+//                                imageSpeedometer5.speedTo(fuel);
+//
+//                                //Gauge6
+//                                ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge6);
+//                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
+//                            }
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }

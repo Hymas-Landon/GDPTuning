@@ -184,6 +184,7 @@ public class FeaturesActivity extends AppCompatActivity {
                 setHighIdle(isDefaultHighIdle());
                 setWorkLight(isDefaultWorkLight());
                 readEdit.putBoolean("factory_settings", true);
+                readEdit.apply();
                 edit.apply();
                 recreate();
 
@@ -274,9 +275,13 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     public void setTpms(int tpms) {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+
         switch (tpms) {
             case 25:
                 changeTpms(10);
+
                 break;
             case 30:
                 changeTpms(11);
@@ -315,6 +320,7 @@ public class FeaturesActivity extends AppCompatActivity {
                 changeTpms(22);
                 break;
         }
+        edit.apply();
     }
 
     public void setTireSize(int tireSize) {
@@ -346,7 +352,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public void setFogLights(boolean foglights) {
         if (!foglights) {
             changeFogLights(30);
-        } else if (foglights) {
+        } else {
             changeFogLights(31);
         }
     }
@@ -354,7 +360,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public void setLEDTurnSignals(boolean turnSignals) {
         if (!turnSignals) {
             changeLEDTurnSignals(32);
-        } else if (turnSignals) {
+        } else {
             changeLEDTurnSignals(33);
         }
     }
@@ -374,7 +380,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public void setWindowRemote(boolean windowRemote) {
         if (!windowRemote) {
             changeWindowRemote(38);
-        } else if (windowRemote) {
+        } else {
             changeWindowRemote(39);
         }
     }
@@ -390,7 +396,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public void setNavOverride(boolean navOverride) {
         if (!navOverride) {
             changeNav(42);
-        } else if (navOverride) {
+        } else {
             changeNav(43);
         }
     }
@@ -398,7 +404,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public void setHighIdle(boolean highIdle) {
         if (highIdle) {
             changeHighIdle(45);
-        } else if (!highIdle) {
+        } else {
             changeHighIdle(46);
         }
     }
@@ -406,7 +412,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public void setWorkLight(boolean worklight) {
         if (worklight) {
             changeWorkLight(47);
-        } else if (!worklight) {
+        } else {
             changeWorkLight(48);
         }
     }
@@ -831,7 +837,6 @@ public class FeaturesActivity extends AppCompatActivity {
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
-//                            sendRequest();
                             sDialog.dismiss();
                         }
                     })
@@ -1065,7 +1070,8 @@ public class FeaturesActivity extends AppCompatActivity {
     //Send to sGDP server to verify connection
     void changeWindowRemote(int windowRemote) {
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + windowRemote, null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url
+                + "/diag_functions?params=" + windowRemote, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -1177,6 +1183,8 @@ public class FeaturesActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = mSharedPreferences.edit();
                         isConnected = true;
                         try {
                             navNum = response.getInt("return_value");
@@ -1189,6 +1197,7 @@ public class FeaturesActivity extends AppCompatActivity {
                         } else navBool = navNum == 43;
                         // display response
                         Log.d("Response", response.toString());
+                        edit.apply();
                         setNavOverride(navBool);
                     }
                 },

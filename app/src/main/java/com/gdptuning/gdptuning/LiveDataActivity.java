@@ -77,108 +77,38 @@ public class LiveDataActivity extends AppCompatActivity {
             }
         });
 
+        //tab id
+        mTabLayout = findViewById(R.id.tabs);
 
-        //Gauge Selection
-        if (getGaugeListener() == GAUGEPROGRESS) {
-            //tab id
-            mTabLayout = findViewById(R.id.tabs);
+        //add tabs
+        mTabLayout.addTab(mTabLayout.newTab().setText("Page 1"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Page 2"));
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-            //add tabs
-            mTabLayout.addTab(mTabLayout.newTab().setText("Page 1"));
-            mTabLayout.addTab(mTabLayout.newTab().setText("Page 2"));
-            mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        //set viewPager
+        mViewPager = findViewById(R.id.container);
 
-            //set viewPager
-            mViewPager = findViewById(R.id.container);
+        PagerDigital adapter = new PagerDigital(getSupportFragmentManager(), mTabLayout.getTabCount());
+        mViewPager.setAdapter(adapter);
 
-            PagerBar adapter = new PagerBar(getSupportFragmentManager(), mTabLayout.getTabCount());
-            mViewPager.setAdapter(adapter);
+        //swipe code
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
-            //swipe code
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                }
+            @Override
+            public void onPageSelected(int position) {
+                mTabLayout.setScrollPosition(position, 0, true);
+                mTabLayout.setSelected(true);
+            }
 
-                @Override
-                public void onPageSelected(int position) {
-                    mTabLayout.setScrollPosition(position, 0, true);
-                    mTabLayout.setSelected(true);
-                }
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-                @Override
-                public void onPageScrollStateChanged(int state) {
+            }
+        });
 
-                }
-            });
-
-        } else if (getGaugeListener() == GAUGEPLAIN) {
-            //tab id
-            mTabLayout = findViewById(R.id.tabs);
-
-            //add tabs
-            mTabLayout.addTab(mTabLayout.newTab().setText("Page 1"));
-            mTabLayout.addTab(mTabLayout.newTab().setText("Page 2"));
-            mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-            //set viewPager
-            mViewPager = findViewById(R.id.container);
-
-            Pager adapter = new Pager(getSupportFragmentManager(), mTabLayout.getTabCount());
-            mViewPager.setAdapter(adapter);
-
-            //swipe code
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    mTabLayout.setScrollPosition(position, 0, true);
-                    mTabLayout.setSelected(true);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-
-        } else if (getGaugeListener() == GAUGEDIGITAL) {
-            //tab id
-            mTabLayout = findViewById(R.id.tabs);
-
-            //add tabs
-            mTabLayout.addTab(mTabLayout.newTab().setText("Page 1"));
-            mTabLayout.addTab(mTabLayout.newTab().setText("Page 2"));
-            mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-            //set viewPager
-            mViewPager = findViewById(R.id.container);
-
-            PagerDigital adapter = new PagerDigital(getSupportFragmentManager(), mTabLayout.getTabCount());
-            mViewPager.setAdapter(adapter);
-
-            //swipe code
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    mTabLayout.setScrollPosition(position, 0, true);
-                    mTabLayout.setSelected(true);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-
-        }
 
         tvTune = findViewById(R.id.tunenum);
         tvGear = findViewById(R.id.gear_position);
@@ -200,11 +130,6 @@ public class LiveDataActivity extends AppCompatActivity {
                 }
             }
         }, 0, 1);//put here time 1000 milliseconds=1 second
-    }
-
-    private int getGaugeListener() {
-        SharedPreferences mySharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mySharedPreferences.getInt("gauge", GAUGEDIGITAL);
     }
 
     private int getColorTheme() {

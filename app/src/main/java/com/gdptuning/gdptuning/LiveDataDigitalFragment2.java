@@ -65,12 +65,12 @@ public class LiveDataDigitalFragment2 extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_livedata_digital_2, container, false);
 
         //connect textViews
-        tvEgt = mView.findViewById(R.id.egt);
-        tvBoostView = mView.findViewById(R.id.boost);
-        tvTurbo = mView.findViewById(R.id.turbo);
-        tvOilPressure = mView.findViewById(R.id.oil_pressure);
-        tvFuel = mView.findViewById(R.id.fuel_rate);
-        tvCoolant = mView.findViewById(R.id.coolant);
+//        tvEgt = mView.findViewById(R.id.egt);
+//        tvBoostView = mView.findViewById(R.id.boost);
+//        tvTurbo = mView.findViewById(R.id.turbo);
+//        tvOilPressure = mView.findViewById(R.id.oil_pressure);
+//        tvFuel = mView.findViewById(R.id.fuel_rate);
+//        tvCoolant = mView.findViewById(R.id.coolant);
 
 
         return mView;

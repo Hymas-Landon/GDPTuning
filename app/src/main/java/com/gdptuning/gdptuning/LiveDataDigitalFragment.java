@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,11 +27,11 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import de.nitri.gauge.Gauge;
 
 public class LiveDataDigitalFragment extends Fragment {
 
@@ -42,6 +43,8 @@ public class LiveDataDigitalFragment extends Fragment {
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     //        final String url = "https://api.myjson.com/bins/17x8hg";
+
+    List<Integer> lstImages = new ArrayList<>();
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
@@ -53,13 +56,13 @@ public class LiveDataDigitalFragment extends Fragment {
     RequestQueue queue;
     WifiManager wifi;
 
-    //Gauges
-    Gauge gauge1;
-    Gauge gauge2;
-    Gauge gauge3;
-    Gauge gauge4;
-    Gauge gauge5;
-    Gauge gauge6;
+//    //Gauges
+//    Gauge gauge1;
+//    Gauge gauge2;
+//    Gauge gauge3;
+//    Gauge gauge4;
+//    Gauge gauge5;
+//    Gauge gauge6;
 
     @Nullable
     @Override
@@ -67,21 +70,13 @@ public class LiveDataDigitalFragment extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_livedata_digital, container, false);
 
 
-        //connect textViews
-        tvEgt = mView.findViewById(R.id.egt);
-        tvBoostView = mView.findViewById(R.id.boost);
-        tvTurbo = mView.findViewById(R.id.turbo);
-        tvOilPressure = mView.findViewById(R.id.oil_pressure);
-        tvFuel = mView.findViewById(R.id.fuel_rate);
-        tvCoolant = mView.findViewById(R.id.coolant);
-
         //Gauges information
-        gauge1 = mView.findViewById(R.id.gauge1);
-        gauge2 = mView.findViewById(R.id.gauge2);
-        gauge3 = mView.findViewById(R.id.gauge3);
-        gauge4 = mView.findViewById(R.id.gauge4);
-        gauge5 = mView.findViewById(R.id.gauge5);
-        gauge6 = mView.findViewById(R.id.gauge6);
+//        gauge1 = mView.findViewById(R.id.gauge1);
+//        gauge2 = mView.findViewById(R.id.gauge2);
+//        gauge3 = mView.findViewById(R.id.gauge3);
+//        gauge4 = mView.findViewById(R.id.gauge4);
+//        gauge5 = mView.findViewById(R.id.gauge5);
+//        gauge6 = mView.findViewById(R.id.gauge6);
 
         return mView;
     }
@@ -212,6 +207,10 @@ public class LiveDataDigitalFragment extends Fragment {
                             float turbo = variables.getInt("turbo");
                             float fuel = variables.getInt("fule");
                             float coolant = variables.getInt("coolant");
+
+                            ImageView needle1 = Objects.requireNonNull(getView()).findViewById(R.id.needle1);
+                            needle1.setRotation(egt);
+
 
 //                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
 //                                TextView oilText = getView().findViewById(R.id.title4);

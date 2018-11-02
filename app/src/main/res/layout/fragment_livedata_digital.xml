@@ -90,6 +90,18 @@
     <!--app:sv_unitTextSize="20dp"-->
     <!--app:sv_withTremble="false" />-->
 
+    <!--<com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager-->
+    <!--android:id="@+id/horizontal_cycle"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"-->
+    <!--app:icvp_scroll_duration="250"-->
+    <!--app:icvp_center_page_scale_offset="30dp"-->
+    <!--app:icvp_min_page_scale_offset="-110dp"-->
+    <!--app:icvp_max_page_scale="0.8"-->
+    <!--app:icvp_min_page_scale="0.65"-->
+    <!--app:icvp_medium_scaled="false"/>-->
+
     <ImageView
         android:id="@+id/needleGauge3"
         android:layout_width="260dp"
@@ -100,13 +112,13 @@
 
     <ImageView
         android:id="@+id/needle3"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_alignTop="@id/needleGauge3"
         android:layout_alignEnd="@id/needleGauge3"
-        android:layout_marginTop="82dp"
-        android:layout_marginEnd="123dp"
-        android:rotation="-104"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:rotation="-100"
         android:src="@drawable/needle" />
 
     <ImageView
@@ -116,38 +128,36 @@
         android:layout_marginTop="35dp"
         android:layout_alignEnd="@id/needleGauge2"
         android:layout_marginEnd="-225dp"
-        android:src="@drawable/oil_temperature" />
+        android:src="@drawable/injectiontime" />
 
     <ImageView
         android:id="@+id/needle1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_alignTop="@id/needleGauge1"
         android:layout_alignEnd="@id/needleGauge1"
-        android:layout_marginTop="79dp"
-        android:layout_marginEnd="121dp"
-        android:rotation="-90"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:rotation="0"
         android:src="@drawable/needle" />
 
     <ImageView
         android:id="@+id/needleGauge2"
         android:layout_width="350dp"
         android:layout_height="350dp"
-        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:src="@drawable/oil_pressure" />
 
     <ImageView
         android:id="@+id/needle2"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_alignTop="@id/needleGauge2"
         android:layout_alignEnd="@id/needleGauge2"
-        android:layout_marginTop="129dp"
-        android:layout_marginEnd="158dp"
+        android:layout_marginTop="24.5dp"
+        android:layout_marginEnd="24.5dp"
         android:rotation="-120"
-        android:transformPivotX="68dp"
-        android:transformPivotY="72dp"
         android:src="@drawable/needle" />
 
     <!--<ImageView-->
@@ -182,22 +192,17 @@
     <!--android:layout_marginTop="210dp"-->
     <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
     <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="?attr/gauges_color"-->
-    <!--app:sv_indicator="TriangleIndicator"-->
-    <!--app:sv_indicatorColor="?attr/speedtext_color"-->
-    <!--app:sv_indicatorWidth="15dp"-->
-    <!--app:sv_markColor="?attr/speedtext_color"-->
-    <!--app:sv_maxSpeed="350"-->
+    <!--app:sv_image="@drawable/turbo_vanes"-->
     <!--app:sv_speedTextColor="?attr/speedtext_color"-->
     <!--app:sv_speedTextPadding="82dp"-->
     <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="20dp"-->
+    <!--app:sv_speedTextSize="0dp"-->
     <!--app:sv_startDegree="90"-->
     <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="10dp"-->
+    <!--app:sv_textSize="0dp"-->
     <!--app:sv_tickNumber="11"-->
-    <!--app:sv_tickPadding="16dp"-->
-    <!--app:sv_unit="psi"-->
+    <!--app:sv_tickPadding="0dp"-->
+    <!--app:sv_unit=""-->
     <!--app:sv_unitTextColor="?attr/speedtext_color"-->
     <!--app:sv_unitTextSize="20dp"-->
     <!--app:sv_withTremble="false" />-->

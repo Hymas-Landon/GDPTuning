@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,15 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -106,7 +97,7 @@ public class VehiclesActivity extends AppCompatActivity {
 
 
         queue = VolleySingleton.getInstance(this).getRequestQueue();
-        sendRequest();
+//        sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -115,7 +106,7 @@ public class VehiclesActivity extends AppCompatActivity {
                 if (isConnected) {
                     if (!isProcessing) {
                         Log.d("TEST2 :", "Sending request");
-                        updateRequest();
+//                        updateRequest();
                     }
                 }
 
@@ -150,7 +141,7 @@ public class VehiclesActivity extends AppCompatActivity {
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
-    //Send to sGDP server to verify connection
+/*    //Send to sGDP server to verify connection
     public void sendRequest() {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -321,5 +312,5 @@ public class VehiclesActivity extends AppCompatActivity {
                     })
                     .show();
         }
-    }
+    }*/
 }

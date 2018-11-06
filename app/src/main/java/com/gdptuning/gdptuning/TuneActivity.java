@@ -31,11 +31,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
-    boolean isConnected = false;
-    boolean isProcessing = false;
+    private boolean isConnected = false;
+    private boolean isProcessing = false;
     String device = "GDP";
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
-    int tuneMode = 0;
+    private int tuneMode = 0;
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
@@ -322,7 +322,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     btn_num5.setBackgroundResource(R.drawable.red5);
                 }
                 break;
-
             default:
                 btn_num1.setBackgroundResource(R.drawable.grey1);
                 btn_num2.setBackgroundResource(R.drawable.grey2);

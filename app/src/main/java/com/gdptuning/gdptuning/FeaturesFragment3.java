@@ -274,7 +274,6 @@ public class FeaturesFragment3 extends Fragment {
                 edit.apply();
             }
         });
-
     }
 
     public boolean isAux1() {

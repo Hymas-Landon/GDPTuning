@@ -129,7 +129,7 @@ public class LiveDataActivity extends AppCompatActivity {
                     }
                 }
             }
-        }, 0, 1);//put here time 1000 milliseconds=1 second
+        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     private int getColorTheme() {

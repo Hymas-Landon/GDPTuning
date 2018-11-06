@@ -40,6 +40,8 @@ public class FeaturesFragment extends Fragment {
     Timer timer;
     private int pressureTPMSIndex;
     private int tireIndex;
+    private int tpmsNum;
+    private int tpms;
 
 
     @Nullable
@@ -64,7 +66,6 @@ public class FeaturesFragment extends Fragment {
         arrowRight2 = mView.findViewById(R.id.arrowRight2);
         arrowRight3 = mView.findViewById(R.id.arrowRight3);
         arrowRight4 = mView.findViewById(R.id.arrowRight4);
-
         return mView;
     }
 
@@ -392,54 +393,67 @@ public class FeaturesFragment extends Fragment {
                             switch (pressureTPMSIndex) {
                                 case 0:
                                     edit.putInt("pressure_tpms", 25);
+                                    tpms = 10;
                                     edit.apply();
                                     break;
                                 case 1:
                                     edit.putInt("pressure_tpms", 30);
+                                    tpms = 11;
                                     edit.apply();
                                     break;
                                 case 2:
                                     edit.putInt("pressure_tpms", 35);
+                                    tpms = 12;
                                     edit.apply();
                                     break;
                                 case 3:
                                     edit.putInt("pressure_tpms", 40);
+                                    tpms = 13;
                                     edit.apply();
                                     break;
                                 case 4:
                                     edit.putInt("pressure_tpms", 45);
+                                    tpms = 14;
                                     edit.apply();
                                     break;
                                 case 5:
                                     edit.putInt("pressure_tpms", 50);
+                                    tpms = 15;
                                     edit.apply();
                                     break;
                                 case 6:
                                     edit.putInt("pressure_tpms", 55);
+                                    tpms = 16;
                                     edit.apply();
                                     break;
                                 case 7:
                                     edit.putInt("pressure_tpms", 60);
+                                    tpms = 17;
                                     edit.apply();
                                     break;
                                 case 8:
                                     edit.putInt("pressure_tpms", 65);
+                                    tpms = 18;
                                     edit.apply();
                                     break;
                                 case 9:
                                     edit.putInt("pressure_tpms", 70);
+                                    tpms = 19;
                                     edit.apply();
                                     break;
                                 case 10:
                                     edit.putInt("pressure_tpms", 75);
+                                    tpms = 20;
                                     edit.apply();
                                     break;
                                 case 11:
                                     edit.putInt("pressure_tpms", 80);
+                                    tpms = 21;
                                     edit.apply();
                                     break;
                                 case 12:
                                     edit.putInt("pressure_tpms", 0);
+                                    tpms = 22;
                                     edit.apply();
                                     break;
                             }
@@ -1162,74 +1176,99 @@ public class FeaturesFragment extends Fragment {
         return mSharedPreferences.getBoolean("factory_settings", false);
     }
 
-    public int getDefaultTireSize() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getInt("tire_size", 31);
-    }
 
-    public int getDefaultTPMS() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getInt("pressure_tpms", 80);
-    }
-
-    public boolean isDefaultLampCurrent() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("lamp_current", false);
-    }
-
-    public boolean isDefaultFogLights() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("fog_lights", false);
-    }
-
-    public int getDefaultDaytimeLights() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getInt("daytime_lights", 1);
-    }
-
-    public int getDefaultRemoteStart() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getInt("remote_start", 3);
-    }
-
-    public boolean isDefaultNavOverride() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("nav_override", false);
-    }
-
-    public boolean isDefaultRemoteWindow() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("remote_window", false);
-    }
-
-    public boolean isDefaultAux1() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("aux1", false);
-    }
-
-    public boolean isDefaultAux2() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("aux2", false);
-    }
-
-    public boolean isDefaultAux3() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("aux3", false);
-    }
-
-    public boolean isDefaultWorkLight() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("work_light", false);
-    }
-
-    public boolean isDefaultStrobeLight() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("strobe_light", false);
-    }
-
-    public boolean isDefaultHighIdle() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Default_Settings", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("high_idle", false);
-    }
+//    //Send to sGDP server to verify connection
+//    void switchTpms(int requestTpms) {
+//        // prepare the Request
+//        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTpms, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        isConnected = true;
+//                        try {
+//                            tpmsNum = response.getInt("return_value");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+//                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+//                        switch (tpmsNum) {
+//                            case 10:
+//                                edit.putInt("pressure_tpms", 25);
+//                                break;
+//                            case 11:
+//                                edit.putInt("pressure_tpms", 30);
+//                                break;
+//                            case 12:
+//                                edit.putInt("pressure_tpms", 35);
+//                                break;
+//                            case 13:
+//                                edit.putInt("pressure_tpms", 40);
+//                                break;
+//                            case 14:
+//                                edit.putInt("pressure_tpms", 45);
+//                                break;
+//                            case 15:
+//                                edit.putInt("pressure_tpms", 50);
+//                                break;
+//                            case 16:
+//                                edit.putInt("pressure_tpms", 55);
+//                                break;
+//                            case 17:
+//                                edit.putInt("pressure_tpms", 60);
+//                                break;
+//                            case 18:
+//                                edit.putInt("pressure_tpms", 65);
+//                                break;
+//                            case 19:
+//                                edit.putInt("pressure_tpms", 70);
+//                                break;
+//                            case 20:
+//                                edit.putInt("pressure_tpms", 75);
+//                                break;
+//                            case 21:
+//                                edit.putInt("pressure_tpms", 80);
+//                                break;
+//                            case 22:
+//                                edit.putInt("pressure_tpms", 0);
+//                                edit.apply();
+//                        }
+//                        // display response
+//                        Log.d("Response", response.toString());
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        isConnected = false;
+//                        Log.d("Error.Response", error.toString());
+//
+//                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
+//                                .setTitleText("No Connection")
+//                                .setContentText("You are not connected to a GDP device. Retry by " +
+//                                        "tapping 'Retry' or check your wifi settings by tapping " +
+//                                        "'Connect'.")
+//                                .setCancelText("Retry")
+//                                .setConfirmText("Connect")
+//                                .showCancelButton(true)
+//                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sDialog) {
+//                                        sDialog.dismiss();
+//                                    }
+//                                })
+//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sDialog) {
+//                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//                                    }
+//                                })
+//                                .show();
+//                    }
+//                }
+//        );
+//        // add it to the RequestQueue
+//        queue.add(getRequest);
+//    }
 
 }

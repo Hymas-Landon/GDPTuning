@@ -1,11 +1,9 @@
 package com.gdptuning.gdptuning;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.anastr.speedviewlib.ImageSpeedometer;
+import com.github.anastr.speedviewlib.components.Indicators.ImageIndicator;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
@@ -156,28 +155,6 @@ public class LiveDataDigitalFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
-
-                        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                }).show();
                     }
                 }
         );
@@ -207,9 +184,8 @@ public class LiveDataDigitalFragment extends Fragment {
                             float turbo = variables.getInt("turbo");
                             float fuel = variables.getInt("fule");
                             float coolant = variables.getInt("coolant");
+                            float oil_pressure = variables.getInt("oil_pressur");
 
-                            ImageView needle1 = Objects.requireNonNull(getView()).findViewById(R.id.needle1);
-                            needle1.setRotation(egt);
 
 
 //                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
@@ -228,21 +204,28 @@ public class LiveDataDigitalFragment extends Fragment {
 //                                    imageSpeedometer2.speedTo(0);
 //                                }
 //
-//                                //Gauge3
-//                                ImageSpeedometer imageSpeedometer3 = getView().findViewById(R.id.speedGauge3);
-//                                imageSpeedometer3.speedTo(turbo);
+                            //Gauge3
+                            ImageIndicator mImageIndicatorSmall = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
+                            ImageSpeedometer imageSpeedometer3 = Objects.requireNonNull(getView()).findViewById(R.id.speedGauge4);
+                            imageSpeedometer3.setIndicator(mImageIndicatorSmall);
+                            imageSpeedometer3.speedTo(turbo);
 //
 //                                //Gauge4
 //                                ImageSpeedometer imageSpeedometer4 = getView().findViewById(R.id.speedGauge4);
 //                                imageSpeedometer4.speedTo((float) ((fordOilTemp * 1.8) + 32));
 //
-//                                //Gauge5
-//                                ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge5);
-//                                imageSpeedometer5.speedTo(fuel);
-//
-//                                //Gauge6
-//                                ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge6);
-//                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
+                            //Gauge5
+                            ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge2);
+                            imageSpeedometer5.setIndicator(mImageIndicatorSmall);
+                            imageSpeedometer5.speedTo(fuel);
+
+                            //Gauge6
+                            ImageIndicator mImageIndicatorLarge = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
+                            ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge3);
+                            imageSpeedometer6.setIndicator(mImageIndicatorLarge);
+                            imageSpeedometer6.speedTo((float) (oil_pressure * 0.145));
+
+
 //                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
 //                                TextView oilText = getView().findViewById(R.id.title4);
 //                                oilText.setText("Oil \nPressure");
@@ -289,29 +272,6 @@ public class LiveDataDigitalFragment extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-
                         isProcessing = false;
                     }
                 }
@@ -336,28 +296,6 @@ public class LiveDataDigitalFragment extends Fragment {
                     })
                     .show();
         } else {
-            new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("No Connection")
-                    .setContentText("Your are not connected to a GDP device. Retry by " +
-                            "tapping 'Retry' or check your wifi settings by tapping " +
-                            "'Connect'.")
-                    .setCancelText("Retry")
-                    .setConfirmText("Connect")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendRequest();
-                            sDialog.dismiss();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    })
-                    .show();
         }
     }
 }

@@ -1,11 +1,9 @@
 package com.gdptuning.gdptuning;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -145,25 +142,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                }).show();
                     }
                 }
         );
@@ -211,26 +189,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("Your are not connected to GDP device")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
 
                         isProcessing = false;
                     }
@@ -238,44 +196,5 @@ public class LiveDataDigitalFragment2 extends Fragment {
         );
         // add it to the RequestQueue
         queue.add(getRequest);
-    }
-
-    //Show Connection details
-    void displayDevicecInfo() {
-        if (isConnected) {
-            new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Connected")
-                    .setContentText("You are connected to " + device)
-                    .setConfirmText("ok")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance
-                            sDialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device")
-                    .setCancelText("Retry")
-                    .setConfirmText("Connect")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendRequest();
-                            sDialog.dismiss();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    })
-                    .show();
-        }
     }
 }

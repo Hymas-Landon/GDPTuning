@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,131 +35,75 @@
     <!--app:sv_unitTextSize="25dp"-->
     <!--app:sv_withTremble="false" />-->
 
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/speedGauge2"-->
-    <!--android:layout_width="230dp"-->
-    <!--android:layout_height="230dp"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_marginStart="200dp"-->
-    <!--android:layout_marginTop="100dp"-->
-    <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
-    <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="?attr/gauges_color"-->
-    <!--app:sv_indicator="TriangleIndicator"-->
-    <!--app:sv_indicatorColor="?attr/speedtext_color"-->
-    <!--app:sv_markColor="?attr/speedtext_color"-->
-    <!--app:sv_maxSpeed="60"-->
-    <!--app:sv_speedTextColor="?attr/speedtext_color"-->
-    <!--app:sv_speedTextPadding="109dp"-->
-    <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="25dp"-->
-    <!--app:sv_startDegree="90"-->
-    <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="12dp"-->
-    <!--app:sv_tickNumber="11"-->
-    <!--app:sv_tickPadding="23dp"-->
-    <!--app:sv_unit="psi"-->
-    <!--app:sv_unitTextColor="?attr/speedtext_color"-->
-    <!--app:sv_unitTextSize="25dp"-->
-    <!--app:sv_withTremble="false" />-->
-
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/speedGauge3"-->
-    <!--android:layout_width="170dp"-->
-    <!--android:layout_height="170dp"-->
-    <!--android:layout_marginStart="30dp"-->
-    <!--android:layout_marginTop="35dp"-->
-    <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
-    <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="?attr/gauges_color"-->
-    <!--app:sv_indicator="TriangleIndicator"-->
-    <!--app:sv_indicatorColor="?attr/speedtext_color"-->
-    <!--app:sv_indicatorWidth="15dp"-->
-    <!--app:sv_markColor="?attr/speedtext_color"-->
-    <!--app:sv_maxSpeed="100"-->
-    <!--app:sv_speedTextColor="?attr/speedtext_color"-->
-    <!--app:sv_speedTextPadding="82dp"-->
-    <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="20dp"-->
-    <!--app:sv_startDegree="90"-->
-    <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="10dp"-->
-    <!--app:sv_tickNumber="11"-->
-    <!--app:sv_tickPadding="16dp"-->
-    <!--app:sv_unit="%"-->
-    <!--app:sv_unitTextColor="?attr/speedtext_color"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
-
-    <!--<com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager-->
-    <!--android:id="@+id/horizontal_cycle"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"-->
-    <!--app:icvp_scroll_duration="250"-->
-    <!--app:icvp_center_page_scale_offset="30dp"-->
-    <!--app:icvp_min_page_scale_offset="-110dp"-->
-    <!--app:icvp_max_page_scale="0.8"-->
-    <!--app:icvp_min_page_scale="0.65"-->
-    <!--app:icvp_medium_scaled="false"/>-->
-
-    <ImageView
-        android:id="@+id/needleGauge3"
+    <com.github.anastr.speedviewlib.ImageSpeedometer
+        android:id="@+id/speedGauge2"
         android:layout_width="260dp"
         android:layout_height="260dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
-        android:src="@drawable/turbo_vanes" />
+        app:sv_endDegree="373"
+        app:sv_image="@drawable/injectionfuelrate"
+        app:sv_indicatorColor="?attr/speedtext_color"
+        app:sv_markColor="?attr/speedtext_color"
+        app:sv_maxSpeed="150"
+        app:sv_speedTextSize="0dp"
+        app:sv_startDegree="151"
+        app:sv_textColor="?attr/gauge_text"
+        app:sv_textSize="0dp"
+        app:sv_tickNumber="17"
+        app:sv_tickPadding="10dp"
+        app:sv_unitTextColor="?attr/speedtext_color"
+        app:sv_unitTextSize="0dp"
+        app:sv_withTremble="false" />
 
-    <ImageView
-        android:id="@+id/needle3"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_alignTop="@id/needleGauge3"
-        android:layout_alignEnd="@id/needleGauge3"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:rotation="-100"
-        android:src="@drawable/needle" />
-
-    <ImageView
-        android:id="@+id/needleGauge1"
+    <com.github.anastr.speedviewlib.ImageSpeedometer
+        android:id="@+id/speedGauge4"
         android:layout_width="260dp"
         android:layout_height="260dp"
+        android:layout_alignEnd="@id/speedGauge3"
         android:layout_marginTop="35dp"
-        android:layout_alignEnd="@id/needleGauge2"
         android:layout_marginEnd="-225dp"
-        android:src="@drawable/injectiontime" />
+        app:sv_endDegree="370"
+        app:sv_image="@drawable/turbo_vanes"
+        app:sv_maxSpeed="100"
+        app:sv_minSpeed="0"
+        app:sv_speedTextColor="?attr/speedtext_color"
+        app:sv_speedTextPadding="82dp"
+        app:sv_speedTextPosition="TOP_CENTER"
+        app:sv_speedTextSize="0dp"
+        app:sv_startDegree="170"
+        app:sv_textColor="?attr/gauge_text"
+        app:sv_textSize="0dp"
+        app:sv_tickNumber="11"
+        app:sv_tickPadding="0dp"
+        app:sv_unit=""
+        app:sv_unitTextColor="?attr/speedtext_color"
+        app:sv_unitTextSize="20dp"
+        app:sv_withTremble="false" />
 
-    <ImageView
-        android:id="@+id/needle1"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_alignTop="@id/needleGauge1"
-        android:layout_alignEnd="@id/needleGauge1"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:rotation="0"
-        android:src="@drawable/needle" />
-
-    <ImageView
-        android:id="@+id/needleGauge2"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/oil_pressure" />
-
-    <ImageView
-        android:id="@+id/needle2"
+    <com.github.anastr.speedviewlib.ImageSpeedometer
+        android:id="@+id/speedGauge3"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_alignTop="@id/needleGauge2"
-        android:layout_alignEnd="@id/needleGauge2"
-        android:layout_marginTop="24.5dp"
-        android:layout_marginEnd="24.5dp"
-        android:rotation="-120"
-        android:src="@drawable/needle" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        app:sv_endDegree="390"
+        app:sv_image="@drawable/oil_pressure"
+        app:sv_indicatorWidth="15dp"
+        app:sv_markColor="?attr/speedtext_color"
+        app:sv_maxSpeed="160"
+        app:sv_speedTextColor="?attr/speedtext_color"
+        app:sv_speedTextPadding="82dp"
+        app:sv_speedTextPosition="TOP_CENTER"
+        app:sv_speedTextSize="0dp"
+        app:sv_startDegree="151"
+        app:sv_textColor="?attr/gauge_text"
+        app:sv_textSize="0dp"
+        app:sv_tickNumber="17"
+        app:sv_tickPadding="16dp"
+        app:sv_unitTextSize="0dp"
+        app:sv_withTremble="false" />
+
 
     <!--<ImageView-->
     <!--android:id="@+id/needleGauge4"-->
@@ -184,28 +129,6 @@
     <!--android:layout_marginStart="440dp"-->
     <!--android:src="@drawable/oil_temperature"/>-->
 
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/speedGauge4"-->
-    <!--android:layout_width="170dp"-->
-    <!--android:layout_height="170dp"-->
-    <!--android:layout_marginStart="30dp"-->
-    <!--android:layout_marginTop="210dp"-->
-    <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
-    <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="@drawable/turbo_vanes"-->
-    <!--app:sv_speedTextColor="?attr/speedtext_color"-->
-    <!--app:sv_speedTextPadding="82dp"-->
-    <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="0dp"-->
-    <!--app:sv_startDegree="90"-->
-    <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="0dp"-->
-    <!--app:sv_tickNumber="11"-->
-    <!--app:sv_tickPadding="0dp"-->
-    <!--app:sv_unit=""-->
-    <!--app:sv_unitTextColor="?attr/speedtext_color"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
 
     <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
     <!--android:id="@+id/speedGauge5"-->

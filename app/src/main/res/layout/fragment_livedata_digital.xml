@@ -7,269 +7,50 @@
     android:layout_marginTop="100dp"
     tools:ignore="spusage">
 
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/speedGauge1"-->
-    <!--android:layout_width="230dp"-->
-    <!--android:layout_height="230dp"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_marginTop="100dp"-->
-    <!--android:layout_marginEnd="10dp"-->
-    <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
-    <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="?attr/gauges_color"-->
-    <!--app:sv_indicator="TriangleIndicator"-->
-    <!--app:sv_indicatorColor="?attr/speedtext_color"-->
-    <!--app:sv_markColor="?attr/speedtext_color"-->
-    <!--app:sv_maxSpeed="2000"-->
-    <!--app:sv_speedTextColor="?attr/speedtext_color"-->
-    <!--app:sv_speedTextPadding="109dp"-->
-    <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="25dp"-->
-    <!--app:sv_startDegree="90"-->
-    <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="12dp"-->
-    <!--app:sv_tickNumber="11"-->
-    <!--app:sv_tickPadding="23dp"-->
-    <!--app:sv_unit="℉"-->
-    <!--app:sv_unitTextColor="?attr/speedtext_color"-->
-    <!--app:sv_unitTextSize="25dp"-->
-    <!--app:sv_withTremble="false" />-->
-
     <com.github.anastr.speedviewlib.ImageSpeedometer
-        android:id="@+id/speedGauge2"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:id="@+id/injection_fuel"
+        android:layout_width="310dp"
+        android:layout_height="310dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
         app:sv_endDegree="373"
         app:sv_image="@drawable/injectionfuelrate"
-        app:sv_indicatorColor="?attr/speedtext_color"
-        app:sv_markColor="?attr/speedtext_color"
         app:sv_maxSpeed="150"
         app:sv_speedTextSize="0dp"
         app:sv_startDegree="151"
-        app:sv_textColor="?attr/gauge_text"
         app:sv_textSize="0dp"
-        app:sv_tickNumber="17"
-        app:sv_tickPadding="10dp"
-        app:sv_unitTextColor="?attr/speedtext_color"
         app:sv_unitTextSize="0dp"
         app:sv_withTremble="false" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
-        android:id="@+id/speedGauge4"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
-        android:layout_alignEnd="@id/speedGauge3"
+        android:id="@+id/turbo_vanes"
+        android:layout_width="310dp"
+        android:layout_height="310dp"
+        android:layout_alignEnd="@id/oil_temp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="-225dp"
         app:sv_endDegree="370"
         app:sv_image="@drawable/turbo_vanes"
         app:sv_maxSpeed="100"
-        app:sv_minSpeed="0"
-        app:sv_speedTextColor="?attr/speedtext_color"
-        app:sv_speedTextPadding="82dp"
-        app:sv_speedTextPosition="TOP_CENTER"
         app:sv_speedTextSize="0dp"
         app:sv_startDegree="170"
-        app:sv_textColor="?attr/gauge_text"
         app:sv_textSize="0dp"
-        app:sv_tickNumber="11"
-        app:sv_tickPadding="0dp"
         app:sv_unit=""
-        app:sv_unitTextColor="?attr/speedtext_color"
-        app:sv_unitTextSize="20dp"
         app:sv_withTremble="false" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
-        android:id="@+id/speedGauge3"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:id="@+id/oil_temp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         app:sv_endDegree="390"
         app:sv_image="@drawable/oil_pressure"
-        app:sv_indicatorWidth="15dp"
-        app:sv_markColor="?attr/speedtext_color"
         app:sv_maxSpeed="160"
-        app:sv_speedTextColor="?attr/speedtext_color"
-        app:sv_speedTextPadding="82dp"
-        app:sv_speedTextPosition="TOP_CENTER"
         app:sv_speedTextSize="0dp"
         app:sv_startDegree="151"
-        app:sv_textColor="?attr/gauge_text"
         app:sv_textSize="0dp"
-        app:sv_tickNumber="17"
-        app:sv_tickPadding="16dp"
         app:sv_unitTextSize="0dp"
         app:sv_withTremble="false" />
-
-
-    <!--<ImageView-->
-    <!--android:id="@+id/needleGauge4"-->
-    <!--android:layout_width="190dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_marginStart="30dp"-->
-    <!--android:layout_marginTop="210dp"-->
-    <!--android:src="@drawable/oil_temperature"/>-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/needleGauge5"-->
-    <!--android:layout_width="190dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_alignTop="@id/needleGauge3"-->
-    <!--android:layout_marginStart="440dp"-->
-    <!--android:src="@drawable/oil_temperature"/>-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/needleGauge6"-->
-    <!--android:layout_width="190dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_alignTop="@id/needleGauge4"-->
-    <!--android:layout_marginStart="440dp"-->
-    <!--android:src="@drawable/oil_temperature"/>-->
-
-
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/speedGauge5"-->
-    <!--android:layout_width="170dp"-->
-    <!--android:layout_height="170dp"-->
-    <!--android:layout_alignTop="@id/speedGauge3"-->
-    <!--android:layout_marginStart="440dp"-->
-    <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
-    <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="?attr/gauges_color"-->
-    <!--app:sv_indicator="TriangleIndicator"-->
-    <!--app:sv_indicatorColor="?attr/speedtext_color"-->
-    <!--app:sv_indicatorWidth="15dp"-->
-    <!--app:sv_markColor="?attr/speedtext_color"-->
-    <!--app:sv_maxSpeed="160"-->
-    <!--app:sv_speedTextColor="?attr/speedtext_color"-->
-    <!--app:sv_speedTextPadding="82dp"-->
-    <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="20dp"-->
-    <!--app:sv_startDegree="90"-->
-    <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="10dp"-->
-    <!--app:sv_tickNumber="9"-->
-    <!--app:sv_tickPadding="16dp"-->
-    <!--app:sv_unit="mm3"-->
-    <!--app:sv_unitTextColor="?attr/speedtext_color"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
-
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/speedGauge6"-->
-    <!--android:layout_width="170dp"-->
-    <!--android:layout_height="170dp"-->
-    <!--android:layout_alignTop="@id/needleGauge4"-->
-    <!--android:layout_marginStart="440dp"-->
-    <!--app:sv_backgroundCircleColor="@color/colorBlackTransparent"-->
-    <!--app:sv_endDegree="360"-->
-    <!--app:sv_image="?attr/gauges_color"-->
-    <!--app:sv_indicator="TriangleIndicator"-->
-    <!--app:sv_indicatorColor="?attr/speedtext_color"-->
-    <!--app:sv_indicatorWidth="15dp"-->
-    <!--app:sv_markColor="?attr/speedtext_color"-->
-    <!--app:sv_maxSpeed="320"-->
-    <!--app:sv_minSpeed="-40"-->
-    <!--app:sv_speedTextColor="?attr/speedtext_color"-->
-    <!--app:sv_speedTextPadding="82dp"-->
-    <!--app:sv_speedTextPosition="TOP_CENTER"-->
-    <!--app:sv_speedTextSize="20dp"-->
-    <!--app:sv_startDegree="90"-->
-    <!--app:sv_textColor="?attr/gauge_text"-->
-    <!--app:sv_textSize="10dp"-->
-    <!--app:sv_tickNumber="10"-->
-    <!--app:sv_tickPadding="16dp"-->
-    <!--app:sv_unit="℉"-->
-    <!--app:sv_unitTextColor="?attr/speedtext_color"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/title1"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignStart="@+id/speedGauge1"-->
-    <!--android:layout_alignTop="@+id/speedGauge1"-->
-    <!--android:layout_alignEnd="@+id/speedGauge1"-->
-    <!--android:layout_alignBottom="@+id/speedGauge1"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="34dp"-->
-    <!--android:text="@string/egt"-->
-    <!--android:textColor="?attr/speedtext_color"-->
-    <!--android:textSize="24dp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/title2"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignStart="@+id/speedGauge2"-->
-    <!--android:layout_alignTop="@+id/speedGauge2"-->
-    <!--android:layout_alignEnd="@+id/speedGauge2"-->
-    <!--android:layout_alignBottom="@+id/speedGauge2"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="34dp"-->
-    <!--android:text="@string/boost"-->
-    <!--android:textColor="?attr/speedtext_color"-->
-    <!--android:textSize="24dp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/title3"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignStart="@+id/speedGauge3"-->
-    <!--android:layout_alignTop="@+id/speedGauge3"-->
-    <!--android:layout_alignEnd="@+id/speedGauge3"-->
-    <!--android:layout_alignBottom="@+id/speedGauge3"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="40dp"-->
-    <!--android:text="@string/turbo_vanes"-->
-    <!--android:textColor="?attr/speedtext_color"-->
-    <!--android:textSize="16dp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/title4"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignStart="@+id/speedGauge4"-->
-    <!--android:layout_alignTop="@+id/speedGauge4"-->
-    <!--android:layout_alignEnd="@+id/speedGauge4"-->
-    <!--android:layout_alignBottom="@+id/speedGauge4"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="40dp"-->
-    <!--android:textColor="?attr/speedtext_color"-->
-    <!--android:textSize="16dp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/title5"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignStart="@id/speedGauge5"-->
-    <!--android:layout_alignTop="@id/speedGauge5"-->
-    <!--android:layout_alignEnd="@id/speedGauge5"-->
-    <!--android:layout_alignBottom="@id/speedGauge5"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="40dp"-->
-    <!--android:text="@string/fuel_rate"-->
-    <!--android:textColor="?attr/speedtext_color"-->
-    <!--android:textSize="18dp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/title6"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignStart="@id/speedGauge6"-->
-    <!--android:layout_alignTop="@id/speedGauge6"-->
-    <!--android:layout_alignEnd="@id/speedGauge6"-->
-    <!--android:layout_alignBottom="@id/speedGauge6"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="26dp"-->
-    <!--android:text="@string/coolant"-->
-    <!--android:textColor="?attr/speedtext_color"-->
-    <!--android:textSize="18dp" />-->
-
 
 </RelativeLayout>

@@ -9,8 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,11 +48,16 @@ public class LiveDataDigitalFragment extends Fragment {
     Timer timer;
     RequestQueue queue;
     WifiManager wifi;
+    ImageSpeedometer gauge1, gauge2, gauge3;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_livedata_digital, container, false);
+        gauge1 = mView.findViewById(R.id.egt_temp);
+        gauge2 = mView.findViewById(R.id.boost);
+        gauge3 = mView.findViewById(R.id.oil_temp);
+
         return mView;
     }
 
@@ -151,71 +159,84 @@ public class LiveDataDigitalFragment extends Fragment {
                             deviceName += response.getString("id");
                             device = deviceName;
 
-
-                            float egt = variables.getInt("egt");
+                            /*
+                             * LIST OF VARIABLE FOR GAUGES
+                             * "boost", "egt", "fule", "timing", "coolant", "turbo", "frp", "oil_pressur", "oil_temp"
+                             * */
                             float boost = variables.getInt("boost");
-                            float turbo = variables.getInt("turbo");
+                            float egt = variables.getInt("egt");
                             float fuel = variables.getInt("fule");
+                            float timing = variables.getInt(("timing"));
                             float coolant = variables.getInt("coolant");
-                            float oil_pressure = variables.getInt("oil_pressur");
+                            float turbo = variables.getInt("turbo");
+                            float frp = variables.getInt("frp");
 
-                            ImageIndicator mImageIndicatorSmall = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
-                            ImageIndicator mImageIndicatorLarge = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle1);
+                            gauge2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View mView) {
+                                    PopupMenu mPopupMenu = new PopupMenu(getActivity(), gauge2);
+                                    mPopupMenu.getMenuInflater().inflate(R.menu.gauge_menu, mPopupMenu.getMenu());
 
-
-
-//                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-//                                TextView oilText = getView().findViewById(R.id.title4);
-//                                oilText.setText("Oil \nTemp");
-//                                float fordOilTemp = variables.getInt("oil_temp");
-
-                            // Turbo
-                            ImageSpeedometer turboVanes = Objects.requireNonNull(getView()).findViewById(R.id.turbo_vanes);
-                            turboVanes.setIndicator(mImageIndicatorSmall);
-                            turboVanes.speedTo(turbo);
-
-                            // Fuel
-                            ImageSpeedometer injectionFuel = getView().findViewById(R.id.injection_fuel);
-                            injectionFuel.setIndicator(mImageIndicatorSmall);
-                            injectionFuel.speedTo(fuel);
-
-                            // Oil Pressure
-                            ImageSpeedometer oilTemp = getView().findViewById(R.id.oil_temp);
-                            oilTemp.setIndicator(mImageIndicatorLarge);
-                            oilTemp.speedTo((float) (oil_pressure * 0.145));
+                                    mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem mMenuItem) {
+                                            Toast.makeText(getActivity(), "" + mMenuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+                                    });
+                                    mPopupMenu.show();
+                                }
+                            });
 
 
-//                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
-//                                TextView oilText = getView().findViewById(R.id.title4);
-//                                oilText.setText("Oil \nPressure");
-//                                float oil_pressure = variables.getInt("oil_pressur");
-//                                ImageSpeedometer imageSpeedometer1 = getView().findViewById(R.id.speedGauge1);
-//                                imageSpeedometer1.speedTo((float) ((egt * 1.8) + 32));
-//
-//                                //Gauge2
-//                                ImageSpeedometer imageSpeedometer2 = getView().findViewById(R.id.speedGauge2);
-//                                if (boost > 5) {
-//                                    imageSpeedometer2.speedTo((float) (boost * 0.1450377));
-//                                } else {
-//                                    imageSpeedometer2.speedTo(0);
-//                                }
-//
-//                                //Gauge3
-//                                ImageSpeedometer imageSpeedometer3 = getView().findViewById(R.id.speedGauge3);
-//                                imageSpeedometer3.speedTo(turbo);
-//
-//                                //Gauge4
-//                                ImageSpeedometer imageSpeedometer4 = getView().findViewById(R.id.speedGauge4);
-//                                imageSpeedometer4.speedTo((float) (oil_pressure * 0.145));
-//
-//                                //Gauge5
-//                                ImageSpeedometer imageSpeedometer5 = getView().findViewById(R.id.speedGauge5);
-//                                imageSpeedometer5.speedTo(fuel);
-//
-//                                //Gauge6
-//                                ImageSpeedometer imageSpeedometer6 = getView().findViewById(R.id.speedGauge6);
-//                                imageSpeedometer6.speedTo((float) ((coolant * 1.8) + 32));
-//                            }
+                            ImageIndicator smallIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
+                            ImageIndicator largeIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle1);
+
+
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                float fordOilTemp = variables.getInt("oil_temp");
+
+                                // EGT Temp
+                                ImageSpeedometer egtTemp = Objects.requireNonNull(getView()).findViewById(R.id.egt_temp);
+                                egtTemp.setIndicator(smallIndicator);
+                                egtTemp.speedTo(egt);
+
+                                // Boost
+                                ImageSpeedometer boost_perc = getView().findViewById(R.id.boost);
+                                boost_perc.setIndicator(largeIndicator);
+                                if (boost > 5) {
+                                    boost_perc.speedTo((float) (boost * 0.1450377));
+                                } else {
+                                    boost_perc.speedTo(0);
+                                }
+
+                                // Ford oil temp
+                                ImageSpeedometer oilTemp = getView().findViewById(R.id.oil_temp);
+                                oilTemp.setIndicator(largeIndicator);
+                                oilTemp.speedTo((float) (fordOilTemp * 0.145));
+
+                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
+                                float oil_pressure = variables.getInt("oil_pressur");
+
+                                // Gauge 1
+                                ImageSpeedometer egtTemp = Objects.requireNonNull(getView()).findViewById(R.id.egt_temp);
+                                egtTemp.setIndicator(smallIndicator);
+                                egtTemp.speedTo((float) ((egt * 1.8) + 32));
+
+                                // Gauge 2
+                                ImageSpeedometer boost_perc = getView().findViewById(R.id.boost);
+                                boost_perc.setIndicator(largeIndicator);
+                                if (boost > 5) {
+                                    boost_perc.speedTo((float) (boost * 0.1450377));
+                                } else {
+                                    boost_perc.speedTo(0);
+                                }
+
+                                // Gauge 3
+                                ImageSpeedometer oilPressure = getView().findViewById(R.id.oil_temp);
+                                oilPressure.setIndicator(smallIndicator);
+                                oilPressure.speedTo((float) (oil_pressure * 0.145));
+                            }
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -257,4 +278,5 @@ public class LiveDataDigitalFragment extends Fragment {
         } else {
         }
     }
+
 }

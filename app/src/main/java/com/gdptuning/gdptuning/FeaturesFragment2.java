@@ -72,6 +72,7 @@ public class FeaturesFragment2 extends Fragment {
         return mView;
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -665,28 +666,94 @@ public class FeaturesFragment2 extends Fragment {
         }
     }
 
+
+    public int checkDayTime() {
+        switch (getDaytimeLights()) {
+            case 25:
+                break;
+            case 30:
+                break;
+            case 35:
+                break;
+        }
+        return 0;
+    }
+
+    public int checkRemote() {
+        switch (getRemoteStart()) {
+            case 25:
+                break;
+            case 30:
+                break;
+            case 35:
+                break;
+            case 40:
+                break;
+            case 45:
+                break;
+            case 50:
+                break;
+            case 55:
+                break;
+            case 60:
+                break;
+            case 65:
+                break;
+            case 70:
+                break;
+            case 75:
+                break;
+            case 80:
+                break;
+            case 0:
+                break;
+        }
+        return 0;
+    }
+
+    public int checkRemoteWindow() {
+        int result;
+        if (isRemoteWindow()) {
+            result = 39;
+        } else {
+            result = 38;
+        }
+        return result;
+    }
+
+    public int checkNav() {
+        int nav;
+        if (isNavOverride()) {
+            nav = 43;
+        } else {
+            nav = 42;
+        }
+        return nav;
+    }
+
     private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("vehicle", VFORD1);
     }
 
     public int getDaytimeLights() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("daytime_lights", 1);
     }
 
     public int getRemoteStart() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("remote_start", 3);
     }
 
     public boolean isNavOverride() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences;
+        mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("nav_override", false);
     }
 
     public boolean isRemoteWindow() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("remote_window", false);
     }
 

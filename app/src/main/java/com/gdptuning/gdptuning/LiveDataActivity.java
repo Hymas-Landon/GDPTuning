@@ -81,8 +81,8 @@ public class LiveDataActivity extends AppCompatActivity {
         mTabLayout = findViewById(R.id.tabs);
 
         //add tabs
-        mTabLayout.addTab(mTabLayout.newTab().setText("Page 1"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Page 2"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Gauges"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Digital Readings"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //set viewPager

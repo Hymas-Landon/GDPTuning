@@ -8,38 +8,33 @@
     tools:ignore="spusage">
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
-        android:id="@+id/egt_temp"
+        android:id="@+id/injection_fuel"
         android:layout_width="310dp"
         android:layout_height="310dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
         app:sv_endDegree="373"
-        app:sv_image="@drawable/egttemperature"
+        app:sv_image="@drawable/injectionfuelrate"
         app:sv_maxSpeed="150"
-        app:sv_textColor="@color/colorOrange"
         app:sv_speedTextSize="0dp"
-        app:sv_textSize="0dp"
-        app:sv_tickNumber="7"
         app:sv_startDegree="151"
+        app:sv_textSize="0dp"
         app:sv_unitTextSize="0dp"
         app:sv_withTremble="false" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
-        android:id="@+id/boost"
+        android:id="@+id/turbo_vanes"
         android:layout_width="310dp"
         android:layout_height="310dp"
         android:layout_alignEnd="@id/coolant_temp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="-225dp"
-        app:sv_endDegree="377"
-        app:sv_image="@drawable/boost"
-        app:sv_maxSpeed="60"
-        app:sv_tickPadding="11dp"
-        app:sv_textColor="@color/colorOrange"
+        app:sv_endDegree="370"
+        app:sv_image="@drawable/turbo_vanes"
+        app:sv_maxSpeed="100"
         app:sv_speedTextSize="0dp"
+        app:sv_startDegree="170"
         app:sv_textSize="0dp"
-        app:sv_tickNumber="7"
-        app:sv_startDegree="163"
         app:sv_unit=""
         app:sv_withTremble="false" />
 
@@ -60,8 +55,5 @@
         app:sv_startDegree="150"
         app:sv_unitTextSize="0dp"
         app:sv_withTremble="false" />
-
-
-
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +15,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
+import org.json.JSONObject;
+
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -73,6 +82,46 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View mView) {
                 Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Read Button Pressed", Toast.LENGTH_SHORT);
                 mToast.show();
+                // prepare the Request
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 1, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                isConnected = true;
+                                Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Settings Read", Toast.LENGTH_SHORT);
+                                mToast.show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                                Log.d("Error.Response", error.toString());
+
+                                new SweetAlertDialog(Objects.requireNonNull(DiagnosticsActivity.this), SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("No Connection")
+                                        .setContentText("Your are not connected to GDP device")
+                                        .setCancelText("Retry")
+                                        .setConfirmText("Connect")
+                                        .showCancelButton(true)
+                                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                            }
+                                        })
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
             }
         });
         btn_clear.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +129,48 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View mView) {
                 Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Clear Button Pressed", Toast.LENGTH_SHORT);
                 mToast.show();
+                // prepare the Request
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 2, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                isConnected = true;
+                                Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Settings Read", Toast.LENGTH_SHORT);
+                                mToast.show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                                Log.d("Error.Response", error.toString());
+
+                                new SweetAlertDialog(Objects.requireNonNull(DiagnosticsActivity.this), SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("No Connection")
+                                        .setContentText("You are not connected to a GDP device. Retry by " +
+                                                "tapping 'Retry' or check your wifi settings by tapping " +
+                                                "'Connect'.")
+                                        .setCancelText("Retry")
+                                        .setConfirmText("Connect")
+                                        .showCancelButton(true)
+                                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                            }
+                                        })
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
             }
         });
         btn_reset_trans.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +178,48 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View mView) {
                 Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Reset Button Pressed", Toast.LENGTH_SHORT);
                 mToast.show();
+                // prepare the Request
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 3, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                isConnected = true;
+                                Toast mToast = Toast.makeText(DiagnosticsActivity.this, "Settings Read", Toast.LENGTH_SHORT);
+                                mToast.show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                                Log.d("Error.Response", error.toString());
+
+                                new SweetAlertDialog(Objects.requireNonNull(DiagnosticsActivity.this), SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("No Connection")
+                                        .setContentText("You are not connected to a GDP device. Retry by " +
+                                                "tapping 'Retry' or check your wifi settings by tapping " +
+                                                "'Connect'.")
+                                        .setCancelText("Retry")
+                                        .setConfirmText("Connect")
+                                        .showCancelButton(true)
+                                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                            }
+                                        })
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
             }
         });
 
@@ -340,7 +473,9 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 //        } else {
 //            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
 //                    .setTitleText("No Connection")
-//                    .setContentText("You are not connected to a GDP device")
+//                    .setContentText("You are not connected to a GDP device. Retry by " +
+//                            "tapping 'Retry' or check your wifi settings by tapping " +
+//                            "'Connect'.")
 //                    .setCancelText("Retry")
 //                    .setConfirmText("Connect")
 //                    .showCancelButton(true)

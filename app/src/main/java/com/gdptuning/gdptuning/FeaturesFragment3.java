@@ -276,6 +276,66 @@ public class FeaturesFragment3 extends Fragment {
         });
     }
 
+    public int checkStrobeLight() {
+        int result;
+        if (isHighIdle()) {
+            result = 45;
+        } else {
+            result = 46;
+        }
+        return result;
+    }
+
+    public int checkHighIdle() {
+        int result;
+        if (isHighIdle()) {
+            result = 45;
+        } else {
+            result = 46;
+        }
+        return result;
+    }
+
+    public int checkWorkLight() {
+        int result;
+        if (isWorkLight()) {
+            result = 47;
+        } else {
+            result = 48;
+        }
+        return result;
+    }
+
+    public int checkAux1() {
+        int result;
+        if (isAux1()) {
+            result = 51;
+        } else {
+            result = 42;
+        }
+        return result;
+    }
+
+    public int checkAux2() {
+        int result;
+        if (isAux2()) {
+            result = 43;
+        } else {
+            result = 42;
+        }
+        return result;
+    }
+
+    public int checkAux3() {
+        int result;
+        if (isAux3()) {
+            result = 43;
+        } else {
+            result = 42;
+        }
+        return result;
+    }
+
     public boolean isAux1() {
         SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getBoolean("aux1", false);

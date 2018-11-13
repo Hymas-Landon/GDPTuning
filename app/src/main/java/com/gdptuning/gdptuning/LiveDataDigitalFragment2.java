@@ -3,9 +3,11 @@ package com.gdptuning.gdptuning;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -47,21 +49,23 @@ public class LiveDataDigitalFragment2 extends Fragment implements View.OnTouchLi
     Timer timer;
     RequestQueue queue;
     WifiManager wifi;
-    ImageSpeedometer egtGauge, boostGauge, coolantTemp;
+    ImageSpeedometer turboGauge, injectionTiming, coolantTemp;
     private GestureDetector mGestureDetector;
     public static final String TAG = "GDP Tuning";
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_livedata_digital_2, container, false);
-        egtGauge = mView.findViewById(R.id.egt_temp);
-        boostGauge = mView.findViewById(R.id.boost);
+        turboGauge = mView.findViewById(R.id.turbo_vanes);
+        injectionTiming = mView.findViewById(R.id.injection_fuel);
         coolantTemp = mView.findViewById(R.id.coolant_temp);
-        egtGauge.setOnTouchListener(this);
-        boostGauge.setOnTouchListener(this);
+        turboGauge.setOnTouchListener(this);
+        injectionTiming.setOnTouchListener(this);
         coolantTemp.setOnTouchListener(this);
         mGestureDetector = new GestureDetector(getActivity(), this);
+
 
         return mView;
     }
@@ -161,17 +165,21 @@ public class LiveDataDigitalFragment2 extends Fragment implements View.OnTouchLi
                             ImageIndicator mImageIndicatorSmall = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
                             ImageIndicator mImageIndicatorLarge = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle1);
 
-                            float frp = variables.getInt("frp");
-                            float timing = variables.getInt(("timing"));
+                            /*
+                             * LIST OF VARIABLE FOR GAUGES
+                             * "boost", "egt", "fule", "timing", "coolant", "turbo", "frp", "oil_pressur", "oil_temp"
+                             * */
+                            float turbo = variables.getInt("turbo");
+                            float frp = variables.getInt(("frp"));
                             float coolant = variables.getInt("coolant");
 
-                            // EGT Temp Gauge
-                            egtGauge.setIndicator(mImageIndicatorSmall);
-                            egtGauge.speedTo((float) (frp * 145.0377));
+                            // Turbo
+                            turboGauge.setIndicator(mImageIndicatorSmall);
+                            turboGauge.speedTo(turbo);
 
-                            // Boost Gauges
-                            boostGauge.setIndicator(mImageIndicatorSmall);
-                            boostGauge.speedTo(timing);
+                            // Injection Timing
+                            injectionTiming.setIndicator(mImageIndicatorSmall);
+                            injectionTiming.speedTo(frp);
 
                             // Coolant Temp
                             coolantTemp.setIndicator(mImageIndicatorLarge);
@@ -272,11 +280,108 @@ public class LiveDataDigitalFragment2 extends Fragment implements View.OnTouchLi
     @Override
     public void onLongPress(MotionEvent mMotionEvent) {
         Log.d(TAG, "onLongPress: called");
+
+        injectionTiming.requestLayout();
+        turboGauge.requestLayout();
+        coolantTemp.requestLayout();
+        float yMain, xMain;
+        float ySecond, xSecond;
+        float yThird, xThird;
+        int heightMain = injectionTiming.getHeight();
+        int widthMain = injectionTiming.getWidth();
+        int heightSecond = turboGauge.getHeight();
+        int widthSecond = turboGauge.getWidth();
+        int heightThird = coolantTemp.getHeight();
+        int widthThird = coolantTemp.getWidth();
+        float homeMainX = 377;
+        float homeMainY = 75;
+        float homeSecondX = 45;
+        float homeSecondY = 53;
+        float homeThirdX = 774;
+        float homeThirdY = 53;
+        int homeHeight = 525;
+        int homeWidth = 525;
+        int secondWidth = 465;
+        int secondHeight = 465;
+        int thirdWidth = 465;
+        int thirdHeight = 465;
+        switch (getId()) {
+            case R.id.boost:
+                Log.d(TAG, "Boost Long Pressed");
+                injectionTiming.setX(homeMainX);
+                injectionTiming.setY(homeMainY);
+                injectionTiming.getLayoutParams().height = homeHeight;
+                injectionTiming.getLayoutParams().width = homeWidth;
+                injectionTiming.bringToFront();
+                break;
+            case R.id.egt_temp:
+                Log.d(TAG, "EGT Long Pressed");
+                turboGauge.setX(homeMainX);
+                turboGauge.setY(homeMainY);
+                turboGauge.getLayoutParams().height = homeHeight;
+                turboGauge.getLayoutParams().width = homeWidth;
+                turboGauge.bringToFront();
+                break;
+            case R.id.coolant_temp:
+                Log.d(TAG, "Coolant Temp Long Pressed");
+                coolantTemp.setX(homeMainX);
+                coolantTemp.setY(homeMainY);
+                coolantTemp.getLayoutParams().height = homeHeight;
+                coolantTemp.getLayoutParams().width = homeWidth;
+                coolantTemp.bringToFront();
+        }
+
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onFling(MotionEvent mMotionEvent, MotionEvent mMotionEvent1, float mV, float mV1) {
         Log.d(TAG, "onFling: called");
+//        injectionTiming.requestLayout();
+//        turboGauge.requestLayout();
+//        coolantTemp.requestLayout();
+//        float yMain, xMain;
+//        float ySecond, xSecond;
+//        float yThird, xThird;
+//        int heightMain = injectionTiming.getHeight();
+//        int widthMain = injectionTiming.getWidth();
+//        int heightSecond = turboGauge.getHeight();
+//        int widthSecond = turboGauge.getWidth();
+//        int heightThird = coolantTemp.getHeight();
+//        int widthThird = coolantTemp.getWidth();
+//
+//        Log.d(TAG, "Height for boost gauge " + injectionTiming.getHeight());
+//        Log.d(TAG, "Height for boost gauge " + coolantTemp.getHeight());
+//        Log.d(TAG, "Height for boost gauge " + turboGauge.getHeight());
+//        Log.d(TAG, "Width for boost gauge " + injectionTiming.getWidth());
+//        Log.d(TAG, "Width for boost gauge " + coolantTemp.getWidth());
+//        Log.d(TAG, "Width for boost gauge " + turboGauge.getWidth());
+//        yMain = coolantTemp.getY();
+//        Log.d(TAG, "Y for coolant temp: " + coolantTemp.getY());
+//        xMain = coolantTemp.getX();
+//        Log.d(TAG, "X for coolant temp: " + coolantTemp.getX());
+//        ySecond = turboGauge.getY();
+//        Log.d(TAG, "Y for egt gauge: " + turboGauge.getY());
+//        xSecond = turboGauge.getX();
+//        Log.d(TAG, "X for egt gauge: " + turboGauge.getX());
+//        yThird = injectionTiming.getY();
+//        Log.d(TAG, "Y for boost gauge " + injectionTiming.getY());
+//        xThird = injectionTiming.getX();
+//        Log.d(TAG, "X for boost gauge " + injectionTiming.getX());
+//        coolantTemp.setX(xThird);
+//        coolantTemp.setY(yThird);
+//        coolantTemp.getLayoutParams().height = heightThird;
+//        coolantTemp.getLayoutParams().width = widthThird;
+//        injectionTiming.setX(xSecond);
+//        injectionTiming.setY(ySecond);
+//        injectionTiming.getLayoutParams().height = heightSecond;
+//        injectionTiming.getLayoutParams().width = widthSecond;
+//        turboGauge.setX(xMain);
+//        turboGauge.setY(yMain);
+//        turboGauge.getLayoutParams().height = heightMain;
+//        turboGauge.getLayoutParams().width = widthMain;
+
         return false;
     }
 

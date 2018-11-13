@@ -27,6 +27,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -48,6 +49,7 @@ public class FeaturesActivity extends AppCompatActivity {
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
+    public static final String TAG = "GDP Tuning";
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private int tpmsNum, turnSigNum, tireSizeNum, fogLightsNum, dayRunNum, remoteStartNum, navNum,
@@ -171,15 +173,40 @@ public class FeaturesActivity extends AppCompatActivity {
         btn_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", MODE_PRIVATE);
+                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
                 SharedPreferences.Editor edit = mSharedPreferences.edit();
-                SharedPreferences readSharedPref = getSharedPreferences("Default_Settings", MODE_PRIVATE);
-                SharedPreferences.Editor readEdit = readSharedPref.edit();
-                readEdit.putBoolean("factory_settings", true);
-                readEdit.apply();
-                edit.apply();
+                if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                    int tpms = getDefaultTpms();
+                    int daytimeRunningLights = getDefaultDaytime();
+                    boolean lampOutage = isDefaultLamp();
+                    boolean fogLights = isDefaultFog();
+                    int tireSize = getDefaultTire();
+                    boolean remoteWindow = isDefaultWindow();
+                    int remoteStartDuration = getDefaultRemote();
+                    boolean nav = isDefaultNav();
+                    edit.putBoolean("lamp_current", lampOutage);
+                    edit.putInt("tire_size", tireSize);
+                    edit.putBoolean("fog_lights", fogLights);
+                    edit.putInt("daytime_lights", daytimeRunningLights);
+                    edit.putInt("remote_start", remoteStartDuration);
+//                    edit.putInt("remote_window", remoteWindow);
+                    edit.putBoolean("remote_window", remoteWindow);
+                    edit.putInt("pressure_tpms", tpms);
+                    edit.apply();
+                } else if (getVehicleType() == VGM2) {
+                    int tpms = getDefaultTpms();
+                    edit.putInt("pressure_tpms", tpms);
+                    edit.apply();
+                } else if (getVehicleType() == VRAM) {
+                    int tpms = getDefaultTpms();
+                    boolean fogLights = isDefaultFog();
+                    int tireSize = getDefaultTire();
+                    edit.putInt("pressure_tpms", tpms);
+                    edit.putBoolean("fog_lights", fogLights);
+                    edit.putInt("tire_size", tireSize);
+                    edit.apply();
+                }
                 recreate();
-
             }
         });
         btn_home = findViewById(R.id.btn_home);
@@ -197,20 +224,178 @@ public class FeaturesActivity extends AppCompatActivity {
         btn_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                edit.putBoolean("read_settings", true);
-                edit.apply();
-                recreate();
+                // prepare the Request
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                isConnected = true;
+                                try {
+                                    JSONObject variables = response.getJSONObject("variables");
+                                    Log.d("TEST2 ", variables.toString());
+
+                                    if (!isRead()) {
+                                        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        SharedPreferences readSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                        SharedPreferences.Editor readEdit = readSharedPreferences.edit();
+                                        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                            int tpms = variables.getInt("tpms");
+                                            int daytimeRunningLights = variables.getInt("drl");
+                                            int lampOutage = variables.getInt("lamp_out");
+                                            int fogLights = variables.getInt("fog_high");
+                                            int tireSize = variables.getInt("tire_size");
+                                            int remoteWindow = variables.getInt("rke_windows");
+                                            int remoteStartDuration = variables.getInt("rvs");
+//                                            int tpms = 35;
+//                                            int daytimeRunningLights = 3;
+//                                            int lampOutage = 1;
+//                                            int fogLights = 0;
+//                                            int tireSize = 32;
+//                                            int remoteWindow = 1;
+//                                            int remoteStartDuration = 2;
+
+                                            edit.putInt("pressure_tpms", tpms);
+                                            readEdit.putInt("pressure_tpms", tpms);
+                                            if (lampOutage == 0) {
+                                                edit.putBoolean("lamp_current", false);
+                                                readEdit.putBoolean("lamp_current", false);
+                                            } else if (lampOutage == 1) {
+                                                edit.putBoolean("lamp_current", true);
+                                                readEdit.putBoolean("lamp_current", true);
+                                            }
+                                            edit.putInt("tire_size", tireSize);
+                                            readEdit.putInt("tire_size", tireSize);
+                                            if (fogLights == 0) {
+                                                edit.putBoolean("fog_lights", false);
+                                                readEdit.putBoolean("fog_lights", false);
+                                            } else if (fogLights == 1) {
+                                                edit.putBoolean("fog_lights", true);
+                                                readEdit.putBoolean("fog_lights", true);
+                                            }
+                                            edit.putInt("daytime_lights", daytimeRunningLights);
+                                            edit.putInt("remote_start", remoteStartDuration);
+                                            edit.putInt("remote_window", remoteWindow);
+                                            readEdit.putInt("daytime_lights", daytimeRunningLights);
+                                            readEdit.putInt("remote_start", remoteStartDuration);
+                                            readEdit.putInt("remote_window", remoteWindow);
+                                            if (remoteWindow == 0) {
+                                                edit.putBoolean("remote_window", false);
+                                                readEdit.putBoolean("remote_window", false);
+                                            } else if (remoteWindow == 1) {
+                                                edit.putBoolean("remote_window", true);
+                                                readEdit.putBoolean("remote_window", true);
+                                            }
+                                        } else if (getVehicleType() == VGM2) {
+                                            int tpms = variables.getInt("tpms");
+                                            edit.putInt("pressure_tpms", tpms);
+                                            readEdit.putInt("pressure_tpms", tpms);
+                                        } else if (getVehicleType() == VRAM) {
+                                            int tpms = variables.getInt("tpms");
+                                            int fogLights = variables.getInt("fog_high");
+                                            int tireSize = variables.getInt("tire_size");
+                                            edit.putInt("tire_size", tireSize);
+                                            readEdit.putInt("tire_size", tireSize);
+                                            if (fogLights == 0) {
+                                                edit.putBoolean("fog_lights", false);
+                                                readEdit.putBoolean("fog_lights", false);
+                                            } else if (fogLights == 1) {
+                                                edit.putBoolean("fog_lights", true);
+                                                readEdit.putBoolean("fog_lights", true);
+                                            }
+                                            edit.putInt("pressure_tpms", tpms);
+                                            readEdit.putInt("pressure_tpms", tpms);
+                                        }
+                                        readEdit.putBoolean("factory_settings", true);
+                                        readEdit.apply();
+                                        readEdit.putBoolean("read_settings", true);
+                                        readEdit.apply();
+                                        edit.apply();
+                                        readSettings();
+                                        recreate();
+                                        sendRequest();
+                                    } else if (isRead()) {
+                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                            int tpms = variables.getInt("tpms");
+                                            int daytimeRunningLights = variables.getInt("drl");
+                                            int lampOutage = variables.getInt("lamp_out");
+                                            int fogLights = variables.getInt("fog_high");
+                                            int tireSize = variables.getInt("tire_size");
+                                            int remoteWindow = variables.getInt("rke_windows");
+                                            int remoteStartDuration = variables.getInt("rvs");
+
+                                            edit.putInt("pressure_tpms", tpms);
+                                            if (lampOutage == 0) {
+                                                edit.putBoolean("lamp_current", false);
+                                            } else if (lampOutage == 1) {
+                                                edit.putBoolean("lamp_current", true);
+                                            }
+                                            edit.putInt("tire_size", tireSize);
+                                            if (fogLights == 0) {
+                                                edit.putBoolean("fog_lights", false);
+                                            } else if (fogLights == 1) {
+                                                edit.putBoolean("fog_lights", true);
+                                            }
+                                            edit.putInt("daytime_lights", daytimeRunningLights);
+                                            edit.putInt("remote_start", remoteStartDuration);
+                                            edit.putInt("remote_window", remoteWindow);
+                                            if (remoteWindow == 0) {
+                                                edit.putBoolean("remote_window", false);
+                                            } else if (remoteWindow == 1) {
+                                                edit.putBoolean("remote_window", true);
+                                            }
+                                            edit.apply();
+                                        } else if (getVehicleType() == VGM2) {
+                                            int tpms = variables.getInt("tpms");
+                                            edit.putInt("pressure_tpms", tpms);
+                                            edit.apply();
+                                        } else if (getVehicleType() == VRAM) {
+                                            int tpms = variables.getInt("tpms");
+                                            int fogLights = variables.getInt("fog_high");
+                                            int tireSize = variables.getInt("tire_size");
+                                            edit.putInt("tire_size", tireSize);
+                                            if (fogLights == 0) {
+                                                edit.putBoolean("fog_lights", false);
+                                            } else if (fogLights == 1) {
+                                                edit.putBoolean("fog_lights", true);
+                                            }
+                                            edit.putInt("pressure_tpms", tpms);
+                                            edit.apply();
+                                        }
+                                    }
+                                    readSettings();
+                                    recreate();
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // display response
+                                Log.d("Response", response.toString());
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                );
+
+                // add it to the RequestQueue
+                queue.add(getRequest);
             }
+//            SharedPreferences readSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+//            SharedPreferences.Editor readEdit = readSharedPreferences.edit();
         });
 
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                switchTpms(checkTpms());
-                Toast mToast = Toast.makeText(getApplicationContext(), "TPMS = " + checkTpms(), Toast.LENGTH_LONG);
-                mToast.show();
+                programBCM();
             }
         });
 
@@ -234,504 +419,6 @@ public class FeaturesActivity extends AppCompatActivity {
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
     }
-
-    public int checkTpms() {
-        switch (getTPMS()) {
-            case 25:
-                tpms = 10;
-                break;
-            case 30:
-                tpms = 11;
-                break;
-            case 35:
-                tpms = 12;
-                break;
-            case 40:
-                tpms = 13;
-                break;
-            case 45:
-                tpms = 14;
-                break;
-            case 50:
-                tpms = 15;
-                break;
-            case 55:
-                tpms = 16;
-                break;
-            case 60:
-                tpms = 17;
-                break;
-            case 65:
-                tpms = 18;
-                break;
-            case 70:
-                tpms = 19;
-                break;
-            case 75:
-                tpms = 20;
-                break;
-            case 80:
-                tpms = 21;
-                break;
-            case 0:
-                tpms = 22;
-                break;
-        }
-        return tpms;
-    }
-
-    public int checkTires() {
-        int tireSize = 0;
-        switch (getTireSize()) {
-            case 31:
-                tireSize = 23;
-                break;
-            case 32:
-                tireSize = 24;
-                break;
-            case 33:
-                tireSize = 25;
-                break;
-            case 34:
-                tireSize = 26;
-                break;
-            case 35:
-                tireSize = 27;
-                break;
-            case 36:
-                tireSize = 28;
-                break;
-            case 37:
-                tireSize = 29;
-                break;
-        }
-        return tireSize;
-    }
-
-    public int checkLamp() {
-        switch (getTPMS()) {
-            case 25:
-                tpms = 10;
-                break;
-            case 30:
-                tpms = 11;
-                break;
-            case 35:
-                tpms = 12;
-                break;
-            case 40:
-                tpms = 13;
-                break;
-            case 45:
-                tpms = 14;
-                break;
-            case 50:
-                tpms = 15;
-                break;
-            case 55:
-                tpms = 16;
-                break;
-            case 60:
-                tpms = 17;
-                break;
-            case 65:
-                tpms = 18;
-                break;
-            case 70:
-                tpms = 19;
-                break;
-            case 75:
-                tpms = 20;
-                break;
-            case 80:
-                tpms = 21;
-                break;
-            case 0:
-                tpms = 22;
-                break;
-        }
-        return tpms;
-    }
-
-    public int checkFog() {
-        switch (getTPMS()) {
-            case 25:
-                tpms = 10;
-                break;
-            case 30:
-                tpms = 11;
-                break;
-            case 35:
-                tpms = 12;
-                break;
-            case 40:
-                tpms = 13;
-                break;
-            case 45:
-                tpms = 14;
-                break;
-            case 50:
-                tpms = 15;
-                break;
-            case 55:
-                tpms = 16;
-                break;
-            case 60:
-                tpms = 17;
-                break;
-            case 65:
-                tpms = 18;
-                break;
-            case 70:
-                tpms = 19;
-                break;
-            case 75:
-                tpms = 20;
-                break;
-            case 80:
-                tpms = 21;
-                break;
-            case 0:
-                tpms = 22;
-                break;
-        }
-        return tpms;
-    }
-
-    public int checkDayTime() {
-        switch (getTPMS()) {
-            case 25:
-                tpms = 10;
-                break;
-            case 30:
-                tpms = 11;
-                break;
-            case 35:
-                tpms = 12;
-                break;
-            case 40:
-                tpms = 13;
-                break;
-            case 45:
-                tpms = 14;
-                break;
-            case 50:
-                tpms = 15;
-                break;
-            case 55:
-                tpms = 16;
-                break;
-            case 60:
-                tpms = 17;
-                break;
-            case 65:
-                tpms = 18;
-                break;
-            case 70:
-                tpms = 19;
-                break;
-            case 75:
-                tpms = 20;
-                break;
-            case 80:
-                tpms = 21;
-                break;
-            case 0:
-                tpms = 22;
-                break;
-        }
-        return tpms;
-    }
-
-    public int checkRemote() {
-        switch (getRemoteStart()) {
-            case 25:
-                tpms = 10;
-                break;
-            case 30:
-                tpms = 11;
-                break;
-            case 35:
-                tpms = 12;
-                break;
-            case 40:
-                tpms = 13;
-                break;
-            case 45:
-                tpms = 14;
-                break;
-            case 50:
-                tpms = 15;
-                break;
-            case 55:
-                tpms = 16;
-                break;
-            case 60:
-                tpms = 17;
-                break;
-            case 65:
-                tpms = 18;
-                break;
-            case 70:
-                tpms = 19;
-                break;
-            case 75:
-                tpms = 20;
-                break;
-            case 80:
-                tpms = 21;
-                break;
-            case 0:
-                tpms = 22;
-                break;
-        }
-        return tpms;
-    }
-
-    public int checkNav() {
-        int nav;
-        if (isNavOverride()) {
-            nav = 43;
-        } else {
-            nav = 42;
-        }
-        return nav;
-    }
-
-    public int checkRemoteWindow() {
-        int result;
-        if (isRemoteWindow()) {
-            result = 39;
-        } else {
-            result = 38;
-        }
-        return result;
-    }
-
-   /* public int checkAux1(){
-        int result;
-        if(isAux1()){
-            result = ;
-        } else {
-            result = 42;
-        }
-        return result;
-    }
-
-    public int checkAux2(){
-        int result;
-        if(isNavOverride()){
-            result = 43;
-        } else {
-            result = 42;
-        }
-        return result;
-    }
-
-    public int checkAux3(){
-        int result;
-        if(isNavOverride()){
-            result = 43;
-        } else {
-            result = 42;
-        }
-        return result;
-    }*/
-
-    public int checkWorkLight() {
-        int result;
-        if (isWorkLight()) {
-            result = 47;
-        } else {
-            result = 48;
-        }
-        return result;
-    }
-
-   /* public int checkStrobe(){
-        int result;
-        if(isNavOverride()){
-            result = 43;
-        } else {
-            result = 42;
-        }
-        return result;
-    }*/
-
-    public int checkHighIdle() {
-        int result;
-        if (isHighIdle()) {
-            result = 45;
-        } else {
-            result = 46;
-        }
-        return result;
-    }
-
-
- /*   public void setTpms(int tpms) {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-        switch (tpms) {
-            case 25:
-                changeTpms(10);
-
-                break;
-            case 30:
-                changeTpms(11);
-                break;
-            case 35:
-                changeTpms(12);
-                break;
-            case 40:
-                changeTpms(13);
-                break;
-            case 45:
-                changeTpms(14);
-                break;
-            case 50:
-                changeTpms(15);
-                break;
-            case 55:
-                changeTpms(16);
-                break;
-            case 60:
-                changeTpms(17);
-                break;
-            case 65:
-                changeTpms(18);
-                break;
-            case 70:
-                changeTpms(19);
-                break;
-            case 75:
-                changeTpms(20);
-                break;
-            case 80:
-                changeTpms(21);
-                break;
-            case 0:
-                changeTpms(22);
-                break;
-        }
-        edit.apply();
-    }
-
-    public void setTireSize(int tireSize) {
-        switch (tireSize) {
-            case 31:
-                changeTireSize(23);
-                break;
-            case 32:
-                changeTireSize(24);
-                break;
-            case 33:
-                changeTireSize(25);
-                break;
-            case 34:
-                changeTireSize(26);
-                break;
-            case 35:
-                changeTireSize(27);
-                break;
-            case 36:
-                changeTireSize(28);
-                break;
-            case 37:
-                changeTireSize(29);
-                break;
-        }
-    }
-
-    public void setFogLights(boolean foglights) {
-        if (!foglights) {
-            changeFogLights(30);
-        } else {
-            changeFogLights(31);
-        }
-    }
-
-    public void setLEDTurnSignals(boolean turnSignals) {
-        if (!turnSignals) {
-            changeLEDTurnSignals(32);
-        } else {
-            changeLEDTurnSignals(33);
-        }
-    }
-
-    public void setDaytimeLights(int daytimeLights) {
-        if (daytimeLights == 1) {
-            changeDaytimeLights(35);
-        } else if (daytimeLights == 2) {
-            changeDaytimeLights(36);
-        } else if (daytimeLights == 3) {
-            changeDaytimeLights(37);
-        } else if (daytimeLights == 5) {
-            changeDaytimeLights(34);
-        }
-    }
-
-    public void setWindowRemote(boolean windowRemote) {
-        if (!windowRemote) {
-            changeWindowRemote(38);
-        } else {
-            changeWindowRemote(39);
-        }
-    }
-
-    public void setRemoteStart(int remoteStart) {
-        if (remoteStart == 2) {
-            changeRemoteStart(40);
-        } else if (remoteStart == 3) {
-            changeRemoteStart(41);
-        }
-    }
-
-    public void setNavOverride(boolean navOverride) {
-        if (!navOverride) {
-            changeNav(42);
-        } else {
-            changeNav(43);
-        }
-    }
-
-    public void setHighIdle(boolean highIdle) {
-        if (highIdle) {
-            changeHighIdle(45);
-        } else {
-            changeHighIdle(46);
-        }
-    }
-
-    public void setWorkLight(boolean worklight) {
-        if (worklight) {
-            changeWorkLight(47);
-        } else {
-            changeWorkLight(48);
-        }
-    }*/
-
-/*    void setTpms(int tuneMode) {
-        Log.d("Response", " " + tuneMode);
-        switch (tuneMode) {
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
-            case 5:
-
-                break;
-        }
-    }*/
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -762,75 +449,46 @@ public class FeaturesActivity extends AppCompatActivity {
         return mSharedPreferences.getBoolean("read_settings", false);
     }
 
-    public int getTPMS() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("pressure_tpms", 80);
+    public int getDefaultTpms() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt("pressure_tpms", 25);
     }
 
-    public int getTireSize() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("tire_size", 31);
+    public int getDefaultTire() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt("tire_size", 32);
     }
 
-    public boolean isLampCurrent() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("lamp_current", false);
+    public int getDefaultDaytime() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt("daytime_lights", 0);
     }
 
-    public boolean isFogLights() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("fog_lights", false);
+    public int getDefaultRemote() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt("remote_start", 0);
     }
 
-    public int getDaytimeLights() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("daytime_lights", 1);
-    }
-
-    public int getRemoteStart() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("remote_start", 3);
-    }
-
-    public boolean isNavOverride() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("nav_override", false);
-    }
-
-    public boolean isRemoteWindow() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+    public boolean isDefaultNav() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
         return mSharedPreferences.getBoolean("remote_window", false);
     }
 
-    public boolean isAux1() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("aux1", false);
+    public boolean isDefaultLamp() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("lamp_current", false);
     }
 
-    public boolean isAux2() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("aux2", false);
+    public boolean isDefaultFog() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("fog_lights", false);
     }
 
-    public boolean isAux3() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("aux3", false);
+    public boolean isDefaultWindow() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("remote_window", false);
     }
 
-    public boolean isWorkLight() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("work_light", false);
-    }
-
-    public boolean isStrobeLight() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("strobe_light", false);
-    }
-
-    public boolean isHighIdle() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("high_idle", false);
-    }
 
     @Override
     public void onBackPressed() {
@@ -1070,7 +728,9 @@ public class FeaturesActivity extends AppCompatActivity {
         } else {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device")
+                    .setContentText("You are not connected to a GDP device. Retry by " +
+                            "tapping 'Retry' or check your wifi settings by tapping " +
+                            "'Connect'.")
                     .setCancelText("Retry")
                     .setConfirmText("Connect")
                     .showCancelButton(true)
@@ -1091,63 +751,15 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     //Send to sGDP server to verify connection
-    void switchTpms(int requestTpms) {
+    void programBCM() {
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTpms, null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 9, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        try {
-                            tpmsNum = response.getInt("return_value");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        SharedPreferences readSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                        SharedPreferences.Editor edit = readSharedPreferences.edit();
-                        switch (tpmsNum) {
-                            case 10:
-                                edit.putInt("pressure_tpms", 25);
-                                break;
-                            case 11:
-                                edit.putInt("pressure_tpms", 30);
-                                break;
-                            case 12:
-                                edit.putInt("pressure_tpms", 35);
-                                break;
-                            case 13:
-                                edit.putInt("pressure_tpms", 40);
-                                break;
-                            case 14:
-                                edit.putInt("pressure_tpms", 45);
-                                break;
-                            case 15:
-                                edit.putInt("pressure_tpms", 50);
-                                break;
-                            case 16:
-                                edit.putInt("pressure_tpms", 55);
-                                break;
-                            case 17:
-                                edit.putInt("pressure_tpms", 60);
-                                break;
-                            case 18:
-                                edit.putInt("pressure_tpms", 65);
-                                break;
-                            case 19:
-                                edit.putInt("pressure_tpms", 70);
-                                break;
-                            case 20:
-                                edit.putInt("pressure_tpms", 75);
-                                break;
-                            case 21:
-                                edit.putInt("pressure_tpms", 80);
-                                break;
-                            case 22:
-                                edit.putInt("pressure_tpms", 0);
-                                edit.apply();
-                        }
-                        // display response
-                        Log.d("Response", response.toString());
+                        Toast mToast = Toast.makeText(FeaturesActivity.this, "Message sent to BCM", Toast.LENGTH_SHORT);
+                        mToast.show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -1156,7 +768,53 @@ public class FeaturesActivity extends AppCompatActivity {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(Objects.requireNonNull(FeaturesActivity.this), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void readSettings() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 6, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        Toast mToast = Toast.makeText(FeaturesActivity.this, "Settings Read", Toast.LENGTH_SHORT);
+                        mToast.show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(Objects.requireNonNull(FeaturesActivity.this), SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
                                 .setContentText("You are not connected to a GDP device. Retry by " +
                                         "tapping 'Retry' or check your wifi settings by tapping " +

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/gauges"
+        android:menuCategory="container"
+        android:visible="true">
+        <item
+            android:id="@+id/egt_menu"
+            android:title="@string/egt" />
+        <item
+            android:id="@+id/boost_menu"
+            android:title="@string/boost" />
+        <item
+            android:id="@+id/frp_menu"
+            android:title="@string/fuel_rate" />
+        <item
+            android:id="@+id/oil_pressure_menu"
+            android:title="@string/oil_pressure" />
+    </group>
+
+</menu>

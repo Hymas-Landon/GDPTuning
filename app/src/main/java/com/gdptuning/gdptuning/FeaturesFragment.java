@@ -1,10 +1,13 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Timer;
@@ -41,7 +53,9 @@ public class FeaturesFragment extends Fragment {
     private int pressureTPMSIndex;
     private int tireIndex;
     private int tpmsNum;
-    private int tpms;
+    private int lampNum;
+    private int fogNum;
+    private int tireNum;
 
 
     @Nullable
@@ -72,6 +86,7 @@ public class FeaturesFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         if (!isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
@@ -328,54 +343,66 @@ public class FeaturesFragment extends Fragment {
                                 case 0:
                                     edit.putInt("pressure_tpms", 25);
                                     edit.apply();
+                                    switchTpms(10);
                                     break;
                                 case 1:
                                     edit.putInt("pressure_tpms", 30);
                                     edit.apply();
+                                    switchTpms(11);
                                     break;
                                 case 2:
                                     edit.putInt("pressure_tpms", 35);
                                     edit.apply();
+                                    switchTpms(12);
                                     break;
                                 case 3:
                                     edit.putInt("pressure_tpms", 40);
                                     edit.apply();
+                                    switchTpms(13);
                                     break;
                                 case 4:
                                     edit.putInt("pressure_tpms", 45);
                                     edit.apply();
+                                    switchTpms(14);
                                     break;
                                 case 5:
                                     edit.putInt("pressure_tpms", 50);
                                     edit.apply();
+                                    switchTpms(15);
                                     break;
                                 case 6:
                                     edit.putInt("pressure_tpms", 55);
                                     edit.apply();
+                                    switchTpms(16);
                                     break;
                                 case 7:
                                     edit.putInt("pressure_tpms", 60);
                                     edit.apply();
+                                    switchTpms(17);
                                     break;
                                 case 8:
                                     edit.putInt("pressure_tpms", 65);
                                     edit.apply();
+                                    switchTpms(18);
                                     break;
                                 case 9:
                                     edit.putInt("pressure_tpms", 70);
                                     edit.apply();
+                                    switchTpms(19);
                                     break;
                                 case 10:
                                     edit.putInt("pressure_tpms", 75);
                                     edit.apply();
+                                    switchTpms(20);
                                     break;
                                 case 11:
                                     edit.putInt("pressure_tpms", 80);
                                     edit.apply();
-                                    break;
+                                    switchTpms(21);
                                 case 12:
                                     edit.putInt("pressure_tpms", 0);
                                     edit.apply();
+                                    switchTpms(22);
                                     break;
                             }
                         }
@@ -393,67 +420,67 @@ public class FeaturesFragment extends Fragment {
                             switch (pressureTPMSIndex) {
                                 case 0:
                                     edit.putInt("pressure_tpms", 25);
-                                    tpms = 10;
+                                    switchTpms(10);
                                     edit.apply();
                                     break;
                                 case 1:
                                     edit.putInt("pressure_tpms", 30);
-                                    tpms = 11;
+                                    switchTpms(11);
                                     edit.apply();
                                     break;
                                 case 2:
                                     edit.putInt("pressure_tpms", 35);
-                                    tpms = 12;
+                                    switchTpms(12);
                                     edit.apply();
                                     break;
                                 case 3:
                                     edit.putInt("pressure_tpms", 40);
-                                    tpms = 13;
+                                    switchTpms(13);
                                     edit.apply();
                                     break;
                                 case 4:
                                     edit.putInt("pressure_tpms", 45);
-                                    tpms = 14;
+                                    switchTpms(14);
                                     edit.apply();
                                     break;
                                 case 5:
                                     edit.putInt("pressure_tpms", 50);
-                                    tpms = 15;
+                                    switchTpms(15);
                                     edit.apply();
                                     break;
                                 case 6:
                                     edit.putInt("pressure_tpms", 55);
-                                    tpms = 16;
+                                    switchTpms(16);
                                     edit.apply();
                                     break;
                                 case 7:
                                     edit.putInt("pressure_tpms", 60);
-                                    tpms = 17;
+                                    switchTpms(17);
                                     edit.apply();
                                     break;
                                 case 8:
                                     edit.putInt("pressure_tpms", 65);
-                                    tpms = 18;
+                                    switchTpms(18);
                                     edit.apply();
                                     break;
                                 case 9:
                                     edit.putInt("pressure_tpms", 70);
-                                    tpms = 19;
+                                    switchTpms(19);
                                     edit.apply();
                                     break;
                                 case 10:
                                     edit.putInt("pressure_tpms", 75);
-                                    tpms = 20;
+                                    switchTpms(20);
                                     edit.apply();
                                     break;
                                 case 11:
                                     edit.putInt("pressure_tpms", 80);
-                                    tpms = 21;
+                                    switchTpms(21);
                                     edit.apply();
                                     break;
                                 case 12:
                                     edit.putInt("pressure_tpms", 0);
-                                    tpms = 22;
+                                    switchTpms(22);
                                     edit.apply();
                                     break;
                             }
@@ -479,6 +506,7 @@ public class FeaturesFragment extends Fragment {
                     public void onClick(View mView) {
                         select2.setText(lampOutageDisable[0]);
                         edit.putBoolean("lamp_current", true);
+                        switchTurnSignals(33);
                         edit.apply();
                     }
                 });
@@ -490,6 +518,7 @@ public class FeaturesFragment extends Fragment {
                     public void onClick(View mView) {
                         select2.setText(lampOutageDisable[1]);
                         edit.putBoolean("lamp_current", false);
+                        switchTurnSignals(34);
                         edit.apply();
                     }
                 });
@@ -709,54 +738,67 @@ public class FeaturesFragment extends Fragment {
                             switch (pressureTPMSIndex) {
                                 case 0:
                                     edit.putInt("pressure_tpms", 25);
+                                    switchTpms(10);
                                     edit.apply();
                                     break;
                                 case 1:
                                     edit.putInt("pressure_tpms", 30);
+                                    switchTpms(11);
                                     edit.apply();
                                     break;
                                 case 2:
                                     edit.putInt("pressure_tpms", 35);
+                                    switchTpms(12);
                                     edit.apply();
                                     break;
                                 case 3:
                                     edit.putInt("pressure_tpms", 40);
+                                    switchTpms(13);
                                     edit.apply();
                                     break;
                                 case 4:
                                     edit.putInt("pressure_tpms", 45);
+                                    switchTpms(14);
                                     edit.apply();
                                     break;
                                 case 5:
                                     edit.putInt("pressure_tpms", 50);
+                                    switchTpms(15);
                                     edit.apply();
                                     break;
                                 case 6:
                                     edit.putInt("pressure_tpms", 55);
+                                    switchTpms(16);
                                     edit.apply();
                                     break;
                                 case 7:
                                     edit.putInt("pressure_tpms", 60);
+                                    switchTpms(17);
                                     edit.apply();
                                     break;
                                 case 8:
                                     edit.putInt("pressure_tpms", 65);
+                                    switchTpms(18);
                                     edit.apply();
                                     break;
                                 case 9:
                                     edit.putInt("pressure_tpms", 70);
+                                    switchTpms(19);
                                     edit.apply();
                                     break;
                                 case 10:
                                     edit.putInt("pressure_tpms", 75);
+                                    switchTpms(20);
                                     edit.apply();
                                     break;
                                 case 11:
                                     edit.putInt("pressure_tpms", 80);
+                                    switchTpms(21);
                                     edit.apply();
                                     break;
                                 case 12:
                                     edit.putInt("pressure_tpms", 0);
+                                    switchTpms(22);
                                     edit.apply();
                                     break;
                             }
@@ -775,54 +817,67 @@ public class FeaturesFragment extends Fragment {
                             switch (pressureTPMSIndex) {
                                 case 0:
                                     edit.putInt("pressure_tpms", 25);
+                                    switchTpms(10);
                                     edit.apply();
                                     break;
                                 case 1:
                                     edit.putInt("pressure_tpms", 30);
+                                    switchTpms(11);
                                     edit.apply();
                                     break;
                                 case 2:
                                     edit.putInt("pressure_tpms", 35);
+                                    switchTpms(12);
                                     edit.apply();
                                     break;
                                 case 3:
                                     edit.putInt("pressure_tpms", 40);
+                                    switchTpms(13);
                                     edit.apply();
                                     break;
                                 case 4:
                                     edit.putInt("pressure_tpms", 45);
+                                    switchTpms(14);
                                     edit.apply();
                                     break;
                                 case 5:
                                     edit.putInt("pressure_tpms", 50);
+                                    switchTpms(15);
                                     edit.apply();
                                     break;
                                 case 6:
                                     edit.putInt("pressure_tpms", 55);
+                                    switchTpms(16);
                                     edit.apply();
                                     break;
                                 case 7:
                                     edit.putInt("pressure_tpms", 60);
+                                    switchTpms(17);
                                     edit.apply();
                                     break;
                                 case 8:
                                     edit.putInt("pressure_tpms", 65);
+                                    switchTpms(18);
                                     edit.apply();
                                     break;
                                 case 9:
                                     edit.putInt("pressure_tpms", 70);
+                                    switchTpms(19);
                                     edit.apply();
                                     break;
                                 case 10:
                                     edit.putInt("pressure_tpms", 75);
+                                    switchTpms(20);
                                     edit.apply();
                                     break;
                                 case 11:
                                     edit.putInt("pressure_tpms", 80);
+                                    switchTpms(21);
                                     edit.apply();
                                     break;
                                 case 12:
                                     edit.putInt("pressure_tpms", 0);
+                                    switchTpms(22);
                                     edit.apply();
                                     break;
                             }
@@ -903,42 +958,55 @@ public class FeaturesFragment extends Fragment {
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             if (pressureTPMSIndex == 0) {
                                 edit.putInt("pressure_tpms", 25);
+                                switchTpms(10);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 1) {
                                 edit.putInt("pressure_tpms", 30);
+                                switchTpms(11);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 2) {
                                 edit.putInt("pressure_tpms", 35);
+                                switchTpms(12);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 3) {
                                 edit.putInt("pressure_tpms", 40);
+                                switchTpms(13);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 4) {
                                 edit.putInt("pressure_tpms", 45);
+                                switchTpms(14);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 5) {
                                 edit.putInt("pressure_tpms", 50);
+                                switchTpms(15);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 6) {
                                 edit.putInt("pressure_tpms", 55);
+                                switchTpms(16);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 7) {
                                 edit.putInt("pressure_tpms", 60);
+                                switchTpms(17);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 8) {
                                 edit.putInt("pressure_tpms", 65);
+                                switchTpms(18);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 9) {
                                 edit.putInt("pressure_tpms", 70);
+                                switchTpms(19);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 10) {
                                 edit.putInt("pressure_tpms", 75);
+                                switchTpms(20);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 11) {
                                 edit.putInt("pressure_tpms", 80);
+                                switchTpms(21);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 12) {
                                 edit.putInt("pressure_tpms", 0);
+                                switchTpms(22);
                                 edit.apply();
                             }
                         }
@@ -955,42 +1023,55 @@ public class FeaturesFragment extends Fragment {
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             if (pressureTPMSIndex == 0) {
                                 edit.putInt("pressure_tpms", 25);
+                                switchTpms(10);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 1) {
                                 edit.putInt("pressure_tpms", 30);
+                                switchTpms(11);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 2) {
                                 edit.putInt("pressure_tpms", 35);
+                                switchTpms(12);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 3) {
                                 edit.putInt("pressure_tpms", 40);
+                                switchTpms(13);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 4) {
                                 edit.putInt("pressure_tpms", 45);
+                                switchTpms(14);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 5) {
                                 edit.putInt("pressure_tpms", 50);
+                                switchTpms(15);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 6) {
                                 edit.putInt("pressure_tpms", 55);
+                                switchTpms(16);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 7) {
                                 edit.putInt("pressure_tpms", 60);
+                                switchTpms(17);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 8) {
                                 edit.putInt("pressure_tpms", 65);
+                                switchTpms(18);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 9) {
                                 edit.putInt("pressure_tpms", 70);
+                                switchTpms(19);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 10) {
                                 edit.putInt("pressure_tpms", 75);
+                                switchTpms(20);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 11) {
                                 edit.putInt("pressure_tpms", 80);
+                                switchTpms(21);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 12) {
                                 edit.putInt("pressure_tpms", 0);
+                                switchTpms(22);
                                 edit.apply();
                             }
                         }
@@ -1041,24 +1122,31 @@ public class FeaturesFragment extends Fragment {
                             select2.setText(tireSize[tireIndex]);
                             if (tireIndex == 0) {
                                 edit.putInt("tire_size", 31);
+                                switchTireSize(23);
                                 edit.apply();
                             } else if (tireIndex == 1) {
                                 edit.putInt("tire_size", 32);
+                                switchTireSize(24);
                                 edit.apply();
                             } else if (tireIndex == 2) {
                                 edit.putInt("tire_size", 33);
+                                switchTireSize(25);
                                 edit.apply();
                             } else if (tireIndex == 3) {
                                 edit.putInt("tire_size", 34);
+                                switchTireSize(26);
                                 edit.apply();
                             } else if (tireIndex == 4) {
                                 edit.putInt("tire_size", 35);
+                                switchTireSize(27);
                                 edit.apply();
                             } else if (tireIndex == 5) {
                                 edit.putInt("tire_size", 36);
+                                switchTireSize(28);
                                 edit.apply();
                             } else if (tireIndex == 6) {
                                 edit.putInt("tire_size", 37);
+                                switchTireSize(29);
                                 edit.apply();
                             }
                         }
@@ -1078,24 +1166,31 @@ public class FeaturesFragment extends Fragment {
                             select2.setText(tireSize[tireIndex]);
                             if (tireIndex == 0) {
                                 edit.putInt("tire_size", 31);
+                                switchTireSize(23);
                                 edit.apply();
                             } else if (tireIndex == 1) {
                                 edit.putInt("tire_size", 32);
+                                switchTireSize(24);
                                 edit.apply();
                             } else if (tireIndex == 2) {
                                 edit.putInt("tire_size", 33);
+                                switchTireSize(25);
                                 edit.apply();
                             } else if (tireIndex == 3) {
                                 edit.putInt("tire_size", 34);
+                                switchTireSize(26);
                                 edit.apply();
                             } else if (tireIndex == 4) {
                                 edit.putInt("tire_size", 35);
+                                switchTireSize(27);
                                 edit.apply();
                             } else if (tireIndex == 5) {
                                 edit.putInt("tire_size", 36);
+                                switchTireSize(28);
                                 edit.apply();
                             } else if (tireIndex == 6) {
                                 edit.putInt("tire_size", 37);
+                                switchTireSize(29);
                                 edit.apply();
                             }
                         }
@@ -1121,6 +1216,7 @@ public class FeaturesFragment extends Fragment {
                     public void onClick(View mView) {
                         select3.setText(fogLights[0]);
                         edit.putBoolean("fog_lights", true);
+                        switchFogLights(31);
                         edit.apply();
                     }
                 });
@@ -1132,13 +1228,13 @@ public class FeaturesFragment extends Fragment {
                     public void onClick(View mView) {
                         select3.setText(fogLights[1]);
                         edit.putBoolean("fog_lights", false);
+                        switchFogLights(30);
                         edit.apply();
                     }
                 });
             }
         }
     }
-
 
     private int getVehicleType() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
@@ -1177,98 +1273,307 @@ public class FeaturesFragment extends Fragment {
     }
 
 
-//    //Send to sGDP server to verify connection
-//    void switchTpms(int requestTpms) {
-//        // prepare the Request
-//        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTpms, null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        isConnected = true;
-//                        try {
-//                            tpmsNum = response.getInt("return_value");
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-//                        SharedPreferences.Editor edit = readSharedPreferences.edit();
-//                        switch (tpmsNum) {
-//                            case 10:
-//                                edit.putInt("pressure_tpms", 25);
-//                                break;
-//                            case 11:
-//                                edit.putInt("pressure_tpms", 30);
-//                                break;
-//                            case 12:
-//                                edit.putInt("pressure_tpms", 35);
-//                                break;
-//                            case 13:
-//                                edit.putInt("pressure_tpms", 40);
-//                                break;
-//                            case 14:
-//                                edit.putInt("pressure_tpms", 45);
-//                                break;
-//                            case 15:
-//                                edit.putInt("pressure_tpms", 50);
-//                                break;
-//                            case 16:
-//                                edit.putInt("pressure_tpms", 55);
-//                                break;
-//                            case 17:
-//                                edit.putInt("pressure_tpms", 60);
-//                                break;
-//                            case 18:
-//                                edit.putInt("pressure_tpms", 65);
-//                                break;
-//                            case 19:
-//                                edit.putInt("pressure_tpms", 70);
-//                                break;
-//                            case 20:
-//                                edit.putInt("pressure_tpms", 75);
-//                                break;
-//                            case 21:
-//                                edit.putInt("pressure_tpms", 80);
-//                                break;
-//                            case 22:
-//                                edit.putInt("pressure_tpms", 0);
-//                                edit.apply();
-//                        }
-//                        // display response
-//                        Log.d("Response", response.toString());
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        isConnected = false;
-//                        Log.d("Error.Response", error.toString());
-//
-//                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
-//                                .setTitleText("No Connection")
-//                                .setContentText("You are not connected to a GDP device. Retry by " +
-//                                        "tapping 'Retry' or check your wifi settings by tapping " +
-//                                        "'Connect'.")
-//                                .setCancelText("Retry")
-//                                .setConfirmText("Connect")
-//                                .showCancelButton(true)
-//                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                                    @Override
-//                                    public void onClick(SweetAlertDialog sDialog) {
-//                                        sDialog.dismiss();
-//                                    }
-//                                })
-//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                                    @Override
-//                                    public void onClick(SweetAlertDialog sDialog) {
-//                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-//                                    }
-//                                })
-//                                .show();
-//                    }
-//                }
-//        );
-//        // add it to the RequestQueue
-//        queue.add(getRequest);
-//    }
+    //Send to sGDP server to verify connection
+    void switchTpms(int requestTpms) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTpms, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            tpmsNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (tpmsNum) {
+                            case 10:
+                                edit.putInt("pressure_tpms", 25);
+                                break;
+                            case 11:
+                                edit.putInt("pressure_tpms", 30);
+                                break;
+                            case 12:
+                                edit.putInt("pressure_tpms", 35);
+                                break;
+                            case 13:
+                                edit.putInt("pressure_tpms", 40);
+                                break;
+                            case 14:
+                                edit.putInt("pressure_tpms", 45);
+                                break;
+                            case 15:
+                                edit.putInt("pressure_tpms", 50);
+                                break;
+                            case 16:
+                                edit.putInt("pressure_tpms", 55);
+                                break;
+                            case 17:
+                                edit.putInt("pressure_tpms", 60);
+                                break;
+                            case 18:
+                                edit.putInt("pressure_tpms", 65);
+                                break;
+                            case 19:
+                                edit.putInt("pressure_tpms", 70);
+                                break;
+                            case 20:
+                                edit.putInt("pressure_tpms", 75);
+                                break;
+                            case 21:
+                                edit.putInt("pressure_tpms", 80);
+                                break;
+                            case 22:
+                                edit.putInt("pressure_tpms", 0);
+                                edit.apply();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchTireSize(int requestTire) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTire, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            tireNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (tireNum) {
+                            case 23:
+                                edit.putInt("tire_size", 31);
+                                edit.apply();
+                                break;
+                            case 24:
+                                edit.putInt("tire_size", 32);
+                                edit.apply();
+                                break;
+                            case 25:
+                                edit.putInt("tire_size", 33);
+                                edit.apply();
+                                break;
+                            case 26:
+                                edit.putInt("tire_size", 34);
+                                edit.apply();
+                                break;
+                            case 27:
+                                edit.putInt("tire_size", 35);
+                                edit.apply();
+                                break;
+                            case 28:
+                                edit.putInt("tire_size", 36);
+                                edit.apply();
+                                break;
+                            case 29:
+                                edit.putInt("tire_size", 37);
+                                edit.apply();
+                                break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchTurnSignals(int requestTurnSignals) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTurnSignals, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            lampNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (lampNum) {
+                            case 32:
+                                edit.putBoolean("lamp_current", false);
+                                edit.apply();
+                                break;
+                            case 33:
+                                edit.putBoolean("lamp_current", true);
+                                edit.apply();
+                                break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchFogLights(int requestFog) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestFog, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            fogNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (fogNum) {
+                            case 30:
+                                edit.putBoolean("fog_lights", false);
+                                edit.apply();
+                                break;
+                            case 31:
+                                edit.putBoolean("fog_lights", true);
+                                edit.apply();
+                                break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
 
 }

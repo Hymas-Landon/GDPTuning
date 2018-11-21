@@ -161,10 +161,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 return true;
-            case R.id.users_vehicle:
-                Intent i2 = new Intent(MainActivity.this, VehiclesActivity.class);
-                startActivity(i2);
-                return true;
             case R.id.ford_11_16_radio:
                 item_select = 1;
                 item.setChecked(true);

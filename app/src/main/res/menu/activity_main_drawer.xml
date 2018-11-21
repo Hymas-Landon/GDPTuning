@@ -21,13 +21,6 @@
                     app:showAsAction="never" />
 
                 <item
-                    android:id="@+id/users_vehicle"
-                    android:icon="@drawable/ic_local_car_wash_black_24dp"
-                    android:menuCategory="system"
-                    android:title="Your Vehicles"
-                    app:showAsAction="never" />
-
-                <item
                     android:id="@+id/selectVehicle"
                     android:icon="@drawable/ic_directions_car_black_24dp"
                     android:menuCategory="system"

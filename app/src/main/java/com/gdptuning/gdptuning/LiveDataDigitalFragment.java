@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -49,6 +50,16 @@ public class LiveDataDigitalFragment extends Fragment {
     RequestQueue queue;
     WifiManager wifi;
     ImageSpeedometer gauge1, gauge2, gauge3;
+    final String coolantVar = "coolant";
+    final String oilPressureVar = "oil_pressure";
+    final String oilTempVar = "oil_temp";
+    final String injectionFuelRateVar = "fule";
+    final String injectionTimingVar = "timing";
+    final String boostVar = "boost";
+    final String turboVar = "turbo";
+    final String frpVar = "frp";
+    final String EGTVar = "egt";
+    TextView digitalTextFirst1, digitalTextFirst2, digitalTextFirst3;
 
     @Nullable
     @Override
@@ -57,6 +68,7 @@ public class LiveDataDigitalFragment extends Fragment {
         gauge1 = mView.findViewById(R.id.egt_temp);
         gauge2 = mView.findViewById(R.id.boost);
         gauge3 = mView.findViewById(R.id.oil_temp);
+
 
         return mView;
     }
@@ -159,17 +171,13 @@ public class LiveDataDigitalFragment extends Fragment {
                             deviceName += response.getString("id");
                             device = deviceName;
 
-                            /*
-                             * LIST OF VARIABLE FOR GAUGES
-                             * "boost", "egt", "fule", "timing", "coolant", "turbo", "frp", "oil_pressur", "oil_temp"
-                             * */
-                            float boost = variables.getInt("boost");
-                            float egt = variables.getInt("egt");
-                            float fuel = variables.getInt("fule");
-                            float timing = variables.getInt(("timing"));
-                            float coolant = variables.getInt("coolant");
-                            float turbo = variables.getInt("turbo");
-                            float frp = variables.getInt("frp");
+                            float boost = variables.getInt(boostVar);
+                            float egt = variables.getInt(EGTVar);
+                            float fuel = variables.getInt(injectionFuelRateVar);
+                            float timing = variables.getInt((injectionTimingVar));
+                            float coolant = variables.getInt(coolantVar);
+                            float turbo = variables.getInt(turboVar);
+                            float frp = variables.getInt(frpVar);
 
                             gauge2.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -194,7 +202,7 @@ public class LiveDataDigitalFragment extends Fragment {
 
 
                             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                float fordOilTemp = variables.getInt("oil_temp");
+                                float fordOilTemp = variables.getInt(oilTempVar);
 
                                 // EGT Temp
                                 ImageSpeedometer egtTemp = Objects.requireNonNull(getView()).findViewById(R.id.egt_temp);
@@ -202,12 +210,12 @@ public class LiveDataDigitalFragment extends Fragment {
                                 egtTemp.speedTo(egt);
 
                                 // Boost
-                                ImageSpeedometer boost_perc = getView().findViewById(R.id.boost);
-                                boost_perc.setIndicator(largeIndicator);
+                                ImageSpeedometer boost_percent = getView().findViewById(R.id.boost);
+                                boost_percent.setIndicator(largeIndicator);
                                 if (boost > 5) {
-                                    boost_perc.speedTo((float) (boost * 0.1450377));
+                                    boost_percent.speedTo((float) (boost * 0.1450377));
                                 } else {
-                                    boost_perc.speedTo(0);
+                                    boost_percent.speedTo(0);
                                 }
 
                                 // Ford oil temp
@@ -216,7 +224,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                 oilTemp.speedTo((float) (fordOilTemp * 0.145));
 
                             } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) { //Gauge1
-                                float oil_pressure = variables.getInt("oil_pressur");
+                                float oil_pressure = variables.getInt(oilPressureVar);
 
                                 // Gauge 1
                                 ImageSpeedometer egtTemp = Objects.requireNonNull(getView()).findViewById(R.id.egt_temp);

@@ -1,10 +1,13 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,31 +15,38 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static int GAUGEPLAIN = 4;
-    private static int GAUGEDIGITAL = 5;
-    private static int GAUGEPROGRESS = 6;
     private static int colorIndex = 0;
-    private static int gaugeIndex = 0;
     private static int enableMetric = 0;
     private static int disableMetric = 1;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
+    int tuneMode = 0;
     String device = "GDP";
     RequestQueue queue;
     Button btn_home;
     WifiManager wifi;
-    TextView tvTune, tvGear, select1, select2, select3;
+    TextView tvTune, tvGear, select1, select3, idNum, locked;
     Timer timer;
-    ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3;
+    ImageView arrowRight1, arrowRight3, arrowLeft1, arrowLeft3;
 
 
     @Override
@@ -56,36 +66,24 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_settings);
+        queue = Volley.newRequestQueue(this);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        idNum = findViewById(R.id.app_version_num);
+        locked = findViewById(R.id.current_status_lock);
+        idNum.setText("hello");
 
         //Id's
         select1 = findViewById(R.id.selector1);
-        select2 = findViewById(R.id.selector2);
         select3 = findViewById(R.id.selector3);
 
         //Selector 1
         final String[] metric = new String[2];
-        metric[0] = "Enable";
-        metric[1] = "Disable";
+        metric[0] = "Metric";
+        metric[1] = "Standard";
         if (getSettings1() == enableMetric) {
             select1.setText(metric[0]);
         } else if (getSettings1() == disableMetric) {
             select1.setText(metric[1]);
-        }
-
-        //Selector 2
-        final String[] gauge = new String[3];
-        gauge[0] = "Digital Gauge";
-        gauge[1] = "Needle Gauge";
-        gauge[2] = "Progress Gauge";
-        if (getGaugeListener() == GAUGEDIGITAL) {
-            select2.setText(gauge[0]);
-            gaugeIndex = 0;
-        } else if (getGaugeListener() == GAUGEPLAIN) {
-            select2.setText(gauge[1]);
-            gaugeIndex = 1;
-        } else if (getGaugeListener() == GAUGEPROGRESS) {
-            select2.setText(gauge[2]);
-            gaugeIndex = 2;
         }
 
         //Selector 3
@@ -129,54 +127,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             public void onClick(View mView) {
                 select1.setText(metric[1]);
                 edit.putInt("settings1", disableMetric);
-                edit.apply();
-            }
-        });
-        arrowLeft2 = findViewById(R.id.arrowLeft2);
-        arrowLeft2.setOnClickListener(new View.OnClickListener() {
-            SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-            SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-            @Override
-            public void onClick(View mView) {
-                if (gaugeIndex > 0 && gaugeIndex <= 2) {
-                    gaugeIndex = gaugeIndex - 1;
-                    select2.setText(gauge[gaugeIndex]);
-                    if (gaugeIndex == 0) {
-                        edit.putInt("gauge", GAUGEDIGITAL);
-//                    } else if (gaugeIndex == 1) {
-//                        edit.putInt("gauge", GAUGEPLAIN);
-//                    } else if (gaugeIndex == 2) {
-//                        edit.putInt("gauge", GAUGEPROGRESS);
-//                    }
-                    }
-                } else {
-                    select2.setText(gauge[0]);
-                }
-                edit.apply();
-            }
-        });
-
-        arrowRight2 = findViewById(R.id.arrowRight2);
-        arrowRight2.setOnClickListener(new View.OnClickListener() {
-            SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-            SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-            @Override
-            public void onClick(View mView) {
-                if (gaugeIndex >= 0 && gaugeIndex < 2) {
-                    gaugeIndex = gaugeIndex + 1;
-                    select2.setText(gauge[gaugeIndex]);
-                    if (gaugeIndex == 0) {
-                        edit.putInt("gauge", GAUGEDIGITAL);
-                    } else if (gaugeIndex == 1) {
-                        edit.putInt("gauge", GAUGEPLAIN);
-                    } else if (gaugeIndex == 2) {
-                        edit.putInt("gauge", GAUGEPROGRESS);
-                    }
-                } else {
-                    select2.setText(gauge[2]);
-                }
                 edit.apply();
             }
         });
@@ -239,6 +189,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         //OnClickListener
         btn_home.setOnClickListener(this);
 
+        sendRequest();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isConnected) {
+                    if (!isProcessing) {
+                        Log.d("TEST2 :", "Sending request");
+                        updateRequest();
+                    }
+                }
+            }
+        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     @Override
@@ -265,11 +228,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         return mSharedPreferences.getInt("settings1", enableMetric);
     }
 
-    private int getGaugeListener() {
-        SharedPreferences mySharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mySharedPreferences.getInt("gauge", GAUGEDIGITAL);
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -287,5 +245,151 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                 break;
         }
+    }
+
+    //Send to sGDP server to verify connection
+    public void sendRequest() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 in settings", variables.toString());
+                            tuneMode = variables.getInt("tune_mode");
+                            int gear = variables.getInt("gear");
+                            String deviceName = response.getString("name");
+                            deviceName += response.getString("id");
+                            device = deviceName;
+
+                            char pos = (char) gear;
+
+                            tvTune.setText("TUNE: " + tuneMode);
+                            tvGear.setText("GEAR: " + pos);
+                            String id = variables.getString("id");
+                            String deviceStatus = variables.getString("name");
+                            idNum.setText("blubber");
+                            if (deviceStatus.equals("GDP")) {
+                                locked.setText("Unlocked");
+                            } else {
+                                locked.setText("Locked");
+                            }
+
+                        } catch (JSONException mE) {
+                            mE.printStackTrace();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(SettingsActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("You are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                }).show();
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to get live data
+    public void updateRequest() {
+        isProcessing = true;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int tuneMode = variables.getInt("tune_mode");
+                            int gear = variables.getInt("gear");
+                            String deviceName = response.getString("name");
+                            deviceName += response.getString("id");
+                            device = deviceName;
+                            char pos = (char) gear;
+                            tvTune.setText("TUNE: " + tuneMode);
+                            tvGear.setText("GEAR: " + pos);
+                            String id = variables.getString("id");
+                            String deviceStatus = variables.getString("name");
+                            idNum.setText("bannnanlakj;sfl");
+                            if (deviceStatus.equals("GDP")) {
+                                locked.setText("Unlocked");
+                            } else {
+                                locked.setText("Locked");
+                            }
+                            Log.d("Response", response.toString());
+
+                        } catch (JSONException mE) {
+                            mE.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener()
+
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                        new SweetAlertDialog(SettingsActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("No Connection")
+                                .setContentText("Your are not connected to a GDP device. Retry by " +
+                                        "tapping 'Retry' or check your wifi settings by tapping " +
+                                        "'Connect'.")
+                                .setCancelText("Retry")
+                                .setConfirmText("Connect")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sendRequest();
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                })
+                                .show();
+
+                        isProcessing = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
     }
 }

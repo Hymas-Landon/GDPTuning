@@ -1,10 +1,9 @@
 package com.gdptuning.gdptuning;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,7 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +39,13 @@ public class FeaturesFragment extends Fragment {
     private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
+    final String themeColor = "ThemeColor";
+    final String vehicleSettings = "vehicle";
+    final String tpmsSettings = "pressure_tpms";
+    final String readSettings = "read_settings";
+    final String tireSizeSettings = "tire_size";
+    final String lampCurrentSettings = "lamp_current";
+    final String fogLightsSettings = "fog_lights";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
@@ -60,7 +65,7 @@ public class FeaturesFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_features, container, false);
 
         //Id's
@@ -98,14 +103,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -119,7 +124,7 @@ public class FeaturesFragment extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -127,7 +132,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -141,7 +146,7 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -149,7 +154,7 @@ public class FeaturesFragment extends Fragment {
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -163,14 +168,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
                 arrowRight4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -193,14 +198,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -218,14 +223,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -239,14 +244,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -260,14 +265,14 @@ public class FeaturesFragment extends Fragment {
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 });
@@ -331,7 +336,7 @@ public class FeaturesFragment extends Fragment {
                     pressureTPMSIndex = 12;
                 }
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
@@ -341,66 +346,66 @@ public class FeaturesFragment extends Fragment {
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             switch (pressureTPMSIndex) {
                                 case 0:
-                                    edit.putInt("pressure_tpms", 25);
+                                    edit.putInt(tpmsSettings, 25);
                                     edit.apply();
                                     switchTpms(10);
                                     break;
                                 case 1:
-                                    edit.putInt("pressure_tpms", 30);
+                                    edit.putInt(tpmsSettings, 30);
                                     edit.apply();
                                     switchTpms(11);
                                     break;
                                 case 2:
-                                    edit.putInt("pressure_tpms", 35);
+                                    edit.putInt(tpmsSettings, 35);
                                     edit.apply();
                                     switchTpms(12);
                                     break;
                                 case 3:
-                                    edit.putInt("pressure_tpms", 40);
+                                    edit.putInt(tpmsSettings, 40);
                                     edit.apply();
                                     switchTpms(13);
                                     break;
                                 case 4:
-                                    edit.putInt("pressure_tpms", 45);
+                                    edit.putInt(tpmsSettings, 45);
                                     edit.apply();
                                     switchTpms(14);
                                     break;
                                 case 5:
-                                    edit.putInt("pressure_tpms", 50);
+                                    edit.putInt(tpmsSettings, 50);
                                     edit.apply();
                                     switchTpms(15);
                                     break;
                                 case 6:
-                                    edit.putInt("pressure_tpms", 55);
+                                    edit.putInt(tpmsSettings, 55);
                                     edit.apply();
                                     switchTpms(16);
                                     break;
                                 case 7:
-                                    edit.putInt("pressure_tpms", 60);
+                                    edit.putInt(tpmsSettings, 60);
                                     edit.apply();
                                     switchTpms(17);
                                     break;
                                 case 8:
-                                    edit.putInt("pressure_tpms", 65);
+                                    edit.putInt(tpmsSettings, 65);
                                     edit.apply();
                                     switchTpms(18);
                                     break;
                                 case 9:
-                                    edit.putInt("pressure_tpms", 70);
+                                    edit.putInt(tpmsSettings, 70);
                                     edit.apply();
                                     switchTpms(19);
                                     break;
                                 case 10:
-                                    edit.putInt("pressure_tpms", 75);
+                                    edit.putInt(tpmsSettings, 75);
                                     edit.apply();
                                     switchTpms(20);
                                     break;
                                 case 11:
-                                    edit.putInt("pressure_tpms", 80);
+                                    edit.putInt(tpmsSettings, 80);
                                     edit.apply();
                                     switchTpms(21);
                                 case 12:
-                                    edit.putInt("pressure_tpms", 0);
+                                    edit.putInt(tpmsSettings, 0);
                                     edit.apply();
                                     switchTpms(22);
                                     break;
@@ -409,7 +414,7 @@ public class FeaturesFragment extends Fragment {
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
@@ -419,67 +424,67 @@ public class FeaturesFragment extends Fragment {
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             switch (pressureTPMSIndex) {
                                 case 0:
-                                    edit.putInt("pressure_tpms", 25);
+                                    edit.putInt(tpmsSettings, 25);
                                     switchTpms(10);
                                     edit.apply();
                                     break;
                                 case 1:
-                                    edit.putInt("pressure_tpms", 30);
+                                    edit.putInt(tpmsSettings, 30);
                                     switchTpms(11);
                                     edit.apply();
                                     break;
                                 case 2:
-                                    edit.putInt("pressure_tpms", 35);
+                                    edit.putInt(tpmsSettings, 35);
                                     switchTpms(12);
                                     edit.apply();
                                     break;
                                 case 3:
-                                    edit.putInt("pressure_tpms", 40);
+                                    edit.putInt(tpmsSettings, 40);
                                     switchTpms(13);
                                     edit.apply();
                                     break;
                                 case 4:
-                                    edit.putInt("pressure_tpms", 45);
+                                    edit.putInt(tpmsSettings, 45);
                                     switchTpms(14);
                                     edit.apply();
                                     break;
                                 case 5:
-                                    edit.putInt("pressure_tpms", 50);
+                                    edit.putInt(tpmsSettings, 50);
                                     switchTpms(15);
                                     edit.apply();
                                     break;
                                 case 6:
-                                    edit.putInt("pressure_tpms", 55);
+                                    edit.putInt(tpmsSettings, 55);
                                     switchTpms(16);
                                     edit.apply();
                                     break;
                                 case 7:
-                                    edit.putInt("pressure_tpms", 60);
+                                    edit.putInt(tpmsSettings, 60);
                                     switchTpms(17);
                                     edit.apply();
                                     break;
                                 case 8:
-                                    edit.putInt("pressure_tpms", 65);
+                                    edit.putInt(tpmsSettings, 65);
                                     switchTpms(18);
                                     edit.apply();
                                     break;
                                 case 9:
-                                    edit.putInt("pressure_tpms", 70);
+                                    edit.putInt(tpmsSettings, 70);
                                     switchTpms(19);
                                     edit.apply();
                                     break;
                                 case 10:
-                                    edit.putInt("pressure_tpms", 75);
+                                    edit.putInt(tpmsSettings, 75);
                                     switchTpms(20);
                                     edit.apply();
                                     break;
                                 case 11:
-                                    edit.putInt("pressure_tpms", 80);
+                                    edit.putInt(tpmsSettings, 80);
                                     switchTpms(21);
                                     edit.apply();
                                     break;
                                 case 12:
-                                    edit.putInt("pressure_tpms", 0);
+                                    edit.putInt(tpmsSettings, 0);
                                     switchTpms(22);
                                     edit.apply();
                                     break;
@@ -499,26 +504,26 @@ public class FeaturesFragment extends Fragment {
                     select2.setText(lampOutageDisable[1]);
                 }
                 arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select2.setText(lampOutageDisable[0]);
-                        edit.putBoolean("lamp_current", true);
+                        edit.putBoolean(lampCurrentSettings, true);
                         switchTurnSignals(33);
                         edit.apply();
                     }
                 });
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select2.setText(lampOutageDisable[1]);
-                        edit.putBoolean("lamp_current", false);
-                        switchTurnSignals(34);
+                        edit.putBoolean(lampCurrentSettings, false);
+                        switchTurnSignals(32);
                         edit.apply();
                     }
                 });
@@ -556,7 +561,7 @@ public class FeaturesFragment extends Fragment {
                     tireIndex = 6;
                 }
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
@@ -566,25 +571,32 @@ public class FeaturesFragment extends Fragment {
                             tireIndex = tireIndex - 1;
                             select3.setText(tireSize[tireIndex]);
                             if (tireIndex == 0) {
-                                edit.putInt("tire_size", 31);
+                                edit.putInt(tireSizeSettings, 31);
+                                switchTireSize(23);
                                 edit.apply();
                             } else if (tireIndex == 1) {
-                                edit.putInt("tire_size", 32);
+                                edit.putInt(tireSizeSettings, 32);
+                                switchTireSize(24);
                                 edit.apply();
                             } else if (tireIndex == 2) {
-                                edit.putInt("tire_size", 33);
+                                edit.putInt(tireSizeSettings, 33);
+                                switchTireSize(25);
                                 edit.apply();
                             } else if (tireIndex == 3) {
-                                edit.putInt("tire_size", 34);
+                                edit.putInt(tireSizeSettings, 34);
+                                switchTireSize(26);
                                 edit.apply();
                             } else if (tireIndex == 4) {
-                                edit.putInt("tire_size", 35);
+                                edit.putInt(tireSizeSettings, 35);
+                                switchTireSize(27);
                                 edit.apply();
                             } else if (tireIndex == 5) {
-                                edit.putInt("tire_size", 36);
+                                edit.putInt(tireSizeSettings, 36);
+                                switchTireSize(28);
                                 edit.apply();
                             } else if (tireIndex == 6) {
-                                edit.putInt("tire_size", 37);
+                                edit.putInt(tireSizeSettings, 37);
+                                switchTireSize(29);
                                 edit.apply();
                             }
                         }
@@ -593,7 +605,7 @@ public class FeaturesFragment extends Fragment {
 
 
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
@@ -603,25 +615,32 @@ public class FeaturesFragment extends Fragment {
                             tireIndex = tireIndex + 1;
                             select3.setText(tireSize[tireIndex]);
                             if (tireIndex == 0) {
-                                edit.putInt("tire_size", 31);
+                                edit.putInt(tireSizeSettings, 31);
+                                switchTireSize(23);
                                 edit.apply();
                             } else if (tireIndex == 1) {
-                                edit.putInt("tire_size", 32);
+                                edit.putInt(tireSizeSettings, 32);
+                                switchTireSize(24);
                                 edit.apply();
                             } else if (tireIndex == 2) {
-                                edit.putInt("tire_size", 33);
+                                edit.putInt(tireSizeSettings, 33);
+                                switchTireSize(25);
                                 edit.apply();
                             } else if (tireIndex == 3) {
-                                edit.putInt("tire_size", 34);
+                                edit.putInt(tireSizeSettings, 34);
+                                switchTireSize(26);
                                 edit.apply();
                             } else if (tireIndex == 4) {
-                                edit.putInt("tire_size", 35);
+                                edit.putInt(tireSizeSettings, 35);
+                                switchTireSize(27);
                                 edit.apply();
                             } else if (tireIndex == 5) {
-                                edit.putInt("tire_size", 36);
+                                edit.putInt(tireSizeSettings, 36);
+                                switchTireSize(28);
                                 edit.apply();
                             } else if (tireIndex == 6) {
-                                edit.putInt("tire_size", 37);
+                                edit.putInt(tireSizeSettings, 37);
+                                switchTireSize(29);
                                 edit.apply();
                             }
                         }
@@ -640,24 +659,26 @@ public class FeaturesFragment extends Fragment {
                 }
 
                 arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select4.setText(fogLights[0]);
-                        edit.putBoolean("fog_lights", true);
+                        edit.putBoolean(fogLightsSettings, true);
+                        switchFogLights(31);
                         edit.apply();
                     }
                 });
                 arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select4.setText(fogLights[1]);
-                        edit.putBoolean("fog_lights", false);
+                        edit.putBoolean(fogLightsSettings, false);
+                        switchFogLights(30);
                         edit.apply();
                     }
                 });
@@ -672,7 +693,7 @@ public class FeaturesFragment extends Fragment {
 
                 //Selector 1
                 selector_words_first.setText("TPMS settings");
-                final String[] pressureTPMS = new String[13];
+                final String[] pressureTPMS = new String[12];
                 pressureTPMS[0] = "25psi";
                 pressureTPMS[1] = "30psi";
                 pressureTPMS[2] = "35psi";
@@ -685,7 +706,6 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70psi";
                 pressureTPMS[10] = "75psi";
                 pressureTPMS[11] = "80psi";
-                pressureTPMS[12] = "Disable";
                 if (getTPMS() == 25) {
                     select1.setText(pressureTPMS[0]);
                     pressureTPMSIndex = 0;
@@ -722,83 +742,75 @@ public class FeaturesFragment extends Fragment {
                 } else if (getTPMS() == 80) {
                     select1.setText(pressureTPMS[11]);
                     pressureTPMSIndex = 11;
-                } else if (getTPMS() == 0) {
-                    select1.setText(pressureTPMS[12]);
-                    pressureTPMSIndex = 12;
                 }
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
-                        if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
+                        if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 11) {
                             pressureTPMSIndex = pressureTPMSIndex - 1;
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             switch (pressureTPMSIndex) {
                                 case 0:
-                                    edit.putInt("pressure_tpms", 25);
+                                    edit.putInt(tpmsSettings, 25);
                                     switchTpms(10);
                                     edit.apply();
                                     break;
                                 case 1:
-                                    edit.putInt("pressure_tpms", 30);
+                                    edit.putInt(tpmsSettings, 30);
                                     switchTpms(11);
                                     edit.apply();
                                     break;
                                 case 2:
-                                    edit.putInt("pressure_tpms", 35);
+                                    edit.putInt(tpmsSettings, 35);
                                     switchTpms(12);
                                     edit.apply();
                                     break;
                                 case 3:
-                                    edit.putInt("pressure_tpms", 40);
+                                    edit.putInt(tpmsSettings, 40);
                                     switchTpms(13);
                                     edit.apply();
                                     break;
                                 case 4:
-                                    edit.putInt("pressure_tpms", 45);
+                                    edit.putInt(tpmsSettings, 45);
                                     switchTpms(14);
                                     edit.apply();
                                     break;
                                 case 5:
-                                    edit.putInt("pressure_tpms", 50);
+                                    edit.putInt(tpmsSettings, 50);
                                     switchTpms(15);
                                     edit.apply();
                                     break;
                                 case 6:
-                                    edit.putInt("pressure_tpms", 55);
+                                    edit.putInt(tpmsSettings, 55);
                                     switchTpms(16);
                                     edit.apply();
                                     break;
                                 case 7:
-                                    edit.putInt("pressure_tpms", 60);
+                                    edit.putInt(tpmsSettings, 60);
                                     switchTpms(17);
                                     edit.apply();
                                     break;
                                 case 8:
-                                    edit.putInt("pressure_tpms", 65);
+                                    edit.putInt(tpmsSettings, 65);
                                     switchTpms(18);
                                     edit.apply();
                                     break;
                                 case 9:
-                                    edit.putInt("pressure_tpms", 70);
+                                    edit.putInt(tpmsSettings, 70);
                                     switchTpms(19);
                                     edit.apply();
                                     break;
                                 case 10:
-                                    edit.putInt("pressure_tpms", 75);
+                                    edit.putInt(tpmsSettings, 75);
                                     switchTpms(20);
                                     edit.apply();
                                     break;
                                 case 11:
-                                    edit.putInt("pressure_tpms", 80);
+                                    edit.putInt(tpmsSettings, 80);
                                     switchTpms(21);
-                                    edit.apply();
-                                    break;
-                                case 12:
-                                    edit.putInt("pressure_tpms", 0);
-                                    switchTpms(22);
                                     edit.apply();
                                     break;
                             }
@@ -806,78 +818,73 @@ public class FeaturesFragment extends Fragment {
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
-                        if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
+                        if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 11) {
                             pressureTPMSIndex = pressureTPMSIndex + 1;
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             switch (pressureTPMSIndex) {
                                 case 0:
-                                    edit.putInt("pressure_tpms", 25);
+                                    edit.putInt(tpmsSettings, 25);
                                     switchTpms(10);
                                     edit.apply();
                                     break;
                                 case 1:
-                                    edit.putInt("pressure_tpms", 30);
+                                    edit.putInt(tpmsSettings, 30);
                                     switchTpms(11);
                                     edit.apply();
                                     break;
                                 case 2:
-                                    edit.putInt("pressure_tpms", 35);
+                                    edit.putInt(tpmsSettings, 35);
                                     switchTpms(12);
                                     edit.apply();
                                     break;
                                 case 3:
-                                    edit.putInt("pressure_tpms", 40);
+                                    edit.putInt(tpmsSettings, 40);
                                     switchTpms(13);
                                     edit.apply();
                                     break;
                                 case 4:
-                                    edit.putInt("pressure_tpms", 45);
+                                    edit.putInt(tpmsSettings, 45);
                                     switchTpms(14);
                                     edit.apply();
                                     break;
                                 case 5:
-                                    edit.putInt("pressure_tpms", 50);
+                                    edit.putInt(tpmsSettings, 50);
                                     switchTpms(15);
                                     edit.apply();
                                     break;
                                 case 6:
-                                    edit.putInt("pressure_tpms", 55);
+                                    edit.putInt(tpmsSettings, 55);
                                     switchTpms(16);
                                     edit.apply();
                                     break;
                                 case 7:
-                                    edit.putInt("pressure_tpms", 60);
+                                    edit.putInt(tpmsSettings, 60);
                                     switchTpms(17);
                                     edit.apply();
                                     break;
                                 case 8:
-                                    edit.putInt("pressure_tpms", 65);
+                                    edit.putInt(tpmsSettings, 65);
                                     switchTpms(18);
                                     edit.apply();
                                     break;
                                 case 9:
-                                    edit.putInt("pressure_tpms", 70);
+                                    edit.putInt(tpmsSettings, 70);
                                     switchTpms(19);
                                     edit.apply();
                                     break;
                                 case 10:
-                                    edit.putInt("pressure_tpms", 75);
+                                    edit.putInt(tpmsSettings, 75);
                                     switchTpms(20);
                                     edit.apply();
                                     break;
                                 case 11:
-                                    edit.putInt("pressure_tpms", 80);
+                                    edit.putInt(tpmsSettings, 80);
                                     switchTpms(21);
-                                    edit.apply();
-                                    break;
-                                case 12:
-                                    edit.putInt("pressure_tpms", 0);
-                                    switchTpms(22);
                                     edit.apply();
                                     break;
                             }
@@ -885,9 +892,10 @@ public class FeaturesFragment extends Fragment {
                     }
                 });
 
-
             } else if (getVehicleType() == VRAM) {
 
+                arrowLeft3.setImageDrawable(null);
+                arrowRight3.setImageDrawable(null);
                 arrowLeft4.setImageDrawable(null);
                 arrowRight4.setImageDrawable(null);
 
@@ -948,7 +956,7 @@ public class FeaturesFragment extends Fragment {
                     pressureTPMSIndex = 12;
                 }
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
@@ -957,55 +965,55 @@ public class FeaturesFragment extends Fragment {
                             pressureTPMSIndex = pressureTPMSIndex - 1;
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             if (pressureTPMSIndex == 0) {
-                                edit.putInt("pressure_tpms", 25);
+                                edit.putInt(tpmsSettings, 25);
                                 switchTpms(10);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 1) {
-                                edit.putInt("pressure_tpms", 30);
+                                edit.putInt(tpmsSettings, 30);
                                 switchTpms(11);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 2) {
-                                edit.putInt("pressure_tpms", 35);
+                                edit.putInt(tpmsSettings, 35);
                                 switchTpms(12);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 3) {
-                                edit.putInt("pressure_tpms", 40);
+                                edit.putInt(tpmsSettings, 40);
                                 switchTpms(13);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 4) {
-                                edit.putInt("pressure_tpms", 45);
+                                edit.putInt(tpmsSettings, 45);
                                 switchTpms(14);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 5) {
-                                edit.putInt("pressure_tpms", 50);
+                                edit.putInt(tpmsSettings, 50);
                                 switchTpms(15);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 6) {
-                                edit.putInt("pressure_tpms", 55);
+                                edit.putInt(tpmsSettings, 55);
                                 switchTpms(16);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 7) {
-                                edit.putInt("pressure_tpms", 60);
+                                edit.putInt(tpmsSettings, 60);
                                 switchTpms(17);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 8) {
-                                edit.putInt("pressure_tpms", 65);
+                                edit.putInt(tpmsSettings, 65);
                                 switchTpms(18);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 9) {
-                                edit.putInt("pressure_tpms", 70);
+                                edit.putInt(tpmsSettings, 70);
                                 switchTpms(19);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 10) {
-                                edit.putInt("pressure_tpms", 75);
+                                edit.putInt(tpmsSettings, 75);
                                 switchTpms(20);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 11) {
-                                edit.putInt("pressure_tpms", 80);
+                                edit.putInt(tpmsSettings, 80);
                                 switchTpms(21);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 12) {
-                                edit.putInt("pressure_tpms", 0);
+                                edit.putInt(tpmsSettings, 0);
                                 switchTpms(22);
                                 edit.apply();
                             }
@@ -1013,7 +1021,7 @@ public class FeaturesFragment extends Fragment {
                     }
                 });
                 arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
@@ -1022,55 +1030,55 @@ public class FeaturesFragment extends Fragment {
                             pressureTPMSIndex = pressureTPMSIndex + 1;
                             select1.setText(pressureTPMS[pressureTPMSIndex]);
                             if (pressureTPMSIndex == 0) {
-                                edit.putInt("pressure_tpms", 25);
+                                edit.putInt(tpmsSettings, 25);
                                 switchTpms(10);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 1) {
-                                edit.putInt("pressure_tpms", 30);
+                                edit.putInt(tpmsSettings, 30);
                                 switchTpms(11);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 2) {
-                                edit.putInt("pressure_tpms", 35);
+                                edit.putInt(tpmsSettings, 35);
                                 switchTpms(12);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 3) {
-                                edit.putInt("pressure_tpms", 40);
+                                edit.putInt(tpmsSettings, 40);
                                 switchTpms(13);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 4) {
-                                edit.putInt("pressure_tpms", 45);
+                                edit.putInt(tpmsSettings, 45);
                                 switchTpms(14);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 5) {
-                                edit.putInt("pressure_tpms", 50);
+                                edit.putInt(tpmsSettings, 50);
                                 switchTpms(15);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 6) {
-                                edit.putInt("pressure_tpms", 55);
+                                edit.putInt(tpmsSettings, 55);
                                 switchTpms(16);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 7) {
-                                edit.putInt("pressure_tpms", 60);
+                                edit.putInt(tpmsSettings, 60);
                                 switchTpms(17);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 8) {
-                                edit.putInt("pressure_tpms", 65);
+                                edit.putInt(tpmsSettings, 65);
                                 switchTpms(18);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 9) {
-                                edit.putInt("pressure_tpms", 70);
+                                edit.putInt(tpmsSettings, 70);
                                 switchTpms(19);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 10) {
-                                edit.putInt("pressure_tpms", 75);
+                                edit.putInt(tpmsSettings, 75);
                                 switchTpms(20);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 11) {
-                                edit.putInt("pressure_tpms", 80);
+                                edit.putInt(tpmsSettings, 80);
                                 switchTpms(21);
                                 edit.apply();
                             } else if (pressureTPMSIndex == 12) {
-                                edit.putInt("pressure_tpms", 0);
+                                edit.putInt(tpmsSettings, 0);
                                 switchTpms(22);
                                 edit.apply();
                             }
@@ -1079,155 +1087,36 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_third.setText("Tire size");
-                final String[] tireSize = new String[7];
-                tireSize[0] = "31\"";
-                tireSize[1] = "32\"";
-                tireSize[2] = "33\"";
-                tireSize[3] = "34\"";
-                tireSize[4] = "35\"";
-                tireSize[5] = "36\"";
-                tireSize[6] = "37\"";
-                if (getTireSize() == 31) {
-                    select3.setText(tireSize[0]);
-                    tireIndex = 0;
-                } else if (getTireSize() == 32) {
-                    select3.setText(tireSize[1]);
-                    tireIndex = 1;
-                } else if (getTireSize() == 33) {
-                    select3.setText(tireSize[2]);
-                    tireIndex = 2;
-                } else if (getTireSize() == 34) {
-                    select3.setText(tireSize[3]);
-                    tireIndex = 3;
-                } else if (getTireSize() == 35) {
-                    select3.setText(tireSize[4]);
-                    tireIndex = 4;
-                } else if (getTireSize() == 36) {
-                    select3.setText(tireSize[5]);
-                    tireIndex = 5;
-                } else if (getTireSize() == 37) {
-                    select3.setText(tireSize[6]);
-                    tireIndex = 6;
-                }
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-
-                        if (tireIndex > 0 && tireIndex <= 6) {
-                            tireIndex = tireIndex - 1;
-                            select2.setText(tireSize[tireIndex]);
-                            if (tireIndex == 0) {
-                                edit.putInt("tire_size", 31);
-                                switchTireSize(23);
-                                edit.apply();
-                            } else if (tireIndex == 1) {
-                                edit.putInt("tire_size", 32);
-                                switchTireSize(24);
-                                edit.apply();
-                            } else if (tireIndex == 2) {
-                                edit.putInt("tire_size", 33);
-                                switchTireSize(25);
-                                edit.apply();
-                            } else if (tireIndex == 3) {
-                                edit.putInt("tire_size", 34);
-                                switchTireSize(26);
-                                edit.apply();
-                            } else if (tireIndex == 4) {
-                                edit.putInt("tire_size", 35);
-                                switchTireSize(27);
-                                edit.apply();
-                            } else if (tireIndex == 5) {
-                                edit.putInt("tire_size", 36);
-                                switchTireSize(28);
-                                edit.apply();
-                            } else if (tireIndex == 6) {
-                                edit.putInt("tire_size", 37);
-                                switchTireSize(29);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-
-                        if (tireIndex >= 0 && tireIndex < 6) {
-                            tireIndex = tireIndex + 1;
-                            select2.setText(tireSize[tireIndex]);
-                            if (tireIndex == 0) {
-                                edit.putInt("tire_size", 31);
-                                switchTireSize(23);
-                                edit.apply();
-                            } else if (tireIndex == 1) {
-                                edit.putInt("tire_size", 32);
-                                switchTireSize(24);
-                                edit.apply();
-                            } else if (tireIndex == 2) {
-                                edit.putInt("tire_size", 33);
-                                switchTireSize(25);
-                                edit.apply();
-                            } else if (tireIndex == 3) {
-                                edit.putInt("tire_size", 34);
-                                switchTireSize(26);
-                                edit.apply();
-                            } else if (tireIndex == 4) {
-                                edit.putInt("tire_size", 35);
-                                switchTireSize(27);
-                                edit.apply();
-                            } else if (tireIndex == 5) {
-                                edit.putInt("tire_size", 36);
-                                switchTireSize(28);
-                                edit.apply();
-                            } else if (tireIndex == 6) {
-                                edit.putInt("tire_size", 37);
-                                switchTireSize(29);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-                //Selector 3
-                selector_words_fourth.setText("Fog lights with high beam");
+                selector_words_second.setText("Fog lights with high beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "No";
                 fogLights[1] = "Yes";
                 if (!isFogLights()) {
-                    select3.setText(fogLights[0]);
+                    select2.setText(fogLights[0]);
                 } else if (isFogLights()) {
-                    select3.setText(fogLights[1]);
+                    select2.setText(fogLights[1]);
                 }
 
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                arrowLeft2.setOnClickListener(new View.OnClickListener() {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
-                        select3.setText(fogLights[0]);
-                        edit.putBoolean("fog_lights", true);
+                        select2.setText(fogLights[0]);
+                        edit.putBoolean(fogLightsSettings, true);
                         switchFogLights(31);
                         edit.apply();
                     }
                 });
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                arrowRight2.setOnClickListener(new View.OnClickListener() {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
-                        select3.setText(fogLights[1]);
-                        edit.putBoolean("fog_lights", false);
+                        select2.setText(fogLights[1]);
+                        edit.putBoolean(fogLightsSettings, false);
                         switchFogLights(30);
                         edit.apply();
                     }
@@ -1237,38 +1126,38 @@ public class FeaturesFragment extends Fragment {
     }
 
     private int getVehicleType() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
 
 
     public int getTireSize() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("tire_size", 31);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(tireSizeSettings, 31);
     }
 
     public int getTPMS() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("pressure_tpms", 80);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(tpmsSettings, 80);
     }
 
     public boolean isLampCurrent() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("lamp_current", false);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(lampCurrentSettings, false);
     }
 
     public boolean isRead() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("read_settings", false);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(readSettings, false);
     }
 
     public boolean isFogLights() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("fog_lights", false);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(fogLightsSettings, false);
     }
 
     public boolean isDefault() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean("factory_settings", false);
     }
 
@@ -1286,47 +1175,60 @@ public class FeaturesFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                         SharedPreferences.Editor edit = readSharedPreferences.edit();
                         switch (tpmsNum) {
+                            // Set TPMS to 25
                             case 10:
-                                edit.putInt("pressure_tpms", 25);
+                                edit.putInt(tpmsSettings, 25);
                                 break;
+                            // Set TPMS to 30
                             case 11:
-                                edit.putInt("pressure_tpms", 30);
+                                edit.putInt(tpmsSettings, 30);
                                 break;
+                            // Set TPMS to 35
                             case 12:
-                                edit.putInt("pressure_tpms", 35);
+                                edit.putInt(tpmsSettings, 35);
                                 break;
+                            // Set TPMS to 40
                             case 13:
-                                edit.putInt("pressure_tpms", 40);
+                                edit.putInt(tpmsSettings, 40);
                                 break;
+                            // Set TPMS to 45
                             case 14:
-                                edit.putInt("pressure_tpms", 45);
+                                edit.putInt(tpmsSettings, 45);
                                 break;
+                            // Set TPMS to 50
                             case 15:
-                                edit.putInt("pressure_tpms", 50);
+                                edit.putInt(tpmsSettings, 50);
                                 break;
+                            // Set TPMS to 55
                             case 16:
-                                edit.putInt("pressure_tpms", 55);
+                                edit.putInt(tpmsSettings, 55);
                                 break;
+                            // Set TPMS to 60
                             case 17:
-                                edit.putInt("pressure_tpms", 60);
+                                edit.putInt(tpmsSettings, 60);
                                 break;
+                            // Set TPMS to 65
                             case 18:
-                                edit.putInt("pressure_tpms", 65);
+                                edit.putInt(tpmsSettings, 65);
                                 break;
+                            // Set TPMS to 70
                             case 19:
-                                edit.putInt("pressure_tpms", 70);
+                                edit.putInt(tpmsSettings, 70);
                                 break;
+                            // Set TPMS to 75
                             case 20:
-                                edit.putInt("pressure_tpms", 75);
+                                edit.putInt(tpmsSettings, 75);
                                 break;
+                            // Set TPMS to 80
                             case 21:
-                                edit.putInt("pressure_tpms", 80);
+                                edit.putInt(tpmsSettings, 80);
                                 break;
+                            // Set TPMS to Disabled
                             case 22:
-                                edit.putInt("pressure_tpms", 0);
+                                edit.putInt(tpmsSettings, 0);
                                 edit.apply();
                         }
                         // display response
@@ -1339,27 +1241,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
                     }
                 }
         );
@@ -1380,35 +1261,42 @@ public class FeaturesFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                         SharedPreferences.Editor edit = readSharedPreferences.edit();
                         switch (tireNum) {
+                            // Set Tire Size to 31"
                             case 23:
-                                edit.putInt("tire_size", 31);
+                                edit.putInt(tireSizeSettings, 31);
                                 edit.apply();
                                 break;
+                            // Set Tire Size to 32"
                             case 24:
-                                edit.putInt("tire_size", 32);
+                                edit.putInt(tireSizeSettings, 32);
                                 edit.apply();
                                 break;
+                            // Set Tire Size to 33"
                             case 25:
-                                edit.putInt("tire_size", 33);
+                                edit.putInt(tireSizeSettings, 33);
                                 edit.apply();
                                 break;
+                            // Set Tire Size to 34"
                             case 26:
-                                edit.putInt("tire_size", 34);
+                                edit.putInt(tireSizeSettings, 34);
                                 edit.apply();
                                 break;
+                            // Set Tire Size to 35"
                             case 27:
-                                edit.putInt("tire_size", 35);
+                                edit.putInt(tireSizeSettings, 35);
                                 edit.apply();
                                 break;
+                            // Set Tire Size to 36"
                             case 28:
-                                edit.putInt("tire_size", 36);
+                                edit.putInt(tireSizeSettings, 36);
                                 edit.apply();
                                 break;
+                            // Set Tire Size to 37"
                             case 29:
-                                edit.putInt("tire_size", 37);
+                                edit.putInt(tireSizeSettings, 37);
                                 edit.apply();
                                 break;
                         }
@@ -1422,27 +1310,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
                     }
                 }
         );
@@ -1463,15 +1330,17 @@ public class FeaturesFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                         SharedPreferences.Editor edit = readSharedPreferences.edit();
                         switch (lampNum) {
+                            // Set LED turn Signals OFF
                             case 32:
-                                edit.putBoolean("lamp_current", false);
+                                edit.putBoolean(lampCurrentSettings, false);
                                 edit.apply();
                                 break;
+                            // Set LED turn Signals ON
                             case 33:
-                                edit.putBoolean("lamp_current", true);
+                                edit.putBoolean(lampCurrentSettings, true);
                                 edit.apply();
                                 break;
                         }
@@ -1485,27 +1354,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
                     }
                 }
         );
@@ -1526,15 +1374,17 @@ public class FeaturesFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                         SharedPreferences.Editor edit = readSharedPreferences.edit();
                         switch (fogNum) {
+                            // NO Fog Lights with High Beams
                             case 30:
-                                edit.putBoolean("fog_lights", false);
+                                edit.putBoolean(fogLightsSettings, false);
                                 edit.apply();
                                 break;
+                            // YES Fog Lights with High Beams
                             case 31:
-                                edit.putBoolean("fog_lights", true);
+                                edit.putBoolean(fogLightsSettings, true);
                                 edit.apply();
                                 break;
                         }
@@ -1548,27 +1398,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(Objects.requireNonNull(getActivity()), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
                     }
                 }
         );

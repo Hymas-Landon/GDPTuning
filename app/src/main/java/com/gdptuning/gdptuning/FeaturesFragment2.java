@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Timer;
@@ -32,6 +41,13 @@ public class FeaturesFragment2 extends Fragment {
     private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
+    final String themeColor = "ThemeColor";
+    final String vehicleSettings = "vehicle";
+    final String readSettingsSettings = "read_settings";
+    final String daytimeLightsSettings = "daytime_lights";
+    final String remoteStartSettings = "remote_start";
+    final String navOverrideSettings = "nav_override";
+    final String remoteWindowSettings = "remote_window";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
@@ -44,6 +60,10 @@ public class FeaturesFragment2 extends Fragment {
     Timer timer;
     private int daytimeLightIndex;
     private int remoteStartIndex;
+    private int daytimeNum;
+    private int remoteNum;
+    private int navNum;
+    private int windowNum;
 
 
     @Nullable
@@ -76,6 +96,7 @@ public class FeaturesFragment2 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         if (!isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
@@ -271,19 +292,19 @@ public class FeaturesFragment2 extends Fragment {
                 daytimeLight[2] = "Dedicated LED";
                 daytimeLight[3] = "Turn Signals";
                 daytimeLight[4] = "Disabled";
-                if (getDaytimeLights() == 1) {
+                if (getDaytimeLights() == 0) {
                     select1.setText(daytimeLight[0]);
                     daytimeLightIndex = 0;
-                } else if (getDaytimeLights() == 2) {
+                } else if (getDaytimeLights() == 1) {
                     select1.setText(daytimeLight[1]);
                     daytimeLightIndex = 1;
-                } else if (getDaytimeLights() == 3) {
+                } else if (getDaytimeLights() == 2) {
                     select1.setText(daytimeLight[2]);
                     daytimeLightIndex = 2;
-                } else if (getDaytimeLights() == 4) {
+                } else if (getDaytimeLights() == 3) {
                     select1.setText(daytimeLight[3]);
                     daytimeLightIndex = 3;
-                } else if (getDaytimeLights() == 5) {
+                } else if (getDaytimeLights() == 4) {
                     select1.setText(daytimeLight[4]);
                     daytimeLightIndex = 4;
                 }
@@ -291,21 +312,26 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
                             daytimeLightIndex = daytimeLightIndex - 1;
                             select1.setText(daytimeLight[daytimeLightIndex]);
                             if (daytimeLightIndex == 0) {
-                                edit.putInt("daytime_lights", 1);
+                                edit.putInt(daytimeLightsSettings, 1);
+                                switchDayTime(34);
                             } else if (daytimeLightIndex == 1) {
-                                edit.putInt("daytime_lights", 2);
+                                edit.putInt(daytimeLightsSettings, 2);
+                                switchDayTime(35);
                             } else if (daytimeLightIndex == 2) {
-                                edit.putInt("daytime_lights", 3);
+                                edit.putInt(daytimeLightsSettings, 3);
+                                switchDayTime(38);
                             } else if (daytimeLightIndex == 3) {
-                                edit.putInt("daytime_lights", 4);
+                                edit.putInt(daytimeLightsSettings, 4);
+                                switchDayTime(36);
                             } else if (daytimeLightIndex == 4) {
-                                edit.putInt("daytime_lights", 5);
+                                edit.putInt(daytimeLightsSettings, 5);
+                                switchDayTime(37);
                             }
                             edit.apply();
                         }
@@ -316,21 +342,26 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
                             daytimeLightIndex = daytimeLightIndex + 1;
                             select1.setText(daytimeLight[daytimeLightIndex]);
                             if (daytimeLightIndex == 0) {
-                                edit.putInt("daytime_lights", 1);
+                                edit.putInt(daytimeLightsSettings, 1);
+                                switchDayTime(34);
                             } else if (daytimeLightIndex == 1) {
-                                edit.putInt("daytime_lights", 2);
+                                edit.putInt(daytimeLightsSettings, 2);
+                                switchDayTime(35);
                             } else if (daytimeLightIndex == 2) {
-                                edit.putInt("daytime_lights", 3);
+                                edit.putInt(daytimeLightsSettings, 3);
+                                switchDayTime(38);
                             } else if (daytimeLightIndex == 3) {
-                                edit.putInt("daytime_lights", 4);
+                                edit.putInt(daytimeLightsSettings, 4);
+                                switchDayTime(36);
                             } else if (daytimeLightIndex == 4) {
-                                edit.putInt("daytime_lights", 5);
+                                edit.putInt(daytimeLightsSettings, 5);
+                                switchDayTime(37);
                             }
                             edit.apply();
                         }
@@ -358,17 +389,20 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
                             remoteStartIndex = remoteStartIndex - 1;
                             select2.setText(remoteStart[remoteStartIndex]);
                             if (remoteStartIndex == 0) {
-                                edit.putInt("remote_start", 1);
+                                edit.putInt(remoteStartSettings, 1);
+                                switchRemoteStart(41);
                             } else if (remoteStartIndex == 1) {
-                                edit.putInt("remote_start", 2);
+                                edit.putInt(remoteStartSettings, 2);
+                                switchRemoteStart(42);
                             } else if (remoteStartIndex == 2) {
-                                edit.putInt("remote_start", 3);
+                                edit.putInt(remoteStartSettings, 3);
+                                switchRemoteStart(43);
                             }
                             edit.apply();
                         }
@@ -379,17 +413,20 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
                             remoteStartIndex = remoteStartIndex + 1;
                             select2.setText(remoteStart[remoteStartIndex]);
                             if (remoteStartIndex == 0) {
-                                edit.putInt("remote_start", 1);
+                                edit.putInt(remoteStartSettings, 1);
+                                switchRemoteStart(41);
                             } else if (remoteStartIndex == 1) {
-                                edit.putInt("remote_start", 2);
+                                edit.putInt(remoteStartSettings, 2);
+                                switchRemoteStart(42);
                             } else if (remoteStartIndex == 2) {
-                                edit.putInt("remote_start", 3);
+                                edit.putInt(remoteStartSettings, 3);
+                                switchRemoteStart(43);
                             }
                             edit.apply();
                         }
@@ -407,24 +444,26 @@ public class FeaturesFragment2 extends Fragment {
                     select3.setText(navOverride[1]);
                 }
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select3.setText(navOverride[0]);
-                        edit.putBoolean("nav_override", true);
+                        edit.putBoolean(navOverrideSettings, true);
+                        switchNavOverride(45);
                         edit.apply();
                     }
                 });
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select3.setText(navOverride[1]);
-                        edit.putBoolean("nav_override", false);
+                        edit.putBoolean(navOverrideSettings, false);
+                        switchNavOverride(44);
                         edit.apply();
                     }
                 });
@@ -440,24 +479,26 @@ public class FeaturesFragment2 extends Fragment {
                     select4.setText(remoteWindow[1]);
                 }
                 arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select4.setText(remoteWindow[0]);
-                        edit.putBoolean("remote_window", true);
+                        edit.putBoolean(remoteWindowSettings, true);
+                        switchWindowUpDown(40);
                         edit.apply();
                     }
                 });
                 arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select4.setText(remoteWindow[1]);
-                        edit.putBoolean("remote_window", false);
+                        edit.putBoolean(remoteWindowSettings, false);
+                        switchWindowUpDown(39);
                         edit.apply();
                     }
                 });
@@ -472,19 +513,19 @@ public class FeaturesFragment2 extends Fragment {
                 daytimeLight[2] = "Dedicated LED";
                 daytimeLight[3] = "Turn Signals";
                 daytimeLight[4] = "Disabled";
-                if (getDaytimeLights() == 1) {
+                if (getDaytimeLights() == 0) {
                     select1.setText(daytimeLight[0]);
                     daytimeLightIndex = 0;
-                } else if (getDaytimeLights() == 2) {
+                } else if (getDaytimeLights() == 1) {
                     select1.setText(daytimeLight[1]);
                     daytimeLightIndex = 1;
-                } else if (getDaytimeLights() == 3) {
+                } else if (getDaytimeLights() == 2) {
                     select1.setText(daytimeLight[2]);
                     daytimeLightIndex = 2;
-                } else if (getDaytimeLights() == 4) {
+                } else if (getDaytimeLights() == 3) {
                     select1.setText(daytimeLight[3]);
                     daytimeLightIndex = 3;
-                } else if (getDaytimeLights() == 5) {
+                } else if (getDaytimeLights() == 4) {
                     select1.setText(daytimeLight[4]);
                     daytimeLightIndex = 4;
                 }
@@ -492,21 +533,26 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
                             daytimeLightIndex = daytimeLightIndex - 1;
                             select1.setText(daytimeLight[daytimeLightIndex]);
                             if (daytimeLightIndex == 0) {
-                                edit.putInt("daytime_lights", 1);
+                                edit.putInt(daytimeLightsSettings, 1);
+                                switchDayTime(34);
                             } else if (daytimeLightIndex == 1) {
-                                edit.putInt("daytime_lights", 2);
+                                edit.putInt(daytimeLightsSettings, 2);
+                                switchDayTime(35);
                             } else if (daytimeLightIndex == 2) {
-                                edit.putInt("daytime_lights", 3);
+                                edit.putInt(daytimeLightsSettings, 3);
+                                switchDayTime(38);
                             } else if (daytimeLightIndex == 3) {
-                                edit.putInt("daytime_lights", 4);
+                                edit.putInt(daytimeLightsSettings, 4);
+                                switchDayTime(36);
                             } else if (daytimeLightIndex == 4) {
-                                edit.putInt("daytime_lights", 5);
+                                edit.putInt(daytimeLightsSettings, 5);
+                                switchDayTime(37);
                             }
                             edit.apply();
                         }
@@ -517,21 +563,26 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
                             daytimeLightIndex = daytimeLightIndex + 1;
                             select1.setText(daytimeLight[daytimeLightIndex]);
                             if (daytimeLightIndex == 0) {
-                                edit.putInt("daytime_lights", 1);
+                                edit.putInt(daytimeLightsSettings, 1);
+                                switchDayTime(34);
                             } else if (daytimeLightIndex == 1) {
-                                edit.putInt("daytime_lights", 2);
+                                edit.putInt(daytimeLightsSettings, 2);
+                                switchDayTime(35);
                             } else if (daytimeLightIndex == 2) {
-                                edit.putInt("daytime_lights", 3);
+                                edit.putInt(daytimeLightsSettings, 3);
+                                switchDayTime(38);
                             } else if (daytimeLightIndex == 3) {
-                                edit.putInt("daytime_lights", 4);
+                                edit.putInt(daytimeLightsSettings, 4);
+                                switchDayTime(36);
                             } else if (daytimeLightIndex == 4) {
-                                edit.putInt("daytime_lights", 5);
+                                edit.putInt(daytimeLightsSettings, 5);
+                                switchDayTime(37);
                             }
                             edit.apply();
                         }
@@ -545,13 +596,13 @@ public class FeaturesFragment2 extends Fragment {
                 remoteStart[0] = "5 Minutes";
                 remoteStart[1] = "10 Minutes";
                 remoteStart[2] = "15 Minutes";
-                if (getRemoteStart() == 1) {
+                if (getRemoteStart() == 5) {
                     select2.setText(remoteStart[0]);
                     remoteStartIndex = 0;
-                } else if (getRemoteStart() == 2) {
+                } else if (getRemoteStart() == 10) {
                     select2.setText(remoteStart[1]);
                     remoteStartIndex = 1;
-                } else if (getRemoteStart() == 3) {
+                } else if (getRemoteStart() == 15) {
                     select2.setText(remoteStart[2]);
                     remoteStartIndex = 2;
                 }
@@ -559,17 +610,20 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
                             remoteStartIndex = remoteStartIndex - 1;
                             select2.setText(remoteStart[remoteStartIndex]);
                             if (remoteStartIndex == 0) {
-                                edit.putInt("remote_start", 1);
+                                edit.putInt(remoteStartSettings, 5);
+                                switchRemoteStart(41);
                             } else if (remoteStartIndex == 1) {
-                                edit.putInt("remote_start", 2);
+                                edit.putInt(remoteStartSettings, 10);
+                                switchRemoteStart(42);
                             } else if (remoteStartIndex == 2) {
-                                edit.putInt("remote_start", 3);
+                                edit.putInt(remoteStartSettings, 15);
+                                switchRemoteStart(43);
                             }
                             edit.apply();
                         }
@@ -580,17 +634,20 @@ public class FeaturesFragment2 extends Fragment {
 
                     @Override
                     public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = mSharedPreferences.edit();
                         if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
                             remoteStartIndex = remoteStartIndex + 1;
                             select2.setText(remoteStart[remoteStartIndex]);
                             if (remoteStartIndex == 0) {
-                                edit.putInt("remote_start", 1);
+                                edit.putInt(remoteStartSettings, 5);
+                                switchRemoteStart(41);
                             } else if (remoteStartIndex == 1) {
-                                edit.putInt("remote_start", 2);
+                                edit.putInt(remoteStartSettings, 10);
+                                switchRemoteStart(42);
                             } else if (remoteStartIndex == 2) {
-                                edit.putInt("remote_start", 3);
+                                edit.putInt(remoteStartSettings, 15);
+                                switchRemoteStart(43);
                             }
                             edit.apply();
                         }
@@ -608,24 +665,26 @@ public class FeaturesFragment2 extends Fragment {
                     select3.setText(navOverride[1]);
                 }
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select3.setText(navOverride[0]);
-                        edit.putBoolean("nav_override", true);
+                        edit.putBoolean(navOverrideSettings, true);
+                        switchNavOverride(45);
                         edit.apply();
                     }
                 });
                 arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select3.setText(navOverride[1]);
-                        edit.putBoolean("nav_override", false);
+                        edit.putBoolean(navOverrideSettings, false);
+                        switchNavOverride(44);
                         edit.apply();
                     }
                 });
@@ -641,24 +700,26 @@ public class FeaturesFragment2 extends Fragment {
                     select4.setText(remoteWindow[1]);
                 }
                 arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select4.setText(remoteWindow[0]);
-                        edit.putBoolean("remote_window", true);
+                        edit.putBoolean(remoteWindowSettings, true);
+                        switchWindowUpDown(40);
                         edit.apply();
                     }
                 });
                 arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
                         select4.setText(remoteWindow[1]);
-                        edit.putBoolean("remote_window", false);
+                        edit.putBoolean(remoteWindowSettings, false);
+                        switchWindowUpDown(39);
                         edit.apply();
                     }
                 });
@@ -666,100 +727,229 @@ public class FeaturesFragment2 extends Fragment {
         }
     }
 
-
-    public int checkDayTime() {
-        switch (getDaytimeLights()) {
-            case 25:
-                break;
-            case 30:
-                break;
-            case 35:
-                break;
-        }
-        return 0;
-    }
-
-    public int checkRemote() {
-        switch (getRemoteStart()) {
-            case 25:
-                break;
-            case 30:
-                break;
-            case 35:
-                break;
-            case 40:
-                break;
-            case 45:
-                break;
-            case 50:
-                break;
-            case 55:
-                break;
-            case 60:
-                break;
-            case 65:
-                break;
-            case 70:
-                break;
-            case 75:
-                break;
-            case 80:
-                break;
-            case 0:
-                break;
-        }
-        return 0;
-    }
-
-    public int checkRemoteWindow() {
-        int result;
-        if (isRemoteWindow()) {
-            result = 39;
-        } else {
-            result = 38;
-        }
-        return result;
-    }
-
-    public int checkNav() {
-        int nav;
-        if (isNavOverride()) {
-            nav = 43;
-        } else {
-            nav = 42;
-        }
-        return nav;
-    }
-
     private int getVehicleType() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
 
     public int getDaytimeLights() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("daytime_lights", 1);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(daytimeLightsSettings, 1);
     }
 
     public int getRemoteStart() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("remote_start", 3);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(remoteStartSettings, 3);
     }
 
     public boolean isNavOverride() {
         SharedPreferences mSharedPreferences;
-        mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("nav_override", false);
+        mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(navOverrideSettings, false);
     }
 
     public boolean isRemoteWindow() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("remote_window", false);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(remoteWindowSettings, false);
     }
 
     public boolean isRead() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("read_settings", false);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(readSettingsSettings, false);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchDayTime(int requestDayLights) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestDayLights, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            daytimeNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (daytimeNum) {
+                            // Set as Headlights
+                            case 34:
+                                edit.putInt(daytimeLightsSettings, 1);
+                                edit.apply();
+                                break;
+                            // Set as Fog Lights
+                            case 35:
+                                edit.putInt(daytimeLightsSettings, 2);
+                                edit.apply();
+                                break;
+                            // Set as Turn Signals
+                            case 36:
+                                edit.putInt(daytimeLightsSettings, 4);
+                                edit.apply();
+                                break;
+                            // Set as Disabled
+                            case 37:
+                                edit.putInt(daytimeLightsSettings, 5);
+                                edit.apply();
+                                break;
+                            // Set as Led's
+                            case 38:
+                                edit.putInt(daytimeLightsSettings, 3);
+                                edit.apply();
+                                break;
+
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchRemoteStart(int requestNav) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestNav, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            remoteNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (remoteNum) {
+                            // Set as 5 Minutes
+                            case 40:
+                                edit.putInt(remoteStartSettings, 5);
+                                edit.apply();
+                                break;
+                            // Set as 10 Minutes
+                            case 41:
+                                edit.putInt(remoteStartSettings, 10);
+                                edit.apply();
+                                // Set as 15 Minutes
+                            case 43:
+                                edit.putInt(remoteStartSettings, 15);
+                                edit.apply();
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchNavOverride(int requestTurnSignals) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestTurnSignals, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            navNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (navNum) {
+                            // Nav Entry not allowed while driving
+                            case 44:
+                                edit.putBoolean(navOverrideSettings, false);
+                                edit.apply();
+                                break;
+                            // Nav Entry allowed while driving
+                            case 45:
+                                edit.putBoolean(navOverrideSettings, true);
+                                edit.apply();
+                                break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchWindowUpDown(int requestWindow) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestWindow, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            windowNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (windowNum) {
+                            // Control windows via key fob is off
+                            case 39:
+                                edit.putBoolean(remoteWindowSettings, false);
+                                edit.apply();
+                                break;
+                            // Control windows via key fob is on
+                            case 40:
+                                edit.putBoolean(remoteWindowSettings, true);
+                                edit.apply();
+                                break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
     }
 
 }

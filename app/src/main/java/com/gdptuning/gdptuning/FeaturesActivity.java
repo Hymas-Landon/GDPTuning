@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,6 +42,25 @@ public class FeaturesActivity extends AppCompatActivity {
     private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
+    final String themeColor = "ThemeColor";
+    final String vehicleSettings = "vehicle";
+    final String readSettingsSettings = "read_settings";
+    final String tpmsSettings = "pressure_tpms";
+    final String tireSizeSettings = "tire_sizes";
+    final String daytimeLightsSettings = "daytime_lights";
+    final String remoteStartSettings = "remote_start";
+    final String navOverrideSettings = "nav_override";
+    final String lampCurrentSettings = "lamp_current";
+    final String fogLightsSettings = "fog_lights";
+    final String remoteWindowSettings = "remote_window";
+    final String strobeSettings = "strobe_lights";
+    final String workLightSettings = "work_lights";
+    final String aux1Settings = "aux1_var";
+    final String aux2Settings = "aux2_var";
+    final String aux3Settings = "aux3_var";
+    final String highIdleSettings = "high_idle";
+
+
     private boolean isConnected = false;
     private boolean isProcessing = false;
     String device = "GDP";
@@ -52,9 +72,7 @@ public class FeaturesActivity extends AppCompatActivity {
     public static final String TAG = "GDP Tuning";
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-    private int tpmsNum, turnSigNum, tireSizeNum, fogLightsNum, dayRunNum, remoteStartNum, navNum,
-            windowNum, strobeNum, workNum, auxNum1, auxNum2, auxNum3, highIdleNum, keyFobNum;
-    private int tpms;
+    ProgressDialog mProgressDialog;
 
 
     @Override
@@ -74,7 +92,7 @@ public class FeaturesActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_features);
-
+        mProgressDialog = new ProgressDialog(this);
 
         //tab id
         mTabLayout = findViewById(R.id.tabs);
@@ -168,45 +186,120 @@ public class FeaturesActivity extends AppCompatActivity {
             });
         }
 
-        //Set textView
+        // Set textView
         btn_default = findViewById(R.id.default_settings);
         btn_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                    int tpms = getDefaultTpms();
-                    int daytimeRunningLights = getDefaultDaytime();
-                    boolean lampOutage = isDefaultLamp();
-                    boolean fogLights = isDefaultFog();
-                    int tireSize = getDefaultTire();
-                    boolean remoteWindow = isDefaultWindow();
-                    int remoteStartDuration = getDefaultRemote();
-                    boolean nav = isDefaultNav();
-                    edit.putBoolean("lamp_current", lampOutage);
-                    edit.putInt("tire_size", tireSize);
-                    edit.putBoolean("fog_lights", fogLights);
-                    edit.putInt("daytime_lights", daytimeRunningLights);
-                    edit.putInt("remote_start", remoteStartDuration);
-//                    edit.putInt("remote_window", remoteWindow);
-                    edit.putBoolean("remote_window", remoteWindow);
-                    edit.putInt("pressure_tpms", tpms);
-                    edit.apply();
-                } else if (getVehicleType() == VGM2) {
-                    int tpms = getDefaultTpms();
-                    edit.putInt("pressure_tpms", tpms);
-                    edit.apply();
-                } else if (getVehicleType() == VRAM) {
-                    int tpms = getDefaultTpms();
-                    boolean fogLights = isDefaultFog();
-                    int tireSize = getDefaultTire();
-                    edit.putInt("pressure_tpms", tpms);
-                    edit.putBoolean("fog_lights", fogLights);
-                    edit.putInt("tire_size", tireSize);
-                    edit.apply();
-                }
-                recreate();
+
+                // prepare the Request
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                isConnected = true;
+                                try {
+                                    if (isRead()) {
+                                        JSONObject variables = response.getJSONObject("variables");
+                                        Log.d("TEST2 ", variables.toString());
+
+                                        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        int factoryHighIdle = variables.getInt("factory_secure_idle");
+
+                                        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                            int factoryTpms = variables.getInt("factory_tpms");
+                                            int factoryDaytimeRunningLights = variables.getInt("factory_drl");
+                                            int factoryLampOutage = variables.getInt("factory_lamp_out");
+                                            int factoryFogLights = variables.getInt("factory_fog_high");
+                                            int factoryTireSize = variables.getInt("factory_tire_size");
+                                            int factoryRemoteWindow = variables.getInt("factory_rke_windows");
+                                            int factoryRemoteStartDuration = variables.getInt("factory_rvs");
+                                            int factoryNavOverride = variables.getInt("factory_nav_override");
+
+                                            edit.putInt(tpmsSettings, factoryTpms);
+                                            if (factoryLampOutage == 0) {
+                                                edit.putBoolean(lampCurrentSettings, false);
+                                            } else if (factoryLampOutage == 1) {
+                                                edit.putBoolean(lampCurrentSettings, true);
+                                            }
+                                            edit.putInt(tireSizeSettings, factoryTireSize);
+                                            if (factoryFogLights == 0) {
+                                                edit.putBoolean(fogLightsSettings, false);
+                                            } else if (factoryFogLights == 1) {
+                                                edit.putBoolean(fogLightsSettings, true);
+                                            }
+                                            edit.putInt(daytimeLightsSettings, factoryDaytimeRunningLights);
+                                            edit.putInt(remoteStartSettings, factoryRemoteStartDuration);
+                                            edit.putInt(remoteWindowSettings, factoryRemoteWindow);
+                                            if (factoryRemoteWindow == 0) {
+                                                edit.putBoolean(remoteWindowSettings, false);
+                                            } else if (factoryRemoteWindow == 1) {
+                                                edit.putBoolean(remoteWindowSettings, true);
+                                            }
+                                            if (factoryFogLights == 0) {
+                                                edit.putBoolean(fogLightsSettings, false);
+                                            } else if (factoryFogLights == 1) {
+                                                edit.putBoolean(fogLightsSettings, true);
+                                            }
+                                            if (factoryNavOverride == 0) {
+                                                edit.putBoolean(navOverrideSettings, false);
+                                            } else if (factoryNavOverride == 1) {
+                                                edit.putBoolean(navOverrideSettings, true);
+                                            }
+                                            if (factoryHighIdle == 0) {
+                                                edit.putBoolean(highIdleSettings, false);
+                                            } else if (factoryHighIdle == 1) {
+                                                edit.putBoolean(highIdleSettings, true);
+                                            }
+                                            edit.apply();
+                                        } else if (getVehicleType() == VGM2) {
+                                            int factoryTpms = variables.getInt("factory_tpms");
+                                            edit.putInt(tpmsSettings, factoryTpms);
+                                            if (factoryHighIdle == 0) {
+                                                edit.putBoolean(highIdleSettings, false);
+                                            } else if (factoryHighIdle == 1) {
+                                                edit.putBoolean(highIdleSettings, true);
+                                            }
+                                            edit.apply();
+                                        } else if (getVehicleType() == VRAM) {
+                                            int factoryTpms = variables.getInt("factory_tpms");
+                                            int factoryFogLights = variables.getInt("factory_fog_high");
+                                            if (factoryFogLights == 0) {
+                                                edit.putBoolean(fogLightsSettings, false);
+                                            } else if (factoryFogLights == 1) {
+                                                edit.putBoolean(fogLightsSettings, true);
+                                            }
+                                            if (factoryHighIdle == 0) {
+                                                edit.putBoolean(highIdleSettings, false);
+                                            } else if (factoryHighIdle == 1) {
+                                                edit.putBoolean(highIdleSettings, true);
+                                            }
+                                            edit.putInt(tpmsSettings, factoryTpms);
+                                            edit.apply();
+                                        }
+                                        recreate();
+                                    } else {
+                                        Toast toast = Toast.makeText(FeaturesActivity.this, "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
+                                        toast.show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // display response
+                                Log.d("Response", response.toString());
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
             }
         });
         btn_home = findViewById(R.id.btn_home);
@@ -225,177 +318,19 @@ public class FeaturesActivity extends AppCompatActivity {
             @Override
             public void onClick(View mView) {
                 // prepare the Request
-                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                isConnected = true;
-                                try {
-                                    JSONObject variables = response.getJSONObject("variables");
-                                    Log.d("TEST2 ", variables.toString());
-
-                                    if (!isRead()) {
-                                        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                        SharedPreferences readSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                        SharedPreferences.Editor readEdit = readSharedPreferences.edit();
-                                        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                            int tpms = variables.getInt("tpms");
-                                            int daytimeRunningLights = variables.getInt("drl");
-                                            int lampOutage = variables.getInt("lamp_out");
-                                            int fogLights = variables.getInt("fog_high");
-                                            int tireSize = variables.getInt("tire_size");
-                                            int remoteWindow = variables.getInt("rke_windows");
-                                            int remoteStartDuration = variables.getInt("rvs");
-//                                            int tpms = 35;
-//                                            int daytimeRunningLights = 3;
-//                                            int lampOutage = 1;
-//                                            int fogLights = 0;
-//                                            int tireSize = 32;
-//                                            int remoteWindow = 1;
-//                                            int remoteStartDuration = 2;
-
-                                            edit.putInt("pressure_tpms", tpms);
-                                            readEdit.putInt("pressure_tpms", tpms);
-                                            if (lampOutage == 0) {
-                                                edit.putBoolean("lamp_current", false);
-                                                readEdit.putBoolean("lamp_current", false);
-                                            } else if (lampOutage == 1) {
-                                                edit.putBoolean("lamp_current", true);
-                                                readEdit.putBoolean("lamp_current", true);
-                                            }
-                                            edit.putInt("tire_size", tireSize);
-                                            readEdit.putInt("tire_size", tireSize);
-                                            if (fogLights == 0) {
-                                                edit.putBoolean("fog_lights", false);
-                                                readEdit.putBoolean("fog_lights", false);
-                                            } else if (fogLights == 1) {
-                                                edit.putBoolean("fog_lights", true);
-                                                readEdit.putBoolean("fog_lights", true);
-                                            }
-                                            edit.putInt("daytime_lights", daytimeRunningLights);
-                                            edit.putInt("remote_start", remoteStartDuration);
-                                            edit.putInt("remote_window", remoteWindow);
-                                            readEdit.putInt("daytime_lights", daytimeRunningLights);
-                                            readEdit.putInt("remote_start", remoteStartDuration);
-                                            readEdit.putInt("remote_window", remoteWindow);
-                                            if (remoteWindow == 0) {
-                                                edit.putBoolean("remote_window", false);
-                                                readEdit.putBoolean("remote_window", false);
-                                            } else if (remoteWindow == 1) {
-                                                edit.putBoolean("remote_window", true);
-                                                readEdit.putBoolean("remote_window", true);
-                                            }
-                                        } else if (getVehicleType() == VGM2) {
-                                            int tpms = variables.getInt("tpms");
-                                            edit.putInt("pressure_tpms", tpms);
-                                            readEdit.putInt("pressure_tpms", tpms);
-                                        } else if (getVehicleType() == VRAM) {
-                                            int tpms = variables.getInt("tpms");
-                                            int fogLights = variables.getInt("fog_high");
-                                            int tireSize = variables.getInt("tire_size");
-                                            edit.putInt("tire_size", tireSize);
-                                            readEdit.putInt("tire_size", tireSize);
-                                            if (fogLights == 0) {
-                                                edit.putBoolean("fog_lights", false);
-                                                readEdit.putBoolean("fog_lights", false);
-                                            } else if (fogLights == 1) {
-                                                edit.putBoolean("fog_lights", true);
-                                                readEdit.putBoolean("fog_lights", true);
-                                            }
-                                            edit.putInt("pressure_tpms", tpms);
-                                            readEdit.putInt("pressure_tpms", tpms);
-                                        }
-                                        readEdit.putBoolean("factory_settings", true);
-                                        readEdit.apply();
-                                        readEdit.putBoolean("read_settings", true);
-                                        readEdit.apply();
-                                        edit.apply();
-                                        readSettings();
-                                        recreate();
-                                        sendRequest();
-                                    } else if (isRead()) {
-                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                            int tpms = variables.getInt("tpms");
-                                            int daytimeRunningLights = variables.getInt("drl");
-                                            int lampOutage = variables.getInt("lamp_out");
-                                            int fogLights = variables.getInt("fog_high");
-                                            int tireSize = variables.getInt("tire_size");
-                                            int remoteWindow = variables.getInt("rke_windows");
-                                            int remoteStartDuration = variables.getInt("rvs");
-
-                                            edit.putInt("pressure_tpms", tpms);
-                                            if (lampOutage == 0) {
-                                                edit.putBoolean("lamp_current", false);
-                                            } else if (lampOutage == 1) {
-                                                edit.putBoolean("lamp_current", true);
-                                            }
-                                            edit.putInt("tire_size", tireSize);
-                                            if (fogLights == 0) {
-                                                edit.putBoolean("fog_lights", false);
-                                            } else if (fogLights == 1) {
-                                                edit.putBoolean("fog_lights", true);
-                                            }
-                                            edit.putInt("daytime_lights", daytimeRunningLights);
-                                            edit.putInt("remote_start", remoteStartDuration);
-                                            edit.putInt("remote_window", remoteWindow);
-                                            if (remoteWindow == 0) {
-                                                edit.putBoolean("remote_window", false);
-                                            } else if (remoteWindow == 1) {
-                                                edit.putBoolean("remote_window", true);
-                                            }
-                                            edit.apply();
-                                        } else if (getVehicleType() == VGM2) {
-                                            int tpms = variables.getInt("tpms");
-                                            edit.putInt("pressure_tpms", tpms);
-                                            edit.apply();
-                                        } else if (getVehicleType() == VRAM) {
-                                            int tpms = variables.getInt("tpms");
-                                            int fogLights = variables.getInt("fog_high");
-                                            int tireSize = variables.getInt("tire_size");
-                                            edit.putInt("tire_size", tireSize);
-                                            if (fogLights == 0) {
-                                                edit.putBoolean("fog_lights", false);
-                                            } else if (fogLights == 1) {
-                                                edit.putBoolean("fog_lights", true);
-                                            }
-                                            edit.putInt("pressure_tpms", tpms);
-                                            edit.apply();
-                                        }
-                                    }
-                                    readSettings();
-                                    recreate();
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                // display response
-                                Log.d("Response", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                isConnected = false;
-                                Log.d("Error.Response", error.toString());
-                            }
-                        }
-                );
-
-                // add it to the RequestQueue
-                queue.add(getRequest);
+                readSettings();
             }
-//            SharedPreferences readSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-//            SharedPreferences.Editor readEdit = readSharedPreferences.edit();
         });
 
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                programBCM();
+                if (isRead()) {
+                    programBCM();
+                } else {
+                    Toast toast = Toast.makeText(FeaturesActivity.this, "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 
@@ -406,18 +341,22 @@ public class FeaturesActivity extends AppCompatActivity {
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-
             @Override
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
                         Log.d("TEST2 :", "Sending request");
-                        updateRequest();
+                        updateSettingsRequest();
                     }
                 }
 
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
+    }
+
+    public boolean isRead() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(readSettingsSettings, false);
     }
 
     @Override
@@ -435,66 +374,21 @@ public class FeaturesActivity extends AppCompatActivity {
     }
 
     private int getColorTheme() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
     private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-        return mSharedPreferences.getInt("vehicle", VFORD1);
+        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
-
-    public boolean isRead() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("read_settings", false);
-    }
-
-    public int getDefaultTpms() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getInt("pressure_tpms", 25);
-    }
-
-    public int getDefaultTire() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getInt("tire_size", 32);
-    }
-
-    public int getDefaultDaytime() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getInt("daytime_lights", 0);
-    }
-
-    public int getDefaultRemote() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getInt("remote_start", 0);
-    }
-
-    public boolean isDefaultNav() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("remote_window", false);
-    }
-
-    public boolean isDefaultLamp() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("lamp_current", false);
-    }
-
-    public boolean isDefaultFog() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("fog_lights", false);
-    }
-
-    public boolean isDefaultWindow() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("remote_window", false);
-    }
-
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
         startActivity(i);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     //Send to sGDP server to verify connection
@@ -517,112 +411,67 @@ public class FeaturesActivity extends AppCompatActivity {
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + gear);
 
-                            if (!isRead()) {
-                                SharedPreferences mSharedPreferences = getSharedPreferences("Default_Settings", MODE_PRIVATE);
-                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                SharedPreferences readSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                SharedPreferences.Editor readEdit = readSharedPreferences.edit();
-                                if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                    int tpms = variables.getInt("tpms");
-                                    int daytimeRunningLights = variables.getInt("drl");
-                                    int lampOutage = variables.getInt("lamp_out");
-                                    int fogLights = variables.getInt("fog_high");
-                                    int tireSize = variables.getInt("tire_size");
-                                    int remoteWindow = variables.getInt("rke_windows");
-                                    int remoteStartDuration = variables.getInt("rvs");
+                            SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
 
-                                    edit.putInt("pressure_tpms", tpms);
-                                    if (lampOutage == 0) {
-                                        edit.putBoolean("lamp_current", false);
-                                    } else if (lampOutage == 1) {
-                                        edit.putBoolean("lamp_current", true);
-                                    }
-                                    edit.putInt("tire_size", tireSize);
-                                    if (fogLights == 0) {
-                                        edit.putBoolean("fog_lights", false);
-                                    } else if (fogLights == 1) {
-                                        edit.putBoolean("fog_lights", true);
-                                    }
-                                    edit.putInt("daytime_lights", daytimeRunningLights);
-                                    edit.putInt("remote_start", remoteStartDuration);
-                                    edit.putInt("remote_window", remoteWindow);
-                                    if (remoteWindow == 0) {
-                                        edit.putBoolean("remote_window", false);
-                                    } else if (remoteWindow == 1) {
-                                        edit.putBoolean("remote_window", true);
-                                    }
-                                } else if (getVehicleType() == VGM2) {
-                                    int tpms = variables.getInt("tpms");
-                                    edit.putInt("pressure_tpms", tpms);
-                                } else if (getVehicleType() == VRAM) {
-                                    int tpms = variables.getInt("tpms");
-                                    int fogLights = variables.getInt("fog_high");
-                                    int tireSize = variables.getInt("tire_size");
-                                    edit.putInt("tire_size", tireSize);
-                                    if (fogLights == 0) {
-                                        edit.putBoolean("fog_lights", false);
-                                    } else if (fogLights == 1) {
-                                        edit.putBoolean("fog_lights", true);
-                                    }
-                                    edit.putInt("pressure_tpms", tpms);
+                                int tpms = variables.getInt("tpms");
+                                int daytimeRunningLights = variables.getInt("drl");
+                                int lampOutage = variables.getInt("lamp_out");
+                                int fogLights = variables.getInt("fog_high");
+                                int tireSize = variables.getInt("tire_size");
+                                int remoteWindow = variables.getInt("rke_windows");
+                                int remoteStartDuration = variables.getInt("rvs");
+                                int navOverride = variables.getInt("nav_override");
+
+                                edit.putInt(tpmsSettings, tpms);
+                                if (lampOutage == 0) {
+                                    edit.putBoolean(lampCurrentSettings, false);
+                                } else if (lampOutage == 1) {
+                                    edit.putBoolean(lampCurrentSettings, true);
                                 }
-                                readEdit.putBoolean("factory_settings", true);
-                                readEdit.apply();
+                                edit.putInt(tireSizeSettings, tireSize);
+                                if (fogLights == 0) {
+                                    edit.putBoolean(fogLightsSettings, false);
+                                } else if (fogLights == 1) {
+                                    edit.putBoolean(fogLightsSettings, true);
+                                }
+                                edit.putInt(daytimeLightsSettings, daytimeRunningLights);
+                                edit.putInt(remoteStartSettings, remoteStartDuration);
+                                edit.putInt(remoteWindowSettings, remoteWindow);
+                                if (remoteWindow == 0) {
+                                    edit.putBoolean(remoteWindowSettings, false);
+                                } else if (remoteWindow == 1) {
+                                    edit.putBoolean(remoteWindowSettings, true);
+                                }
+                                if (fogLights == 0) {
+                                    edit.putBoolean(fogLightsSettings, false);
+                                } else if (fogLights == 1) {
+                                    edit.putBoolean(fogLightsSettings, true);
+                                }
+                                if (navOverride == 0) {
+                                    edit.putBoolean(navOverrideSettings, false);
+                                } else if (navOverride == 1) {
+                                    edit.putBoolean(navOverrideSettings, true);
+                                }
                                 edit.apply();
-                                sendRequest();
-                            } else if (isRead()) {
-                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                    int tpms = variables.getInt("tpms");
-                                    int daytimeRunningLights = variables.getInt("drl");
-                                    int lampOutage = variables.getInt("lamp_out");
-                                    int fogLights = variables.getInt("fog_high");
-                                    int tireSize = variables.getInt("tire_size");
-                                    int remoteWindow = variables.getInt("rke_windows");
-                                    int remoteStartDuration = variables.getInt("rvs");
-
-                                    edit.putInt("pressure_tpms", tpms);
-                                    if (lampOutage == 0) {
-                                        edit.putBoolean("lamp_current", false);
-                                    } else if (lampOutage == 1) {
-                                        edit.putBoolean("lamp_current", true);
-                                    }
-                                    edit.putInt("tire_size", tireSize);
-                                    if (fogLights == 0) {
-                                        edit.putBoolean("fog_lights", false);
-                                    } else if (fogLights == 1) {
-                                        edit.putBoolean("fog_lights", true);
-                                    }
-                                    edit.putInt("daytime_lights", daytimeRunningLights);
-                                    edit.putInt("remote_start", remoteStartDuration);
-                                    edit.putInt("remote_window", remoteWindow);
-                                    if (remoteWindow == 0) {
-                                        edit.putBoolean("remote_window", false);
-                                    } else if (remoteWindow == 1) {
-                                        edit.putBoolean("remote_window", true);
-                                    }
-                                    edit.apply();
-                                } else if (getVehicleType() == VGM2) {
-                                    int tpms = variables.getInt("tpms");
-                                    edit.putInt("pressure_tpms", tpms);
-                                    edit.apply();
-                                } else if (getVehicleType() == VRAM) {
-                                    int tpms = variables.getInt("tpms");
-                                    int fogLights = variables.getInt("fog_high");
-                                    int tireSize = variables.getInt("tire_size");
-                                    edit.putInt("tire_size", tireSize);
-                                    if (fogLights == 0) {
-                                        edit.putBoolean("fog_lights", false);
-                                    } else if (fogLights == 1) {
-                                        edit.putBoolean("fog_lights", true);
-                                    }
-                                    edit.putInt("pressure_tpms", tpms);
-                                    edit.apply();
+                            } else if (getVehicleType() == VGM2) {
+                                int tpms = variables.getInt("tpms");
+                                edit.putInt(tpmsSettings, tpms);
+                                edit.apply();
+                            } else if (getVehicleType() == VRAM) {
+                                int tpms = variables.getInt("tpms");
+                                int fogLights = variables.getInt("fog_high");
+                                int tireSize = variables.getInt(tireSizeSettings);
+                                edit.putInt(tireSizeSettings, tireSize);
+                                if (fogLights == 0) {
+                                    edit.putBoolean(fogLightsSettings, false);
+                                } else if (fogLights == 1) {
+                                    edit.putBoolean(fogLightsSettings, true);
                                 }
-                                edit.putBoolean("factory_settings", false);
+                                edit.putInt(tpmsSettings, tpms);
+                                edit.apply();
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -638,13 +487,20 @@ public class FeaturesActivity extends AppCompatActivity {
                     }
                 }
         );
-
         // add it to the RequestQueue
         queue.add(getRequest);
     }
 
+    public void pause() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException mE) {
+            mE.printStackTrace();
+        }
+    }
+
     //Send to sGDP server to get live data
-    public void updateRequest() {
+    public void updateSettingsRequest() {
         isProcessing = true;
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -653,7 +509,6 @@ public class FeaturesActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         isConnected = true;
                         try {
-
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
@@ -661,11 +516,193 @@ public class FeaturesActivity extends AppCompatActivity {
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-
                             char pos = (char) gear;
 
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
+                            int bcmStatus = variables.getInt("bcm_stat");
+                            switch (bcmStatus) {
+                                // Nothing
+                                case 0:
+                                    Log.d(TAG, "UPDATEDEDED:0");
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    mProgressDialog.hide();
+                                    break;
+                                // Factory BCM read in progress
+                                case 1:
+                                    Log.d(TAG, "UPDATEDEDED:1");
+                                    mProgressDialog.setMessage("Reading configuration from vehicle. Please wait...");
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    mProgressDialog.show();
+                                    break;
+                                // Factory BCM read successfully completed
+                                case 2:
+                                    Log.d(TAG, "UPDATEDEDED:2");
+                                    pause();
+                                    mProgressDialog.hide();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Factory Read Successfully")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    sendRequest();
+                                                    recreate();
+                                                }
+                                            })
+                                            .show();
+                                    SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
+                                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                    edit.putBoolean(readSettingsSettings, true);
+                                    edit.apply();
+                                    break;
+                                // Factory BCM read failure
+                                case 3:
+                                    Log.d(TAG, "UPDATEDEDED:3");
+                                    pause();
+                                    mProgressDialog.hide();
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Error")
+                                            .setContentText("Procedure failed, please " +
+                                                    "cycle vehicle ignition OFF, wait 2 " +
+                                                    "minutes, cycle key ON, and try again ")
+                                            .setConfirmText("Try Again")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sendRequest();
+                                                    sDialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                                // Factory BCM write(dongle is returning bcm back to stock)
+                                case 4:
+                                    Log.d(TAG, "UPDATEDEDED:4");
+                                    mProgressDialog.setMessage("Sending configuration to vehicle. Please wait...");
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    mProgressDialog.show();
+                                    break;
+                                // Factory BCM write complete(BCM successfully returned back to stock
+                                case 5:
+                                    Log.d(TAG, "UPDATEDEDED:5");
+                                    pause();
+                                    mProgressDialog.hide();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Program Successful")
+                                            .setContentText("To confirm changes, please turn the ignition OFF, wait 5 seconds, then turn the ignition on. Then tap refresh")
+                                            .setConfirmText("Refresh")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    sendRequest();
+                                                    recreate();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                                // Reading current BCM config in progress
+                                case 6:
+                                    Log.d(TAG, "UPDATEDEDED:6");
+                                    mProgressDialog.setMessage("Reading configuration from vehicle. Please wait...");
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    mProgressDialog.show();
+                                    break;
+                                // Reading current BCM config success/finished
+                                case 7:
+                                    Log.d(TAG, "UPDATEDEDED:7");
+                                    pause();
+                                    mProgressDialog.hide();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Read Successfully")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    sendRequest();
+                                                    recreate();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                                // Reading current BCM config Failure
+                                case 8:
+                                    Log.d(TAG, "UPDATEDEDED:8");
+                                    pause();
+                                    mProgressDialog.hide();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Error")
+                                            .setContentText("Procedure failed, please " +
+                                                    "cycle vehicle ignition OFF, wait 2 " +
+                                                    "minutes, cycle key ON, and try again")
+                                            .setConfirmText("Try Again")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    sendRequest();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                                // Writing current user BCM config settings
+                                case 9:
+                                    Log.d(TAG, "UPDATEDEDED:9");
+                                    mProgressDialog.setMessage("Sending configuration to vehicle. Please wait...");
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    mProgressDialog.show();
+                                    break;
+                                // BCM has successfully been written with user settings
+                                case 10:
+                                    Log.d(TAG, "UPDATEDEDED:10");
+                                    mProgressDialog.hide();
+                                    pause();
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Program Successful")
+                                            .setContentText("To confirm changes, please turn the ignition OFF, wait 5 seconds, then turn the ignition on. Then tap refresh")
+                                            .setConfirmText("Refresh")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    sendRequest();
+                                                    recreate();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                                // BCM read/write not available or blocked
+                                //(ie, vehicle is running or ignition switch is off)
+                                case 11:
+                                    Log.d(TAG, "UPDATEDEDED:11");
+                                    pause();
+                                    mProgressDialog.hide();
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Error")
+                                            .setContentText("Please verify ignition switch is ON, and engine is NOT running.")
+                                            .setConfirmText("Try Again")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    sendRequest();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                            }
 
                             Log.d("Response", response.toString());
                         } catch (JSONException e1) {
@@ -680,29 +717,6 @@ public class FeaturesActivity extends AppCompatActivity {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-                        isProcessing = false;
                     }
                 }
         );
@@ -710,45 +724,6 @@ public class FeaturesActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
-    //Show Connection details
-    void displayDevicecInfo() {
-        if (isConnected) {
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Connected")
-                    .setContentText("You are connected to " + device)
-                    .setConfirmText("ok")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance
-                            sDialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device. Retry by " +
-                            "tapping 'Retry' or check your wifi settings by tapping " +
-                            "'Connect'.")
-                    .setCancelText("Retry")
-                    .setConfirmText("Connect")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sDialog.dismiss();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    })
-                    .show();
-        }
-    }
 
     //Send to sGDP server to verify connection
     void programBCM() {
@@ -758,8 +733,6 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        Toast mToast = Toast.makeText(FeaturesActivity.this, "Message sent to BCM", Toast.LENGTH_SHORT);
-                        mToast.show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -768,27 +741,6 @@ public class FeaturesActivity extends AppCompatActivity {
                         isConnected = false;
                         Log.d("Error.Response", error.toString());
 
-                        new SweetAlertDialog(Objects.requireNonNull(FeaturesActivity.this), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
                     }
                 }
         );
@@ -804,8 +756,7 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        Toast mToast = Toast.makeText(FeaturesActivity.this, "Settings Read", Toast.LENGTH_SHORT);
-                        mToast.show();
+                        sendRequest();
                     }
                 },
                 new Response.ErrorListener() {

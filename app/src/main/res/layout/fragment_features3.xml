@@ -47,7 +47,8 @@
         android:layout_alignBottom="@+id/second_selector_features_3"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="-45dp"
-        app:srcCompat="?attr/triangle_button_right" />
+        app:srcCompat="?attr/triangle_button_right"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/arrowLeft2"
@@ -174,7 +175,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="50dp"
-        android:text="EXTERIOR STROBE LIGHT MODE"
+        android:text="@string/exterior_strobe_light_mode"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="26dp" />
@@ -187,7 +188,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="-100dp"
-        android:text="WORK LIGHT MODE"
+        android:text="@string/work_light_mode"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="26dp" />
@@ -200,7 +201,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="-100dp"
-        android:text="AUXILLARY OUTPUT 1"
+        android:text="@string/auxillary_output_1"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="26dp" />
@@ -212,7 +213,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="5dp"
-        android:text="AUXILLARY OUTPUT 2"
+        android:text="@string/auxillary_output_2"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="26dp" />
@@ -225,7 +226,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="-100dp"
-        android:text="AUXILLARY OUTPUT 3"
+        android:text="@string/auxillary_output_3"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="26dp" />
@@ -238,7 +239,7 @@
         android:layout_alignBottom="@id/arrowRight5"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="-90dp"
-        android:text="LEARN KEY FOB"
+        android:text="@string/learn_key_fob"
         android:textSize="20dp" />
 
     <ToggleButton
@@ -249,9 +250,9 @@
         android:layout_alignBottom="@id/arrowRight5"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="-90dp"
-        android:textOn="HIGH IDLE ON"
-        android:textOff="HIGH IDLE OFF"
         android:background="?attr/button_bg"
+        android:textOff="@string/high_idle_off"
+        android:textOn="@string/high_idle_on"
         android:textSize="20dp" />
 
 </RelativeLayout>

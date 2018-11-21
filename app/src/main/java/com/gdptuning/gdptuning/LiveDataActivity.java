@@ -290,45 +290,4 @@ public class LiveDataActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
-
-    //Show Connection details
-    void displayDevicecInfo() {
-        if (isConnected) {
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Connected")
-                    .setContentText("You are connected to " + device)
-                    .setConfirmText("ok")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance
-                            sDialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device. Retry by " +
-                            "tapping 'Retry' or check your wifi settings by tapping " +
-                            "'Connect'.")
-                    .setCancelText("Retry")
-                    .setConfirmText("Connect")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendRequest();
-                            sDialog.dismiss();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    })
-                    .show();
-        }
-    }
 }

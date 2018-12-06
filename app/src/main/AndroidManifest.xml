@@ -57,7 +57,7 @@
             android:name=".SettingsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
-        <activity android:name=".VehiclesActivity" />
+
     </application>
 
 </manifest>

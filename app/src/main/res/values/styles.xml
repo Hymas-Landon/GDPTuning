@@ -4,14 +4,12 @@
     <style name="AppThemeNoActionBarOrangeMain" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
-        <item name="gauges_color">@drawable/gauge_test</item>
         <item name="colorAccent">@color/colorOrange</item>
         <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
         <item name="configuration_icon">@drawable/configuration_icon</item>
         <item name="livedata_icon">@drawable/livedata_icon</item>
         <item name="tune_icon">@drawable/tune_icon</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
-        <item name="bar_color">@drawable/progressive_gauge</item>
         <item name="android:textStyle">bold</item>
         <item name="android:buttonStyle">@style/ButtonOrange</item>
         <item name="android:windowBackground">@color/colorBlack</item>
@@ -30,10 +28,19 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="background_color">@drawable/gradient_orange_</item>
         <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="popupMenuStyle">@style/PopUpMenu</item>
     </style>
 
     <style name="AppThemeNoActionBarOrangeMain.drawer" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textSize">40dp</item>
+    </style>
+
+    <style name="PopUpMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:popupBackground">@color/colorGray</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
 
@@ -64,26 +71,15 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="colors">
-        <item name="android:color">#F05423</item>
-    </style>
-
-    <!--Home Button Orange-->
-    <style name="OtherButtons">
-        <item name="android:background">@drawable/home_orange</item>
-    </style>
-
     <!--This is for the green theme-->
     <style name="AppThemeNoActionBarGreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
-        <item name="gauges_color">@drawable/gauge_green</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
         <item name="configuration_icon">@drawable/configuration_icon</item>
         <item name="livedata_icon">@drawable/livedata_icon</item>
         <item name="tune_icon">@drawable/tune_icon</item>
         <item name="colorAccent">@color/colorGreen</item>
-        <item name="bar_color">@drawable/progressive_gauge_green</item>
         <item name="speedtext_color">@color/colorGreen</item>
         <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
@@ -109,13 +105,11 @@
     <style name="AppThemeNoActionBarRed" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
-        <item name="gauges_color">@drawable/gauge_red</item>
         <item name="colorAccent">@color/colorRed</item>
         <item name="diagnostics_icon">@drawable/diagnostics_icon</item>
         <item name="configuration_icon">@drawable/configuration_icon</item>
         <item name="livedata_icon">@drawable/livedata_icon</item>
         <item name="tune_icon">@drawable/tune_icon</item>
-        <item name="bar_color">@drawable/progressive_gauge_red</item>
         <item name="speedtext_color">@color/colorRed</item>
         <item name="features_text_color">@color/colorWhite</item>
         <item name="android:fontFamily">@font/bahnschrift</item>
@@ -144,14 +138,12 @@
         <item name="android:fontFamily">@font/bahnschrift</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="gauges_color">@drawable/gauge_blue</item>
         <item name="android:buttonStyle">@style/ButtonBlue</item>
         <item name="diagnostics_icon">@drawable/diagnostics_white</item>
         <item name="configuration_icon">@drawable/configuration_icon_white</item>
         <item name="livedata_icon">@drawable/livedata_icon_white</item>
         <item name="tune_icon">@drawable/tune_icon_white</item>
         <item name="tune_on">@drawable/tune_on_blue</item>
-        <item name="bar_color">@drawable/progressive_gauge_blue</item>
         <item name="button_bg">@drawable/button_press_blue</item>
         <item name="gauge_text">@color/colorWhite</item>
         <item name="triangle_button_right">@drawable/select_right_blue</item>
@@ -205,7 +197,6 @@
     <attr name="features_text_color" format="reference" />
     <attr name="triangle_button_right" format="reference" />
     <attr name="triangle_button_left" format="reference" />
-    <attr name="gauges_color" format="reference" />
     <attr name="gauge_text" format="reference" />
     <attr name="tab_off_color" format="reference" />
 

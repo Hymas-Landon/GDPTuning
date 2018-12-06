@@ -36,9 +36,6 @@ public class LiveDataActivity extends AppCompatActivity {
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
-    private static int GAUGEPLAIN = 4;
-    private static int GAUGEDIGITAL = 5;
-    private static int GAUGEPROGRESS = 6;
     String device = "GDP";
     int tuneMode = 0;
     Timer timer;
@@ -108,7 +105,6 @@ public class LiveDataActivity extends AppCompatActivity {
 
             }
         });
-
 
         tvTune = findViewById(R.id.tunenum);
         tvGear = findViewById(R.id.gear_position);

@@ -17,6 +17,18 @@
         <item
             android:id="@+id/oil_pressure_menu"
             android:title="@string/oil_pressure" />
+        <item
+            android:id="@+id/menuu"
+            android:title="@string/egt" />
+        <item
+            android:id="@+id/ljasdf"
+            android:title="@string/boost" />
+        <item
+            android:id="@+id/dfhafds"
+            android:title="@string/fuel_rate" />
+        <item
+            android:id="@+id/fjaksd"
+            android:title="@string/oil_pressure" />
     </group>
 
 </menu>

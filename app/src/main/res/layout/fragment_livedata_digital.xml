@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="100dp"
+    android:layout_marginTop="0dp"
     tools:ignore="spusage">
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
@@ -12,45 +12,51 @@
         android:layout_width="310dp"
         android:layout_height="310dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
-        app:sv_image="@drawable/boost_standard"
-        app:sv_maxSpeed="60"
-        app:sv_speedTextSize="20dp"
-        app:sv_startDegree="162"
-        app:sv_textColor="@color/colorOrange"
+        android:layout_marginTop="0dp"
+        app:sv_image="@drawable/turbo_left"
+        app:sv_speedTextColor="@color/colorWhite"
+        app:sv_speedTextPadding="93dp"
+        app:sv_speedTextSize="30dp"
+        app:sv_startDegree="150"
         app:sv_textSize="0dp"
         app:sv_unit=""
-        app:sv_withTremble="false" />
-
-    <com.github.anastr.speedviewlib.ImageSpeedometer
-        android:id="@+id/gauge2"
-        android:layout_width="310dp"
-        android:layout_height="310dp"
-        android:layout_alignEnd="@id/gauge3"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="-225dp"
-        app:sv_image="@drawable/boost_standard"
-        app:sv_maxSpeed="60"
-        app:sv_speedTextSize="20dp"
-        app:sv_startDegree="162"
-        app:sv_textColor="@color/colorOrange"
-        app:sv_textSize="0dp"
-        app:sv_unit=""
+        app:sv_unitTextSize="20dp"
+        app:sv_unitTextColor="@color/colorWhite"
         app:sv_withTremble="false" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/gauge3"
+        android:layout_width="310dp"
+        android:layout_height="310dp"
+        android:layout_alignEnd="@id/gauge2"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="-225dp"
+        app:sv_image="@drawable/timing_right"
+        app:sv_speedTextColor="@color/colorWhite"
+        app:sv_speedTextPadding="93dp"
+        app:sv_speedTextSize="30dp"
+        app:sv_startDegree="230"
+        app:sv_textSize="0dp"
+        app:sv_unit=""
+        app:sv_unitTextSize="20dp"
+        app:sv_unitTextColor="@color/colorWhite"
+        app:sv_withTremble="false" />
+
+    <com.github.anastr.speedviewlib.ImageSpeedometer
+        android:id="@+id/gauge2"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        app:sv_image="@drawable/boost_standard"
-        app:sv_maxSpeed="60"
-        app:sv_startDegree="162"
-        app:sv_textColor="@color/colorOrange"
+        android:layout_marginTop="0dp"
+        app:sv_image="@drawable/boost_middle_standard"
+        app:sv_speedTextColor="@color/colorWhite"
+        app:sv_speedTextPadding="105dp"
+        app:sv_speedTextSize="30dp"
+        app:sv_startDegree="170"
         app:sv_textSize="0dp"
-        app:sv_speedTextSize="20dp"
         app:sv_unit=""
+        app:sv_unitTextSize="20dp"
+        app:sv_unitTextColor="@color/colorWhite"
         app:sv_withTremble="false" />
 
     <HorizontalScrollView
@@ -62,7 +68,8 @@
         <LinearLayout
             android:id="@+id/linear_live_data1"
             android:layout_width="600dp"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -127,7 +134,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/fuel_rail_pressure" />
+                android:background="@drawable/fuel_rail_pressure_icon" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -141,7 +148,8 @@
         <LinearLayout
             android:id="@+id/linear_live_data2"
             android:layout_width="600dp"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -206,7 +214,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/fuel_rail_pressure" />
+                android:background="@drawable/fuel_rail_pressure_icon" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -220,7 +228,8 @@
         <LinearLayout
             android:id="@+id/linear_live_data3"
             android:layout_width="600dp"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -285,7 +294,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/fuel_rail_pressure" />
+                android:background="@drawable/fuel_rail_pressure_icon" />
 
         </LinearLayout>
     </HorizontalScrollView>

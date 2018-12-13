@@ -45,6 +45,8 @@ public class LiveDataActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     Button btn_home;
+    TextView tab1, tab2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class LiveDataActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        tab1 = findViewById(R.id.tab1);
+        tab2 = findViewById(R.id.tab2);
 
         //tab id
         mTabLayout = findViewById(R.id.tabs);
@@ -88,6 +92,18 @@ public class LiveDataActivity extends AppCompatActivity {
         PagerDigital adapter = new PagerDigital(getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(adapter);
 
+        tab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                mViewPager.setCurrentItem(0);
+            }
+        });
+        tab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                mViewPager.setCurrentItem(1);
+            }
+        });
         //swipe code
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

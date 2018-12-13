@@ -8,6 +8,7 @@
     tools:context=".LiveDataActivity"
     tools:ignore="spusage">
 
+
     <Button
         android:id="@+id/btn_home"
         android:layout_width="125dp"
@@ -56,15 +57,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        app:tabIndicatorColor="@color/colorGray"
         app:tabSelectedTextColor="@color/colorWhite"
-        app:tabTextColor="@color/colorGray"
-        app:tabIndicatorColor="@color/colorGray" />
+        app:tabTextColor="@color/colorGray" />
+
+    <TextView
+        android:id="@+id/tab1"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/tab2"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="400dp"
+        android:layout_marginTop="50dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="100dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 

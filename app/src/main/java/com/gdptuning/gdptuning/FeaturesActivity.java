@@ -59,6 +59,7 @@ public class FeaturesActivity extends AppCompatActivity {
     final String aux2Settings = "aux2_var";
     final String aux3Settings = "aux3_var";
     final String highIdleSettings = "high_idle";
+    TextView tab1, tab2, tab3;
 
 
     private boolean isConnected = false;
@@ -94,8 +95,12 @@ public class FeaturesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_features);
         mProgressDialog = new ProgressDialog(this);
 
-        //tab id
+
+        //tab
         mTabLayout = findViewById(R.id.tabs);
+        tab1 = findViewById(R.id.tab1);
+        tab2 = findViewById(R.id.tab2);
+        tab3 = findViewById(R.id.tab3);
 
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //add tabs
@@ -109,6 +114,25 @@ public class FeaturesActivity extends AppCompatActivity {
 
             PagerFeatures adapter = new PagerFeatures(getSupportFragmentManager(), mTabLayout.getTabCount());
             mViewPager.setAdapter(adapter);
+
+            tab1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    mViewPager.setCurrentItem(0);
+                }
+            });
+            tab2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    mViewPager.setCurrentItem(1);
+                }
+            });
+            tab3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    mViewPager.setCurrentItem(2);
+                }
+            });
 
             //swipe code
             mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -139,6 +163,19 @@ public class FeaturesActivity extends AppCompatActivity {
             PagerFeatures2 adapter = new PagerFeatures2(getSupportFragmentManager(), mTabLayout.getTabCount());
             mViewPager.setAdapter(adapter);
 
+            tab1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    mViewPager.setCurrentItem(0);
+                }
+            });
+            tab2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    mViewPager.setCurrentItem(1);
+                }
+            });
+
             //swipe code
             mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -166,6 +203,13 @@ public class FeaturesActivity extends AppCompatActivity {
 
             PagerFeatures3 adapter = new PagerFeatures3(getSupportFragmentManager(), mTabLayout.getTabCount());
             mViewPager.setAdapter(adapter);
+
+            tab1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    mViewPager.setCurrentItem(0);
+                }
+            });
 
             //swipe code
             mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -205,7 +249,7 @@ public class FeaturesActivity extends AppCompatActivity {
 
                                         SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
                                         SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                        int factoryHighIdle = variables.getInt("factory_secure_idle");
+                                        int factorySecureIdle = variables.getInt("factory_secure_idle");
 
                                         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                                             int factoryTpms = variables.getInt("factory_tpms");
@@ -247,18 +291,18 @@ public class FeaturesActivity extends AppCompatActivity {
                                             } else if (factoryNavOverride == 1) {
                                                 edit.putBoolean(navOverrideSettings, true);
                                             }
-                                            if (factoryHighIdle == 0) {
+                                            if (factorySecureIdle == 0) {
                                                 edit.putBoolean(highIdleSettings, false);
-                                            } else if (factoryHighIdle == 1) {
+                                            } else if (factorySecureIdle == 1) {
                                                 edit.putBoolean(highIdleSettings, true);
                                             }
                                             edit.apply();
                                         } else if (getVehicleType() == VGM2) {
                                             int factoryTpms = variables.getInt("factory_tpms");
                                             edit.putInt(tpmsSettings, factoryTpms);
-                                            if (factoryHighIdle == 0) {
+                                            if (factorySecureIdle == 0) {
                                                 edit.putBoolean(highIdleSettings, false);
-                                            } else if (factoryHighIdle == 1) {
+                                            } else if (factorySecureIdle == 1) {
                                                 edit.putBoolean(highIdleSettings, true);
                                             }
                                             edit.apply();
@@ -270,9 +314,9 @@ public class FeaturesActivity extends AppCompatActivity {
                                             } else if (factoryFogLights == 1) {
                                                 edit.putBoolean(fogLightsSettings, true);
                                             }
-                                            if (factoryHighIdle == 0) {
+                                            if (factorySecureIdle == 0) {
                                                 edit.putBoolean(highIdleSettings, false);
-                                            } else if (factoryHighIdle == 1) {
+                                            } else if (factorySecureIdle == 1) {
                                                 edit.putBoolean(highIdleSettings, true);
                                             }
                                             edit.putInt(tpmsSettings, factoryTpms);
@@ -549,7 +593,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
                                                     sDialog.dismiss();
-                                                    sendRequest();
                                                     recreate();
                                                 }
                                             })
@@ -569,11 +612,10 @@ public class FeaturesActivity extends AppCompatActivity {
                                             .setContentText("Procedure failed, please " +
                                                     "cycle vehicle ignition OFF, wait 2 " +
                                                     "minutes, cycle key ON, and try again ")
-                                            .setConfirmText("Try Again")
+                                            .setConfirmText("Okay")
                                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
-                                                    sendRequest();
                                                     sDialog.dismiss();
                                                 }
                                             })
@@ -601,7 +643,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
                                                     sDialog.dismiss();
-                                                    sendRequest();
                                                     recreate();
                                                 }
                                             })
@@ -628,7 +669,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
                                                     sDialog.dismiss();
-                                                    sendRequest();
                                                     recreate();
                                                 }
                                             })
@@ -645,12 +685,11 @@ public class FeaturesActivity extends AppCompatActivity {
                                             .setContentText("Procedure failed, please " +
                                                     "cycle vehicle ignition OFF, wait 2 " +
                                                     "minutes, cycle key ON, and try again")
-                                            .setConfirmText("Try Again")
+                                            .setConfirmText("Okay")
                                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
                                                     sDialog.dismiss();
-                                                    sendRequest();
                                                 }
                                             })
                                             .show();
@@ -677,7 +716,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
                                                     sDialog.dismiss();
-                                                    sendRequest();
                                                     recreate();
                                                 }
                                             })
@@ -692,12 +730,11 @@ public class FeaturesActivity extends AppCompatActivity {
                                     new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
                                             .setTitleText("Error")
                                             .setContentText("Please verify ignition switch is ON, and engine is NOT running.")
-                                            .setConfirmText("Try Again")
+                                            .setConfirmText("Okay")
                                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
                                                     sDialog.dismiss();
-                                                    sendRequest();
                                                 }
                                             })
                                             .show();

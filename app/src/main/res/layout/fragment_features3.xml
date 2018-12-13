@@ -212,7 +212,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="30dp"
         android:text="@string/auxillary_output_2"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
@@ -224,7 +224,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/fourth_selector_features_3"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="-100dp"
         android:text="@string/auxillary_output_3"
         android:textAlignment="center"
@@ -237,7 +237,7 @@
         android:layout_height="50dp"
         android:layout_alignEnd="@id/fourth_selector_features_3"
         android:layout_alignBottom="@id/arrowRight5"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="-25dp"
         android:layout_marginBottom="-90dp"
         android:text="@string/learn_key_fob"
         android:textSize="20dp" />
@@ -248,11 +248,24 @@
         android:layout_height="50dp"
         android:layout_alignStart="@id/fourth_selector_features_3"
         android:layout_alignBottom="@id/arrowRight5"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="130dp"
         android:layout_marginBottom="-90dp"
         android:background="?attr/button_bg"
         android:textOff="@string/high_idle_off"
         android:textOn="@string/high_idle_on"
+        android:textSize="20dp" />
+
+    <ToggleButton
+        android:id="@+id/secure_idle"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@id/fourth_selector_features_3"
+        android:layout_alignBottom="@id/arrowRight5"
+        android:layout_marginStart="-25dp"
+        android:layout_marginBottom="-90dp"
+        android:background="?attr/button_bg"
+        android:textOff="@string/secure_idle_off"
+        android:textOn="@string/secure_idle_on"
         android:textSize="20dp" />
 
 </RelativeLayout>

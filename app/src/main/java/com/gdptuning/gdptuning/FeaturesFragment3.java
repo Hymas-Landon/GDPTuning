@@ -49,12 +49,13 @@ public class FeaturesFragment3 extends Fragment {
     final String aux2Settings = "aux2_var";
     final String aux3Settings = "aux3_var";
     final String highIdleSettings = "high_idle";
+    final String secureIdleSettings = "secure_idle";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
     Button btn_home, key_fob;
-    ToggleButton toggle_high_idle;
+    ToggleButton toggle_high_idle, toggle_secure_idle;
     WifiManager wifi;
     TextView select1, select2, select3, select4, select5, selector_words_first_3, selector_words_second_3, selector_words_third_3, selector_words_fourth_3, selector_words_fifth_3;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3, arrowLeft4, arrowRight4, arrowLeft5, arrowRight5;
@@ -65,6 +66,7 @@ public class FeaturesFragment3 extends Fragment {
     private int aux2Num;
     private int aux3Num;
     private int highIdleNum;
+    private int secureIdleNum;
 
 
     @Nullable
@@ -85,6 +87,7 @@ public class FeaturesFragment3 extends Fragment {
         selector_words_fifth_3 = mView.findViewById(R.id.fifth_selector_features_3);
         key_fob = mView.findViewById(R.id.key_fob);
         toggle_high_idle = mView.findViewById(R.id.high_idle);
+        toggle_secure_idle = mView.findViewById(R.id.secure_idle);
         return mView;
     }
 
@@ -108,6 +111,16 @@ public class FeaturesFragment3 extends Fragment {
                 }
             }
         });
+        if (isHighIdle()) {
+            toggle_high_idle.setChecked(true);
+        } else {
+            toggle_high_idle.setChecked(false);
+        }
+        if (isSecureIdle()) {
+            toggle_secure_idle.setChecked(true);
+        } else {
+            toggle_secure_idle.setChecked(false);
+        }
         toggle_high_idle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton mCompoundButton, boolean mB) {
@@ -120,6 +133,23 @@ public class FeaturesFragment3 extends Fragment {
                 } else {
                     edit.putBoolean(highIdleSettings, false);
                     switchHighIdle(48);
+                    edit.apply();
+                }
+            }
+        });
+
+        toggle_secure_idle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton mCompoundButton, boolean mB) {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+                if (mB) {
+                    edit.putBoolean(secureIdleSettings, true);
+                    switchSecureIdle(51);
+                    edit.apply();
+                } else {
+                    edit.putBoolean(secureIdleSettings, false);
+                    switchSecureIdle(52);
                     edit.apply();
                 }
             }
@@ -344,8 +374,13 @@ public class FeaturesFragment3 extends Fragment {
         return mSharedPreferences.getBoolean(highIdleSettings, false);
     }
 
+    public boolean isSecureIdle() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(secureIdleSettings, false);
+    }
+
     private int getVehicleType() {
-        SharedPreferences mSharedPreferences = getActivity().getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
         return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
 
@@ -618,6 +653,50 @@ public class FeaturesFragment3 extends Fragment {
                             // Nav Entry allowed while driving
                             case 47:
                                 edit.putBoolean(highIdleSettings, true);
+                                edit.apply();
+                                break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchSecureIdle(int requestSecureIdle) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestSecureIdle, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            secureIdleNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (secureIdleNum) {
+                            // Nav Entry not allowed while driving
+                            case 52:
+                                edit.putBoolean(secureIdleSettings, false);
+                                edit.apply();
+                                break;
+                            // Nav Entry allowed while driving
+                            case 51:
+                                edit.putBoolean(secureIdleSettings, true);
                                 edit.apply();
                                 break;
                         }

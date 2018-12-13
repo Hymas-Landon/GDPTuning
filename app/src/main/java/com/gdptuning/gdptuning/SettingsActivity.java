@@ -3,6 +3,8 @@ package com.gdptuning.gdptuning;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -33,8 +35,6 @@ import java.util.TimerTask;
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static int colorIndex = 0;
-    private static int enableMetric = 0;
-    private static int disableMetric = 1;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     RequestQueue queue;
     Button btn_home;
     WifiManager wifi;
-    TextView tvTune, tvGear, select1, select3, idNum, locked;
+    TextView tvTune, tvGear, select1, select3, proVersion, appVersion;
     Timer timer;
     ImageView arrowRight1, arrowRight3, arrowLeft1, arrowLeft3;
 
@@ -68,9 +68,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_settings);
         queue = Volley.newRequestQueue(this);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        idNum = findViewById(R.id.app_version_num);
-        locked = findViewById(R.id.current_status_lock);
-        idNum.setText("hello");
+        proVersion = findViewById(R.id.pro_version_num);
+        appVersion = findViewById(R.id.app_version_num);
 
         //Id's
         select1 = findViewById(R.id.selector1);
@@ -80,9 +79,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         final String[] metric = new String[2];
         metric[0] = "Metric";
         metric[1] = "Standard";
-        if (getSettings1() == enableMetric) {
+        if (isMetric()) {
             select1.setText(metric[0]);
-        } else if (getSettings1() == disableMetric) {
+        } else if (!isMetric()) {
             select1.setText(metric[1]);
         }
 
@@ -114,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View mView) {
                 select1.setText(metric[0]);
-                edit.putInt("settings1", enableMetric);
+                edit.putBoolean("metric", true);
                 edit.apply();
             }
         });
@@ -126,7 +125,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View mView) {
                 select1.setText(metric[1]);
-                edit.putInt("settings1", disableMetric);
+                edit.putBoolean("metric", false);
                 edit.apply();
             }
         });
@@ -223,9 +222,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
-    private int getSettings1() {
+    private boolean isMetric() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getInt("settings1", enableMetric);
+        return mSharedPreferences.getBoolean("metric", false);
     }
 
     @Override
@@ -257,25 +256,27 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 in settings", variables.toString());
-                            tuneMode = variables.getInt("tune_mode");
+                            Log.d("TEST2 ", variables.toString());
+                            int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
+                            deviceName += " ";
                             deviceName += response.getString("id");
                             device = deviceName;
-
                             char pos = (char) gear;
-
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
-                            String id = variables.getString("id");
-                            String deviceStatus = variables.getString("name");
-                            idNum.setText("blubber");
-                            if (deviceStatus.equals("GDP")) {
-                                locked.setText("Unlocked");
-                            } else {
-                                locked.setText("Locked");
+                            proVersion.setText(deviceName);
+                            String version = "";
+                            try {
+                                PackageInfo mPackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                                version = mPackageInfo.versionName;
+                            } catch (PackageManager.NameNotFoundException mE) {
+                                mE.printStackTrace();
                             }
+                            appVersion.setText(version);
+                            Log.d("Response", response.toString());
+
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();
@@ -333,19 +334,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
+                            deviceName += " ";
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
-                            String id = variables.getString("id");
-                            String deviceStatus = variables.getString("name");
-                            idNum.setText("bannnanlakj;sfl");
-                            if (deviceStatus.equals("GDP")) {
-                                locked.setText("Unlocked");
-                            } else {
-                                locked.setText("Locked");
-                            }
+                            proVersion.setText(deviceName);
                             Log.d("Response", response.toString());
 
                         } catch (JSONException mE) {

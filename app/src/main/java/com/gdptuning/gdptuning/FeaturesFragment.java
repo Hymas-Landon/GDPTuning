@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -96,9 +97,13 @@ public class FeaturesFragment extends Fragment {
         if (!isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
-                selector_words_first.setText("TPMS settings");
+                selector_words_first.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[1];
-                pressureTPMS[0] = "0 psi";
+                if (isMetric()) {
+                    pressureTPMS[0] = "0 kPa";
+                } else {
+                    pressureTPMS[0] = "0 psi";
+                }
                 select1.setText(pressureTPMS[0]);
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -116,7 +121,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("Turn signal lamp outage disable");
+                selector_words_second.setText("Turn Signal Lamp Outage Disable");
                 final String[] lampOutageDisable = new String[1];
                 lampOutageDisable[0] = "0";
                 select2.setText(lampOutageDisable[0]);
@@ -138,9 +143,13 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third.setText("Tire size");
+                selector_words_third.setText("Tire Size");
                 final String[] tireSize = new String[1];
-                tireSize[0] = "0\"";
+                if (isMetric()) {
+                    tireSize[0] = "0 mm";
+                } else {
+                    tireSize[0] = "0\"";
+                }
                 select3.setText(tireSize[0]);
 
                 arrowLeft3.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +169,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth.setText("Fog lights with high beam");
+                selector_words_fourth.setText("Fog Lights With High Beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select4.setText(fogLights[0]);
@@ -182,17 +191,19 @@ public class FeaturesFragment extends Fragment {
 
             } else if (getVehicleType() == VGM2) {
 
-                arrowLeft2.setImageDrawable(null);
                 arrowLeft3.setImageDrawable(null);
                 arrowLeft4.setImageDrawable(null);
-                arrowRight2.setImageDrawable(null);
                 arrowRight3.setImageDrawable(null);
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS settings");
+                selector_words_first.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[1];
-                pressureTPMS[0] = "0psi";
+                if (isMetric()) {
+                    pressureTPMS[0] = "0 kPa";
+                } else {
+                    pressureTPMS[0] = "0 psi";
+                }
                 select1.setText(pressureTPMS[0]);
 
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
@@ -209,15 +220,39 @@ public class FeaturesFragment extends Fragment {
                         toast.show();
                     }
                 });
+
+                selector_words_second.setText("Fog Lights With High Beam");
+                final String[] fogLights = new String[2];
+                fogLights[0] = "0";
+                select2.setText(fogLights[0]);
+
+                arrowLeft2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View mView) {
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+                arrowRight2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View mView) {
+                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
             } else if (getVehicleType() == VRAM) {
 
-                arrowLeft4.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
+                arrowLeft2.setImageDrawable(null);
+                arrowRight2.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS settings");
+                selector_words_first.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[1];
-                pressureTPMS[0] = "0psi";
+                if (isMetric()) {
+                    pressureTPMS[0] = "0 kPa";
+                } else {
+                    pressureTPMS[0] = "0 psi";
+                }
                 select1.setText(pressureTPMS[0]);
 
                 arrowLeft1.setOnClickListener(new View.OnClickListener() {
@@ -236,9 +271,13 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("Tire size");
+                selector_words_second.setText("Tire Size");
                 final String[] tireSize = new String[1];
-                tireSize[0] = "0\"";
+                if (isMetric()) {
+                    tireSize[0] = "0 mm";
+                } else {
+                    tireSize[0] = "0\"";
+                }
                 select2.setText(tireSize[0]);
 
                 arrowLeft2.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +296,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third.setText("Fog lights with high beam");
+                selector_words_third.setText("Fog Lights With High Beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select3.setText(fogLights[0]);
@@ -280,21 +319,37 @@ public class FeaturesFragment extends Fragment {
         } else if (isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
-                selector_words_first.setText("TPMS settings");
+                selector_words_first.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[13];
-                pressureTPMS[0] = "25psi";
-                pressureTPMS[1] = "30psi";
-                pressureTPMS[2] = "35psi";
-                pressureTPMS[4] = "45psi";
-                pressureTPMS[5] = "50psi";
-                pressureTPMS[3] = "40psi";
-                pressureTPMS[6] = "55psi";
-                pressureTPMS[7] = "60psi";
-                pressureTPMS[8] = "65psi";
-                pressureTPMS[9] = "70psi";
-                pressureTPMS[10] = "75psi";
-                pressureTPMS[11] = "80psi";
-                pressureTPMS[12] = "Disable";
+                if (isMetric()) {
+                    pressureTPMS[0] = "175 kPa";
+                    pressureTPMS[1] = "205 kPa";
+                    pressureTPMS[2] = "240 kPa";
+                    pressureTPMS[4] = "275 kPa";
+                    pressureTPMS[5] = "310 kPa";
+                    pressureTPMS[3] = "345 kPa";
+                    pressureTPMS[6] = "380 kPa";
+                    pressureTPMS[7] = "405 kPa";
+                    pressureTPMS[8] = "440 kPa";
+                    pressureTPMS[9] = "475 kPa";
+                    pressureTPMS[10] = "510 kPa";
+                    pressureTPMS[11] = "545 kPa";
+                    pressureTPMS[12] = "Disable";
+                } else {
+                    pressureTPMS[0] = "25 psi";
+                    pressureTPMS[1] = "30 psi";
+                    pressureTPMS[2] = "35 psi";
+                    pressureTPMS[4] = "45 psi";
+                    pressureTPMS[5] = "50 psi";
+                    pressureTPMS[3] = "40 psi";
+                    pressureTPMS[6] = "55 psi";
+                    pressureTPMS[7] = "60 psi";
+                    pressureTPMS[8] = "65 psi";
+                    pressureTPMS[9] = "70 psi";
+                    pressureTPMS[10] = "75 psi";
+                    pressureTPMS[11] = "80 psi";
+                    pressureTPMS[12] = "Disable";
+                }
                 if (getTPMS() == 25) {
                     select1.setText(pressureTPMS[0]);
                     pressureTPMSIndex = 0;
@@ -494,7 +549,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("Turn signal lamp outage disable");
+                selector_words_second.setText("Turn Signal Lamp Outage Disable");
                 final String[] lampOutageDisable = new String[2];
                 lampOutageDisable[0] = "No";
                 lampOutageDisable[1] = "Yes";
@@ -529,15 +584,25 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third.setText("Tire size");
+                selector_words_third.setText("Tire Size");
                 final String[] tireSize = new String[7];
-                tireSize[0] = "31\"";
-                tireSize[1] = "32\"";
-                tireSize[2] = "33\"";
-                tireSize[3] = "34\"";
-                tireSize[4] = "35\"";
-                tireSize[5] = "36\"";
-                tireSize[6] = "37\"";
+                if (isMetric()) {
+                    tireSize[0] = "800 mm";
+                    tireSize[1] = "825 mm";
+                    tireSize[2] = "850 mm";
+                    tireSize[3] = "875 mm";
+                    tireSize[4] = "900 mm";
+                    tireSize[5] = "925 mm";
+                    tireSize[6] = "950 mm";
+                } else {
+                    tireSize[0] = "31\"";
+                    tireSize[1] = "32\"";
+                    tireSize[2] = "33\"";
+                    tireSize[3] = "34\"";
+                    tireSize[4] = "35\"";
+                    tireSize[5] = "36\"";
+                    tireSize[6] = "37\"";
+                }
                 if (getTireSize() == 31) {
                     select3.setText(tireSize[0]);
                     tireIndex = 0;
@@ -648,7 +713,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth.setText("Fog lights with high beam");
+                selector_words_fourth.setText("Fog Lights With High Beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "No";
                 fogLights[1] = "Yes";
@@ -692,20 +757,37 @@ public class FeaturesFragment extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS settings");
+                selector_words_first.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[12];
-                pressureTPMS[0] = "25psi";
-                pressureTPMS[1] = "30psi";
-                pressureTPMS[2] = "35psi";
-                pressureTPMS[4] = "45psi";
-                pressureTPMS[5] = "50psi";
-                pressureTPMS[3] = "40psi";
-                pressureTPMS[6] = "55psi";
-                pressureTPMS[7] = "60psi";
-                pressureTPMS[8] = "65psi";
-                pressureTPMS[9] = "70psi";
-                pressureTPMS[10] = "75psi";
-                pressureTPMS[11] = "80psi";
+                if (isMetric()) {
+                    pressureTPMS[0] = "175 kPa";
+                    pressureTPMS[1] = "205 kPa";
+                    pressureTPMS[2] = "240 kPa";
+                    pressureTPMS[4] = "275 kPa";
+                    pressureTPMS[5] = "310 kPa";
+                    pressureTPMS[3] = "345 kPa";
+                    pressureTPMS[6] = "380 kPa";
+                    pressureTPMS[7] = "405 kPa";
+                    pressureTPMS[8] = "440 kPa";
+                    pressureTPMS[9] = "475 kPa";
+                    pressureTPMS[10] = "510 kPa";
+                    pressureTPMS[11] = "545 kPa";
+                    pressureTPMS[12] = "Disable";
+                } else {
+                    pressureTPMS[0] = "25 psi";
+                    pressureTPMS[1] = "30 psi";
+                    pressureTPMS[2] = "35 psi";
+                    pressureTPMS[4] = "45 psi";
+                    pressureTPMS[5] = "50 psi";
+                    pressureTPMS[3] = "40 psi";
+                    pressureTPMS[6] = "55 psi";
+                    pressureTPMS[7] = "60 psi";
+                    pressureTPMS[8] = "65 psi";
+                    pressureTPMS[9] = "70 psi";
+                    pressureTPMS[10] = "75 psi";
+                    pressureTPMS[11] = "80 psi";
+                    pressureTPMS[12] = "Disable";
+                }
                 if (getTPMS() == 25) {
                     select1.setText(pressureTPMS[0]);
                     pressureTPMSIndex = 0;
@@ -892,6 +974,42 @@ public class FeaturesFragment extends Fragment {
                     }
                 });
 
+                //Selector 2
+                selector_words_second.setText("Fog Lights With High Beam (Currently Only For 2015-2016");
+                final String[] fogLights = new String[2];
+                fogLights[0] = "No";
+                fogLights[1] = "Yes";
+                if (!isFogLights()) {
+                    select2.setText(fogLights[0]);
+                } else if (isFogLights()) {
+                    select2.setText(fogLights[1]);
+                }
+
+                arrowLeft2.setOnClickListener(new View.OnClickListener() {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                    @Override
+                    public void onClick(View mView) {
+                        select2.setText(fogLights[0]);
+                        edit.putBoolean(fogLightsSettings, true);
+                        switchFogLights(31);
+                        edit.apply();
+                    }
+                });
+                arrowRight2.setOnClickListener(new View.OnClickListener() {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                    @Override
+                    public void onClick(View mView) {
+                        select2.setText(fogLights[1]);
+                        edit.putBoolean(fogLightsSettings, false);
+                        switchFogLights(30);
+                        edit.apply();
+                    }
+                });
+
             } else if (getVehicleType() == VRAM) {
 
                 arrowLeft3.setImageDrawable(null);
@@ -900,21 +1018,37 @@ public class FeaturesFragment extends Fragment {
                 arrowRight4.setImageDrawable(null);
 
                 //Selector 1
-                selector_words_first.setText("TPMS settings");
+                selector_words_first.setText("TPMS Settings");
                 final String[] pressureTPMS = new String[13];
-                pressureTPMS[0] = "25psi";
-                pressureTPMS[1] = "30psi";
-                pressureTPMS[2] = "35psi";
-                pressureTPMS[4] = "45psi";
-                pressureTPMS[5] = "50psi";
-                pressureTPMS[3] = "40psi";
-                pressureTPMS[6] = "55psi";
-                pressureTPMS[7] = "60psi";
-                pressureTPMS[8] = "65psi";
-                pressureTPMS[9] = "70psi";
-                pressureTPMS[10] = "75psi";
-                pressureTPMS[11] = "80psi";
-                pressureTPMS[12] = "Disable";
+                if (isMetric()) {
+                    pressureTPMS[0] = "175 kPa";
+                    pressureTPMS[1] = "205 kPa";
+                    pressureTPMS[2] = "240 kPa";
+                    pressureTPMS[4] = "275 kPa";
+                    pressureTPMS[5] = "310 kPa";
+                    pressureTPMS[3] = "345 kPa";
+                    pressureTPMS[6] = "380 kPa";
+                    pressureTPMS[7] = "405 kPa";
+                    pressureTPMS[8] = "440 kPa";
+                    pressureTPMS[9] = "475 kPa";
+                    pressureTPMS[10] = "510 kPa";
+                    pressureTPMS[11] = "545 kPa";
+                    pressureTPMS[12] = "Disable";
+                } else {
+                    pressureTPMS[0] = "25 psi";
+                    pressureTPMS[1] = "30 psi";
+                    pressureTPMS[2] = "35 psi";
+                    pressureTPMS[4] = "45 psi";
+                    pressureTPMS[5] = "50 psi";
+                    pressureTPMS[3] = "40 psi";
+                    pressureTPMS[6] = "55 psi";
+                    pressureTPMS[7] = "60 psi";
+                    pressureTPMS[8] = "65 psi";
+                    pressureTPMS[9] = "70 psi";
+                    pressureTPMS[10] = "75 psi";
+                    pressureTPMS[11] = "80 psi";
+                    pressureTPMS[12] = "Disable";
+                }
                 if (getTPMS() == 25) {
                     select1.setText(pressureTPMS[0]);
                     pressureTPMSIndex = 0;
@@ -1087,7 +1221,7 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("Fog lights with high beam");
+                selector_words_second.setText("Fog Lights With High Beam");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "No";
                 fogLights[1] = "Yes";
@@ -1123,6 +1257,11 @@ public class FeaturesFragment extends Fragment {
                 });
             }
         }
+    }
+
+    private boolean isMetric() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("metric", false);
     }
 
     private int getVehicleType() {

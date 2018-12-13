@@ -101,7 +101,7 @@ public class FeaturesFragment2 extends Fragment {
         if (!isRead()) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
-                selector_words_first_2.setText("Daytime running light configuration");
+                selector_words_first_2.setText("Daytime Running Light Configuration");
                 final String[] pressureTPMS = new String[1];
                 pressureTPMS[0] = "0";
                 select1.setText(pressureTPMS[0]);
@@ -121,7 +121,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second_2.setText("Remote start duration");
+                selector_words_second_2.setText("Remote Start Duration");
                 final String[] lampOutageDisable = new String[1];
                 lampOutageDisable[0] = "0";
                 select2.setText(lampOutageDisable[0]);
@@ -143,7 +143,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 3
-                selector_words_third_2.setText("Navigation Override (Destination Entry while Driving)");
+                selector_words_third_2.setText("Navigation Override (Destination Entry While Driving)");
                 final String[] tireSize = new String[1];
                 tireSize[0] = "0";
                 select3.setText(tireSize[0]);
@@ -165,7 +165,7 @@ public class FeaturesFragment2 extends Fragment {
                 });
 
                 //Selector 4
-                selector_words_fourth_2.setText("Windows up/down with key fob");
+                selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
                 final String[] fogLights = new String[2];
                 fogLights[0] = "0";
                 select4.setText(fogLights[0]);

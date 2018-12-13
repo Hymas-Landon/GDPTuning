@@ -82,6 +82,9 @@
     <string name="current_status">Current Status:</string>
     <string name="select_color_scheme">Select Color Scheme</string>
     <string name="us_standard_metric">US(Standard) / Metric</string>
+    <string name="secure_idle_off">SECURE IDLE OFF</string>
+    <string name="secure_idle_on">SECURE IDLE ON</string>
+    <string name="pro_series_version">Pro Series Version:</string>
 
 
 </resources>

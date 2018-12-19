@@ -218,7 +218,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             float timing = variables.getInt((injectionTimingVar));
                             float coolant = variables.getInt(coolantVar);
                             float turbo = variables.getInt(turboVar);
-                            float frp = variables.getInt(frpVar);
+                            int frp = variables.getInt(frpVar);
                             if (isMetric()) {
                                 boostActual = boost;
                                 egtActual = egt;
@@ -234,7 +234,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                 timingActual = timing;
                                 coolantActual = (float) (coolant * 1.8 + 32);
                                 turboActual = turbo;
-                                frpActual = (float) (frp * 0.1450377);
+                                frpActual = (int) (frp * 0.1450377);
                             }
                             Log.d(TAG, "BoostActual: " + boostActual);
                             Log.d(TAG, "EGTActual: " + egtActual);

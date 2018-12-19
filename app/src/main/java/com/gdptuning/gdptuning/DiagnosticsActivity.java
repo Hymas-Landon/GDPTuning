@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,6 +94,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
                                 isConnected = true;
                                 sendRequest();
                             }
@@ -122,6 +121,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onResponse(JSONObject response) {
                                 isConnected = true;
+                                new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
                                 sendRequest();
                             }
                         },
@@ -146,6 +146,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onResponse(JSONObject response) {
                                 isConnected = true;
+                                new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
                                 sendRequest();
                             }
                         },
@@ -165,9 +166,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         //Working with wifi
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         queue = VolleySingleton.getInstance(this).getRequestQueue();
-        timer = new Timer();
 
-        sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -175,7 +174,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                 if (isConnected) {
                     if (!isProcessing) {
                         Log.d("TEST2 :", "Sending request");
-                        updateRequest();
+//                        updateRequest();
                     }
                 }
             }
@@ -229,10 +228,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     public void onResponse(JSONObject response) {
                         isConnected = true;
                         try {
-
-                            mProgressDialog.setMessage("Reading... Please wait...");
-                            mProgressDialog.show();
-                            diagnosticsList.clear();
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
@@ -241,18 +236,21 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             deviceName += response.getString("id");
                             device = deviceName;
                             String codes = variables.getString("dtcList");
+                            codes = "asd 6f45 f46ads5 46 f6asd46 45ds6f465 4a5s 5d6f4 56 45646a";
+                            pause();
+
                             for (String mCodes : codes.split(" ")) {
                                 diagnosticsList.add(new Code(mCodes));
                             }
 
-
                             adapter = new DiagnosticsAdapter(DiagnosticsActivity.this, diagnosticsList);
                             recyclerView.setAdapter(adapter);
+
 
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + gear);
 
-                            mProgressDialog.dismiss();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -273,77 +271,85 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         queue.add(getRequest);
     }
 
-    //Send to sGDP server to get live data
-    public void updateRequest() {
-        isProcessing = true;
-        // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        isConnected = true;
-                        try {
-
-                            diagnosticsList.clear();
-                            JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
-                            int tuneMode = variables.getInt("tune_mode");
-                            String gear = variables.getString("gear");
-                            String deviceName = response.getString("name");
-                            deviceName += response.getString("id");
-                            device = deviceName;
-//                            String codes = variables.getString("dtcList");
-//                            for (String mCodes : codes.split(" ")) {
-//                                diagnosticsList.add(new Code(mCodes));
-//                            }
-
-                            adapter = new DiagnosticsAdapter(DiagnosticsActivity.this, diagnosticsList);
-                            recyclerView.setAdapter(adapter);
-
-                            tvTune.setText("TUNE: " + tuneMode);
-                            tvGear.setText("GEAR: " + gear);
-                        } catch (JSONException mE) {
-                            mE.printStackTrace();
-                        }
-                        isProcessing = false;
-                    }
-                },
-                new Response.ErrorListener()
-
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        isConnected = false;
-                        Log.d("Error.Response", error.toString());
-
-                        new SweetAlertDialog(DiagnosticsActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-
-                        isProcessing = false;
-                    }
-                }
-        );
-        // add it to the RequestQueue
-        queue.add(getRequest);
+    private void pause() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException mE) {
+            mE.printStackTrace();
+        }
     }
+
+//    //Send to sGDP server to get live data
+//    public void updateRequest() {
+//        isProcessing = true;
+//        // prepare the Request
+//        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        isConnected = true;
+//                        try {
+//
+//                            diagnosticsList.clear();
+//                            JSONObject variables = response.getJSONObject("variables");
+//                            Log.d("TEST2 ", variables.toString());
+//                            int tuneMode = variables.getInt("tune_mode");
+//                            String gear = variables.getString("gear");
+//                            String deviceName = response.getString("name");
+//                            deviceName += response.getString("id");
+//                            device = deviceName;
+////                            String codes = variables.getString("dtcList");
+////                            for (String mCodes : codes.split(" ")) {
+////                                diagnosticsList.add(new Code(mCodes));
+////                            }
+//
+//                            adapter = new DiagnosticsAdapter(DiagnosticsActivity.this, diagnosticsList);
+//                            recyclerView.setAdapter(adapter);
+//
+//                            tvTune.setText("TUNE: " + tuneMode);
+//                            tvGear.setText("GEAR: " + gear);
+//                        } catch (JSONException mE) {
+//                            mE.printStackTrace();
+//                        }
+//                        isProcessing = false;
+//                    }
+//                },
+//                new Response.ErrorListener()
+//
+//                {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        isConnected = false;
+//                        Log.d("Error.Response", error.toString());
+//
+//                        new SweetAlertDialog(DiagnosticsActivity.this, SweetAlertDialog.WARNING_TYPE)
+//                                .setTitleText("No Connection")
+//                                .setContentText("Your are not connected to a GDP device. Retry by " +
+//                                        "tapping 'Retry' or check your wifi settings by tapping " +
+//                                        "'Connect'.")
+//                                .setCancelText("Retry")
+//                                .setConfirmText("Connect")
+//                                .showCancelButton(true)
+//                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sDialog) {
+//                                        sendRequest();
+//                                        sDialog.dismiss();
+//                                    }
+//                                })
+//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sDialog) {
+//                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//                                    }
+//                                })
+//                                .show();
+//
+//                        isProcessing = false;
+//                    }
+//                }
+//        );
+//        // add it to the RequestQueue
+//        queue.add(getRequest);
+//    }
 }

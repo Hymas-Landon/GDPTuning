@@ -242,7 +242,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
                                 if (isMetric()) {
                                     oilPressure_Temp.setUnit("kPa");
                                     oilPressure_Temp.setMinSpeed(-40);
-                                    oilPressure_Temp.setMaxSpeed(200);
+                                    oilPressure_Temp.setMaxSpeed(1000);
                                 } else {
                                     oilPressure_Temp.setUnit("psi");
                                     oilPressure_Temp.setMinSpeed(-40);

@@ -106,7 +106,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
                     }
                 }
             }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
+        }, 0, 50);//put here time 1000 milliseconds=1 second
     }
 
     private int getVehicleType() {

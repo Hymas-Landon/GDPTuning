@@ -157,7 +157,7 @@ public class LiveDataDigitalFragment extends Fragment {
                     }
                 }
             }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
+        }, 0, 50);//put here time 1000 milliseconds=1 second
     }
 
     private int getVehicleType() {
@@ -387,14 +387,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(400);
                                                 gauge2.setUnit("kPa");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(377);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(60);
                                                 gauge2.setUnit("psi");
@@ -404,14 +404,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
                                                 gauge2.setMaxSpeed(150);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
                                                 gauge2.setMaxSpeed(300);
                                                 gauge2.setUnit("°F");
@@ -421,14 +421,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(1000);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(1800);
                                                 gauge2.setUnit("°F");
@@ -438,14 +438,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(360);
                                                 gauge2.setMinSpeed(-40);
                                                 gauge2.setMaxSpeed(200);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_standard);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setStartDegree(165);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
                                                 gauge2.setMaxSpeed(350);
                                                 gauge2.setUnit("°F");
@@ -454,15 +454,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case FUELRAILPRESSURE:
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setStartDegree(170);
+                                                gauge2.setEndDegree(370);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(220);
                                                 gauge2.setUnit("MPa");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(32000);
                                                 gauge2.setUnit("psi");
@@ -470,8 +470,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case TURBO:
                                             gauge2.setImageSpeedometer(R.drawable.turbo_middle);
-                                            gauge2.setStartDegree(150);
-                                            gauge2.setEndDegree(310);
+                                            gauge2.setStartDegree(170);
+                                            gauge2.setEndDegree(370);
                                             gauge2.setMinSpeed(0);
                                             gauge2.setMaxSpeed(100);
                                             gauge2.setUnit("%");
@@ -479,7 +479,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONFUEL:
                                             gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
                                             gauge2.setStartDegree(150);
-                                            gauge2.setEndDegree(310);
+                                            gauge2.setEndDegree(374);
                                             gauge2.setMinSpeed(0);
                                             gauge2.setMaxSpeed(150);
                                             gauge2.setUnit("mm3");
@@ -487,7 +487,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONTIMING:
                                             gauge2.setImageSpeedometer(R.drawable.timing_middle);
                                             gauge2.setStartDegree(150);
-                                            gauge2.setEndDegree(310);
+                                            gauge2.setEndDegree(390);
                                             gauge2.setMinSpeed(-40);
                                             gauge2.setMaxSpeed(40);
                                             gauge2.setUnit("°");
@@ -757,14 +757,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(400);
                                                 gauge2.setUnit("kPa");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(377);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(60);
                                                 gauge2.setUnit("psi");
@@ -774,14 +774,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
                                                 gauge2.setMaxSpeed(150);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
                                                 gauge2.setMaxSpeed(300);
                                                 gauge2.setUnit("°F");
@@ -791,14 +791,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(1000);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(1800);
                                                 gauge2.setUnit("°F");
@@ -807,15 +807,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case OILPRESSURE:
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.oil_pressure_middle_metric);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setStartDegree(170);
+                                                gauge2.setEndDegree(370);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(1000);
                                                 gauge2.setUnit("kPa");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.oil_pressure_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(160);
                                                 gauge2.setUnit("psi");
@@ -824,15 +824,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case FUELRAILPRESSURE:
                                             if (isMetric()) {
                                                 gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setStartDegree(170);
+                                                gauge2.setEndDegree(370);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(220);
                                                 gauge2.setUnit("MPa");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
                                                 gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(310);
+                                                gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
                                                 gauge2.setMaxSpeed(32000);
                                                 gauge2.setUnit("psi");
@@ -840,8 +840,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case TURBO:
                                             gauge2.setImageSpeedometer(R.drawable.turbo_middle);
-                                            gauge2.setStartDegree(150);
-                                            gauge2.setEndDegree(310);
+                                            gauge2.setStartDegree(170);
+                                            gauge2.setEndDegree(370);
                                             gauge2.setMinSpeed(0);
                                             gauge2.setMaxSpeed(100);
                                             gauge2.setUnit("%");
@@ -849,7 +849,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONFUEL:
                                             gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
                                             gauge2.setStartDegree(150);
-                                            gauge2.setEndDegree(310);
+                                            gauge2.setEndDegree(374);
                                             gauge2.setMinSpeed(0);
                                             gauge2.setMaxSpeed(150);
                                             gauge2.setUnit("mm3");
@@ -857,7 +857,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONTIMING:
                                             gauge2.setImageSpeedometer(R.drawable.timing_middle);
                                             gauge2.setStartDegree(150);
-                                            gauge2.setEndDegree(310);
+                                            gauge2.setEndDegree(390);
                                             gauge2.setMinSpeed(-40);
                                             gauge2.setMaxSpeed(40);
                                             gauge2.setUnit("°");
@@ -1357,8 +1357,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge2.setUnit("kPa");
                                                 } else {
                                                     gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
-                                                    gauge2.setStartDegree(163);
-                                                    gauge2.setEndDegree(377);
+                                                    gauge2.setStartDegree(150);
+                                                    gauge2.setEndDegree(390);
                                                     gauge2.setMinSpeed(0);
                                                     gauge2.setMaxSpeed(60);
                                                     gauge2.setUnit("psi");
@@ -1505,8 +1505,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge2.setUnit("°C");
                                                 } else {
                                                     gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(360);
+                                                    gauge2.setStartDegree(165);
+                                                    gauge2.setEndDegree(390);
                                                     gauge2.setMinSpeed(-40);
                                                     gauge2.setMaxSpeed(350);
                                                     gauge2.setUnit("°F");

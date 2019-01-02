@@ -82,8 +82,8 @@ public class LiveDataActivity extends AppCompatActivity {
         mTabLayout = findViewById(R.id.tabs);
 
         //add tabs
-        mTabLayout.addTab(mTabLayout.newTab().setText("Gauges"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Digital Readings"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Gauges"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //set viewPager
@@ -130,8 +130,6 @@ public class LiveDataActivity extends AppCompatActivity {
         sendRequest();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            int num = 1;
-
             @Override
             public void run() {
                 if (isConnected) {
@@ -188,7 +186,6 @@ public class LiveDataActivity extends AppCompatActivity {
                             device = deviceName;
 
                             char pos = (char) gear;
-
                             tvTune.setText("TUNE: " + tuneMode);
                             tvGear.setText("GEAR: " + pos);
 

@@ -220,7 +220,10 @@ public class LiveDataDigitalFragment extends Fragment {
                             float turbo = variables.getInt(turboVar);
                             int frp = variables.getInt(frpVar);
                             if (isMetric()) {
-                                boostActual = boost;
+                                if (boost < 5)
+                                    boostActual = 0;
+                                else
+                                    boostActual = boost;
                                 egtActual = egt;
                                 fuelActual = fuel;
                                 timingActual = timing;
@@ -228,7 +231,10 @@ public class LiveDataDigitalFragment extends Fragment {
                                 turboActual = turbo;
                                 frpActual = frp;
                             } else {
-                                boostActual = (float) (boost * 0.1450377);
+                                if (boost < 5)
+                                    boostActual = 0;
+                                else
+                                    boostActual = (float) (boost * 0.1450377);
                                 egtActual = (float) (egt * 1.8 + 32);
                                 fuelActual = fuel;
                                 timingActual = timing;
@@ -1032,7 +1038,10 @@ public class LiveDataDigitalFragment extends Fragment {
 
 
                             if (isMetric()) {
-                                boostActual = boost;
+                                if (boost < 5)
+                                    boostActual = 0;
+                                else
+                                    boostActual = boost;
                                 egtActual = egt;
                                 fuelActual = fuel;
                                 timingActual = timing;
@@ -1040,7 +1049,10 @@ public class LiveDataDigitalFragment extends Fragment {
                                 turboActual = turbo;
                                 frpActual = frp;
                             } else {
-                                boostActual = (float) (boost * 0.1450377);
+                                if (boost < 5)
+                                    boostActual = 0;
+                                else
+                                    boostActual = (float) (boost * 0.1450377);
                                 egtActual = (float) (egt * 1.8 + 32);
                                 fuelActual = fuel;
                                 timingActual = timing;

@@ -236,7 +236,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             deviceName += response.getString("id");
                             device = deviceName;
                             String codes = variables.getString("dtcList");
-                            codes = "asd 6f45 f46ads5 46 f6asd46 45ds6f465 4a5s 5d6f4 56 45646a";
                             pause();
 
                             for (String mCodes : codes.split(" ")) {
@@ -269,6 +268,10 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 
         // add it to the RequestQueue
         queue.add(getRequest);
+    }
+
+    public void readDtcs() {
+
     }
 
     private void pause() {

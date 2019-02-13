@@ -101,6 +101,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <!--This is for the Red theme-->
     <style name="AppThemeNoActionBarRed" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/transparent</item>

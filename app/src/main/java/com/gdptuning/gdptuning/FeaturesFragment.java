@@ -242,8 +242,8 @@ public class FeaturesFragment extends Fragment {
                 });
             } else if (getVehicleType() == VRAM) {
 
-                arrowLeft2.setImageDrawable(null);
-                arrowRight2.setImageDrawable(null);
+                arrowLeft4.setImageDrawable(null);
+                arrowRight4.setImageDrawable(null);
 
                 //Selector 1
                 selector_words_first.setText("TPMS Settings");
@@ -287,6 +287,7 @@ public class FeaturesFragment extends Fragment {
                         toast.show();
                     }
                 });
+
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
@@ -1012,8 +1013,6 @@ public class FeaturesFragment extends Fragment {
 
             } else if (getVehicleType() == VRAM) {
 
-                arrowLeft3.setImageDrawable(null);
-                arrowRight3.setImageDrawable(null);
                 arrowLeft4.setImageDrawable(null);
                 arrowRight4.setImageDrawable(null);
 
@@ -1221,40 +1220,170 @@ public class FeaturesFragment extends Fragment {
                 });
 
                 //Selector 2
-                selector_words_second.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "No";
-                fogLights[1] = "Yes";
-                if (!isFogLights()) {
-                    select2.setText(fogLights[0]);
-                } else if (isFogLights()) {
-                    select2.setText(fogLights[1]);
+                selector_words_second.setText("Tire Size");
+                final String[] tireSize = new String[7];
+                if (isMetric()) {
+                    tireSize[0] = "800 mm";
+                    tireSize[1] = "825 mm";
+                    tireSize[2] = "850 mm";
+                    tireSize[3] = "875 mm";
+                    tireSize[4] = "900 mm";
+                    tireSize[5] = "925 mm";
+                    tireSize[6] = "950 mm";
+                } else {
+                    tireSize[0] = "31\"";
+                    tireSize[1] = "32\"";
+                    tireSize[2] = "33\"";
+                    tireSize[3] = "34\"";
+                    tireSize[4] = "35\"";
+                    tireSize[5] = "36\"";
+                    tireSize[6] = "37\"";
                 }
-
+                if (getTireSize() == 31) {
+                    select2.setText(tireSize[0]);
+                    tireIndex = 0;
+                } else if (getTireSize() == 32) {
+                    select2.setText(tireSize[1]);
+                    tireIndex = 1;
+                } else if (getTireSize() == 33) {
+                    select2.setText(tireSize[2]);
+                    tireIndex = 2;
+                } else if (getTireSize() == 34) {
+                    select2.setText(tireSize[3]);
+                    tireIndex = 3;
+                } else if (getTireSize() == 35) {
+                    select2.setText(tireSize[4]);
+                    tireIndex = 4;
+                } else if (getTireSize() == 36) {
+                    select2.setText(tireSize[5]);
+                    tireIndex = 5;
+                } else if (getTireSize() == 37) {
+                    select2.setText(tireSize[6]);
+                    tireIndex = 6;
+                }
                 arrowLeft2.setOnClickListener(new View.OnClickListener() {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
-                        select2.setText(fogLights[0]);
-                        edit.putBoolean(fogLightsSettings, true);
-                        switchFogLights(31);
-                        edit.apply();
+
+                        if (tireIndex > 0 && tireIndex <= 6) {
+                            tireIndex = tireIndex - 1;
+                            select2.setText(tireSize[tireIndex]);
+                            if (tireIndex == 0) {
+                                edit.putInt(tireSizeSettings, 31);
+                                switchTireSize(23);
+                                edit.apply();
+                            } else if (tireIndex == 1) {
+                                edit.putInt(tireSizeSettings, 32);
+                                switchTireSize(24);
+                                edit.apply();
+                            } else if (tireIndex == 2) {
+                                edit.putInt(tireSizeSettings, 33);
+                                switchTireSize(25);
+                                edit.apply();
+                            } else if (tireIndex == 3) {
+                                edit.putInt(tireSizeSettings, 34);
+                                switchTireSize(26);
+                                edit.apply();
+                            } else if (tireIndex == 4) {
+                                edit.putInt(tireSizeSettings, 35);
+                                switchTireSize(27);
+                                edit.apply();
+                            } else if (tireIndex == 5) {
+                                edit.putInt(tireSizeSettings, 36);
+                                switchTireSize(28);
+                                edit.apply();
+                            } else if (tireIndex == 6) {
+                                edit.putInt(tireSizeSettings, 37);
+                                switchTireSize(29);
+                                edit.apply();
+                            }
+                        }
                     }
                 });
+
+
                 arrowRight2.setOnClickListener(new View.OnClickListener() {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                     @Override
                     public void onClick(View mView) {
-                        select2.setText(fogLights[1]);
+
+                        if (tireIndex >= 0 && tireIndex < 6) {
+                            tireIndex = tireIndex + 1;
+                            select2.setText(tireSize[tireIndex]);
+                            if (tireIndex == 0) {
+                                edit.putInt(tireSizeSettings, 31);
+                                switchTireSize(23);
+                                edit.apply();
+                            } else if (tireIndex == 1) {
+                                edit.putInt(tireSizeSettings, 32);
+                                switchTireSize(24);
+                                edit.apply();
+                            } else if (tireIndex == 2) {
+                                edit.putInt(tireSizeSettings, 33);
+                                switchTireSize(25);
+                                edit.apply();
+                            } else if (tireIndex == 3) {
+                                edit.putInt(tireSizeSettings, 34);
+                                switchTireSize(26);
+                                edit.apply();
+                            } else if (tireIndex == 4) {
+                                edit.putInt(tireSizeSettings, 35);
+                                switchTireSize(27);
+                                edit.apply();
+                            } else if (tireIndex == 5) {
+                                edit.putInt(tireSizeSettings, 36);
+                                switchTireSize(28);
+                                edit.apply();
+                            } else if (tireIndex == 6) {
+                                edit.putInt(tireSizeSettings, 37);
+                                switchTireSize(29);
+                                edit.apply();
+                            }
+                        }
+                    }
+                });
+
+                //Selector 3
+                selector_words_second.setText("Fog Lights With High Beam");
+                final String[] fogLights = new String[2];
+                fogLights[0] = "No";
+                fogLights[1] = "Yes";
+                if (!isFogLights()) {
+                    select3.setText(fogLights[0]);
+                } else if (isFogLights()) {
+                    select3.setText(fogLights[1]);
+                }
+
+                arrowLeft3.setOnClickListener(new View.OnClickListener() {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                    @Override
+                    public void onClick(View mView) {
+                        select3.setText(fogLights[0]);
+                        edit.putBoolean(fogLightsSettings, true);
+                        switchFogLights(31);
+                        edit.apply();
+                    }
+                });
+                arrowRight3.setOnClickListener(new View.OnClickListener() {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                    @Override
+                    public void onClick(View mView) {
+                        select3.setText(fogLights[1]);
                         edit.putBoolean(fogLightsSettings, false);
                         switchFogLights(30);
                         edit.apply();
                     }
                 });
+
             }
         }
     }

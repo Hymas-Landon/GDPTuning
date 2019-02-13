@@ -474,6 +474,17 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     btn_num5.setBackgroundResource(R.drawable.red5);
                 }
                 break;
+            case 255:
+                btn1.setBackgroundResource(R.drawable.tune_off);
+                btn2.setBackgroundResource(R.drawable.tune_off);
+                btn3.setBackgroundResource(R.drawable.tune_off);
+                btn4.setBackgroundResource(R.drawable.tune_off);
+                btn5.setBackgroundResource(R.drawable.tune_off);
+                btn_num1.setBackgroundResource(R.drawable.grey1);
+                btn_num2.setBackgroundResource(R.drawable.grey2);
+                btn_num3.setBackgroundResource(R.drawable.grey3);
+                btn_num4.setBackgroundResource(R.drawable.grey4);
+                btn_num4.setBackgroundResource(R.drawable.grey5);
             default:
                 btn1.setBackgroundResource(R.drawable.tune_off);
                 btn2.setBackgroundResource(R.drawable.tune_off);
@@ -484,7 +495,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //Send to sGDP server to verify connection
-
     public void sendRequest() {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -503,10 +513,12 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             device = deviceName;
 
                             char pos = (char) gear;
-
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
-
                             setTuneMode(tuneMode);
 
                         } catch (JSONException e) {
@@ -573,7 +585,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
                             char pos = (char) gear;
 
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
 
                             Log.d("Response", response.toString());

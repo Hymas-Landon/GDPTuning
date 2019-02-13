@@ -342,8 +342,6 @@ public class FeaturesFragment3 extends Fragment {
     }
 
 
-
-
     public boolean isAux1() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(aux1Settings, false);

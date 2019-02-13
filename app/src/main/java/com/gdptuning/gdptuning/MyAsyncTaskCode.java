@@ -19,7 +19,6 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
     boolean isConnected = false;
     boolean isProcessing = false;
 
-
     MyAsyncTaskCode(Context context) {
         mContext = context;
     }
@@ -46,7 +45,7 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
 
     private void myLongRunningOperation() {
         try {
-            Thread.sleep(4000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
     }

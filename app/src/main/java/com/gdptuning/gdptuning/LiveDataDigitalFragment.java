@@ -59,6 +59,7 @@ public class LiveDataDigitalFragment extends Fragment {
     final String turboVar = "turbo";
     final String frpVar = "frp";
     final String EGTVar = "egt";
+    final String APP = "app";
     HorizontalScrollView mScrollView1, mScrollView2, mScrollView3;
     ImageView boost_icon1, coolant_icon1, egt_icon1, injection_fuel_icon1, injection_timing_icon1,
             oil_pressure_icon1, turbo_icon1, fuel_rail_icon1, oil_temp_icon1, boost_icon2, coolant_icon2,
@@ -252,6 +253,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             switch (getVehicleType()) {
                                 case VFORD1:
                                 case VFORD2:
+                                case VRAM:
                                     if (getGauge1() == OILPRESSURE) {
                                         gauge1.setImageSpeedometer(R.drawable.oil_temp_middle_standard);
                                     }
@@ -620,7 +622,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                     break;
                                 case VGM1:
                                 case VGM2:
-                                case VRAM:
+//                                case VRAM:
                                     if (getGauge1() == OILTEMP) {
                                         gauge1.setImageSpeedometer(R.drawable.oil_pressure_middle_standard);
                                     }

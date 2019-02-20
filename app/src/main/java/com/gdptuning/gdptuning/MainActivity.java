@@ -298,8 +298,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             char pos = (char) gear;
 
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -365,8 +370,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             char pos = (char) gear;
 
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
 
                             Log.d("Response", response.toString());
                         } catch (JSONException e1) {

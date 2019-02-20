@@ -274,8 +274,13 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 
                             char pos = (char) gear;
 
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
                             Log.d("Response", response.toString());
 
 
@@ -329,8 +334,13 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 
                             char pos = (char) gear;
 
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
                             Log.d("Response", response.toString());
 
                         } catch (JSONException mE) {

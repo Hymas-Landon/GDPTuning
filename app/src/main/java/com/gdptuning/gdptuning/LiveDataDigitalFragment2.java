@@ -54,6 +54,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
     final String turboVar = "turbo";
     final String frpVar = "frp";
     final String EGTVar = "egt";
+    final String APPVar = "app";
     ImageSpeedometer oilPressure_Temp, EGT, turboGauge, FRP, coolantTemp, boostGauge, injectionTiming, fuelRate;
     float boostActual;
     float egtActual;
@@ -80,7 +81,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
         injectionTiming = mView.findViewById(R.id.digital_gauge7);
         fuelRate = mView.findViewById(R.id.digital_gauge8);
         oil_digital = mView.findViewById(R.id.oil_digital);
-
 
         return mView;
     }

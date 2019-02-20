@@ -45,8 +45,9 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
 
     private void myLongRunningOperation() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(800);
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

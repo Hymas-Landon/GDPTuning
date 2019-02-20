@@ -186,8 +186,14 @@ public class LiveDataActivity extends AppCompatActivity {
                             device = deviceName;
 
                             char pos = (char) gear;
-                            tvTune.setText("TUNE: " + tuneMode);
+
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();
@@ -250,8 +256,13 @@ public class LiveDataActivity extends AppCompatActivity {
 
                             char pos = (char) gear;
 
-                            tvTune.setText("TUNE: " + tuneMode);
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
                             Log.d("Response", response.toString());
 
                         } catch (JSONException mE) {

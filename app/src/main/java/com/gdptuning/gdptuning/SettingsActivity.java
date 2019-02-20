@@ -264,8 +264,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
-                            tvTune.setText("TUNE: " + tuneMode);
+
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
                             proVersion.setText(deviceName);
                             String version = "";
                             try {
@@ -338,8 +344,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
-                            tvTune.setText("TUNE: " + tuneMode);
+
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
                             tvGear.setText("GEAR: " + pos);
+
                             proVersion.setText(deviceName);
                             Log.d("Response", response.toString());
 

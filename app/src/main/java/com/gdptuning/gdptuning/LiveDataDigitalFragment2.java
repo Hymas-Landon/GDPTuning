@@ -65,6 +65,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
     float frpActual;
     float oilPressureActual;
     float oilTempActual;
+    float appActual;
     ImageView oil_digital;
 
 
@@ -172,7 +173,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
 
                                 } else {
                                     oilTempActual = (float) (fordOilTemp * 1.8 + 32);
-
                                 }
                                 oilPressure_Temp.speedTo(oilTempActual);
                                 if (isMetric()) {
@@ -231,7 +231,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
                                 fuelRate.setUnit("mm3");
 
 
-                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2 || getVehicleType() == VRAM) {
+                            } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2) {
                                 float oil_pressure = variables.getInt(oilPressureVar);
                                 if (isMetric()) {
                                     oilPressureActual = oil_pressure;
@@ -248,6 +248,59 @@ public class LiveDataDigitalFragment2 extends Fragment {
                                     oilPressure_Temp.setMinSpeed(-40);
                                     oilPressure_Temp.setMaxSpeed(350);
                                 }
+                                EGT.speedTo(egtActual);
+                                if (isMetric()) {
+                                    EGT.setUnit("°C");
+                                    EGT.setMinSpeed(0);
+                                    EGT.setMaxSpeed(1000);
+                                } else {
+                                    EGT.setUnit("°F");
+                                    EGT.setMinSpeed(0);
+                                    EGT.setMaxSpeed(1800);
+                                }
+                                coolantTemp.speedTo(coolantActual);
+                                if (isMetric()) {
+                                    coolantTemp.setUnit("°C");
+                                    coolantTemp.setMinSpeed(-40);
+                                    coolantTemp.setMaxSpeed(150);
+                                } else {
+                                    coolantTemp.setUnit("°F");
+                                    coolantTemp.setMinSpeed(-40);
+                                    coolantTemp.setMaxSpeed(300);
+                                }
+                                turboGauge.speedTo(turboActual);
+                                FRP.speedTo(frpActual);
+                                if (isMetric()) {
+                                    FRP.setUnit("MPa");
+                                    FRP.setMinSpeed(0);
+                                    FRP.setMaxSpeed(220);
+                                } else {
+                                    FRP.setUnit("psi");
+                                    FRP.setMinSpeed(0);
+                                    FRP.setMaxSpeed(32000);
+                                }
+                                boostGauge.speedTo(boostActual);
+                                if (isMetric()) {
+                                    boostGauge.setUnit("kPa");
+                                    boostGauge.setMinSpeed(0);
+                                    boostGauge.setMaxSpeed(400);
+                                } else {
+                                    boostGauge.setUnit("psi");
+                                    boostGauge.setMinSpeed(0);
+                                    boostGauge.setMaxSpeed(60);
+                                }
+                                injectionTiming.speedTo(timingActual);
+                                injectionTiming.setUnit("°");
+                                fuelRate.speedTo(fuelActual);
+                                fuelRate.setUnit("mm3");
+
+                            } else if (getVehicleType() == VRAM) {
+                                appActual = (float) variables.getInt(APPVar);
+                                oil_digital.setBackgroundResource(R.drawable.app_analog);
+                                oilPressure_Temp.speedTo(appActual);
+                                oilPressure_Temp.setUnit("%");
+                                oilPressure_Temp.setMinSpeed(0);
+                                oilPressure_Temp.setMaxSpeed(100);
                                 EGT.speedTo(egtActual);
                                 if (isMetric()) {
                                     EGT.setUnit("°C");

@@ -44,7 +44,6 @@ public class FeaturesActivity extends AppCompatActivity {
     final String url = "http://192.168.7.1";
     final String themeColor = "ThemeColor";
     final String vehicleSettings = "vehicle";
-    final String readSettingsSettings = "read_settings";
     final String tpmsSettings = "pressure_tpms";
     final String tireSizeSettings = "tire_sizes";
     final String daytimeLightsSettings = "daytime_lights";
@@ -238,7 +237,6 @@ public class FeaturesActivity extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 isConnected = true;
                                 try {
-                                    if (isRead()) {
                                         JSONObject variables = response.getJSONObject("variables");
                                         Log.d("TEST2 ", variables.toString());
 
@@ -318,10 +316,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                             edit.apply();
                                         }
                                         recreate();
-                                    } else {
-                                        Toast toast = Toast.makeText(FeaturesActivity.this, "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -352,25 +346,11 @@ public class FeaturesActivity extends AppCompatActivity {
         tvGear = findViewById(R.id.gear_position);
         tvTune = findViewById(R.id.tunenum);
         btn_program = findViewById(R.id.program_features);
-        btn_read = findViewById(R.id.read_settings);
-        btn_read.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View mView) {
-                // prepare the Request
-                readSettings();
-            }
-        });
 
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                if (isRead()) {
                     programBCM();
-//                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
-                } else {
-                    Toast toast = Toast.makeText(FeaturesActivity.this, "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
             }
         });
 
@@ -391,11 +371,6 @@ public class FeaturesActivity extends AppCompatActivity {
                 }
             }
         }, 0, 999);//put here time 1000 milliseconds=1 second
-    }
-
-    public boolean isRead() {
-        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(readSettingsSettings, false);
     }
 
     @Override
@@ -564,215 +539,6 @@ public class FeaturesActivity extends AppCompatActivity {
                             }
                             tvGear.setText("GEAR: " + pos);
 
-                            int bcmStatus = variables.getInt("bcm_stat");
-                            switch (bcmStatus) {
-
-                                // Nothing
-                                case 0:
-                                    Log.d(TAG, "UPDATEDEDED:0");
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    mProgressDialog.hide();
-                                    break;
-
-                                // Factory BCM read in progress
-                                case 1:
-                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
-                                    Log.d(TAG, "UPDATEDEDED:1");
-                                    break;
-
-                                // Factory BCM read successfully completed
-                                case 2:
-                                    Log.d(TAG, "UPDATEDEDED:2");
-                                    mProgressDialog.hide();
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Factory Read Successfully")
-                                            .setConfirmText("OK")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    recreate();
-                                                }
-                                            })
-                                            .show();
-                                    SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
-                                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                    edit.putBoolean(readSettingsSettings, true);
-                                    edit.apply();
-                                    sendRequest();
-                                    break;
-
-                                // Factory BCM read failure
-                                case 3:
-                                    Log.d(TAG, "UPDATEDEDED:3");
-                                    mProgressDialog.hide();
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Error")
-                                            .setContentText("Procedure failed, please " +
-                                                    "cycle vehicle ignition OFF, wait 2 " +
-                                                    "minutes, cycle key ON, and try again ")
-                                            .setConfirmText("Okay")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    sendRequest();
-                                                    recreate();
-                                                    sendRequest();
-                                                }
-                                            })
-                                            .show();
-                                    sendRequest();
-                                    break;
-
-                                // Factory BCM write(dongle is returning bcm back to stock)
-                                case 4:
-                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
-                                    Log.d(TAG, "UPDATEDEDED:4");
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-                                    break;
-
-                                // Factory BCM write complete(BCM successfully returned back to stock
-                                case 5:
-                                    Log.d(TAG, "UPDATEDEDED:5");
-                                    mProgressDialog.hide();
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Program Successful")
-                                            .setContentText("To confirm changes, please turn the ignition OFF, wait 5 seconds, then turn the ignition on. Then tap refresh")
-                                            .setConfirmText("Refresh")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    sendRequest();
-                                                    recreate();
-                                                    sendRequest();
-                                                }
-                                            })
-                                            .show();
-                                    sendRequest();
-                                    break;
-
-                                // Reading current BCM config in progress
-                                case 6:
-                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
-                                    Log.d(TAG, "UPDATEDEDED:6");
-                                    mProgressDialog.setMessage("Reading configuration from vehicle. Please wait...");
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-                                    mProgressDialog.show();
-                                    break;
-
-                                // Reading current BCM config success/finished
-                                case 7:
-                                    Log.d(TAG, "UPDATEDEDED:7");
-                                    mProgressDialog.hide();
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Read Successfully")
-                                            .setConfirmText("OK")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    sendRequest();
-                                                    recreate();
-                                                    sendRequest();
-                                                }
-                                            })
-                                            .show();
-                                    sendRequest();
-                                    break;
-
-                                // Reading current BCM config Failure
-                                case 8:
-                                    Log.d(TAG, "UPDATEDEDED:8");
-                                    mProgressDialog.hide();
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Error")
-                                            .setContentText("Procedure failed, please " +
-                                                    "cycle vehicle ignition OFF, wait 2 " +
-                                                    "minutes, cycle key ON, and try again")
-                                            .setConfirmText("Okay")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    sendRequest();
-                                                    recreate();
-                                                    sendRequest();
-                                                }
-                                            })
-                                            .show();
-                                    sendRequest();
-                                    break;
-
-                                // Writing current user BCM config settings
-                                case 9:
-                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
-                                    Log.d(TAG, "UPDATEDEDED:9");
-                                    mProgressDialog.setMessage("Sending configuration to vehicle. Please wait...");
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-                                    mProgressDialog.show();
-                                    break;
-
-                                // BCM has successfully been written with user settings
-                                case 10:
-                                    Log.d(TAG, "UPDATEDEDED:10");
-                                    mProgressDialog.hide();
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Program Successful")
-                                            .setContentText("To confirm changes, please turn the ignition OFF, wait 5 seconds, then turn the ignition on. Then tap refresh")
-                                            .setConfirmText("Refresh")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    sendRequest();
-                                                    recreate();
-                                                    sendRequest();
-                                                }
-                                            })
-                                            .show();
-                                    sendRequest();
-                                    break;
-
-                                // BCM read/write not available or blocked
-                                //(ie, vehicle is running or ignition switch is off)
-                                case 11:
-                                    Log.d(TAG, "UPDATEDEDED:11");
-                                    mProgressDialog.hide();
-                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                            .setTitleText("Error")
-                                            .setContentText("Please verify ignition switch is ON, and engine is NOT running.")
-                                            .setConfirmText("Okay")
-                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                @Override
-                                                public void onClick(SweetAlertDialog sDialog) {
-                                                    sDialog.dismiss();
-                                                    recreate();
-                                                    sendRequest();
-                                                    recreate();
-                                                    sendRequest();
-                                                }
-                                            })
-                                            .show();
-                                    sendRequest();
-                                    break;
-                            }
-
                             Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
@@ -818,47 +584,4 @@ public class FeaturesActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
-    //Send to sGDP server to verify connection
-    void readSettings() {
-        // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 6, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        isConnected = true;
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        isConnected = false;
-                        Log.d("Error.Response", error.toString());
-
-                        new SweetAlertDialog(Objects.requireNonNull(FeaturesActivity.this), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-                    }
-                }
-        );
-        // add it to the RequestQueue
-        queue.add(getRequest);
-    }
 }

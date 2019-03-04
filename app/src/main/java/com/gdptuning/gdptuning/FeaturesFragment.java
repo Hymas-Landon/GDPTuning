@@ -43,7 +43,6 @@ public class FeaturesFragment extends Fragment {
     final String themeColor = "ThemeColor";
     final String vehicleSettings = "vehicle";
     final String tpmsSettings = "pressure_tpms";
-    final String readSettings = "read_settings";
     final String tireSizeSettings = "tire_size";
     final String lampCurrentSettings = "lamp_current";
     final String fogLightsSettings = "fog_lights";
@@ -94,1297 +93,1072 @@ public class FeaturesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
-        if (!isRead()) {
-            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                //Selector 1
-                selector_words_first.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[1];
-                if (isMetric()) {
-                    pressureTPMS[0] = "0 kPa";
-                } else {
-                    pressureTPMS[0] = "0 psi";
-                }
+        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+            //Selector 1
+            selector_words_first.setText("TPMS Settings");
+            final String[] pressureTPMS = new String[13];
+            if (isMetric()) {
+                pressureTPMS[0] = "175 kPa";
+                pressureTPMS[1] = "205 kPa";
+                pressureTPMS[2] = "240 kPa";
+                pressureTPMS[4] = "275 kPa";
+                pressureTPMS[5] = "310 kPa";
+                pressureTPMS[3] = "345 kPa";
+                pressureTPMS[6] = "380 kPa";
+                pressureTPMS[7] = "405 kPa";
+                pressureTPMS[8] = "440 kPa";
+                pressureTPMS[9] = "475 kPa";
+                pressureTPMS[10] = "510 kPa";
+                pressureTPMS[11] = "545 kPa";
+                pressureTPMS[12] = "Disable";
+            } else {
+                pressureTPMS[0] = "25 psi";
+                pressureTPMS[1] = "30 psi";
+                pressureTPMS[2] = "35 psi";
+                pressureTPMS[4] = "45 psi";
+                pressureTPMS[5] = "50 psi";
+                pressureTPMS[3] = "40 psi";
+                pressureTPMS[6] = "55 psi";
+                pressureTPMS[7] = "60 psi";
+                pressureTPMS[8] = "65 psi";
+                pressureTPMS[9] = "70 psi";
+                pressureTPMS[10] = "75 psi";
+                pressureTPMS[11] = "80 psi";
+                pressureTPMS[12] = "Disable";
+            }
+            if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
+                pressureTPMSIndex = 0;
+            } else if (getTPMS() == 30) {
+                select1.setText(pressureTPMS[1]);
+                pressureTPMSIndex = 1;
+            } else if (getTPMS() == 35) {
+                select1.setText(pressureTPMS[2]);
+                pressureTPMSIndex = 2;
+            } else if (getTPMS() == 40) {
+                select1.setText(pressureTPMS[3]);
+                pressureTPMSIndex = 3;
+            } else if (getTPMS() == 45) {
+                select1.setText(pressureTPMS[4]);
+                pressureTPMSIndex = 4;
+            } else if (getTPMS() == 50) {
+                select1.setText(pressureTPMS[5]);
+                pressureTPMSIndex = 5;
+            } else if (getTPMS() == 55) {
+                select1.setText(pressureTPMS[6]);
+                pressureTPMSIndex = 6;
+            } else if (getTPMS() == 60) {
+                select1.setText(pressureTPMS[7]);
+                pressureTPMSIndex = 7;
+            } else if (getTPMS() == 65) {
+                select1.setText(pressureTPMS[8]);
+                pressureTPMSIndex = 8;
+            } else if (getTPMS() == 70) {
+                select1.setText(pressureTPMS[9]);
+                pressureTPMSIndex = 9;
+            } else if (getTPMS() == 75) {
+                select1.setText(pressureTPMS[10]);
+                pressureTPMSIndex = 10;
+            } else if (getTPMS() == 80) {
+                select1.setText(pressureTPMS[11]);
+                pressureTPMSIndex = 11;
+            } else if (getTPMS() == 0) {
+                select1.setText(pressureTPMS[12]);
+                pressureTPMSIndex = 12;
+            }
+            arrowLeft1.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
 
-                //Selector 2
-                selector_words_second.setText("Turn Signal Lamp Outage Disable");
-                final String[] lampOutageDisable = new String[1];
-                lampOutageDisable[0] = "0";
+                @Override
+                public void onClick(View mView) {
+                    if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
+                        pressureTPMSIndex = pressureTPMSIndex - 1;
+                        select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        switch (pressureTPMSIndex) {
+                            case 0:
+                                edit.putInt(tpmsSettings, 25);
+                                edit.apply();
+                                switchTpms(10);
+                                break;
+                            case 1:
+                                edit.putInt(tpmsSettings, 30);
+                                edit.apply();
+                                switchTpms(11);
+                                break;
+                            case 2:
+                                edit.putInt(tpmsSettings, 35);
+                                edit.apply();
+                                switchTpms(12);
+                                break;
+                            case 3:
+                                edit.putInt(tpmsSettings, 40);
+                                edit.apply();
+                                switchTpms(13);
+                                break;
+                            case 4:
+                                edit.putInt(tpmsSettings, 45);
+                                edit.apply();
+                                switchTpms(14);
+                                break;
+                            case 5:
+                                edit.putInt(tpmsSettings, 50);
+                                edit.apply();
+                                switchTpms(15);
+                                break;
+                            case 6:
+                                edit.putInt(tpmsSettings, 55);
+                                edit.apply();
+                                switchTpms(16);
+                                break;
+                            case 7:
+                                edit.putInt(tpmsSettings, 60);
+                                edit.apply();
+                                switchTpms(17);
+                                break;
+                            case 8:
+                                edit.putInt(tpmsSettings, 65);
+                                edit.apply();
+                                switchTpms(18);
+                                break;
+                            case 9:
+                                edit.putInt(tpmsSettings, 70);
+                                edit.apply();
+                                switchTpms(19);
+                                break;
+                            case 10:
+                                edit.putInt(tpmsSettings, 75);
+                                edit.apply();
+                                switchTpms(20);
+                                break;
+                            case 11:
+                                edit.putInt(tpmsSettings, 80);
+                                edit.apply();
+                                switchTpms(21);
+                            case 12:
+                                edit.putInt(tpmsSettings, 0);
+                                edit.apply();
+                                switchTpms(22);
+                                break;
+                        }
+                    }
+                }
+            });
+            arrowRight1.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
+                        pressureTPMSIndex = pressureTPMSIndex + 1;
+                        select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        switch (pressureTPMSIndex) {
+                            case 0:
+                                edit.putInt(tpmsSettings, 25);
+                                switchTpms(10);
+                                edit.apply();
+                                break;
+                            case 1:
+                                edit.putInt(tpmsSettings, 30);
+                                switchTpms(11);
+                                edit.apply();
+                                break;
+                            case 2:
+                                edit.putInt(tpmsSettings, 35);
+                                switchTpms(12);
+                                edit.apply();
+                                break;
+                            case 3:
+                                edit.putInt(tpmsSettings, 40);
+                                switchTpms(13);
+                                edit.apply();
+                                break;
+                            case 4:
+                                edit.putInt(tpmsSettings, 45);
+                                switchTpms(14);
+                                edit.apply();
+                                break;
+                            case 5:
+                                edit.putInt(tpmsSettings, 50);
+                                switchTpms(15);
+                                edit.apply();
+                                break;
+                            case 6:
+                                edit.putInt(tpmsSettings, 55);
+                                switchTpms(16);
+                                edit.apply();
+                                break;
+                            case 7:
+                                edit.putInt(tpmsSettings, 60);
+                                switchTpms(17);
+                                edit.apply();
+                                break;
+                            case 8:
+                                edit.putInt(tpmsSettings, 65);
+                                switchTpms(18);
+                                edit.apply();
+                                break;
+                            case 9:
+                                edit.putInt(tpmsSettings, 70);
+                                switchTpms(19);
+                                edit.apply();
+                                break;
+                            case 10:
+                                edit.putInt(tpmsSettings, 75);
+                                switchTpms(20);
+                                edit.apply();
+                                break;
+                            case 11:
+                                edit.putInt(tpmsSettings, 80);
+                                switchTpms(21);
+                                edit.apply();
+                                break;
+                            case 12:
+                                edit.putInt(tpmsSettings, 0);
+                                switchTpms(22);
+                                edit.apply();
+                                break;
+                        }
+                    }
+                }
+            });
+
+            //Selector 2
+            selector_words_second.setText("Turn Signal Lamp Outage Disable");
+            final String[] lampOutageDisable = new String[2];
+            lampOutageDisable[0] = "No";
+            lampOutageDisable[1] = "Yes";
+            if (!isLampCurrent()) {
                 select2.setText(lampOutageDisable[0]);
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                //Selector 3
-                selector_words_third.setText("Tire Size");
-                final String[] tireSize = new String[1];
-                if (isMetric()) {
-                    tireSize[0] = "0 mm";
-                } else {
-                    tireSize[0] = "0\"";
-                }
-                select3.setText(tireSize[0]);
-
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                //Selector 4
-                selector_words_fourth.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "0";
-                select4.setText(fogLights[0]);
-
-                arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-            } else if (getVehicleType() == VGM2) {
-
-                arrowLeft3.setImageDrawable(null);
-                arrowLeft4.setImageDrawable(null);
-                arrowRight3.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
-
-                //Selector 1
-                selector_words_first.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[1];
-                if (isMetric()) {
-                    pressureTPMS[0] = "0 kPa";
-                } else {
-                    pressureTPMS[0] = "0 psi";
-                }
-                select1.setText(pressureTPMS[0]);
-
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                selector_words_second.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "0";
-                select2.setText(fogLights[0]);
-
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-            } else if (getVehicleType() == VRAM) {
-
-                arrowLeft4.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
-
-                //Selector 1
-                selector_words_first.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[1];
-                if (isMetric()) {
-                    pressureTPMS[0] = "0 kPa";
-                } else {
-                    pressureTPMS[0] = "0 psi";
-                }
-                select1.setText(pressureTPMS[0]);
-
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                //Selector 2
-                selector_words_second.setText("Tire Size");
-                final String[] tireSize = new String[1];
-                if (isMetric()) {
-                    tireSize[0] = "0 mm";
-                } else {
-                    tireSize[0] = "0\"";
-                }
-                select2.setText(tireSize[0]);
-
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-
-                //Selector 3
-                selector_words_third.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "0";
-                select3.setText(fogLights[0]);
-
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
+            } else if (isLampCurrent()) {
+                select2.setText(lampOutageDisable[1]);
             }
-        } else if (isRead()) {
-            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                //Selector 1
-                selector_words_first.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[13];
-                if (isMetric()) {
-                    pressureTPMS[0] = "175 kPa";
-                    pressureTPMS[1] = "205 kPa";
-                    pressureTPMS[2] = "240 kPa";
-                    pressureTPMS[4] = "275 kPa";
-                    pressureTPMS[5] = "310 kPa";
-                    pressureTPMS[3] = "345 kPa";
-                    pressureTPMS[6] = "380 kPa";
-                    pressureTPMS[7] = "405 kPa";
-                    pressureTPMS[8] = "440 kPa";
-                    pressureTPMS[9] = "475 kPa";
-                    pressureTPMS[10] = "510 kPa";
-                    pressureTPMS[11] = "545 kPa";
-                    pressureTPMS[12] = "Disable";
-                } else {
-                    pressureTPMS[0] = "25 psi";
-                    pressureTPMS[1] = "30 psi";
-                    pressureTPMS[2] = "35 psi";
-                    pressureTPMS[4] = "45 psi";
-                    pressureTPMS[5] = "50 psi";
-                    pressureTPMS[3] = "40 psi";
-                    pressureTPMS[6] = "55 psi";
-                    pressureTPMS[7] = "60 psi";
-                    pressureTPMS[8] = "65 psi";
-                    pressureTPMS[9] = "70 psi";
-                    pressureTPMS[10] = "75 psi";
-                    pressureTPMS[11] = "80 psi";
-                    pressureTPMS[12] = "Disable";
-                }
-                if (getTPMS() == 25) {
-                    select1.setText(pressureTPMS[0]);
-                    pressureTPMSIndex = 0;
-                } else if (getTPMS() == 30) {
-                    select1.setText(pressureTPMS[1]);
-                    pressureTPMSIndex = 1;
-                } else if (getTPMS() == 35) {
-                    select1.setText(pressureTPMS[2]);
-                    pressureTPMSIndex = 2;
-                } else if (getTPMS() == 40) {
-                    select1.setText(pressureTPMS[3]);
-                    pressureTPMSIndex = 3;
-                } else if (getTPMS() == 45) {
-                    select1.setText(pressureTPMS[4]);
-                    pressureTPMSIndex = 4;
-                } else if (getTPMS() == 50) {
-                    select1.setText(pressureTPMS[5]);
-                    pressureTPMSIndex = 5;
-                } else if (getTPMS() == 55) {
-                    select1.setText(pressureTPMS[6]);
-                    pressureTPMSIndex = 6;
-                } else if (getTPMS() == 60) {
-                    select1.setText(pressureTPMS[7]);
-                    pressureTPMSIndex = 7;
-                } else if (getTPMS() == 65) {
-                    select1.setText(pressureTPMS[8]);
-                    pressureTPMSIndex = 8;
-                } else if (getTPMS() == 70) {
-                    select1.setText(pressureTPMS[9]);
-                    pressureTPMSIndex = 9;
-                } else if (getTPMS() == 75) {
-                    select1.setText(pressureTPMS[10]);
-                    pressureTPMSIndex = 10;
-                } else if (getTPMS() == 80) {
-                    select1.setText(pressureTPMS[11]);
-                    pressureTPMSIndex = 11;
-                } else if (getTPMS() == 0) {
-                    select1.setText(pressureTPMS[12]);
-                    pressureTPMSIndex = 12;
-                }
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+            arrowLeft2.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
 
-                    @Override
-                    public void onClick(View mView) {
-                        if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
-                            pressureTPMSIndex = pressureTPMSIndex - 1;
-                            select1.setText(pressureTPMS[pressureTPMSIndex]);
-                            switch (pressureTPMSIndex) {
-                                case 0:
-                                    edit.putInt(tpmsSettings, 25);
-                                    edit.apply();
-                                    switchTpms(10);
-                                    break;
-                                case 1:
-                                    edit.putInt(tpmsSettings, 30);
-                                    edit.apply();
-                                    switchTpms(11);
-                                    break;
-                                case 2:
-                                    edit.putInt(tpmsSettings, 35);
-                                    edit.apply();
-                                    switchTpms(12);
-                                    break;
-                                case 3:
-                                    edit.putInt(tpmsSettings, 40);
-                                    edit.apply();
-                                    switchTpms(13);
-                                    break;
-                                case 4:
-                                    edit.putInt(tpmsSettings, 45);
-                                    edit.apply();
-                                    switchTpms(14);
-                                    break;
-                                case 5:
-                                    edit.putInt(tpmsSettings, 50);
-                                    edit.apply();
-                                    switchTpms(15);
-                                    break;
-                                case 6:
-                                    edit.putInt(tpmsSettings, 55);
-                                    edit.apply();
-                                    switchTpms(16);
-                                    break;
-                                case 7:
-                                    edit.putInt(tpmsSettings, 60);
-                                    edit.apply();
-                                    switchTpms(17);
-                                    break;
-                                case 8:
-                                    edit.putInt(tpmsSettings, 65);
-                                    edit.apply();
-                                    switchTpms(18);
-                                    break;
-                                case 9:
-                                    edit.putInt(tpmsSettings, 70);
-                                    edit.apply();
-                                    switchTpms(19);
-                                    break;
-                                case 10:
-                                    edit.putInt(tpmsSettings, 75);
-                                    edit.apply();
-                                    switchTpms(20);
-                                    break;
-                                case 11:
-                                    edit.putInt(tpmsSettings, 80);
-                                    edit.apply();
-                                    switchTpms(21);
-                                case 12:
-                                    edit.putInt(tpmsSettings, 0);
-                                    edit.apply();
-                                    switchTpms(22);
-                                    break;
-                            }
-                        }
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
-                            pressureTPMSIndex = pressureTPMSIndex + 1;
-                            select1.setText(pressureTPMS[pressureTPMSIndex]);
-                            switch (pressureTPMSIndex) {
-                                case 0:
-                                    edit.putInt(tpmsSettings, 25);
-                                    switchTpms(10);
-                                    edit.apply();
-                                    break;
-                                case 1:
-                                    edit.putInt(tpmsSettings, 30);
-                                    switchTpms(11);
-                                    edit.apply();
-                                    break;
-                                case 2:
-                                    edit.putInt(tpmsSettings, 35);
-                                    switchTpms(12);
-                                    edit.apply();
-                                    break;
-                                case 3:
-                                    edit.putInt(tpmsSettings, 40);
-                                    switchTpms(13);
-                                    edit.apply();
-                                    break;
-                                case 4:
-                                    edit.putInt(tpmsSettings, 45);
-                                    switchTpms(14);
-                                    edit.apply();
-                                    break;
-                                case 5:
-                                    edit.putInt(tpmsSettings, 50);
-                                    switchTpms(15);
-                                    edit.apply();
-                                    break;
-                                case 6:
-                                    edit.putInt(tpmsSettings, 55);
-                                    switchTpms(16);
-                                    edit.apply();
-                                    break;
-                                case 7:
-                                    edit.putInt(tpmsSettings, 60);
-                                    switchTpms(17);
-                                    edit.apply();
-                                    break;
-                                case 8:
-                                    edit.putInt(tpmsSettings, 65);
-                                    switchTpms(18);
-                                    edit.apply();
-                                    break;
-                                case 9:
-                                    edit.putInt(tpmsSettings, 70);
-                                    switchTpms(19);
-                                    edit.apply();
-                                    break;
-                                case 10:
-                                    edit.putInt(tpmsSettings, 75);
-                                    switchTpms(20);
-                                    edit.apply();
-                                    break;
-                                case 11:
-                                    edit.putInt(tpmsSettings, 80);
-                                    switchTpms(21);
-                                    edit.apply();
-                                    break;
-                                case 12:
-                                    edit.putInt(tpmsSettings, 0);
-                                    switchTpms(22);
-                                    edit.apply();
-                                    break;
-                            }
-                        }
-                    }
-                });
-
-                //Selector 2
-                selector_words_second.setText("Turn Signal Lamp Outage Disable");
-                final String[] lampOutageDisable = new String[2];
-                lampOutageDisable[0] = "No";
-                lampOutageDisable[1] = "Yes";
-                if (!isLampCurrent()) {
+                @Override
+                public void onClick(View mView) {
                     select2.setText(lampOutageDisable[0]);
-                } else if (isLampCurrent()) {
+                    edit.putBoolean(lampCurrentSettings, true);
+                    switchTurnSignals(33);
+                    edit.apply();
+                }
+            });
+            arrowRight2.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
                     select2.setText(lampOutageDisable[1]);
+                    edit.putBoolean(lampCurrentSettings, false);
+                    switchTurnSignals(32);
+                    edit.apply();
                 }
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+            });
 
-                    @Override
-                    public void onClick(View mView) {
-                        select2.setText(lampOutageDisable[0]);
-                        edit.putBoolean(lampCurrentSettings, true);
-                        switchTurnSignals(33);
-                        edit.apply();
-                    }
-                });
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select2.setText(lampOutageDisable[1]);
-                        edit.putBoolean(lampCurrentSettings, false);
-                        switchTurnSignals(32);
-                        edit.apply();
-                    }
-                });
-
-                //Selector 3
-                selector_words_third.setText("Tire Size");
-                final String[] tireSize = new String[7];
-                if (isMetric()) {
-                    tireSize[0] = "800 mm";
-                    tireSize[1] = "825 mm";
-                    tireSize[2] = "850 mm";
-                    tireSize[3] = "875 mm";
-                    tireSize[4] = "900 mm";
-                    tireSize[5] = "925 mm";
-                    tireSize[6] = "950 mm";
-                } else {
-                    tireSize[0] = "31\"";
-                    tireSize[1] = "32\"";
-                    tireSize[2] = "33\"";
-                    tireSize[3] = "34\"";
-                    tireSize[4] = "35\"";
-                    tireSize[5] = "36\"";
-                    tireSize[6] = "37\"";
-                }
-                if (getTireSize() == 31) {
-                    select3.setText(tireSize[0]);
-                    tireIndex = 0;
-                } else if (getTireSize() == 32) {
-                    select3.setText(tireSize[1]);
-                    tireIndex = 1;
-                } else if (getTireSize() == 33) {
-                    select3.setText(tireSize[2]);
-                    tireIndex = 2;
-                } else if (getTireSize() == 34) {
-                    select3.setText(tireSize[3]);
-                    tireIndex = 3;
-                } else if (getTireSize() == 35) {
-                    select3.setText(tireSize[4]);
-                    tireIndex = 4;
-                } else if (getTireSize() == 36) {
-                    select3.setText(tireSize[5]);
-                    tireIndex = 5;
-                } else if (getTireSize() == 37) {
-                    select3.setText(tireSize[6]);
-                    tireIndex = 6;
-                }
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-
-                        if (tireIndex > 0 && tireIndex <= 6) {
-                            tireIndex = tireIndex - 1;
-                            select3.setText(tireSize[tireIndex]);
-                            if (tireIndex == 0) {
-                                edit.putInt(tireSizeSettings, 31);
-                                switchTireSize(23);
-                                edit.apply();
-                            } else if (tireIndex == 1) {
-                                edit.putInt(tireSizeSettings, 32);
-                                switchTireSize(24);
-                                edit.apply();
-                            } else if (tireIndex == 2) {
-                                edit.putInt(tireSizeSettings, 33);
-                                switchTireSize(25);
-                                edit.apply();
-                            } else if (tireIndex == 3) {
-                                edit.putInt(tireSizeSettings, 34);
-                                switchTireSize(26);
-                                edit.apply();
-                            } else if (tireIndex == 4) {
-                                edit.putInt(tireSizeSettings, 35);
-                                switchTireSize(27);
-                                edit.apply();
-                            } else if (tireIndex == 5) {
-                                edit.putInt(tireSizeSettings, 36);
-                                switchTireSize(28);
-                                edit.apply();
-                            } else if (tireIndex == 6) {
-                                edit.putInt(tireSizeSettings, 37);
-                                switchTireSize(29);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-
-                        if (tireIndex >= 0 && tireIndex < 6) {
-                            tireIndex = tireIndex + 1;
-                            select3.setText(tireSize[tireIndex]);
-                            if (tireIndex == 0) {
-                                edit.putInt(tireSizeSettings, 31);
-                                switchTireSize(23);
-                                edit.apply();
-                            } else if (tireIndex == 1) {
-                                edit.putInt(tireSizeSettings, 32);
-                                switchTireSize(24);
-                                edit.apply();
-                            } else if (tireIndex == 2) {
-                                edit.putInt(tireSizeSettings, 33);
-                                switchTireSize(25);
-                                edit.apply();
-                            } else if (tireIndex == 3) {
-                                edit.putInt(tireSizeSettings, 34);
-                                switchTireSize(26);
-                                edit.apply();
-                            } else if (tireIndex == 4) {
-                                edit.putInt(tireSizeSettings, 35);
-                                switchTireSize(27);
-                                edit.apply();
-                            } else if (tireIndex == 5) {
-                                edit.putInt(tireSizeSettings, 36);
-                                switchTireSize(28);
-                                edit.apply();
-                            } else if (tireIndex == 6) {
-                                edit.putInt(tireSizeSettings, 37);
-                                switchTireSize(29);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-                //Selector 4
-                selector_words_fourth.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "No";
-                fogLights[1] = "Yes";
-                if (!isFogLights()) {
-                    select4.setText(fogLights[0]);
-                } else if (isFogLights()) {
-                    select4.setText(fogLights[1]);
-                }
-
-                arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select4.setText(fogLights[0]);
-                        edit.putBoolean(fogLightsSettings, true);
-                        switchFogLights(31);
-                        edit.apply();
-                    }
-                });
-                arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select4.setText(fogLights[1]);
-                        edit.putBoolean(fogLightsSettings, false);
-                        switchFogLights(30);
-                        edit.apply();
-                    }
-                });
-            } else if (getVehicleType() == VGM2) {
-
-                arrowLeft2.setImageDrawable(null);
-                arrowLeft3.setImageDrawable(null);
-                arrowLeft4.setImageDrawable(null);
-                arrowRight2.setImageDrawable(null);
-                arrowRight3.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
-
-                //Selector 1
-                selector_words_first.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[12];
-                if (isMetric()) {
-                    pressureTPMS[0] = "175 kPa";
-                    pressureTPMS[1] = "205 kPa";
-                    pressureTPMS[2] = "240 kPa";
-                    pressureTPMS[4] = "275 kPa";
-                    pressureTPMS[5] = "310 kPa";
-                    pressureTPMS[3] = "345 kPa";
-                    pressureTPMS[6] = "380 kPa";
-                    pressureTPMS[7] = "405 kPa";
-                    pressureTPMS[8] = "440 kPa";
-                    pressureTPMS[9] = "475 kPa";
-                    pressureTPMS[10] = "510 kPa";
-                    pressureTPMS[11] = "545 kPa";
-                    pressureTPMS[12] = "Disable";
-                } else {
-                    pressureTPMS[0] = "25 psi";
-                    pressureTPMS[1] = "30 psi";
-                    pressureTPMS[2] = "35 psi";
-                    pressureTPMS[4] = "45 psi";
-                    pressureTPMS[5] = "50 psi";
-                    pressureTPMS[3] = "40 psi";
-                    pressureTPMS[6] = "55 psi";
-                    pressureTPMS[7] = "60 psi";
-                    pressureTPMS[8] = "65 psi";
-                    pressureTPMS[9] = "70 psi";
-                    pressureTPMS[10] = "75 psi";
-                    pressureTPMS[11] = "80 psi";
-                    pressureTPMS[12] = "Disable";
-                }
-                if (getTPMS() == 25) {
-                    select1.setText(pressureTPMS[0]);
-                    pressureTPMSIndex = 0;
-                } else if (getTPMS() == 30) {
-                    select1.setText(pressureTPMS[1]);
-                    pressureTPMSIndex = 1;
-                } else if (getTPMS() == 35) {
-                    select1.setText(pressureTPMS[2]);
-                    pressureTPMSIndex = 2;
-                } else if (getTPMS() == 40) {
-                    select1.setText(pressureTPMS[3]);
-                    pressureTPMSIndex = 3;
-                } else if (getTPMS() == 45) {
-                    select1.setText(pressureTPMS[4]);
-                    pressureTPMSIndex = 4;
-                } else if (getTPMS() == 50) {
-                    select1.setText(pressureTPMS[5]);
-                    pressureTPMSIndex = 5;
-                } else if (getTPMS() == 55) {
-                    select1.setText(pressureTPMS[6]);
-                    pressureTPMSIndex = 6;
-                } else if (getTPMS() == 60) {
-                    select1.setText(pressureTPMS[7]);
-                    pressureTPMSIndex = 7;
-                } else if (getTPMS() == 65) {
-                    select1.setText(pressureTPMS[8]);
-                    pressureTPMSIndex = 8;
-                } else if (getTPMS() == 70) {
-                    select1.setText(pressureTPMS[9]);
-                    pressureTPMSIndex = 9;
-                } else if (getTPMS() == 75) {
-                    select1.setText(pressureTPMS[10]);
-                    pressureTPMSIndex = 10;
-                } else if (getTPMS() == 80) {
-                    select1.setText(pressureTPMS[11]);
-                    pressureTPMSIndex = 11;
-                }
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 11) {
-                            pressureTPMSIndex = pressureTPMSIndex - 1;
-                            select1.setText(pressureTPMS[pressureTPMSIndex]);
-                            switch (pressureTPMSIndex) {
-                                case 0:
-                                    edit.putInt(tpmsSettings, 25);
-                                    switchTpms(10);
-                                    edit.apply();
-                                    break;
-                                case 1:
-                                    edit.putInt(tpmsSettings, 30);
-                                    switchTpms(11);
-                                    edit.apply();
-                                    break;
-                                case 2:
-                                    edit.putInt(tpmsSettings, 35);
-                                    switchTpms(12);
-                                    edit.apply();
-                                    break;
-                                case 3:
-                                    edit.putInt(tpmsSettings, 40);
-                                    switchTpms(13);
-                                    edit.apply();
-                                    break;
-                                case 4:
-                                    edit.putInt(tpmsSettings, 45);
-                                    switchTpms(14);
-                                    edit.apply();
-                                    break;
-                                case 5:
-                                    edit.putInt(tpmsSettings, 50);
-                                    switchTpms(15);
-                                    edit.apply();
-                                    break;
-                                case 6:
-                                    edit.putInt(tpmsSettings, 55);
-                                    switchTpms(16);
-                                    edit.apply();
-                                    break;
-                                case 7:
-                                    edit.putInt(tpmsSettings, 60);
-                                    switchTpms(17);
-                                    edit.apply();
-                                    break;
-                                case 8:
-                                    edit.putInt(tpmsSettings, 65);
-                                    switchTpms(18);
-                                    edit.apply();
-                                    break;
-                                case 9:
-                                    edit.putInt(tpmsSettings, 70);
-                                    switchTpms(19);
-                                    edit.apply();
-                                    break;
-                                case 10:
-                                    edit.putInt(tpmsSettings, 75);
-                                    switchTpms(20);
-                                    edit.apply();
-                                    break;
-                                case 11:
-                                    edit.putInt(tpmsSettings, 80);
-                                    switchTpms(21);
-                                    edit.apply();
-                                    break;
-                            }
-                        }
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 11) {
-                            pressureTPMSIndex = pressureTPMSIndex + 1;
-                            select1.setText(pressureTPMS[pressureTPMSIndex]);
-                            switch (pressureTPMSIndex) {
-                                case 0:
-                                    edit.putInt(tpmsSettings, 25);
-                                    switchTpms(10);
-                                    edit.apply();
-                                    break;
-                                case 1:
-                                    edit.putInt(tpmsSettings, 30);
-                                    switchTpms(11);
-                                    edit.apply();
-                                    break;
-                                case 2:
-                                    edit.putInt(tpmsSettings, 35);
-                                    switchTpms(12);
-                                    edit.apply();
-                                    break;
-                                case 3:
-                                    edit.putInt(tpmsSettings, 40);
-                                    switchTpms(13);
-                                    edit.apply();
-                                    break;
-                                case 4:
-                                    edit.putInt(tpmsSettings, 45);
-                                    switchTpms(14);
-                                    edit.apply();
-                                    break;
-                                case 5:
-                                    edit.putInt(tpmsSettings, 50);
-                                    switchTpms(15);
-                                    edit.apply();
-                                    break;
-                                case 6:
-                                    edit.putInt(tpmsSettings, 55);
-                                    switchTpms(16);
-                                    edit.apply();
-                                    break;
-                                case 7:
-                                    edit.putInt(tpmsSettings, 60);
-                                    switchTpms(17);
-                                    edit.apply();
-                                    break;
-                                case 8:
-                                    edit.putInt(tpmsSettings, 65);
-                                    switchTpms(18);
-                                    edit.apply();
-                                    break;
-                                case 9:
-                                    edit.putInt(tpmsSettings, 70);
-                                    switchTpms(19);
-                                    edit.apply();
-                                    break;
-                                case 10:
-                                    edit.putInt(tpmsSettings, 75);
-                                    switchTpms(20);
-                                    edit.apply();
-                                    break;
-                                case 11:
-                                    edit.putInt(tpmsSettings, 80);
-                                    switchTpms(21);
-                                    edit.apply();
-                                    break;
-                            }
-                        }
-                    }
-                });
-
-                //Selector 2
-                selector_words_second.setText("Fog Lights With High Beam (Currently Only For 2015-2016");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "No";
-                fogLights[1] = "Yes";
-                if (!isFogLights()) {
-                    select2.setText(fogLights[0]);
-                } else if (isFogLights()) {
-                    select2.setText(fogLights[1]);
-                }
-
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select2.setText(fogLights[0]);
-                        edit.putBoolean(fogLightsSettings, true);
-                        switchFogLights(31);
-                        edit.apply();
-                    }
-                });
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select2.setText(fogLights[1]);
-                        edit.putBoolean(fogLightsSettings, false);
-                        switchFogLights(30);
-                        edit.apply();
-                    }
-                });
-
-            } else if (getVehicleType() == VRAM) {
-
-                arrowLeft4.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
-
-                //Selector 1
-                selector_words_first.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[13];
-                if (isMetric()) {
-                    pressureTPMS[0] = "175 kPa";
-                    pressureTPMS[1] = "205 kPa";
-                    pressureTPMS[2] = "240 kPa";
-                    pressureTPMS[4] = "275 kPa";
-                    pressureTPMS[5] = "310 kPa";
-                    pressureTPMS[3] = "345 kPa";
-                    pressureTPMS[6] = "380 kPa";
-                    pressureTPMS[7] = "405 kPa";
-                    pressureTPMS[8] = "440 kPa";
-                    pressureTPMS[9] = "475 kPa";
-                    pressureTPMS[10] = "510 kPa";
-                    pressureTPMS[11] = "545 kPa";
-                    pressureTPMS[12] = "Disable";
-                } else {
-                    pressureTPMS[0] = "25 psi";
-                    pressureTPMS[1] = "30 psi";
-                    pressureTPMS[2] = "35 psi";
-                    pressureTPMS[4] = "45 psi";
-                    pressureTPMS[5] = "50 psi";
-                    pressureTPMS[3] = "40 psi";
-                    pressureTPMS[6] = "55 psi";
-                    pressureTPMS[7] = "60 psi";
-                    pressureTPMS[8] = "65 psi";
-                    pressureTPMS[9] = "70 psi";
-                    pressureTPMS[10] = "75 psi";
-                    pressureTPMS[11] = "80 psi";
-                    pressureTPMS[12] = "Disable";
-                }
-                if (getTPMS() == 25) {
-                    select1.setText(pressureTPMS[0]);
-                    pressureTPMSIndex = 0;
-                } else if (getTPMS() == 30) {
-                    select1.setText(pressureTPMS[1]);
-                    pressureTPMSIndex = 1;
-                } else if (getTPMS() == 35) {
-                    select1.setText(pressureTPMS[2]);
-                    pressureTPMSIndex = 2;
-                } else if (getTPMS() == 40) {
-                    select1.setText(pressureTPMS[3]);
-                    pressureTPMSIndex = 3;
-                } else if (getTPMS() == 45) {
-                    select1.setText(pressureTPMS[4]);
-                    pressureTPMSIndex = 4;
-                } else if (getTPMS() == 50) {
-                    select1.setText(pressureTPMS[5]);
-                    pressureTPMSIndex = 5;
-                } else if (getTPMS() == 55) {
-                    select1.setText(pressureTPMS[6]);
-                    pressureTPMSIndex = 6;
-                } else if (getTPMS() == 60) {
-                    select1.setText(pressureTPMS[7]);
-                    pressureTPMSIndex = 7;
-                } else if (getTPMS() == 65) {
-                    select1.setText(pressureTPMS[8]);
-                    pressureTPMSIndex = 8;
-                } else if (getTPMS() == 70) {
-                    select1.setText(pressureTPMS[9]);
-                    pressureTPMSIndex = 9;
-                } else if (getTPMS() == 75) {
-                    select1.setText(pressureTPMS[10]);
-                    pressureTPMSIndex = 10;
-                } else if (getTPMS() == 80) {
-                    select1.setText(pressureTPMS[11]);
-                    pressureTPMSIndex = 11;
-                } else if (getTPMS() == 0) {
-                    select1.setText(pressureTPMS[12]);
-                    pressureTPMSIndex = 12;
-                }
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
-                            pressureTPMSIndex = pressureTPMSIndex - 1;
-                            select1.setText(pressureTPMS[pressureTPMSIndex]);
-                            if (pressureTPMSIndex == 0) {
-                                edit.putInt(tpmsSettings, 25);
-                                switchTpms(10);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 1) {
-                                edit.putInt(tpmsSettings, 30);
-                                switchTpms(11);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 2) {
-                                edit.putInt(tpmsSettings, 35);
-                                switchTpms(12);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 3) {
-                                edit.putInt(tpmsSettings, 40);
-                                switchTpms(13);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 4) {
-                                edit.putInt(tpmsSettings, 45);
-                                switchTpms(14);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 5) {
-                                edit.putInt(tpmsSettings, 50);
-                                switchTpms(15);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 6) {
-                                edit.putInt(tpmsSettings, 55);
-                                switchTpms(16);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 7) {
-                                edit.putInt(tpmsSettings, 60);
-                                switchTpms(17);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 8) {
-                                edit.putInt(tpmsSettings, 65);
-                                switchTpms(18);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 9) {
-                                edit.putInt(tpmsSettings, 70);
-                                switchTpms(19);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 10) {
-                                edit.putInt(tpmsSettings, 75);
-                                switchTpms(20);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 11) {
-                                edit.putInt(tpmsSettings, 80);
-                                switchTpms(21);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 12) {
-                                edit.putInt(tpmsSettings, 0);
-                                switchTpms(22);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
-                            pressureTPMSIndex = pressureTPMSIndex + 1;
-                            select1.setText(pressureTPMS[pressureTPMSIndex]);
-                            if (pressureTPMSIndex == 0) {
-                                edit.putInt(tpmsSettings, 25);
-                                switchTpms(10);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 1) {
-                                edit.putInt(tpmsSettings, 30);
-                                switchTpms(11);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 2) {
-                                edit.putInt(tpmsSettings, 35);
-                                switchTpms(12);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 3) {
-                                edit.putInt(tpmsSettings, 40);
-                                switchTpms(13);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 4) {
-                                edit.putInt(tpmsSettings, 45);
-                                switchTpms(14);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 5) {
-                                edit.putInt(tpmsSettings, 50);
-                                switchTpms(15);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 6) {
-                                edit.putInt(tpmsSettings, 55);
-                                switchTpms(16);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 7) {
-                                edit.putInt(tpmsSettings, 60);
-                                switchTpms(17);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 8) {
-                                edit.putInt(tpmsSettings, 65);
-                                switchTpms(18);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 9) {
-                                edit.putInt(tpmsSettings, 70);
-                                switchTpms(19);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 10) {
-                                edit.putInt(tpmsSettings, 75);
-                                switchTpms(20);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 11) {
-                                edit.putInt(tpmsSettings, 80);
-                                switchTpms(21);
-                                edit.apply();
-                            } else if (pressureTPMSIndex == 12) {
-                                edit.putInt(tpmsSettings, 0);
-                                switchTpms(22);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-                //Selector 2
-                selector_words_second.setText("Tire Size");
-                final String[] tireSize = new String[7];
-                if (isMetric()) {
-                    tireSize[0] = "800 mm";
-                    tireSize[1] = "825 mm";
-                    tireSize[2] = "850 mm";
-                    tireSize[3] = "875 mm";
-                    tireSize[4] = "900 mm";
-                    tireSize[5] = "925 mm";
-                    tireSize[6] = "950 mm";
-                } else {
-                    tireSize[0] = "31\"";
-                    tireSize[1] = "32\"";
-                    tireSize[2] = "33\"";
-                    tireSize[3] = "34\"";
-                    tireSize[4] = "35\"";
-                    tireSize[5] = "36\"";
-                    tireSize[6] = "37\"";
-                }
-                if (getTireSize() == 31) {
-                    select2.setText(tireSize[0]);
-                    tireIndex = 0;
-                } else if (getTireSize() == 32) {
-                    select2.setText(tireSize[1]);
-                    tireIndex = 1;
-                } else if (getTireSize() == 33) {
-                    select2.setText(tireSize[2]);
-                    tireIndex = 2;
-                } else if (getTireSize() == 34) {
-                    select2.setText(tireSize[3]);
-                    tireIndex = 3;
-                } else if (getTireSize() == 35) {
-                    select2.setText(tireSize[4]);
-                    tireIndex = 4;
-                } else if (getTireSize() == 36) {
-                    select2.setText(tireSize[5]);
-                    tireIndex = 5;
-                } else if (getTireSize() == 37) {
-                    select2.setText(tireSize[6]);
-                    tireIndex = 6;
-                }
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-
-                        if (tireIndex > 0 && tireIndex <= 6) {
-                            tireIndex = tireIndex - 1;
-                            select2.setText(tireSize[tireIndex]);
-                            if (tireIndex == 0) {
-                                edit.putInt(tireSizeSettings, 31);
-                                switchTireSize(23);
-                                edit.apply();
-                            } else if (tireIndex == 1) {
-                                edit.putInt(tireSizeSettings, 32);
-                                switchTireSize(24);
-                                edit.apply();
-                            } else if (tireIndex == 2) {
-                                edit.putInt(tireSizeSettings, 33);
-                                switchTireSize(25);
-                                edit.apply();
-                            } else if (tireIndex == 3) {
-                                edit.putInt(tireSizeSettings, 34);
-                                switchTireSize(26);
-                                edit.apply();
-                            } else if (tireIndex == 4) {
-                                edit.putInt(tireSizeSettings, 35);
-                                switchTireSize(27);
-                                edit.apply();
-                            } else if (tireIndex == 5) {
-                                edit.putInt(tireSizeSettings, 36);
-                                switchTireSize(28);
-                                edit.apply();
-                            } else if (tireIndex == 6) {
-                                edit.putInt(tireSizeSettings, 37);
-                                switchTireSize(29);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-
-                        if (tireIndex >= 0 && tireIndex < 6) {
-                            tireIndex = tireIndex + 1;
-                            select2.setText(tireSize[tireIndex]);
-                            if (tireIndex == 0) {
-                                edit.putInt(tireSizeSettings, 31);
-                                switchTireSize(23);
-                                edit.apply();
-                            } else if (tireIndex == 1) {
-                                edit.putInt(tireSizeSettings, 32);
-                                switchTireSize(24);
-                                edit.apply();
-                            } else if (tireIndex == 2) {
-                                edit.putInt(tireSizeSettings, 33);
-                                switchTireSize(25);
-                                edit.apply();
-                            } else if (tireIndex == 3) {
-                                edit.putInt(tireSizeSettings, 34);
-                                switchTireSize(26);
-                                edit.apply();
-                            } else if (tireIndex == 4) {
-                                edit.putInt(tireSizeSettings, 35);
-                                switchTireSize(27);
-                                edit.apply();
-                            } else if (tireIndex == 5) {
-                                edit.putInt(tireSizeSettings, 36);
-                                switchTireSize(28);
-                                edit.apply();
-                            } else if (tireIndex == 6) {
-                                edit.putInt(tireSizeSettings, 37);
-                                switchTireSize(29);
-                                edit.apply();
-                            }
-                        }
-                    }
-                });
-
-                //Selector 3
-                selector_words_second.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "No";
-                fogLights[1] = "Yes";
-                if (!isFogLights()) {
-                    select3.setText(fogLights[0]);
-                } else if (isFogLights()) {
-                    select3.setText(fogLights[1]);
-                }
-
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select3.setText(fogLights[0]);
-                        edit.putBoolean(fogLightsSettings, true);
-                        switchFogLights(31);
-                        edit.apply();
-                    }
-                });
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select3.setText(fogLights[1]);
-                        edit.putBoolean(fogLightsSettings, false);
-                        switchFogLights(30);
-                        edit.apply();
-                    }
-                });
-
+            //Selector 3
+            selector_words_third.setText("Tire Size");
+            final String[] tireSize = new String[7];
+            if (isMetric()) {
+                tireSize[0] = "800 mm";
+                tireSize[1] = "825 mm";
+                tireSize[2] = "850 mm";
+                tireSize[3] = "875 mm";
+                tireSize[4] = "900 mm";
+                tireSize[5] = "925 mm";
+                tireSize[6] = "950 mm";
+            } else {
+                tireSize[0] = "31\"";
+                tireSize[1] = "32\"";
+                tireSize[2] = "33\"";
+                tireSize[3] = "34\"";
+                tireSize[4] = "35\"";
+                tireSize[5] = "36\"";
+                tireSize[6] = "37\"";
             }
+            if (getTireSize() == 31) {
+                select3.setText(tireSize[0]);
+                tireIndex = 0;
+            } else if (getTireSize() == 32) {
+                select3.setText(tireSize[1]);
+                tireIndex = 1;
+            } else if (getTireSize() == 33) {
+                select3.setText(tireSize[2]);
+                tireIndex = 2;
+            } else if (getTireSize() == 34) {
+                select3.setText(tireSize[3]);
+                tireIndex = 3;
+            } else if (getTireSize() == 35) {
+                select3.setText(tireSize[4]);
+                tireIndex = 4;
+            } else if (getTireSize() == 36) {
+                select3.setText(tireSize[5]);
+                tireIndex = 5;
+            } else if (getTireSize() == 37) {
+                select3.setText(tireSize[6]);
+                tireIndex = 6;
+            }
+            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+
+                    if (tireIndex > 0 && tireIndex <= 6) {
+                        tireIndex = tireIndex - 1;
+                        select3.setText(tireSize[tireIndex]);
+                        if (tireIndex == 0) {
+                            edit.putInt(tireSizeSettings, 31);
+                            switchTireSize(23);
+                            edit.apply();
+                        } else if (tireIndex == 1) {
+                            edit.putInt(tireSizeSettings, 32);
+                            switchTireSize(24);
+                            edit.apply();
+                        } else if (tireIndex == 2) {
+                            edit.putInt(tireSizeSettings, 33);
+                            switchTireSize(25);
+                            edit.apply();
+                        } else if (tireIndex == 3) {
+                            edit.putInt(tireSizeSettings, 34);
+                            switchTireSize(26);
+                            edit.apply();
+                        } else if (tireIndex == 4) {
+                            edit.putInt(tireSizeSettings, 35);
+                            switchTireSize(27);
+                            edit.apply();
+                        } else if (tireIndex == 5) {
+                            edit.putInt(tireSizeSettings, 36);
+                            switchTireSize(28);
+                            edit.apply();
+                        } else if (tireIndex == 6) {
+                            edit.putInt(tireSizeSettings, 37);
+                            switchTireSize(29);
+                            edit.apply();
+                        }
+                    }
+                }
+            });
+
+
+            arrowRight3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+
+                    if (tireIndex >= 0 && tireIndex < 6) {
+                        tireIndex = tireIndex + 1;
+                        select3.setText(tireSize[tireIndex]);
+                        if (tireIndex == 0) {
+                            edit.putInt(tireSizeSettings, 31);
+                            switchTireSize(23);
+                            edit.apply();
+                        } else if (tireIndex == 1) {
+                            edit.putInt(tireSizeSettings, 32);
+                            switchTireSize(24);
+                            edit.apply();
+                        } else if (tireIndex == 2) {
+                            edit.putInt(tireSizeSettings, 33);
+                            switchTireSize(25);
+                            edit.apply();
+                        } else if (tireIndex == 3) {
+                            edit.putInt(tireSizeSettings, 34);
+                            switchTireSize(26);
+                            edit.apply();
+                        } else if (tireIndex == 4) {
+                            edit.putInt(tireSizeSettings, 35);
+                            switchTireSize(27);
+                            edit.apply();
+                        } else if (tireIndex == 5) {
+                            edit.putInt(tireSizeSettings, 36);
+                            switchTireSize(28);
+                            edit.apply();
+                        } else if (tireIndex == 6) {
+                            edit.putInt(tireSizeSettings, 37);
+                            switchTireSize(29);
+                            edit.apply();
+                        }
+                    }
+                }
+            });
+
+            //Selector 4
+            selector_words_fourth.setText("Fog Lights With High Beam");
+            final String[] fogLights = new String[2];
+            fogLights[0] = "No";
+            fogLights[1] = "Yes";
+            if (!isFogLights()) {
+                select4.setText(fogLights[0]);
+            } else if (isFogLights()) {
+                select4.setText(fogLights[1]);
+            }
+
+            arrowLeft4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select4.setText(fogLights[0]);
+                    edit.putBoolean(fogLightsSettings, true);
+                    switchFogLights(31);
+                    edit.apply();
+                }
+            });
+            arrowRight4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select4.setText(fogLights[1]);
+                    edit.putBoolean(fogLightsSettings, false);
+                    switchFogLights(30);
+                    edit.apply();
+                }
+            });
+        } else if (getVehicleType() == VGM2) {
+
+            arrowLeft2.setImageDrawable(null);
+            arrowLeft3.setImageDrawable(null);
+            arrowLeft4.setImageDrawable(null);
+            arrowRight2.setImageDrawable(null);
+            arrowRight3.setImageDrawable(null);
+            arrowRight4.setImageDrawable(null);
+
+            //Selector 1
+            selector_words_first.setText("TPMS Settings");
+            final String[] pressureTPMS = new String[12];
+            if (isMetric()) {
+                pressureTPMS[0] = "175 kPa";
+                pressureTPMS[1] = "205 kPa";
+                pressureTPMS[2] = "240 kPa";
+                pressureTPMS[4] = "275 kPa";
+                pressureTPMS[5] = "310 kPa";
+                pressureTPMS[3] = "345 kPa";
+                pressureTPMS[6] = "380 kPa";
+                pressureTPMS[7] = "405 kPa";
+                pressureTPMS[8] = "440 kPa";
+                pressureTPMS[9] = "475 kPa";
+                pressureTPMS[10] = "510 kPa";
+                pressureTPMS[11] = "545 kPa";
+                pressureTPMS[12] = "Disable";
+            } else {
+                pressureTPMS[0] = "25 psi";
+                pressureTPMS[1] = "30 psi";
+                pressureTPMS[2] = "35 psi";
+                pressureTPMS[4] = "45 psi";
+                pressureTPMS[5] = "50 psi";
+                pressureTPMS[3] = "40 psi";
+                pressureTPMS[6] = "55 psi";
+                pressureTPMS[7] = "60 psi";
+                pressureTPMS[8] = "65 psi";
+                pressureTPMS[9] = "70 psi";
+                pressureTPMS[10] = "75 psi";
+                pressureTPMS[11] = "80 psi";
+                pressureTPMS[12] = "Disable";
+            }
+            if (getTPMS() == 25) {
+                select1.setText(pressureTPMS[0]);
+                pressureTPMSIndex = 0;
+            } else if (getTPMS() == 30) {
+                select1.setText(pressureTPMS[1]);
+                pressureTPMSIndex = 1;
+            } else if (getTPMS() == 35) {
+                select1.setText(pressureTPMS[2]);
+                pressureTPMSIndex = 2;
+            } else if (getTPMS() == 40) {
+                select1.setText(pressureTPMS[3]);
+                pressureTPMSIndex = 3;
+            } else if (getTPMS() == 45) {
+                select1.setText(pressureTPMS[4]);
+                pressureTPMSIndex = 4;
+            } else if (getTPMS() == 50) {
+                select1.setText(pressureTPMS[5]);
+                pressureTPMSIndex = 5;
+            } else if (getTPMS() == 55) {
+                select1.setText(pressureTPMS[6]);
+                pressureTPMSIndex = 6;
+            } else if (getTPMS() == 60) {
+                select1.setText(pressureTPMS[7]);
+                pressureTPMSIndex = 7;
+            } else if (getTPMS() == 65) {
+                select1.setText(pressureTPMS[8]);
+                pressureTPMSIndex = 8;
+            } else if (getTPMS() == 70) {
+                select1.setText(pressureTPMS[9]);
+                pressureTPMSIndex = 9;
+            } else if (getTPMS() == 75) {
+                select1.setText(pressureTPMS[10]);
+                pressureTPMSIndex = 10;
+            } else if (getTPMS() == 80) {
+                select1.setText(pressureTPMS[11]);
+                pressureTPMSIndex = 11;
+            }
+            arrowLeft1.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 11) {
+                        pressureTPMSIndex = pressureTPMSIndex - 1;
+                        select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        switch (pressureTPMSIndex) {
+                            case 0:
+                                edit.putInt(tpmsSettings, 25);
+                                switchTpms(10);
+                                edit.apply();
+                                break;
+                            case 1:
+                                edit.putInt(tpmsSettings, 30);
+                                switchTpms(11);
+                                edit.apply();
+                                break;
+                            case 2:
+                                edit.putInt(tpmsSettings, 35);
+                                switchTpms(12);
+                                edit.apply();
+                                break;
+                            case 3:
+                                edit.putInt(tpmsSettings, 40);
+                                switchTpms(13);
+                                edit.apply();
+                                break;
+                            case 4:
+                                edit.putInt(tpmsSettings, 45);
+                                switchTpms(14);
+                                edit.apply();
+                                break;
+                            case 5:
+                                edit.putInt(tpmsSettings, 50);
+                                switchTpms(15);
+                                edit.apply();
+                                break;
+                            case 6:
+                                edit.putInt(tpmsSettings, 55);
+                                switchTpms(16);
+                                edit.apply();
+                                break;
+                            case 7:
+                                edit.putInt(tpmsSettings, 60);
+                                switchTpms(17);
+                                edit.apply();
+                                break;
+                            case 8:
+                                edit.putInt(tpmsSettings, 65);
+                                switchTpms(18);
+                                edit.apply();
+                                break;
+                            case 9:
+                                edit.putInt(tpmsSettings, 70);
+                                switchTpms(19);
+                                edit.apply();
+                                break;
+                            case 10:
+                                edit.putInt(tpmsSettings, 75);
+                                switchTpms(20);
+                                edit.apply();
+                                break;
+                            case 11:
+                                edit.putInt(tpmsSettings, 80);
+                                switchTpms(21);
+                                edit.apply();
+                                break;
+                        }
+                    }
+                }
+            });
+            arrowRight1.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 11) {
+                        pressureTPMSIndex = pressureTPMSIndex + 1;
+                        select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        switch (pressureTPMSIndex) {
+                            case 0:
+                                edit.putInt(tpmsSettings, 25);
+                                switchTpms(10);
+                                edit.apply();
+                                break;
+                            case 1:
+                                edit.putInt(tpmsSettings, 30);
+                                switchTpms(11);
+                                edit.apply();
+                                break;
+                            case 2:
+                                edit.putInt(tpmsSettings, 35);
+                                switchTpms(12);
+                                edit.apply();
+                                break;
+                            case 3:
+                                edit.putInt(tpmsSettings, 40);
+                                switchTpms(13);
+                                edit.apply();
+                                break;
+                            case 4:
+                                edit.putInt(tpmsSettings, 45);
+                                switchTpms(14);
+                                edit.apply();
+                                break;
+                            case 5:
+                                edit.putInt(tpmsSettings, 50);
+                                switchTpms(15);
+                                edit.apply();
+                                break;
+                            case 6:
+                                edit.putInt(tpmsSettings, 55);
+                                switchTpms(16);
+                                edit.apply();
+                                break;
+                            case 7:
+                                edit.putInt(tpmsSettings, 60);
+                                switchTpms(17);
+                                edit.apply();
+                                break;
+                            case 8:
+                                edit.putInt(tpmsSettings, 65);
+                                switchTpms(18);
+                                edit.apply();
+                                break;
+                            case 9:
+                                edit.putInt(tpmsSettings, 70);
+                                switchTpms(19);
+                                edit.apply();
+                                break;
+                            case 10:
+                                edit.putInt(tpmsSettings, 75);
+                                switchTpms(20);
+                                edit.apply();
+                                break;
+                            case 11:
+                                edit.putInt(tpmsSettings, 80);
+                                switchTpms(21);
+                                edit.apply();
+                                break;
+                        }
+                    }
+                }
+            });
+
+            //Selector 2
+            selector_words_second.setText("Fog Lights With High Beam (Currently Only For 2015-2016");
+            final String[] fogLights = new String[2];
+            fogLights[0] = "No";
+            fogLights[1] = "Yes";
+            if (!isFogLights()) {
+                select2.setText(fogLights[0]);
+            } else if (isFogLights()) {
+                select2.setText(fogLights[1]);
+            }
+
+            arrowLeft2.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select2.setText(fogLights[0]);
+                    edit.putBoolean(fogLightsSettings, true);
+                    switchFogLights(31);
+                    edit.apply();
+                }
+            });
+            arrowRight2.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select2.setText(fogLights[1]);
+                    edit.putBoolean(fogLightsSettings, false);
+                    switchFogLights(30);
+                    edit.apply();
+                }
+            });
+
+        } else if (getVehicleType() == VRAM) {
+
+            arrowLeft4.setImageDrawable(null);
+            arrowRight4.setImageDrawable(null);
+
+            //Selector 1
+            selector_words_first.setText("TPMS Settings");
+            final String[] pressureTPMS = new String[13];
+            if (isMetric()) {
+                pressureTPMS[0] = "175 kPa";
+                pressureTPMS[1] = "205 kPa";
+                pressureTPMS[2] = "240 kPa";
+                pressureTPMS[4] = "275 kPa";
+                pressureTPMS[5] = "310 kPa";
+                pressureTPMS[3] = "345 kPa";
+                pressureTPMS[6] = "380 kPa";
+                pressureTPMS[7] = "405 kPa";
+                pressureTPMS[8] = "440 kPa";
+                pressureTPMS[9] = "475 kPa";
+                pressureTPMS[10] = "510 kPa";
+                pressureTPMS[11] = "545 kPa";
+                pressureTPMS[12] = "Disable";
+            } else {
+                pressureTPMS[0] = "25 psi";
+                pressureTPMS[1] = "30 psi";
+                pressureTPMS[2] = "35 psi";
+                pressureTPMS[4] = "45 psi";
+                pressureTPMS[5] = "50 psi";
+                pressureTPMS[3] = "40 psi";
+                pressureTPMS[6] = "55 psi";
+                pressureTPMS[7] = "60 psi";
+                pressureTPMS[8] = "65 psi";
+                pressureTPMS[9] = "70 psi";
+                pressureTPMS[10] = "75 psi";
+                pressureTPMS[11] = "80 psi";
+                pressureTPMS[12] = "Disable";
+            }
+            if (getTPMS() == 25) {
+                select1.setText(pressureTPMS[0]);
+                pressureTPMSIndex = 0;
+            } else if (getTPMS() == 30) {
+                select1.setText(pressureTPMS[1]);
+                pressureTPMSIndex = 1;
+            } else if (getTPMS() == 35) {
+                select1.setText(pressureTPMS[2]);
+                pressureTPMSIndex = 2;
+            } else if (getTPMS() == 40) {
+                select1.setText(pressureTPMS[3]);
+                pressureTPMSIndex = 3;
+            } else if (getTPMS() == 45) {
+                select1.setText(pressureTPMS[4]);
+                pressureTPMSIndex = 4;
+            } else if (getTPMS() == 50) {
+                select1.setText(pressureTPMS[5]);
+                pressureTPMSIndex = 5;
+            } else if (getTPMS() == 55) {
+                select1.setText(pressureTPMS[6]);
+                pressureTPMSIndex = 6;
+            } else if (getTPMS() == 60) {
+                select1.setText(pressureTPMS[7]);
+                pressureTPMSIndex = 7;
+            } else if (getTPMS() == 65) {
+                select1.setText(pressureTPMS[8]);
+                pressureTPMSIndex = 8;
+            } else if (getTPMS() == 70) {
+                select1.setText(pressureTPMS[9]);
+                pressureTPMSIndex = 9;
+            } else if (getTPMS() == 75) {
+                select1.setText(pressureTPMS[10]);
+                pressureTPMSIndex = 10;
+            } else if (getTPMS() == 80) {
+                select1.setText(pressureTPMS[11]);
+                pressureTPMSIndex = 11;
+            } else if (getTPMS() == 0) {
+                select1.setText(pressureTPMS[12]);
+                pressureTPMSIndex = 12;
+            }
+            arrowLeft1.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
+                        pressureTPMSIndex = pressureTPMSIndex - 1;
+                        select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        if (pressureTPMSIndex == 0) {
+                            edit.putInt(tpmsSettings, 25);
+                            switchTpms(10);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 1) {
+                            edit.putInt(tpmsSettings, 30);
+                            switchTpms(11);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 2) {
+                            edit.putInt(tpmsSettings, 35);
+                            switchTpms(12);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 3) {
+                            edit.putInt(tpmsSettings, 40);
+                            switchTpms(13);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 4) {
+                            edit.putInt(tpmsSettings, 45);
+                            switchTpms(14);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 5) {
+                            edit.putInt(tpmsSettings, 50);
+                            switchTpms(15);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 6) {
+                            edit.putInt(tpmsSettings, 55);
+                            switchTpms(16);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 7) {
+                            edit.putInt(tpmsSettings, 60);
+                            switchTpms(17);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 8) {
+                            edit.putInt(tpmsSettings, 65);
+                            switchTpms(18);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 9) {
+                            edit.putInt(tpmsSettings, 70);
+                            switchTpms(19);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 10) {
+                            edit.putInt(tpmsSettings, 75);
+                            switchTpms(20);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 11) {
+                            edit.putInt(tpmsSettings, 80);
+                            switchTpms(21);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 12) {
+                            edit.putInt(tpmsSettings, 0);
+                            switchTpms(22);
+                            edit.apply();
+                        }
+                    }
+                }
+            });
+            arrowRight1.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
+                        pressureTPMSIndex = pressureTPMSIndex + 1;
+                        select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        if (pressureTPMSIndex == 0) {
+                            edit.putInt(tpmsSettings, 25);
+                            switchTpms(10);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 1) {
+                            edit.putInt(tpmsSettings, 30);
+                            switchTpms(11);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 2) {
+                            edit.putInt(tpmsSettings, 35);
+                            switchTpms(12);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 3) {
+                            edit.putInt(tpmsSettings, 40);
+                            switchTpms(13);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 4) {
+                            edit.putInt(tpmsSettings, 45);
+                            switchTpms(14);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 5) {
+                            edit.putInt(tpmsSettings, 50);
+                            switchTpms(15);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 6) {
+                            edit.putInt(tpmsSettings, 55);
+                            switchTpms(16);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 7) {
+                            edit.putInt(tpmsSettings, 60);
+                            switchTpms(17);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 8) {
+                            edit.putInt(tpmsSettings, 65);
+                            switchTpms(18);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 9) {
+                            edit.putInt(tpmsSettings, 70);
+                            switchTpms(19);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 10) {
+                            edit.putInt(tpmsSettings, 75);
+                            switchTpms(20);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 11) {
+                            edit.putInt(tpmsSettings, 80);
+                            switchTpms(21);
+                            edit.apply();
+                        } else if (pressureTPMSIndex == 12) {
+                            edit.putInt(tpmsSettings, 0);
+                            switchTpms(22);
+                            edit.apply();
+                        }
+                    }
+                }
+            });
+
+            //Selector 2
+            selector_words_second.setText("Tire Size");
+            final String[] tireSize = new String[7];
+            if (isMetric()) {
+                tireSize[0] = "800 mm";
+                tireSize[1] = "825 mm";
+                tireSize[2] = "850 mm";
+                tireSize[3] = "875 mm";
+                tireSize[4] = "900 mm";
+                tireSize[5] = "925 mm";
+                tireSize[6] = "950 mm";
+            } else {
+                tireSize[0] = "31\"";
+                tireSize[1] = "32\"";
+                tireSize[2] = "33\"";
+                tireSize[3] = "34\"";
+                tireSize[4] = "35\"";
+                tireSize[5] = "36\"";
+                tireSize[6] = "37\"";
+            }
+            if (getTireSize() == 31) {
+                select2.setText(tireSize[0]);
+                tireIndex = 0;
+            } else if (getTireSize() == 32) {
+                select2.setText(tireSize[1]);
+                tireIndex = 1;
+            } else if (getTireSize() == 33) {
+                select2.setText(tireSize[2]);
+                tireIndex = 2;
+            } else if (getTireSize() == 34) {
+                select2.setText(tireSize[3]);
+                tireIndex = 3;
+            } else if (getTireSize() == 35) {
+                select2.setText(tireSize[4]);
+                tireIndex = 4;
+            } else if (getTireSize() == 36) {
+                select2.setText(tireSize[5]);
+                tireIndex = 5;
+            } else if (getTireSize() == 37) {
+                select2.setText(tireSize[6]);
+                tireIndex = 6;
+            }
+            arrowLeft2.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+
+                    if (tireIndex > 0 && tireIndex <= 6) {
+                        tireIndex = tireIndex - 1;
+                        select2.setText(tireSize[tireIndex]);
+                        if (tireIndex == 0) {
+                            edit.putInt(tireSizeSettings, 31);
+                            switchTireSize(23);
+                            edit.apply();
+                        } else if (tireIndex == 1) {
+                            edit.putInt(tireSizeSettings, 32);
+                            switchTireSize(24);
+                            edit.apply();
+                        } else if (tireIndex == 2) {
+                            edit.putInt(tireSizeSettings, 33);
+                            switchTireSize(25);
+                            edit.apply();
+                        } else if (tireIndex == 3) {
+                            edit.putInt(tireSizeSettings, 34);
+                            switchTireSize(26);
+                            edit.apply();
+                        } else if (tireIndex == 4) {
+                            edit.putInt(tireSizeSettings, 35);
+                            switchTireSize(27);
+                            edit.apply();
+                        } else if (tireIndex == 5) {
+                            edit.putInt(tireSizeSettings, 36);
+                            switchTireSize(28);
+                            edit.apply();
+                        } else if (tireIndex == 6) {
+                            edit.putInt(tireSizeSettings, 37);
+                            switchTireSize(29);
+                            edit.apply();
+                        }
+                    }
+                }
+            });
+
+
+            arrowRight2.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+
+                    if (tireIndex >= 0 && tireIndex < 6) {
+                        tireIndex = tireIndex + 1;
+                        select2.setText(tireSize[tireIndex]);
+                        if (tireIndex == 0) {
+                            edit.putInt(tireSizeSettings, 31);
+                            switchTireSize(23);
+                            edit.apply();
+                        } else if (tireIndex == 1) {
+                            edit.putInt(tireSizeSettings, 32);
+                            switchTireSize(24);
+                            edit.apply();
+                        } else if (tireIndex == 2) {
+                            edit.putInt(tireSizeSettings, 33);
+                            switchTireSize(25);
+                            edit.apply();
+                        } else if (tireIndex == 3) {
+                            edit.putInt(tireSizeSettings, 34);
+                            switchTireSize(26);
+                            edit.apply();
+                        } else if (tireIndex == 4) {
+                            edit.putInt(tireSizeSettings, 35);
+                            switchTireSize(27);
+                            edit.apply();
+                        } else if (tireIndex == 5) {
+                            edit.putInt(tireSizeSettings, 36);
+                            switchTireSize(28);
+                            edit.apply();
+                        } else if (tireIndex == 6) {
+                            edit.putInt(tireSizeSettings, 37);
+                            switchTireSize(29);
+                            edit.apply();
+                        }
+                    }
+                }
+            });
+
+            //Selector 3
+            selector_words_second.setText("Fog Lights With High Beam");
+            final String[] fogLights = new String[2];
+            fogLights[0] = "No";
+            fogLights[1] = "Yes";
+            if (!isFogLights()) {
+                select3.setText(fogLights[0]);
+            } else if (isFogLights()) {
+                select3.setText(fogLights[1]);
+            }
+
+            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select3.setText(fogLights[0]);
+                    edit.putBoolean(fogLightsSettings, true);
+                    switchFogLights(31);
+                    edit.apply();
+                }
+            });
+            arrowRight3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select3.setText(fogLights[1]);
+                    edit.putBoolean(fogLightsSettings, false);
+                    switchFogLights(30);
+                    edit.apply();
+                }
+            });
+
         }
     }
 
@@ -1412,11 +1186,6 @@ public class FeaturesFragment extends Fragment {
     public boolean isLampCurrent() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(lampCurrentSettings, false);
-    }
-
-    public boolean isRead() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(readSettings, false);
     }
 
     public boolean isFogLights() {

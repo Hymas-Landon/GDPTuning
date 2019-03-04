@@ -43,7 +43,6 @@ public class FeaturesFragment2 extends Fragment {
     final String url = "http://192.168.7.1";
     final String themeColor = "ThemeColor";
     final String vehicleSettings = "vehicle";
-    final String readSettingsSettings = "read_settings";
     final String daytimeLightsSettings = "daytime_lights";
     final String remoteStartSettings = "remote_start";
     final String navOverrideSettings = "nav_override";
@@ -52,7 +51,6 @@ public class FeaturesFragment2 extends Fragment {
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
-    Button btn_home;
     WifiManager wifi;
     TextView select1, select2, select3, select4, selector_words_first_2, selector_words_second_2,
             selector_words_third_2, selector_words_fourth_2;
@@ -98,7 +96,7 @@ public class FeaturesFragment2 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
-        if (!isRead()) {
+        if (!isConnected) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
                 selector_words_first_2.setText("Daytime Running Light Configuration");
@@ -282,7 +280,7 @@ public class FeaturesFragment2 extends Fragment {
                     }
                 });
             }
-        } else if (isRead()) {
+        } else if (isConnected) {
             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                 //Selector 1
                 selector_words_first_2.setText("Daytime Running Light Configuration");
@@ -751,11 +749,6 @@ public class FeaturesFragment2 extends Fragment {
     public boolean isRemoteWindow() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(remoteWindowSettings, false);
-    }
-
-    public boolean isRead() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(readSettingsSettings, false);
     }
 
     //Send to sGDP server to verify connection

@@ -54,7 +54,7 @@ public class FeaturesFragment3 extends Fragment {
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
-    Button btn_home, key_fob;
+    Button key_fob;
     ToggleButton toggle_high_idle, toggle_secure_idle;
     WifiManager wifi;
     TextView select1, select2, select3, select4, select5, selector_words_first_3, selector_words_second_3, selector_words_third_3, selector_words_fourth_3, selector_words_fifth_3;

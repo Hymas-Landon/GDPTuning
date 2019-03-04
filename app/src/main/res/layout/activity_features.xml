@@ -78,17 +78,6 @@
         android:textSize="24dp" />
 
     <Button
-        android:id="@+id/read_settings"
-        android:layout_width="250dp"
-        android:layout_height="45dp"
-        android:layout_alignEnd="@id/program_features"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="270dp"
-        android:layout_marginBottom="35dp"
-        android:text="@string/read_settings"
-        android:textSize="24dp" />
-
-    <Button
         android:id="@+id/default_settings"
         android:layout_width="250dp"
         android:layout_height="45dp"

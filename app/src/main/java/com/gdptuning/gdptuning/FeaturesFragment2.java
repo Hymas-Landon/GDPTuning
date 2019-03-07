@@ -11,10 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -53,7 +52,7 @@ public class FeaturesFragment2 extends Fragment {
     RequestQueue queue;
     WifiManager wifi;
     TextView select1, select2, select3, select4, selector_words_first_2, selector_words_second_2,
-            selector_words_third_2, selector_words_fourth_2;
+            selector_words_third_2, selector_words_fourth_2, actual1, actual2, actual3, actual4;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3, arrowLeft4, arrowRight4;
     Timer timer;
     private int daytimeLightIndex;
@@ -74,6 +73,10 @@ public class FeaturesFragment2 extends Fragment {
         select2 = mView.findViewById(R.id.selector2);
         select3 = mView.findViewById(R.id.selector3);
         select4 = mView.findViewById(R.id.selector4);
+        actual1 = mView.findViewById(R.id.actual1);
+        actual2 = mView.findViewById(R.id.actual2);
+        actual3 = mView.findViewById(R.id.actual3);
+        actual4 = mView.findViewById(R.id.actual4);
         selector_words_first_2 = mView.findViewById(R.id.first_selector_features_2);
         selector_words_second_2 = mView.findViewById(R.id.second_selector_features_2);
         selector_words_third_2 = mView.findViewById(R.id.third_selector_features_2);
@@ -96,632 +99,461 @@ public class FeaturesFragment2 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
-        if (!isConnected) {
-            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                //Selector 1
-                selector_words_first_2.setText("Daytime Running Light Configuration");
-                final String[] pressureTPMS = new String[1];
-                pressureTPMS[0] = "0";
-                select1.setText(pressureTPMS[0]);
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
+        updateSettingsRequest();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isConnected) {
+                    if (!isProcessing) {
+                        Log.d("TEST2 :", "Sending request");
+                        updateSettingsRequest();
                     }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                //Selector 2
-                selector_words_second_2.setText("Remote Start Duration");
-                final String[] lampOutageDisable = new String[1];
-                lampOutageDisable[0] = "0";
-                select2.setText(lampOutageDisable[0]);
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                //Selector 3
-                selector_words_third_2.setText("Navigation Override (Destination Entry While Driving)");
-                final String[] tireSize = new String[1];
-                tireSize[0] = "0";
-                select3.setText(tireSize[0]);
-
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                //Selector 4
-                selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "0";
-                select4.setText(fogLights[0]);
-
-                arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-                arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-            } else if (getVehicleType() == VGM2) {
-
-                arrowLeft2.setImageDrawable(null);
-                arrowLeft3.setImageDrawable(null);
-                arrowLeft4.setImageDrawable(null);
-                arrowRight2.setImageDrawable(null);
-                arrowRight3.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
-
-                //Selector 1
-                selector_words_first_2.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[1];
-                pressureTPMS[0] = "0";
-                select1.setText(pressureTPMS[0]);
-
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-            } else if (getVehicleType() == VRAM) {
-
-                arrowLeft4.setImageDrawable(null);
-                arrowRight4.setImageDrawable(null);
-
-                //Selector 1
-                selector_words_first_2.setText("TPMS Settings");
-                final String[] pressureTPMS = new String[1];
-                pressureTPMS[0] = "0";
-                select1.setText(pressureTPMS[0]);
-
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                //Selector 2
-                selector_words_second_2.setText("Tire Size");
-                final String[] tireSize = new String[1];
-                tireSize[0] = "0";
-                select2.setText(tireSize[0]);
-
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-                //Selector 3
-                selector_words_third_2.setText("Fog Lights With High Beam");
-                final String[] fogLights = new String[2];
-                fogLights[0] = "0";
-                select3.setText(fogLights[0]);
-
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View mView) {
-                        Toast toast = Toast.makeText(getActivity(), "You must first 'READ SETTINGS' from the current settings on your Vehicle", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
+                }
             }
-        } else if (isConnected) {
-            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                //Selector 1
-                selector_words_first_2.setText("Daytime Running Light Configuration");
-                final String[] daytimeLight = new String[7];
-                daytimeLight[0] = "Low Beam";
-                daytimeLight[1] = "Fog Lights";
-                daytimeLight[2] = "Dedicated LED";
-                daytimeLight[3] = "Turn Signals";
-                daytimeLight[4] = "Disabled";
-                if (getDaytimeLights() == 0) {
-                    select1.setText(daytimeLight[0]);
-                    daytimeLightIndex = 0;
-                } else if (getDaytimeLights() == 1) {
-                    select1.setText(daytimeLight[1]);
-                    daytimeLightIndex = 1;
-                } else if (getDaytimeLights() == 2) {
-                    select1.setText(daytimeLight[2]);
-                    daytimeLightIndex = 2;
-                } else if (getDaytimeLights() == 3) {
-                    select1.setText(daytimeLight[3]);
-                    daytimeLightIndex = 3;
-                } else if (getDaytimeLights() == 4) {
-                    select1.setText(daytimeLight[4]);
-                    daytimeLightIndex = 4;
+        }, 0, 350);//put here time 1000 milliseconds=1 second
+
+
+        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+            //Selector 1
+            selector_words_first_2.setText("Daytime Running Light Configuration");
+            final String[] daytimeLight = new String[7];
+            daytimeLight[0] = "Low Beam";
+            daytimeLight[1] = "Fog Lights";
+            daytimeLight[2] = "Dedicated LED";
+            daytimeLight[3] = "Turn Signals";
+            daytimeLight[4] = "Disabled";
+            if (getDaytimeLights() == 0) {
+                select1.setText(daytimeLight[0]);
+                daytimeLightIndex = 0;
+            } else if (getDaytimeLights() == 1) {
+                select1.setText(daytimeLight[1]);
+                daytimeLightIndex = 1;
+            } else if (getDaytimeLights() == 2) {
+                select1.setText(daytimeLight[2]);
+                daytimeLightIndex = 2;
+            } else if (getDaytimeLights() == 3) {
+                select1.setText(daytimeLight[3]);
+                daytimeLightIndex = 3;
+            } else if (getDaytimeLights() == 4) {
+                select1.setText(daytimeLight[4]);
+                daytimeLightIndex = 4;
+            }
+            arrowLeft1.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
+                        daytimeLightIndex = daytimeLightIndex - 1;
+                        select1.setText(daytimeLight[daytimeLightIndex]);
+                        if (daytimeLightIndex == 0) {
+                            edit.putInt(daytimeLightsSettings, 1);
+                            switchDayTime(34);
+                        } else if (daytimeLightIndex == 1) {
+                            edit.putInt(daytimeLightsSettings, 2);
+                            switchDayTime(35);
+                        } else if (daytimeLightIndex == 2) {
+                            edit.putInt(daytimeLightsSettings, 3);
+                            switchDayTime(38);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 4);
+                            switchDayTime(36);
+                        } else if (daytimeLightIndex == 4) {
+                            edit.putInt(daytimeLightsSettings, 5);
+                            switchDayTime(37);
+                        }
+                        edit.apply();
+                    }
                 }
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
+            });
+            arrowRight1.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
-                            daytimeLightIndex = daytimeLightIndex - 1;
-                            select1.setText(daytimeLight[daytimeLightIndex]);
-                            if (daytimeLightIndex == 0) {
-                                edit.putInt(daytimeLightsSettings, 1);
-                                switchDayTime(34);
-                            } else if (daytimeLightIndex == 1) {
-                                edit.putInt(daytimeLightsSettings, 2);
-                                switchDayTime(35);
-                            } else if (daytimeLightIndex == 2) {
-                                edit.putInt(daytimeLightsSettings, 3);
-                                switchDayTime(38);
-                            } else if (daytimeLightIndex == 3) {
-                                edit.putInt(daytimeLightsSettings, 4);
-                                switchDayTime(36);
-                            } else if (daytimeLightIndex == 4) {
-                                edit.putInt(daytimeLightsSettings, 5);
-                                switchDayTime(37);
-                            }
-                            edit.apply();
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
+                        daytimeLightIndex = daytimeLightIndex + 1;
+                        select1.setText(daytimeLight[daytimeLightIndex]);
+                        if (daytimeLightIndex == 0) {
+                            edit.putInt(daytimeLightsSettings, 1);
+                            switchDayTime(34);
+                        } else if (daytimeLightIndex == 1) {
+                            edit.putInt(daytimeLightsSettings, 2);
+                            switchDayTime(35);
+                        } else if (daytimeLightIndex == 2) {
+                            edit.putInt(daytimeLightsSettings, 3);
+                            switchDayTime(38);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 4);
+                            switchDayTime(36);
+                        } else if (daytimeLightIndex == 4) {
+                            edit.putInt(daytimeLightsSettings, 5);
+                            switchDayTime(37);
                         }
+                        edit.apply();
                     }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
-                            daytimeLightIndex = daytimeLightIndex + 1;
-                            select1.setText(daytimeLight[daytimeLightIndex]);
-                            if (daytimeLightIndex == 0) {
-                                edit.putInt(daytimeLightsSettings, 1);
-                                switchDayTime(34);
-                            } else if (daytimeLightIndex == 1) {
-                                edit.putInt(daytimeLightsSettings, 2);
-                                switchDayTime(35);
-                            } else if (daytimeLightIndex == 2) {
-                                edit.putInt(daytimeLightsSettings, 3);
-                                switchDayTime(38);
-                            } else if (daytimeLightIndex == 3) {
-                                edit.putInt(daytimeLightsSettings, 4);
-                                switchDayTime(36);
-                            } else if (daytimeLightIndex == 4) {
-                                edit.putInt(daytimeLightsSettings, 5);
-                                switchDayTime(37);
-                            }
-                            edit.apply();
-                        }
-                    }
-                });
-
-
-                //Selector 2
-                selector_words_second_2.setText("Remote Start Duration");
-                final String[] remoteStart = new String[7];
-                remoteStart[0] = "5 Minutes";
-                remoteStart[1] = "10 Minutes";
-                remoteStart[2] = "15 Minutes";
-                if (getRemoteStart() == 1) {
-                    select2.setText(remoteStart[0]);
-                    remoteStartIndex = 0;
-                } else if (getRemoteStart() == 2) {
-                    select2.setText(remoteStart[1]);
-                    remoteStartIndex = 1;
-                } else if (getRemoteStart() == 3) {
-                    select2.setText(remoteStart[2]);
-                    remoteStartIndex = 2;
                 }
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
+            });
 
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
-                            remoteStartIndex = remoteStartIndex - 1;
-                            select2.setText(remoteStart[remoteStartIndex]);
-                            if (remoteStartIndex == 0) {
-                                edit.putInt(remoteStartSettings, 1);
-                                switchRemoteStart(41);
-                            } else if (remoteStartIndex == 1) {
-                                edit.putInt(remoteStartSettings, 2);
-                                switchRemoteStart(42);
-                            } else if (remoteStartIndex == 2) {
-                                edit.putInt(remoteStartSettings, 3);
-                                switchRemoteStart(43);
-                            }
-                            edit.apply();
+
+            //Selector 2
+            selector_words_second_2.setText("Remote Start Duration");
+            final String[] remoteStart = new String[7];
+            remoteStart[0] = "5 Minutes";
+            remoteStart[1] = "10 Minutes";
+            remoteStart[2] = "15 Minutes";
+            if (getRemoteStart() == 1) {
+                select2.setText(remoteStart[0]);
+                remoteStartIndex = 0;
+            } else if (getRemoteStart() == 2) {
+                select2.setText(remoteStart[1]);
+                remoteStartIndex = 1;
+            } else if (getRemoteStart() == 3) {
+                select2.setText(remoteStart[2]);
+                remoteStartIndex = 2;
+            }
+            arrowLeft2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
+                        remoteStartIndex = remoteStartIndex - 1;
+                        select2.setText(remoteStart[remoteStartIndex]);
+                        if (remoteStartIndex == 0) {
+                            edit.putInt(remoteStartSettings, 1);
+                            switchRemoteStart(41);
+                        } else if (remoteStartIndex == 1) {
+                            edit.putInt(remoteStartSettings, 2);
+                            switchRemoteStart(42);
+                        } else if (remoteStartIndex == 2) {
+                            edit.putInt(remoteStartSettings, 3);
+                            switchRemoteStart(43);
                         }
+                        edit.apply();
                     }
-                });
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
+                }
+            });
+            arrowRight2.setOnClickListener(new View.OnClickListener() {
 
 
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
-                            remoteStartIndex = remoteStartIndex + 1;
-                            select2.setText(remoteStart[remoteStartIndex]);
-                            if (remoteStartIndex == 0) {
-                                edit.putInt(remoteStartSettings, 1);
-                                switchRemoteStart(41);
-                            } else if (remoteStartIndex == 1) {
-                                edit.putInt(remoteStartSettings, 2);
-                                switchRemoteStart(42);
-                            } else if (remoteStartIndex == 2) {
-                                edit.putInt(remoteStartSettings, 3);
-                                switchRemoteStart(43);
-                            }
-                            edit.apply();
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
+                        remoteStartIndex = remoteStartIndex + 1;
+                        select2.setText(remoteStart[remoteStartIndex]);
+                        if (remoteStartIndex == 0) {
+                            edit.putInt(remoteStartSettings, 1);
+                            switchRemoteStart(41);
+                        } else if (remoteStartIndex == 1) {
+                            edit.putInt(remoteStartSettings, 2);
+                            switchRemoteStart(42);
+                        } else if (remoteStartIndex == 2) {
+                            edit.putInt(remoteStartSettings, 3);
+                            switchRemoteStart(43);
                         }
+                        edit.apply();
                     }
-                });
+                }
+            });
 
-                //Selector 3
-                selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
-                final String[] navOverride = new String[2];
-                navOverride[0] = "NO";
-                navOverride[1] = "YES";
-                if (!isNavOverride()) {
+            //Selector 3
+            selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
+            final String[] navOverride = new String[2];
+            navOverride[0] = "No";
+            navOverride[1] = "Yes";
+            if (!isNavOverride()) {
+                select3.setText(navOverride[0]);
+            } else if (isNavOverride()) {
+                select3.setText(navOverride[1]);
+            }
+            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
                     select3.setText(navOverride[0]);
-                } else if (isNavOverride()) {
+                    edit.putBoolean(navOverrideSettings, true);
+                    switchNavOverride(45);
+                    edit.apply();
+                }
+            });
+            arrowRight3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
                     select3.setText(navOverride[1]);
+                    edit.putBoolean(navOverrideSettings, false);
+                    switchNavOverride(44);
+                    edit.apply();
                 }
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+            });
 
-                    @Override
-                    public void onClick(View mView) {
-                        select3.setText(navOverride[0]);
-                        edit.putBoolean(navOverrideSettings, true);
-                        switchNavOverride(45);
-                        edit.apply();
-                    }
-                });
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select3.setText(navOverride[1]);
-                        edit.putBoolean(navOverrideSettings, false);
-                        switchNavOverride(44);
-                        edit.apply();
-                    }
-                });
-
-                //Selector 4
-                selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
-                final String[] remoteWindow = new String[2];
-                remoteWindow[0] = "NO";
-                remoteWindow[1] = "YES";
-                if (!isRemoteWindow()) {
-                    select4.setText(remoteWindow[0]);
-                } else if (isRemoteWindow()) {
-                    select4.setText(remoteWindow[1]);
-                }
-                arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select4.setText(remoteWindow[0]);
-                        edit.putBoolean(remoteWindowSettings, true);
-                        switchWindowUpDown(40);
-                        edit.apply();
-                    }
-                });
-                arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select4.setText(remoteWindow[1]);
-                        edit.putBoolean(remoteWindowSettings, false);
-                        switchWindowUpDown(39);
-                        edit.apply();
-                    }
-                });
+            //Selector 4
+            selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
+            final String[] remoteWindow = new String[2];
+            remoteWindow[0] = "No";
+            remoteWindow[1] = "Yes";
+            if (!isRemoteWindow()) {
+                select4.setText(remoteWindow[0]);
+            } else if (isRemoteWindow()) {
+                select4.setText(remoteWindow[1]);
             }
+            arrowLeft4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
 
-            if (getVehicleType() == VGM2) {
-                //Selector 1
-                selector_words_first_2.setText("Daytime Running Light Configuration");
-                final String[] daytimeLight = new String[7];
-                daytimeLight[0] = "Low Beam";
-                daytimeLight[1] = "Fog Lights";
-                daytimeLight[2] = "Dedicated LED";
-                daytimeLight[3] = "Turn Signals";
-                daytimeLight[4] = "Disabled";
-                if (getDaytimeLights() == 0) {
-                    select1.setText(daytimeLight[0]);
-                    daytimeLightIndex = 0;
-                } else if (getDaytimeLights() == 1) {
-                    select1.setText(daytimeLight[1]);
-                    daytimeLightIndex = 1;
-                } else if (getDaytimeLights() == 2) {
-                    select1.setText(daytimeLight[2]);
-                    daytimeLightIndex = 2;
-                } else if (getDaytimeLights() == 3) {
-                    select1.setText(daytimeLight[3]);
-                    daytimeLightIndex = 3;
-                } else if (getDaytimeLights() == 4) {
-                    select1.setText(daytimeLight[4]);
-                    daytimeLightIndex = 4;
+                @Override
+                public void onClick(View mView) {
+                    select4.setText(remoteWindow[0]);
+                    edit.putBoolean(remoteWindowSettings, true);
+                    switchWindowUpDown(40);
+                    edit.apply();
                 }
-                arrowLeft1.setOnClickListener(new View.OnClickListener() {
+            });
+            arrowRight4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
 
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
-                            daytimeLightIndex = daytimeLightIndex - 1;
-                            select1.setText(daytimeLight[daytimeLightIndex]);
-                            if (daytimeLightIndex == 0) {
-                                edit.putInt(daytimeLightsSettings, 1);
-                                switchDayTime(34);
-                            } else if (daytimeLightIndex == 1) {
-                                edit.putInt(daytimeLightsSettings, 2);
-                                switchDayTime(35);
-                            } else if (daytimeLightIndex == 2) {
-                                edit.putInt(daytimeLightsSettings, 3);
-                                switchDayTime(38);
-                            } else if (daytimeLightIndex == 3) {
-                                edit.putInt(daytimeLightsSettings, 4);
-                                switchDayTime(36);
-                            } else if (daytimeLightIndex == 4) {
-                                edit.putInt(daytimeLightsSettings, 5);
-                                switchDayTime(37);
-                            }
-                            edit.apply();
-                        }
-                    }
-                });
-                arrowRight1.setOnClickListener(new View.OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
-                            daytimeLightIndex = daytimeLightIndex + 1;
-                            select1.setText(daytimeLight[daytimeLightIndex]);
-                            if (daytimeLightIndex == 0) {
-                                edit.putInt(daytimeLightsSettings, 1);
-                                switchDayTime(34);
-                            } else if (daytimeLightIndex == 1) {
-                                edit.putInt(daytimeLightsSettings, 2);
-                                switchDayTime(35);
-                            } else if (daytimeLightIndex == 2) {
-                                edit.putInt(daytimeLightsSettings, 3);
-                                switchDayTime(38);
-                            } else if (daytimeLightIndex == 3) {
-                                edit.putInt(daytimeLightsSettings, 4);
-                                switchDayTime(36);
-                            } else if (daytimeLightIndex == 4) {
-                                edit.putInt(daytimeLightsSettings, 5);
-                                switchDayTime(37);
-                            }
-                            edit.apply();
-                        }
-                    }
-                });
-
-
-                //Selector 2
-                selector_words_second_2.setText("Remote Start Duration");
-                final String[] remoteStart = new String[7];
-                remoteStart[0] = "5 Minutes";
-                remoteStart[1] = "10 Minutes";
-                remoteStart[2] = "15 Minutes";
-                if (getRemoteStart() == 5) {
-                    select2.setText(remoteStart[0]);
-                    remoteStartIndex = 0;
-                } else if (getRemoteStart() == 10) {
-                    select2.setText(remoteStart[1]);
-                    remoteStartIndex = 1;
-                } else if (getRemoteStart() == 15) {
-                    select2.setText(remoteStart[2]);
-                    remoteStartIndex = 2;
+                @Override
+                public void onClick(View mView) {
+                    select4.setText(remoteWindow[1]);
+                    edit.putBoolean(remoteWindowSettings, false);
+                    switchWindowUpDown(39);
+                    edit.apply();
                 }
-                arrowLeft2.setOnClickListener(new View.OnClickListener() {
+            });
+        }
 
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
-                            remoteStartIndex = remoteStartIndex - 1;
-                            select2.setText(remoteStart[remoteStartIndex]);
-                            if (remoteStartIndex == 0) {
-                                edit.putInt(remoteStartSettings, 5);
-                                switchRemoteStart(41);
-                            } else if (remoteStartIndex == 1) {
-                                edit.putInt(remoteStartSettings, 10);
-                                switchRemoteStart(42);
-                            } else if (remoteStartIndex == 2) {
-                                edit.putInt(remoteStartSettings, 15);
-                                switchRemoteStart(43);
-                            }
-                            edit.apply();
+        if (getVehicleType() == VGM2) {
+            //Selector 1
+            selector_words_first_2.setText("Daytime Running Light Configuration");
+            final String[] daytimeLight = new String[7];
+            daytimeLight[0] = "Low Beam";
+            daytimeLight[1] = "Fog Lights";
+            daytimeLight[2] = "Dedicated LED";
+            daytimeLight[3] = "Turn Signals";
+            daytimeLight[4] = "Disabled";
+            if (getDaytimeLights() == 0) {
+                select1.setText(daytimeLight[0]);
+                daytimeLightIndex = 0;
+            } else if (getDaytimeLights() == 1) {
+                select1.setText(daytimeLight[1]);
+                daytimeLightIndex = 1;
+            } else if (getDaytimeLights() == 2) {
+                select1.setText(daytimeLight[2]);
+                daytimeLightIndex = 2;
+            } else if (getDaytimeLights() == 3) {
+                select1.setText(daytimeLight[3]);
+                daytimeLightIndex = 3;
+            } else if (getDaytimeLights() == 4) {
+                select1.setText(daytimeLight[4]);
+                daytimeLightIndex = 4;
+            }
+            arrowLeft1.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
+                        daytimeLightIndex = daytimeLightIndex - 1;
+                        select1.setText(daytimeLight[daytimeLightIndex]);
+                        if (daytimeLightIndex == 0) {
+                            edit.putInt(daytimeLightsSettings, 1);
+                            switchDayTime(34);
+                        } else if (daytimeLightIndex == 1) {
+                            edit.putInt(daytimeLightsSettings, 2);
+                            switchDayTime(35);
+                        } else if (daytimeLightIndex == 2) {
+                            edit.putInt(daytimeLightsSettings, 3);
+                            switchDayTime(38);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 4);
+                            switchDayTime(36);
+                        } else if (daytimeLightIndex == 4) {
+                            edit.putInt(daytimeLightsSettings, 5);
+                            switchDayTime(37);
                         }
+                        edit.apply();
                     }
-                });
-                arrowRight2.setOnClickListener(new View.OnClickListener() {
+                }
+            });
+            arrowRight1.setOnClickListener(new View.OnClickListener() {
 
 
-                    @Override
-                    public void onClick(View mView) {
-                        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                        if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
-                            remoteStartIndex = remoteStartIndex + 1;
-                            select2.setText(remoteStart[remoteStartIndex]);
-                            if (remoteStartIndex == 0) {
-                                edit.putInt(remoteStartSettings, 5);
-                                switchRemoteStart(41);
-                            } else if (remoteStartIndex == 1) {
-                                edit.putInt(remoteStartSettings, 10);
-                                switchRemoteStart(42);
-                            } else if (remoteStartIndex == 2) {
-                                edit.putInt(remoteStartSettings, 15);
-                                switchRemoteStart(43);
-                            }
-                            edit.apply();
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
+                        daytimeLightIndex = daytimeLightIndex + 1;
+                        select1.setText(daytimeLight[daytimeLightIndex]);
+                        if (daytimeLightIndex == 0) {
+                            edit.putInt(daytimeLightsSettings, 1);
+                            switchDayTime(34);
+                        } else if (daytimeLightIndex == 1) {
+                            edit.putInt(daytimeLightsSettings, 2);
+                            switchDayTime(35);
+                        } else if (daytimeLightIndex == 2) {
+                            edit.putInt(daytimeLightsSettings, 3);
+                            switchDayTime(38);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 4);
+                            switchDayTime(36);
+                        } else if (daytimeLightIndex == 4) {
+                            edit.putInt(daytimeLightsSettings, 5);
+                            switchDayTime(37);
                         }
+                        edit.apply();
                     }
-                });
+                }
+            });
 
-                //Selector 3
-                selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
-                final String[] navOverride = new String[2];
-                navOverride[0] = "No";
-                navOverride[1] = "Yes";
-                if (!isNavOverride()) {
+
+            //Selector 2
+            selector_words_second_2.setText("Remote Start Duration");
+            final String[] remoteStart = new String[7];
+            remoteStart[0] = "5 Minutes";
+            remoteStart[1] = "10 Minutes";
+            remoteStart[2] = "15 Minutes";
+            if (getRemoteStart() == 5) {
+                select2.setText(remoteStart[0]);
+                remoteStartIndex = 0;
+            } else if (getRemoteStart() == 10) {
+                select2.setText(remoteStart[1]);
+                remoteStartIndex = 1;
+            } else if (getRemoteStart() == 15) {
+                select2.setText(remoteStart[2]);
+                remoteStartIndex = 2;
+            }
+            arrowLeft2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
+                        remoteStartIndex = remoteStartIndex - 1;
+                        select2.setText(remoteStart[remoteStartIndex]);
+                        if (remoteStartIndex == 0) {
+                            edit.putInt(remoteStartSettings, 5);
+                            switchRemoteStart(41);
+                        } else if (remoteStartIndex == 1) {
+                            edit.putInt(remoteStartSettings, 10);
+                            switchRemoteStart(42);
+                        } else if (remoteStartIndex == 2) {
+                            edit.putInt(remoteStartSettings, 15);
+                            switchRemoteStart(43);
+                        }
+                        edit.apply();
+                    }
+                }
+            });
+            arrowRight2.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
+                        remoteStartIndex = remoteStartIndex + 1;
+                        select2.setText(remoteStart[remoteStartIndex]);
+                        if (remoteStartIndex == 0) {
+                            edit.putInt(remoteStartSettings, 5);
+                            switchRemoteStart(41);
+                        } else if (remoteStartIndex == 1) {
+                            edit.putInt(remoteStartSettings, 10);
+                            switchRemoteStart(42);
+                        } else if (remoteStartIndex == 2) {
+                            edit.putInt(remoteStartSettings, 15);
+                            switchRemoteStart(43);
+                        }
+                        edit.apply();
+                    }
+                }
+            });
+
+            //Selector 3
+            selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
+            final String[] navOverride = new String[2];
+            navOverride[0] = "No";
+            navOverride[1] = "Yes";
+            if (!isNavOverride()) {
+                select3.setText(navOverride[0]);
+            } else if (isNavOverride()) {
+                select3.setText(navOverride[1]);
+            }
+            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
                     select3.setText(navOverride[0]);
-                } else if (isNavOverride()) {
+                    edit.putBoolean(navOverrideSettings, true);
+                    switchNavOverride(45);
+                    edit.apply();
+                }
+            });
+            arrowRight3.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
                     select3.setText(navOverride[1]);
+                    edit.putBoolean(navOverrideSettings, false);
+                    switchNavOverride(44);
+                    edit.apply();
                 }
-                arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+            });
 
-                    @Override
-                    public void onClick(View mView) {
-                        select3.setText(navOverride[0]);
-                        edit.putBoolean(navOverrideSettings, true);
-                        switchNavOverride(45);
-                        edit.apply();
-                    }
-                });
-                arrowRight3.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select3.setText(navOverride[1]);
-                        edit.putBoolean(navOverrideSettings, false);
-                        switchNavOverride(44);
-                        edit.apply();
-                    }
-                });
-
-                //Selector 4
-                selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
-                final String[] remoteWindow = new String[2];
-                remoteWindow[0] = "No";
-                remoteWindow[1] = "Yes";
-                if (!isRemoteWindow()) {
-                    select4.setText(remoteWindow[0]);
-                } else if (isRemoteWindow()) {
-                    select4.setText(remoteWindow[1]);
-                }
-                arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select4.setText(remoteWindow[0]);
-                        edit.putBoolean(remoteWindowSettings, true);
-                        switchWindowUpDown(40);
-                        edit.apply();
-                    }
-                });
-                arrowRight4.setOnClickListener(new View.OnClickListener() {
-                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                    @Override
-                    public void onClick(View mView) {
-                        select4.setText(remoteWindow[1]);
-                        edit.putBoolean(remoteWindowSettings, false);
-                        switchWindowUpDown(39);
-                        edit.apply();
-                    }
-                });
+            //Selector 4
+            selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
+            final String[] remoteWindow = new String[2];
+            remoteWindow[0] = "No";
+            remoteWindow[1] = "Yes";
+            if (!isRemoteWindow()) {
+                select4.setText(remoteWindow[0]);
+            } else if (isRemoteWindow()) {
+                select4.setText(remoteWindow[1]);
             }
+            arrowLeft4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select4.setText(remoteWindow[0]);
+                    edit.putBoolean(remoteWindowSettings, true);
+                    switchWindowUpDown(40);
+                    edit.apply();
+                }
+            });
+            arrowRight4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    select4.setText(remoteWindow[1]);
+                    edit.putBoolean(remoteWindowSettings, false);
+                    switchWindowUpDown(39);
+                    edit.apply();
+                }
+            });
         }
     }
 
@@ -749,6 +581,75 @@ public class FeaturesFragment2 extends Fragment {
     public boolean isRemoteWindow() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(remoteWindowSettings, false);
+    }
+
+    //Send to sGDP server to get live data
+    public void updateSettingsRequest() {
+        isProcessing = true;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int drl = variables.getInt("drl");
+                            int remote = variables.getInt("rvs");
+                            int nav_override = variables.getInt("nav_override");
+                            int rke_windows = variables.getInt("rke_windows");
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                if (drl == 0) {
+                                    actual1.setText("Low Beam");
+                                } else if (drl == 1) {
+                                    actual1.setText("Fog Lights");
+                                } else if (drl == 2) {
+                                    actual1.setText("Dedicated LED");
+                                } else if (drl == 3) {
+                                    actual1.setText("Turn Signals");
+                                } else if (drl == 4) {
+                                    actual1.setText("Disabled");
+                                }
+                                if (remote == 0) {
+                                    actual2.setText("5 Minutes");
+                                } else if (remote == 1) {
+                                    actual2.setText("10 Minutes");
+                                } else if (remote == 2) {
+                                    actual2.setText("15 Minutes");
+                                }
+                                if (nav_override == 1) {
+                                    actual3.setText("Yes");
+                                } else {
+                                    actual3.setText("No");
+                                }
+                                if (rke_windows == 1) {
+                                    actual4.setText("Yes");
+                                } else {
+                                    actual4.setText("No");
+                                }
+                            } else if (getVehicleType() == VGM2) {
+
+                            }
+
+
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
     }
 
     //Send to sGDP server to verify connection

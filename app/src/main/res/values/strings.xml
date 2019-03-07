@@ -70,9 +70,9 @@
     <string name="read_settings">READ SETTINGS</string>
     <string name="home">HOME</string>
     <string name="factory_settings">FACTORY SETTINGS</string>
-    <string name="high_idle_on">HIGH IDLE ON</string>
-    <string name="high_idle_off">HIGH IDLE OFF</string>
-    <string name="learn_key_fob">LEARN KEY FOB</string>
+    <string name="high_idle_on">High Idle On</string>
+    <string name="high_idle_off">High Idle Off</string>
+    <string name="learn_key_fob">Learn Key Fob</string>
     <string name="auxillary_output_3">AUXILLARY OUTPUT 3</string>
     <string name="auxillary_output_2">AUXILLARY OUTPUT 2</string>
     <string name="auxillary_output_1">AUXILLARY OUTPUT 1</string>
@@ -82,8 +82,8 @@
     <string name="current_status">Current Status:</string>
     <string name="select_color_scheme">Select Color Scheme</string>
     <string name="us_standard_metric">US(Standard) / Metric</string>
-    <string name="secure_idle_off">SECURE IDLE OFF</string>
-    <string name="secure_idle_on">SECURE IDLE ON</string>
+    <string name="secure_idle_off">Secure Idle Off</string>
+    <string name="secure_idle_on">Secure Idle On</string>
     <string name="pro_series_version">Pro Series Version:</string>
 
 

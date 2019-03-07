@@ -7,10 +7,33 @@
     tools:context=".FeaturesActivity"
     tools:ignore="spUsage">
 
+    <TextView
+        android:id="@+id/actual"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="190dp"
+        android:layout_toStartOf="@id/arrowRight"
+        android:text="CURRENT"
+        android:textAlignment="center"
+        android:textColor="?attr/features_text_color"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/desired"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toStartOf="@id/arrowRight"
+        android:text="DESIRED"
+        android:textAlignment="center"
+        android:textColor="?attr/features_text_color"
+        android:textSize="20dp" />
+
     <ImageView
         android:id="@+id/arrowRight"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector1"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
@@ -19,29 +42,41 @@
 
     <ImageView
         android:id="@+id/arrowLeft"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector1"
         android:layout_alignEnd="@id/arrowLeft4"
-        android:layout_marginStart="-60dp"
+        android:layout_marginStart="-50dp"
         android:layout_marginTop="-5dp"
         app:srcCompat="?attr/triangle_button_left" />
 
     <TextView
         android:id="@+id/selector1"
-        android:layout_width="190dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="65dp"
         android:layout_toStartOf="@id/arrowRight"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/actual1"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="190dp"
+        android:layout_toStartOf="@id/arrowRight"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="?attr/features_text_color"
+        android:textSize="28dp" />
 
     <ImageView
         android:id="@+id/arrowRight2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector2"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
@@ -50,8 +85,8 @@
 
     <ImageView
         android:id="@+id/arrowLeft2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector2"
         android:layout_alignEnd="@id/arrowLeft4"
         android:layout_marginStart="-60dp"
@@ -60,19 +95,31 @@
 
     <TextView
         android:id="@+id/selector2"
-        android:layout_width="190dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="135dp"
         android:layout_toStartOf="@id/arrowRight2"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/actual2"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="135dp"
+        android:layout_marginEnd="190dp"
+        android:layout_toStartOf="@id/arrowRight2"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="?attr/features_text_color"
+        android:textSize="28dp" />
 
     <ImageView
         android:id="@+id/arrowRight3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector3"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
@@ -81,8 +128,8 @@
 
     <ImageView
         android:id="@+id/arrowLeft3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector3"
         android:layout_alignEnd="@id/arrowLeft4"
         android:layout_marginStart="-60dp"
@@ -91,19 +138,31 @@
 
     <TextView
         android:id="@+id/selector3"
-        android:layout_width="190dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="210dp"
+        android:layout_marginTop="205dp"
         android:layout_toStartOf="@id/arrowRight3"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/actual3"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="205dp"
+        android:layout_marginEnd="190dp"
+        android:layout_toStartOf="@id/arrowRight3"
+        android:text=''
+        android:textAlignment="center"
+        android:textColor="?attr/features_text_color"
+        android:textSize="28dp" />
 
     <ImageView
         android:id="@+id/arrowRight4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector4"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
@@ -112,47 +171,66 @@
 
     <ImageView
         android:id="@+id/arrowLeft4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignTop="@+id/selector4"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
-        android:layout_marginEnd="270dp"
+        android:layout_marginEnd="210dp"
         app:srcCompat="?attr/triangle_button_left" />
 
     <TextView
         android:id="@+id/selector4"
-        android:layout_width="190dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="275dp"
         android:layout_toStartOf="@id/arrowRight4"
         android:maxLines="2"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/actual4"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="275dp"
+        android:layout_marginEnd="190dp"
+        android:layout_toStartOf="@id/arrowRight4"
+        android:maxLines="2"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="?attr/features_text_color"
+        android:textSize="28dp" />
 
     <TextView
         android:id="@+id/first_selector_features"
-        android:layout_width="460dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/selector1"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="45dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:text=""
+        android:textAlignment="textStart"
+        android:gravity="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp"
+        tools:ignore="RtlCompat" />
 
     <TextView
         android:id="@+id/second_selector_features"
-        android:layout_width="460dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/selector2"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="115dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:text=""
+        android:textAlignment="textStart"
+        android:gravity="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp"
+        tools:ignore="RtlCompat" />
 
     <TextView
         android:id="@+id/third_selector_features"
@@ -163,7 +241,7 @@
         android:layout_marginStart="20dp"
         android:text=""
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp" />
 
     <TextView
         android:id="@+id/fourth_selector_features"
@@ -174,7 +252,7 @@
         android:layout_marginStart="20dp"
         android:text=""
         android:textColor="?attr/features_text_color"
-        android:textSize="30dp" />
+        android:textSize="28dp" />
 
 
 </RelativeLayout>

@@ -64,29 +64,34 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="68dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <Button
-        android:id="@+id/program_features"
-        android:layout_width="250dp"
-        android:layout_height="45dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
-        android:text="@string/program"
-        android:textSize="24dp" />
+        android:layout_centerHorizontal="true">
 
-    <Button
-        android:id="@+id/default_settings"
-        android:layout_width="250dp"
-        android:layout_height="45dp"
-        android:layout_alignStart="@id/program_features"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="270dp"
-        android:layout_marginBottom="35dp"
-        android:text="@string/factory_settings"
-        android:textSize="24dp" />
+        <Button
+            android:id="@+id/program_features"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/program"
+            android:textSize="24dp" />
+
+        <Button
+            android:id="@+id/default_settings"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_alignStart="@id/program_features"
+            android:layout_marginStart="270dp"
+            android:text="@string/factory_settings"
+            android:textSize="24dp" />
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tab1"

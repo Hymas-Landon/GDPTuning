@@ -9,6 +9,7 @@
     tools:context=".TuneActivity"
     tools:ignore="spusage">
 
+
     <Button
         android:id="@+id/btn_home"
         android:layout_width="125dp"
@@ -191,5 +192,25 @@
         android:textColor="@color/colorGray"
         android:textSize="26dp"
         tools:ignore="RelativeOverlap" />
+
+    <TextView
+        android:id="@+id/volt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorGray"
+        android:text="Switch Voltage: "
+        android:layout_marginTop="300dp"
+        android:textSize="26dp"
+        android:layout_marginStart="90dp" />
+
+    <TextView
+        android:id="@+id/volt_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/volt_title"
+        android:layout_alignTop="@id/volt_title"
+        android:textSize="26dp"
+        android:textColor="@color/colorGray"
+        android:layout_marginStart="170dp" />
 
 </RelativeLayout>

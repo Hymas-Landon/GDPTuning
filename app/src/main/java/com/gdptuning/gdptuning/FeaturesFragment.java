@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -52,7 +52,7 @@ public class FeaturesFragment extends Fragment {
     RequestQueue queue;
     WifiManager wifi;
     TextView select1, select2, select3, select4, selector_words_first, selector_words_second,
-            selector_words_third, selector_words_fourth;
+            selector_words_third, selector_words_fourth, actual1, actual2, actual3, actual4;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3, arrowLeft4, arrowRight4;
     Timer timer;
     private int pressureTPMSIndex;
@@ -73,6 +73,10 @@ public class FeaturesFragment extends Fragment {
         select2 = mView.findViewById(R.id.selector2);
         select3 = mView.findViewById(R.id.selector3);
         select4 = mView.findViewById(R.id.selector4);
+        actual1 = mView.findViewById(R.id.actual1);
+        actual2 = mView.findViewById(R.id.actual2);
+        actual3 = mView.findViewById(R.id.actual3);
+        actual4 = mView.findViewById(R.id.actual4);
         selector_words_first = mView.findViewById(R.id.first_selector_features);
         selector_words_second = mView.findViewById(R.id.second_selector_features);
         selector_words_third = mView.findViewById(R.id.third_selector_features);
@@ -92,6 +96,21 @@ public class FeaturesFragment extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+        updateSettingsRequest();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isConnected) {
+                    if (!isProcessing) {
+                        Log.d("TEST2 :", "Sending request");
+                        updateSettingsRequest();
+                    }
+                }
+            }
+        }, 0, 350);//put here time 1000 milliseconds=1 second
+
 
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //Selector 1
@@ -525,16 +544,14 @@ public class FeaturesFragment extends Fragment {
             });
         } else if (getVehicleType() == VGM2) {
 
-            arrowLeft2.setImageDrawable(null);
             arrowLeft3.setImageDrawable(null);
             arrowLeft4.setImageDrawable(null);
-            arrowRight2.setImageDrawable(null);
             arrowRight3.setImageDrawable(null);
             arrowRight4.setImageDrawable(null);
 
             //Selector 1
             selector_words_first.setText("TPMS Settings");
-            final String[] pressureTPMS = new String[12];
+            final String[] pressureTPMS = new String[13];
             if (isMetric()) {
                 pressureTPMS[0] = "175 kPa";
                 pressureTPMS[1] = "205 kPa";
@@ -751,7 +768,7 @@ public class FeaturesFragment extends Fragment {
             });
 
             //Selector 2
-            selector_words_second.setText("Fog Lights With High Beam (Currently Only For 2015-2016");
+            selector_words_second.setText("Fog Lights With High Beam (Currently Only For 2015-2016)");
             final String[] fogLights = new String[2];
             fogLights[0] = "No";
             fogLights[1] = "Yes";
@@ -1124,7 +1141,7 @@ public class FeaturesFragment extends Fragment {
             });
 
             //Selector 3
-            selector_words_second.setText("Fog Lights With High Beam");
+            selector_words_third.setText("Fog Lights With High Beam");
             final String[] fogLights = new String[2];
             fogLights[0] = "No";
             fogLights[1] = "Yes";
@@ -1172,7 +1189,6 @@ public class FeaturesFragment extends Fragment {
         return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
 
-
     public int getTireSize() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getInt(tireSizeSettings, 31);
@@ -1198,6 +1214,72 @@ public class FeaturesFragment extends Fragment {
         return mSharedPreferences.getBoolean("factory_settings", false);
     }
 
+    //Send to sGDP server to get live data
+    public void updateSettingsRequest() {
+        isProcessing = true;
+        // prepare the Request
+        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int tpms = variables.getInt("tpms");
+                            int signals = variables.getInt("lamp_out");
+                            int tireSize = variables.getInt("tire_size");
+                            int fogLights = variables.getInt("fog_high");
+
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                actual1.setText(tpms + " psi");
+                                if (signals == 1) {
+                                    actual2.setText("Yes");
+                                } else {
+                                    actual2.setText("No");
+                                }
+                                actual3.setText(tireSize + "\"");
+                                if (fogLights == 1) {
+                                    actual4.setText("Yes");
+                                } else {
+                                    actual4.setText("No");
+                                }
+                            } else if (getVehicleType() == VGM2) {
+                                actual1.setText(tpms + " psi");
+                                if (signals == 1) {
+                                    actual2.setText("Yes");
+                                } else {
+                                    actual2.setText("No");
+                                }
+                            } else if (getVehicleType() == VRAM) {
+                                actual1.setText(tpms + " psi");
+                                actual2.setText(tireSize + "\"");
+                                if (signals == 1) {
+                                    actual3.setText("Yes");
+                                } else {
+                                    actual3.setText("No");
+                                }
+                            }
+
+
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
 
     //Send to sGDP server to verify connection
     void switchTpms(int requestTpms) {

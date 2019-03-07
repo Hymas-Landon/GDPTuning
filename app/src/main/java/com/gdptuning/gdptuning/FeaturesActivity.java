@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,19 +16,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,6 +34,7 @@ public class FeaturesActivity extends AppCompatActivity {
 
     private static int VFORD1 = 7;
     private static int VFORD2 = 8;
+    private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
     //ESP32 aREST server address
@@ -95,7 +92,6 @@ public class FeaturesActivity extends AppCompatActivity {
         tab2 = findViewById(R.id.tab2);
         tab3 = findViewById(R.id.tab3);
 
-        int mVGM1 = 9;
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //add tabs
             mTabLayout.addTab(mTabLayout.newTab().setText("PAGE 1"));
@@ -187,7 +183,7 @@ public class FeaturesActivity extends AppCompatActivity {
 
                 }
             });
-        } else if (getVehicleType() == mVGM1) {
+        } else if (getVehicleType() == VGM1) {
             //add tabs
             mTabLayout.addTab(mTabLayout.newTab().setText("Bonus Features"));
             mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

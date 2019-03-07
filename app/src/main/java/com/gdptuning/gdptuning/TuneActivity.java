@@ -37,7 +37,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     private int tuneMode = 0;
     WifiManager wifi;
-    TextView tvTune, tvGear;
+    TextView tvTune, tvGear, volt_reading;
     Timer timer;
     private RequestQueue queue;
 
@@ -74,6 +74,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         btn_num5 = findViewById(R.id.tgl_num5);
         tvTune = findViewById(R.id.tunenum);
         tvGear = findViewById(R.id.gear_position);
+        volt_reading = findViewById(R.id.volt_level);
 
         //Set On Click Listener
         btn1.setOnClickListener(this);
@@ -512,6 +513,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             deviceName += response.getString("id");
                             device = deviceName;
 
+                            int fuel_temp = variables.getInt("fuel_temp");
+                            volt_reading.setText("" + fuel_temp);
                             char pos = (char) gear;
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");

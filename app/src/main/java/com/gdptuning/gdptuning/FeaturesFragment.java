@@ -1245,7 +1245,7 @@ public class FeaturesFragment extends Fragment {
                                 }
                             } else if (getVehicleType() == VGM2) {
                                 actual1.setText(tpms + " psi");
-                                if (signals == 1) {
+                                if (fogLights == 1) {
                                     actual2.setText("Yes");
                                 } else {
                                     actual2.setText("No");

@@ -160,10 +160,10 @@ public class FeaturesFragment3 extends Fragment {
         final String[] strobeLight = new String[2];
         strobeLight[0] = "OFF";
         strobeLight[1] = "ON";
-        if (!isStrobeLight()) {
-            select1.setText(strobeLight[0]);
-        } else if (isStrobeLight()) {
+        if (isStrobeLight()) {
             select1.setText(strobeLight[1]);
+        } else {
+            select1.setText(strobeLight[0]);
         }
         arrowLeft1 = Objects.requireNonNull(getView()).findViewById(R.id.arrowLeft);
         arrowLeft1.setOnClickListener(new View.OnClickListener() {
@@ -197,10 +197,10 @@ public class FeaturesFragment3 extends Fragment {
         final String[] workLight = new String[2];
         workLight[0] = "OFF";
         workLight[1] = "ON";
-        if (!isWorkLight()) {
-            select2.setText(workLight[0]);
-        } else if (isWorkLight()) {
+        if (isWorkLight()) {
             select2.setText(workLight[1]);
+        } else {
+            select2.setText(workLight[0]);
         }
         arrowLeft2 = getView().findViewById(R.id.arrowLeft2);
         arrowLeft2.setOnClickListener(new View.OnClickListener() {
@@ -234,10 +234,10 @@ public class FeaturesFragment3 extends Fragment {
         final String[] aux1 = new String[2];
         aux1[0] = "OFF";
         aux1[1] = "ON";
-        if (!isAux1()) {
-            select3.setText(aux1[0]);
-        } else if (isAux1()) {
+        if (isAux1()) {
             select3.setText(aux1[1]);
+        } else {
+            select3.setText(aux1[0]);
         }
         arrowLeft3 = getView().findViewById(R.id.arrowLeft3);
         arrowLeft3.setOnClickListener(new View.OnClickListener() {
@@ -271,10 +271,10 @@ public class FeaturesFragment3 extends Fragment {
         final String[] aux2 = new String[2];
         aux2[0] = "OFF";
         aux2[1] = "ON";
-        if (!isAux2()) {
-            select4.setText(aux2[0]);
-        } else if (isAux2()) {
+        if (isAux2()) {
             select4.setText(aux2[1]);
+        } else {
+            select4.setText(aux2[0]);
         }
         arrowLeft4 = getView().findViewById(R.id.arrowLeft4);
         arrowLeft4.setOnClickListener(new View.OnClickListener() {
@@ -308,10 +308,10 @@ public class FeaturesFragment3 extends Fragment {
         final String[] aux3 = new String[2];
         aux3[0] = "OFF";
         aux3[1] = "ON";
-        if (!isAux3()) {
-            select5.setText(aux3[0]);
-        } else if (isAux3()) {
+        if (isAux3()) {
             select5.setText(aux3[1]);
+        } else {
+            select5.setText(aux3[0]);
         }
         arrowLeft5 = getView().findViewById(R.id.arrowLeft5);
         arrowLeft5.setOnClickListener(new View.OnClickListener() {

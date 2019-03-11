@@ -220,22 +220,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (item_select == 1) {
             ford1.setChecked(true);
             edit.putInt("vehicle", VFORD1);
+            edit.putBoolean("first_time", false);
             edit.apply();
         } else if (item_select == 2) {
             ford2.setChecked(true);
             edit.putInt("vehicle", VFORD2);
+            edit.putBoolean("first_time", false);
             edit.apply();
         } else if (item_select == 3) {
             ram.setChecked(true);
             edit.putInt("vehicle", VRAM);
+            edit.putBoolean("first_time", false);
             edit.apply();
         } else if (item_select == 4) {
             gm1.setChecked(true);
             edit.putInt("vehicle", VGM1);
+            edit.putBoolean("first_time", false);
             edit.apply();
         } else if (item_select == 5) {
             gm2.setChecked(true);
             edit.putInt("vehicle", VGM2);
+            edit.putBoolean("first_time", false);
             edit.apply();
         }
         if (getVehicleType() == VFORD1) {
@@ -265,6 +270,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
         int id = v.getId();
         switch (id) {
             case R.id.btn_tune:
@@ -272,6 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_config:
                 startActivity(new Intent(MainActivity.this, FeaturesActivity.class));
+                edit.putBoolean("first_time", true);
+                edit.apply();
                 break;
             case R.id.btn_diag:
                 startActivity(new Intent(MainActivity.this, DiagnosticsActivity.class));

@@ -252,6 +252,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     public void onResponse(JSONObject response) {
                         isConnected = true;
                         try {
+                            new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
                             JSONObject variables = response.getJSONObject("variables");
                             Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
@@ -260,7 +261,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             deviceName += response.getString("id");
                             device = deviceName;
                             String codes = variables.getString("dtcList");
-                            pause();
+//                            pause();
 
                             for (String mCodes : codes.split(" ")) {
                                 diagnosticsList.add(new Code(mCodes));

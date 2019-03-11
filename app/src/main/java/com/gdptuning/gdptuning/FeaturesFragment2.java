@@ -341,9 +341,7 @@ public class FeaturesFragment2 extends Fragment {
             final String[] daytimeLight = new String[7];
             daytimeLight[0] = "Low Beam";
             daytimeLight[1] = "Fog Lights";
-            daytimeLight[2] = "Dedicated LED";
-            daytimeLight[3] = "Turn Signals";
-            daytimeLight[4] = "Disabled";
+            daytimeLight[2] = "Disabled";
             if (getDaytimeLights() == 0) {
                 select1.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
@@ -604,17 +602,15 @@ public class FeaturesFragment2 extends Fragment {
                                 } else if (drl == 1) {
                                     actual1.setText("Fog Lights");
                                 } else if (drl == 2) {
-                                    actual1.setText("Dedicated LED");
+                                    actual1.setText("Disabled");
                                 } else if (drl == 3) {
                                     actual1.setText("Turn Signals");
-                                } else if (drl == 4) {
-                                    actual1.setText("Disabled");
                                 }
-                                if (remote == 0) {
+                                if (remote == 1) {
                                     actual2.setText("5 Minutes");
-                                } else if (remote == 1) {
-                                    actual2.setText("10 Minutes");
                                 } else if (remote == 2) {
+                                    actual2.setText("10 Minutes");
+                                } else if (remote == 3) {
                                     actual2.setText("15 Minutes");
                                 }
                                 if (nav_override == 1) {
@@ -627,8 +623,6 @@ public class FeaturesFragment2 extends Fragment {
                                 } else {
                                     actual4.setText("No");
                                 }
-                            } else if (getVehicleType() == VGM2) {
-
                             }
 
 

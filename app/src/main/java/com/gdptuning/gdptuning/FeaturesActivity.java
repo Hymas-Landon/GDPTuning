@@ -92,6 +92,7 @@ public class FeaturesActivity extends AppCompatActivity {
         tab2 = findViewById(R.id.tab2);
         tab3 = findViewById(R.id.tab3);
 
+
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //add tabs
             mTabLayout.addTab(mTabLayout.newTab().setText("PAGE 1"));
@@ -233,85 +234,85 @@ public class FeaturesActivity extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 isConnected = true;
                                 try {
-                                        JSONObject variables = response.getJSONObject("variables");
-                                        Log.d("TEST2 ", variables.toString());
+                                    JSONObject variables = response.getJSONObject("variables");
+                                    Log.d("TEST2 ", variables.toString());
 
-                                        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                        int factorySecureIdle = variables.getInt("factory_secure_idle");
+                                    SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
+                                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                    int factorySecureIdle = variables.getInt("factory_secure_idle");
 
-                                        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                            int factoryTpms = variables.getInt("factory_tpms");
-                                            int factoryDaytimeRunningLights = variables.getInt("factory_drl");
-                                            int factoryLampOutage = variables.getInt("factory_lamp_out");
-                                            int factoryFogLights = variables.getInt("factory_fog_high");
-                                            int factoryTireSize = variables.getInt("factory_tire_size");
-                                            int factoryRemoteWindow = variables.getInt("factory_rke_windows");
-                                            int factoryRemoteStartDuration = variables.getInt("factory_rvs");
-                                            int factoryNavOverride = variables.getInt("factory_nav_override");
+                                    if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                                        int factoryTpms = variables.getInt("factory_tpms");
+                                        int factoryDaytimeRunningLights = variables.getInt("factory_drl");
+                                        int factoryLampOutage = variables.getInt("factory_lamp_out");
+                                        int factoryFogLights = variables.getInt("factory_fog_high");
+                                        int factoryTireSize = variables.getInt("factory_tire_size");
+                                        int factoryRemoteWindow = variables.getInt("factory_rke_windows");
+                                        int factoryRemoteStartDuration = variables.getInt("factory_rvs");
+                                        int factoryNavOverride = variables.getInt("factory_nav_override");
 
-                                            edit.putInt(tpmsSettings, factoryTpms);
-                                            if (factoryLampOutage == 0) {
-                                                edit.putBoolean(lampCurrentSettings, false);
-                                            } else if (factoryLampOutage == 1) {
-                                                edit.putBoolean(lampCurrentSettings, true);
-                                            }
-                                            edit.putInt(tireSizeSettings, factoryTireSize);
-                                            if (factoryFogLights == 0) {
-                                                edit.putBoolean(fogLightsSettings, false);
-                                            } else if (factoryFogLights == 1) {
-                                                edit.putBoolean(fogLightsSettings, true);
-                                            }
-                                            edit.putInt(daytimeLightsSettings, factoryDaytimeRunningLights);
-                                            edit.putInt(remoteStartSettings, factoryRemoteStartDuration);
-                                            edit.putInt(remoteWindowSettings, factoryRemoteWindow);
-                                            if (factoryRemoteWindow == 0) {
-                                                edit.putBoolean(remoteWindowSettings, false);
-                                            } else if (factoryRemoteWindow == 1) {
-                                                edit.putBoolean(remoteWindowSettings, true);
-                                            }
-                                            if (factoryFogLights == 0) {
-                                                edit.putBoolean(fogLightsSettings, false);
-                                            } else if (factoryFogLights == 1) {
-                                                edit.putBoolean(fogLightsSettings, true);
-                                            }
-                                            if (factoryNavOverride == 0) {
-                                                edit.putBoolean(navOverrideSettings, false);
-                                            } else if (factoryNavOverride == 1) {
-                                                edit.putBoolean(navOverrideSettings, true);
-                                            }
-                                            if (factorySecureIdle == 0) {
-                                                edit.putBoolean(highIdleSettings, false);
-                                            } else if (factorySecureIdle == 1) {
-                                                edit.putBoolean(highIdleSettings, true);
-                                            }
-                                            edit.apply();
-                                        } else if (getVehicleType() == VGM2) {
-                                            int factoryTpms = variables.getInt("factory_tpms");
-                                            edit.putInt(tpmsSettings, factoryTpms);
-                                            if (factorySecureIdle == 0) {
-                                                edit.putBoolean(highIdleSettings, false);
-                                            } else if (factorySecureIdle == 1) {
-                                                edit.putBoolean(highIdleSettings, true);
-                                            }
-                                            edit.apply();
-                                        } else if (getVehicleType() == VRAM) {
-                                            int factoryTpms = variables.getInt("factory_tpms");
-                                            int factoryFogLights = variables.getInt("factory_fog_high");
-                                            if (factoryFogLights == 0) {
-                                                edit.putBoolean(fogLightsSettings, false);
-                                            } else if (factoryFogLights == 1) {
-                                                edit.putBoolean(fogLightsSettings, true);
-                                            }
-                                            if (factorySecureIdle == 0) {
-                                                edit.putBoolean(highIdleSettings, false);
-                                            } else if (factorySecureIdle == 1) {
-                                                edit.putBoolean(highIdleSettings, true);
-                                            }
-                                            edit.putInt(tpmsSettings, factoryTpms);
-                                            edit.apply();
+                                        edit.putInt(tpmsSettings, factoryTpms);
+                                        if (factoryLampOutage == 0) {
+                                            edit.putBoolean(lampCurrentSettings, false);
+                                        } else if (factoryLampOutage == 1) {
+                                            edit.putBoolean(lampCurrentSettings, true);
                                         }
-                                        recreate();
+                                        edit.putInt(tireSizeSettings, factoryTireSize);
+                                        if (factoryFogLights == 0) {
+                                            edit.putBoolean(fogLightsSettings, false);
+                                        } else if (factoryFogLights == 1) {
+                                            edit.putBoolean(fogLightsSettings, true);
+                                        }
+                                        edit.putInt(daytimeLightsSettings, factoryDaytimeRunningLights);
+                                        edit.putInt(remoteStartSettings, factoryRemoteStartDuration);
+                                        edit.putInt(remoteWindowSettings, factoryRemoteWindow);
+                                        if (factoryRemoteWindow == 0) {
+                                            edit.putBoolean(remoteWindowSettings, false);
+                                        } else if (factoryRemoteWindow == 1) {
+                                            edit.putBoolean(remoteWindowSettings, true);
+                                        }
+                                        if (factoryFogLights == 0) {
+                                            edit.putBoolean(fogLightsSettings, false);
+                                        } else if (factoryFogLights == 1) {
+                                            edit.putBoolean(fogLightsSettings, true);
+                                        }
+                                        if (factoryNavOverride == 0) {
+                                            edit.putBoolean(navOverrideSettings, false);
+                                        } else if (factoryNavOverride == 1) {
+                                            edit.putBoolean(navOverrideSettings, true);
+                                        }
+                                        if (factorySecureIdle == 0) {
+                                            edit.putBoolean(highIdleSettings, false);
+                                        } else if (factorySecureIdle == 1) {
+                                            edit.putBoolean(highIdleSettings, true);
+                                        }
+                                        edit.apply();
+                                    } else if (getVehicleType() == VGM2) {
+                                        int factoryTpms = variables.getInt("factory_tpms");
+                                        edit.putInt(tpmsSettings, factoryTpms);
+                                        if (factorySecureIdle == 0) {
+                                            edit.putBoolean(highIdleSettings, false);
+                                        } else if (factorySecureIdle == 1) {
+                                            edit.putBoolean(highIdleSettings, true);
+                                        }
+                                        edit.apply();
+                                    } else if (getVehicleType() == VRAM) {
+                                        int factoryTpms = variables.getInt("factory_tpms");
+                                        int factoryFogLights = variables.getInt("factory_fog_high");
+                                        if (factoryFogLights == 0) {
+                                            edit.putBoolean(fogLightsSettings, false);
+                                        } else if (factoryFogLights == 1) {
+                                            edit.putBoolean(fogLightsSettings, true);
+                                        }
+                                        if (factorySecureIdle == 0) {
+                                            edit.putBoolean(highIdleSettings, false);
+                                        } else if (factorySecureIdle == 1) {
+                                            edit.putBoolean(highIdleSettings, true);
+                                        }
+                                        edit.putInt(tpmsSettings, factoryTpms);
+                                        edit.apply();
+                                    }
+                                    recreate();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -346,7 +347,7 @@ public class FeaturesActivity extends AppCompatActivity {
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                    programBCM();
+                programBCM();
             }
         });
 
@@ -354,7 +355,12 @@ public class FeaturesActivity extends AppCompatActivity {
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        sendRequest();
+        if (isFirstTime()) {
+            readSettings();
+            sendRequest();
+        } else {
+            sendRequest();
+        }
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -366,7 +372,7 @@ public class FeaturesActivity extends AppCompatActivity {
                     }
                 }
             }
-        }, 0, 999);//put here time 1000 milliseconds=1 second
+        }, 0, 250);//put here time 1000 milliseconds=1 second
     }
 
     @Override
@@ -391,6 +397,11 @@ public class FeaturesActivity extends AppCompatActivity {
     private int getVehicleType() {
         SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, Context.MODE_PRIVATE);
         return mSharedPreferences.getInt(vehicleSettings, VFORD1);
+    }
+
+    private boolean isFirstTime() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("first_time", false);
     }
 
     @Override
@@ -580,4 +591,25 @@ public class FeaturesActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
+    void readSettings() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 6, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        sendRequest();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
 }

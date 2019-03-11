@@ -234,25 +234,31 @@
 
     <TextView
         android:id="@+id/third_selector_features"
-        android:layout_width="460dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/selector3"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="185dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:text=""
+        android:textAlignment="textStart"
+        android:gravity="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="28dp" />
+        android:textSize="28dp"
+        tools:ignore="RtlCompat" />
 
     <TextView
         android:id="@+id/fourth_selector_features"
-        android:layout_width="460dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/selector4"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="255dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:text=""
+        android:textAlignment="textStart"
+        android:gravity="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="28dp" />
+        android:textSize="28dp"
+        tools:ignore="RtlCompat" />
 
 
 </RelativeLayout>

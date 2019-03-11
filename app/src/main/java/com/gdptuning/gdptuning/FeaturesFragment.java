@@ -55,9 +55,12 @@ public class FeaturesFragment extends Fragment {
             selector_words_third, selector_words_fourth, actual1, actual2, actual3, actual4;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3, arrowLeft4, arrowRight4;
     Timer timer;
+    final String daytimeLightsSettings = "daytime_lights";
     private int pressureTPMSIndex;
     private int tireIndex;
     private int tpmsNum;
+    private int daytimeLightIndex;
+    private int daytimeNum;
     private int lampNum;
     private int fogNum;
     private int tireNum;
@@ -544,9 +547,7 @@ public class FeaturesFragment extends Fragment {
             });
         } else if (getVehicleType() == VGM2) {
 
-            arrowLeft3.setImageDrawable(null);
             arrowLeft4.setImageDrawable(null);
-            arrowRight3.setImageDrawable(null);
             arrowRight4.setImageDrawable(null);
 
             //Selector 1
@@ -800,6 +801,88 @@ public class FeaturesFragment extends Fragment {
                     edit.putBoolean(fogLightsSettings, false);
                     switchFogLights(30);
                     edit.apply();
+                }
+            });
+
+            //Selector 3
+            selector_words_third.setText("Daytime Running Light Configuration");
+            final String[] daytimeLight = new String[7];
+            daytimeLight[0] = "Low Beam";
+            daytimeLight[1] = "Fog Lights";
+            daytimeLight[2] = "Disabled";
+            if (getDaytimeLights() == 0) {
+                select3.setText(daytimeLight[0]);
+                daytimeLightIndex = 0;
+            } else if (getDaytimeLights() == 1) {
+                select3.setText(daytimeLight[1]);
+                daytimeLightIndex = 1;
+            } else if (getDaytimeLights() == 2) {
+                select3.setText(daytimeLight[2]);
+                daytimeLightIndex = 2;
+            } else if (getDaytimeLights() == 3) {
+                select3.setText(daytimeLight[3]);
+                daytimeLightIndex = 3;
+            } else if (getDaytimeLights() == 4) {
+                select3.setText(daytimeLight[4]);
+                daytimeLightIndex = 4;
+            }
+            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
+                        daytimeLightIndex = daytimeLightIndex - 1;
+                        select3.setText(daytimeLight[daytimeLightIndex]);
+                        if (daytimeLightIndex == 0) {
+                            edit.putInt(daytimeLightsSettings, 1);
+                            switchDayTime(34);
+                        } else if (daytimeLightIndex == 1) {
+                            edit.putInt(daytimeLightsSettings, 2);
+                            switchDayTime(35);
+                        } else if (daytimeLightIndex == 2) {
+                            edit.putInt(daytimeLightsSettings, 3);
+                            switchDayTime(38);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 4);
+                            switchDayTime(36);
+                        } else if (daytimeLightIndex == 4) {
+                            edit.putInt(daytimeLightsSettings, 5);
+                            switchDayTime(37);
+                        }
+                        edit.apply();
+                    }
+                }
+            });
+            arrowRight3.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View mView) {
+                    SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
+                        daytimeLightIndex = daytimeLightIndex + 1;
+                        select3.setText(daytimeLight[daytimeLightIndex]);
+                        if (daytimeLightIndex == 0) {
+                            edit.putInt(daytimeLightsSettings, 1);
+                            switchDayTime(34);
+                        } else if (daytimeLightIndex == 1) {
+                            edit.putInt(daytimeLightsSettings, 2);
+                            switchDayTime(35);
+                        } else if (daytimeLightIndex == 2) {
+                            edit.putInt(daytimeLightsSettings, 3);
+                            switchDayTime(38);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 4);
+                            switchDayTime(36);
+                        } else if (daytimeLightIndex == 4) {
+                            edit.putInt(daytimeLightsSettings, 5);
+                            switchDayTime(37);
+                        }
+                        edit.apply();
+                    }
                 }
             });
 
@@ -1209,6 +1292,11 @@ public class FeaturesFragment extends Fragment {
         return mSharedPreferences.getBoolean(fogLightsSettings, false);
     }
 
+    public int getDaytimeLights() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+        return mSharedPreferences.getInt(daytimeLightsSettings, 1);
+    }
+
     public boolean isDefault() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean("factory_settings", false);
@@ -1229,6 +1317,7 @@ public class FeaturesFragment extends Fragment {
                             int signals = variables.getInt("lamp_out");
                             int tireSize = variables.getInt("tire_size");
                             int fogLights = variables.getInt("fog_high");
+                            int drl = variables.getInt("drl");
 
                             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                                 actual1.setText(tpms + " psi");
@@ -1249,6 +1338,13 @@ public class FeaturesFragment extends Fragment {
                                     actual2.setText("Yes");
                                 } else {
                                     actual2.setText("No");
+                                }
+                                if (drl == 0) {
+                                    actual3.setText("Low Beam");
+                                } else if (drl == 1) {
+                                    actual3.setText("Fog Lights");
+                                } else if (drl == 2) {
+                                    actual3.setText("Disabled");
                                 }
                             } else if (getVehicleType() == VRAM) {
                                 actual1.setText(tpms + " psi");
@@ -1462,6 +1558,66 @@ public class FeaturesFragment extends Fragment {
                                 edit.putBoolean(lampCurrentSettings, true);
                                 edit.apply();
                                 break;
+                        }
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    void switchDayTime(int requestDayLights) {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + requestDayLights, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            daytimeNum = response.getInt("return_value");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences readSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                        SharedPreferences.Editor edit = readSharedPreferences.edit();
+                        switch (daytimeNum) {
+                            // Set as Headlights
+                            case 34:
+                                edit.putInt(daytimeLightsSettings, 1);
+                                edit.apply();
+                                break;
+                            // Set as Fog Lights
+                            case 35:
+                                edit.putInt(daytimeLightsSettings, 2);
+                                edit.apply();
+                                break;
+                            // Set as Turn Signals
+                            case 36:
+                                edit.putInt(daytimeLightsSettings, 4);
+                                edit.apply();
+                                break;
+                            // Set as Disabled
+                            case 37:
+                                edit.putInt(daytimeLightsSettings, 5);
+                                edit.apply();
+                                break;
+                            // Set as Led's
+                            case 38:
+                                edit.putInt(daytimeLightsSettings, 3);
+                                edit.apply();
+                                break;
+
                         }
                         // display response
                         Log.d("Response", response.toString());

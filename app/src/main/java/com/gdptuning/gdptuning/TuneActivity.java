@@ -513,8 +513,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             deviceName += response.getString("id");
                             device = deviceName;
 
-                            int fuel_temp = variables.getInt("fuel_temp");
-                            volt_reading.setText("" + fuel_temp);
+                            String fuel_temp = variables.getString("fuel_temp");
+                            volt_reading.setText(fuel_temp);
                             char pos = (char) gear;
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
@@ -588,6 +588,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
 
                             char pos = (char) gear;
 
+                            String fuel_temp = variables.getString("fuel_temp");
+                            volt_reading.setText(fuel_temp);
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
                             } else {

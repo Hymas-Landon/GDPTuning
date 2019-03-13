@@ -102,7 +102,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             public void onResponse(JSONObject response) {
                                 new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
                                 isConnected = true;
-                                sendRequest();
+//                                sendRequest();
                             }
                         },
                         new Response.ErrorListener() {
@@ -128,7 +128,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             public void onResponse(JSONObject response) {
                                 isConnected = true;
                                 new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
-                                sendRequest();
+//                                sendRequest();
                             }
                         },
                         new Response.ErrorListener() {
@@ -153,7 +153,7 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             public void onResponse(JSONObject response) {
                                 isConnected = true;
                                 new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
-                                sendRequest();
+//                                sendRequest();
                             }
                         },
                         new Response.ErrorListener() {

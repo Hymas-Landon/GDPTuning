@@ -99,6 +99,9 @@ public class FeaturesFragment3 extends Fragment {
         queue = VolleySingleton.getInstance(getContext()).getRequestQueue();
         wifi = (WifiManager) Objects.requireNonNull(getContext()).getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifi = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2 || getVehicleType() == VRAM) {
+            key_fob.setVisibility(View.INVISIBLE);
+        }
         key_fob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {

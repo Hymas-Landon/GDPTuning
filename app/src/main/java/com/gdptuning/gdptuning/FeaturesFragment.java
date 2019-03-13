@@ -33,11 +33,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class FeaturesFragment extends Fragment {
 
-    private static int VFORD1 = 7;
-    private static int VFORD2 = 8;
-    private static int VGM1 = 9;
-    private static int VGM2 = 10;
-    private static int VRAM = 11;
+    final private static int VFORD1 = 7;
+    final private static int VFORD2 = 8;
+    final private static int VGM1 = 9;
+    final private static int VGM2 = 10;
+    final private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     final String themeColor = "ThemeColor";
@@ -100,19 +100,67 @@ public class FeaturesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
-        updateSettingsRequest();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (isConnected) {
-                    if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
-                        updateSettingsRequest();
+        switch (getVehicleType()) {
+            case VFORD1:
+            case VFORD2:
+                updateFordSettings();
+                timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (isConnected) {
+                            if (!isProcessing) {
+                                Log.d("TEST2 :", "Sending request");
+                                updateFordSettings();
+                            }
+                        }
                     }
-                }
-            }
-        }, 0, 350);//put here time 1000 milliseconds=1 second
+                }, 0, 350);//put here time 1000 milliseconds=1 second
+                break;
+            case VGM2:
+                updateGMSettings();
+                timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (isConnected) {
+                            if (!isProcessing) {
+                                Log.d("TEST2 :", "Sending request");
+                                updateGMSettings();
+                            }
+                        }
+                    }
+                }, 0, 350);//put here time 1000 milliseconds=1 second
+                break;
+            case VRAM:
+                updateRAMSettings();
+                timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (isConnected) {
+                            if (!isProcessing) {
+                                Log.d("TEST2 :", "Sending request");
+                                updateRAMSettings();
+                            }
+                        }
+                    }
+                }, 0, 350);//put here time 1000 milliseconds=1 second
+                break;
+        }
+//        updateSettingsRequest();
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                if (isConnected) {
+//                    if (!isProcessing) {
+//                        Log.d("TEST2 :", "Sending request");
+//                        updateSettingsRequest();
+//                    }
+//                }
+//            }
+//        }, 0, 350);//put here time 1000 milliseconds=1 second
 
 
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
@@ -1356,6 +1404,152 @@ public class FeaturesFragment extends Fragment {
                                 }
                             }
 
+
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to get live data
+    public void updateRAMSettings() {
+        isProcessing = true;
+        // prepare the Request
+        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int tpms = variables.getInt("tpms");
+                            int signals = variables.getInt("lamp_out");
+                            int tireSize = variables.getInt("tire_size");
+                            int fogLights = variables.getInt("fog_high");
+                            int drl = variables.getInt("drl");
+
+
+                            actual1.setText(tpms + " psi");
+                            actual2.setText(tireSize + "\"");
+                            if (signals == 1) {
+                                actual3.setText("Yes");
+                            } else {
+                                actual3.setText("No");
+                            }
+
+
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to get live data
+    public void updateGMSettings() {
+        isProcessing = true;
+        // prepare the Request
+        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int tpms = variables.getInt("tpms");
+                            int fogLights = variables.getInt("fog_high");
+                            int drl = variables.getInt("drl");
+
+                            actual1.setText(tpms + " psi");
+                            if (fogLights == 1) {
+                                actual2.setText("Yes");
+                            } else {
+                                actual2.setText("No");
+                            }
+                            if (drl == 0) {
+                                actual3.setText("Low Beam");
+                            } else if (drl == 1) {
+                                actual3.setText("Fog Lights");
+                            } else if (drl == 2) {
+                                actual3.setText("Disabled");
+                            }
+
+
+                            Log.d("Response", response.toString());
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to get live data
+    public void updateFordSettings() {
+        isProcessing = true;
+        // prepare the Request
+        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            Log.d("TEST2 ", variables.toString());
+                            int tpms = variables.getInt("tpms");
+                            int signals = variables.getInt("lamp_out");
+                            int tireSize = variables.getInt("tire_size");
+                            int fogLights = variables.getInt("fog_high");
+
+                            actual1.setText(tpms + " psi");
+                            if (signals == 1) {
+                                actual2.setText("Yes");
+                            } else {
+                                actual2.setText("No");
+                            }
+                            actual3.setText(tireSize + "\"");
+                            if (fogLights == 1) {
+                                actual4.setText("Yes");
+                            } else {
+                                actual4.setText("No");
+                            }
 
                             Log.d("Response", response.toString());
                         } catch (JSONException e1) {

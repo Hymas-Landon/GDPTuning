@@ -174,11 +174,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="@string/exterior_strobe_light_mode"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="26dp" />
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/second_selector_features_3"
@@ -187,11 +187,11 @@
         android:layout_alignBottom="@id/first_selector_features_3"
         android:layout_alignParentStart="true"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="-100dp"
+        android:layout_marginBottom="-90dp"
         android:text="@string/work_light_mode"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="26dp" />
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/third_selector_features_3"
@@ -200,23 +200,23 @@
         android:layout_alignBottom="@id/second_selector_features_3"
         android:layout_alignParentStart="true"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="-100dp"
+        android:layout_marginBottom="-90dp"
         android:text="@string/auxillary_output_1"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="26dp" />
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/fourth_selector_features_3"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:text="@string/auxillary_output_2"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="26dp" />
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/fifth_selector_features_3"
@@ -225,11 +225,11 @@
         android:layout_alignBottom="@id/fourth_selector_features_3"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="-100dp"
+        android:layout_marginBottom="-90dp"
         android:text="@string/auxillary_output_3"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
-        android:textSize="26dp" />
+        android:textSize="24dp" />
 
     <Button
         android:id="@+id/key_fob"
@@ -237,8 +237,8 @@
         android:layout_height="50dp"
         android:layout_alignEnd="@id/fourth_selector_features_3"
         android:layout_alignBottom="@id/arrowRight5"
-        android:layout_marginEnd="-25dp"
-        android:layout_marginBottom="-90dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="-130dp"
         android:text="@string/learn_key_fob"
         android:textSize="20dp" />
 
@@ -248,8 +248,8 @@
         android:layout_height="50dp"
         android:layout_alignStart="@id/fourth_selector_features_3"
         android:layout_alignBottom="@id/arrowRight5"
-        android:layout_marginStart="130dp"
-        android:layout_marginBottom="-90dp"
+        android:layout_marginStart="210dp"
+        android:layout_marginBottom="-70dp"
         android:background="?attr/button_bg"
         android:textOff="@string/high_idle_off"
         android:textOn="@string/high_idle_on"
@@ -261,8 +261,8 @@
         android:layout_height="50dp"
         android:layout_alignStart="@id/fourth_selector_features_3"
         android:layout_alignBottom="@id/arrowRight5"
-        android:layout_marginStart="-25dp"
-        android:layout_marginBottom="-90dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="-70dp"
         android:background="?attr/button_bg"
         android:textOff="@string/secure_idle_off"
         android:textOn="@string/secure_idle_on"

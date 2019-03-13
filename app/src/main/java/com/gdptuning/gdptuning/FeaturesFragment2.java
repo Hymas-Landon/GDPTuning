@@ -33,11 +33,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class FeaturesFragment2 extends Fragment {
 
-    private static int VFORD1 = 7;
-    private static int VFORD2 = 8;
-    private static int VGM1 = 9;
-    private static int VGM2 = 10;
-    private static int VRAM = 11;
+    final private static int VFORD1 = 7;
+    final private static int VFORD2 = 8;
+    final private static int VGM1 = 9;
+    final private static int VGM2 = 10;
+    final private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     final String themeColor = "ThemeColor";
@@ -596,35 +596,32 @@ public class FeaturesFragment2 extends Fragment {
                             int remote = variables.getInt("rvs");
                             int nav_override = variables.getInt("nav_override");
                             int rke_windows = variables.getInt("rke_windows");
-                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                if (drl == 0) {
-                                    actual1.setText("Low Beam");
-                                } else if (drl == 1) {
-                                    actual1.setText("Fog Lights");
-                                } else if (drl == 2) {
-                                    actual1.setText("Disabled");
-                                } else if (drl == 3) {
-                                    actual1.setText("Turn Signals");
-                                }
-                                if (remote == 1) {
-                                    actual2.setText("5 Minutes");
-                                } else if (remote == 2) {
-                                    actual2.setText("10 Minutes");
-                                } else if (remote == 3) {
-                                    actual2.setText("15 Minutes");
-                                }
-                                if (nav_override == 1) {
-                                    actual3.setText("Yes");
-                                } else {
-                                    actual3.setText("No");
-                                }
-                                if (rke_windows == 1) {
-                                    actual4.setText("Yes");
-                                } else {
-                                    actual4.setText("No");
-                                }
+                            if (drl == 0) {
+                                actual1.setText("Low Beam");
+                            } else if (drl == 1) {
+                                actual1.setText("Fog Lights");
+                            } else if (drl == 2) {
+                                actual1.setText("Disabled");
+                            } else if (drl == 3) {
+                                actual1.setText("Turn Signals");
                             }
-
+                            if (remote == 1) {
+                                actual2.setText("5 Minutes");
+                            } else if (remote == 2) {
+                                actual2.setText("10 Minutes");
+                            } else if (remote == 3) {
+                                actual2.setText("15 Minutes");
+                            }
+                            if (nav_override == 1) {
+                                actual3.setText("Yes");
+                            } else {
+                                actual3.setText("No");
+                            }
+                            if (rke_windows == 1) {
+                                actual4.setText("Yes");
+                            } else {
+                                actual4.setText("No");
+                            }
 
                             Log.d("Response", response.toString());
                         } catch (JSONException e1) {

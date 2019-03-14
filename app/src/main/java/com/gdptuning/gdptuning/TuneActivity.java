@@ -7,7 +7,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -104,7 +103,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
@@ -155,7 +153,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
@@ -333,7 +330,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void setTuneMode(int tuneMode) {
-        Log.d("Response", " " + tuneMode);
         switch (tuneMode) {
             case 1:
                 if (getColorTheme() == Utils.THEME_DEFAULT) {
@@ -506,7 +502,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -528,14 +523,12 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
@@ -579,7 +572,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -597,7 +589,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             tvGear.setText("GEAR: " + pos);
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -608,7 +599,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
@@ -655,7 +645,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                         setTuneMode(tuneMode);
                     }
                 },
@@ -663,7 +652,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")

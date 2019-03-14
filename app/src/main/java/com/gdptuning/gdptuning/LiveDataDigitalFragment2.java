@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,12 +101,11 @@ public class LiveDataDigitalFragment2 extends Fragment {
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
             }
-        }, 0, 50);//put here time 1000 milliseconds=1 second
+        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     private int getVehicleType() {
@@ -137,7 +135,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
@@ -353,14 +350,12 @@ public class LiveDataDigitalFragment2 extends Fragment {
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -380,7 +375,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
@@ -562,7 +556,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
 
                         isProcessing = false;

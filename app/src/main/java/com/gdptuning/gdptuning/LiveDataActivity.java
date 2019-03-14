@@ -9,7 +9,6 @@ import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -134,7 +133,6 @@ public class LiveDataActivity extends AppCompatActivity {
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
@@ -178,7 +176,6 @@ public class LiveDataActivity extends AppCompatActivity {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -199,14 +196,12 @@ public class LiveDataActivity extends AppCompatActivity {
                             mE.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
@@ -247,7 +242,6 @@ public class LiveDataActivity extends AppCompatActivity {
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -263,7 +257,6 @@ public class LiveDataActivity extends AppCompatActivity {
                             }
                             tvGear.setText("GEAR: " + pos);
 
-                            Log.d("Response", response.toString());
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();
@@ -277,7 +270,6 @@ public class LiveDataActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")

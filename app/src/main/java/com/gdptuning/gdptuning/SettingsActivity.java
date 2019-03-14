@@ -9,7 +9,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -195,7 +194,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
@@ -256,7 +254,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -281,21 +278,18 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 mE.printStackTrace();
                             }
                             appVersion.setText(version);
-                            Log.d("Response", response.toString());
 
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(SettingsActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
@@ -336,7 +330,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -353,7 +346,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             tvGear.setText("GEAR: " + pos);
 
                             proVersion.setText(deviceName);
-                            Log.d("Response", response.toString());
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();
@@ -367,7 +359,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(SettingsActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")

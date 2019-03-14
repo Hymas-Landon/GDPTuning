@@ -109,7 +109,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                                Log.d("Error.Response", error.toString());
 
                             }
                         }
@@ -135,7 +134,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                                Log.d("Error.Response", error.toString());
                             }
                         }
                 );
@@ -160,7 +158,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                                Log.d("Error.Response", error.toString());
                             }
                         }
                 );
@@ -197,7 +194,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
 //                        updateRequest();
                     }
                 }
@@ -254,7 +250,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                         try {
                             new MyAsyncTaskCode(DiagnosticsActivity.this).execute();
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -280,21 +275,18 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             }
                             tvGear.setText("GEAR: " + pos);
 
-                            Log.d("Response", response.toString());
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
                     }
                 }
         );
@@ -324,7 +316,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 //
 //                            diagnosticsList.clear();
 //                            JSONObject variables = response.getJSONObject("variables");
-//                            Log.d("TEST2 ", variables.toString());
 //                            int tuneMode = variables.getInt("tune_mode");
 //                            int gear = variables.getInt("gear");
 //                            String deviceName = response.getString("name");
@@ -340,7 +331,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 //                            }
 //                            tvGear.setText("GEAR: " + pos);
 //
-//                            Log.d("Response", response.toString());
 //
 //                        } catch (JSONException mE) {
 //                            mE.printStackTrace();
@@ -352,7 +342,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 //                    @Override
 //                    public void onErrorResponse(VolleyError error) {
 //                        isConnected = false;
-//                        Log.d("Error.Response", error.toString());
 //
 //                        new SweetAlertDialog(DiagnosticsActivity.this, SweetAlertDialog.WARNING_TYPE)
 //                                .setTitleText("No Connection")

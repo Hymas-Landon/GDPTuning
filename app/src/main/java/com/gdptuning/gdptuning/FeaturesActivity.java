@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -235,7 +234,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                 isConnected = true;
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
-                                    Log.d("TEST2 ", variables.toString());
 
                                     SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
                                     SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -317,14 +315,12 @@ public class FeaturesActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 // display response
-                                Log.d("Response", response.toString());
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                                Log.d("Error.Response", error.toString());
                             }
                         }
                 );
@@ -367,12 +363,11 @@ public class FeaturesActivity extends AppCompatActivity {
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateSettingsRequest();
                     }
                 }
             }
-        }, 0, 250);//put here time 1000 milliseconds=1 second
+        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     @Override
@@ -423,7 +418,6 @@ public class FeaturesActivity extends AppCompatActivity {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -504,14 +498,12 @@ public class FeaturesActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
                     }
                 }
         );
@@ -531,7 +523,6 @@ public class FeaturesActivity extends AppCompatActivity {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -546,7 +537,6 @@ public class FeaturesActivity extends AppCompatActivity {
                             }
                             tvGear.setText("GEAR: " + pos);
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -557,7 +547,6 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -582,7 +571,6 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }

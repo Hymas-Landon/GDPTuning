@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,12 +109,11 @@ public class FeaturesFragment extends Fragment {
                     public void run() {
                         if (isConnected) {
                             if (!isProcessing) {
-                                Log.d("TEST2 :", "Sending request");
                                 updateFordSettings();
                             }
                         }
                     }
-                }, 0, 350);//put here time 1000 milliseconds=1 second
+                }, 0, 500);//put here time 1000 milliseconds=1 second
                 break;
             case VGM2:
                 updateGMSettings();
@@ -125,12 +123,11 @@ public class FeaturesFragment extends Fragment {
                     public void run() {
                         if (isConnected) {
                             if (!isProcessing) {
-                                Log.d("TEST2 :", "Sending request");
                                 updateGMSettings();
                             }
                         }
                     }
-                }, 0, 350);//put here time 1000 milliseconds=1 second
+                }, 0, 500);//put here time 1000 milliseconds=1 second
                 break;
             case VRAM:
                 updateRAMSettings();
@@ -140,12 +137,11 @@ public class FeaturesFragment extends Fragment {
                     public void run() {
                         if (isConnected) {
                             if (!isProcessing) {
-                                Log.d("TEST2 :", "Sending request");
                                 updateRAMSettings();
                             }
                         }
                     }
-                }, 0, 350);//put here time 1000 milliseconds=1 second
+                }, 0, 500);//put here time 1000 milliseconds=1 second
                 break;
         }
 //        updateSettingsRequest();
@@ -155,7 +151,6 @@ public class FeaturesFragment extends Fragment {
 //            public void run() {
 //                if (isConnected) {
 //                    if (!isProcessing) {
-//                        Log.d("TEST2 :", "Sending request");
 //                        updateSettingsRequest();
 //                    }
 //                }
@@ -1360,7 +1355,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tpms = variables.getInt("tpms");
                             int signals = variables.getInt("lamp_out");
                             int tireSize = variables.getInt("tire_size");
@@ -1405,7 +1399,6 @@ public class FeaturesFragment extends Fragment {
                             }
 
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -1416,7 +1409,6 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1435,7 +1427,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tpms = variables.getInt("tpms");
                             int signals = variables.getInt("lamp_out");
                             int tireSize = variables.getInt("tire_size");
@@ -1452,7 +1443,6 @@ public class FeaturesFragment extends Fragment {
                             }
 
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -1463,7 +1453,6 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1482,7 +1471,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tpms = variables.getInt("tpms");
                             int fogLights = variables.getInt("fog_high");
                             int drl = variables.getInt("drl");
@@ -1502,7 +1490,6 @@ public class FeaturesFragment extends Fragment {
                             }
 
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -1513,7 +1500,6 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1532,7 +1518,6 @@ public class FeaturesFragment extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tpms = variables.getInt("tpms");
                             int signals = variables.getInt("lamp_out");
                             int tireSize = variables.getInt("tire_size");
@@ -1551,7 +1536,6 @@ public class FeaturesFragment extends Fragment {
                                 actual4.setText("No");
                             }
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -1562,7 +1546,6 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1641,14 +1624,12 @@ public class FeaturesFragment extends Fragment {
                                 edit.apply();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1710,14 +1691,12 @@ public class FeaturesFragment extends Fragment {
                                 break;
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1754,14 +1733,12 @@ public class FeaturesFragment extends Fragment {
                                 break;
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1814,14 +1791,12 @@ public class FeaturesFragment extends Fragment {
 
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }
@@ -1858,14 +1833,12 @@ public class FeaturesFragment extends Fragment {
                                 break;
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                     }
                 }

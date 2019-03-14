@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -112,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
@@ -298,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -319,14 +316,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")
@@ -370,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         try {
 
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");
                             String deviceName = response.getString("name");
@@ -387,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             tvGear.setText("GEAR: " + pos);
 
 
-                            Log.d("Response", response.toString());
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -398,7 +391,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("No Connection")

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,12 +157,11 @@ public class LiveDataDigitalFragment extends Fragment {
             public void run() {
                 if (isConnected) {
                     if (!isProcessing) {
-                        Log.d("TEST2 :", "Sending request");
                         updateRequest();
                     }
                 }
             }
-        }, 0, 50);//put here time 1000 milliseconds=1 second
+        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     private int getVehicleType() {
@@ -213,7 +211,6 @@ public class LiveDataDigitalFragment extends Fragment {
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            Log.d("TEST2 ", variables.toString());
                             tuneMode = variables.getInt("tune_mode");
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
@@ -248,13 +245,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                 turboActual = turbo;
                                 frpActual = (int) (frp * 0.1450377);
                             }
-                            Log.d(TAG, "BoostActual: " + boostActual);
-                            Log.d(TAG, "EGTActual: " + egtActual);
-                            Log.d(TAG, "FuelActual: " + fuelActual);
-                            Log.d(TAG, "TimingActual: " + timingActual);
-                            Log.d(TAG, "CoolantActual: " + coolantActual);
-                            Log.d(TAG, "TurboActual: " + turboActual);
-                            Log.d(TAG, "FRPActual: " + frpActual);
                             switch (getVehicleType()) {
                                 case VFORD1:
                                 case VFORD2:
@@ -273,7 +263,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                     } else {
                                         oilTempActual = (float) (fordOilTemp * 1.8 + 32);
                                     }
-                                    Log.d(TAG, "OilTemp: " + oilTempActual);
                                     oil_pressure_icon1.setVisibility(View.GONE);
                                     oil_pressure_icon2.setVisibility(View.GONE);
                                     oil_pressure_icon3.setVisibility(View.GONE);
@@ -293,7 +282,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(60);
+                                                gauge1.setMaxSpeed(80);
                                                 gauge1.setUnit("psi");
                                             }
                                             break;
@@ -303,14 +292,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(150);
+                                                gauge1.setMaxSpeed(120);
                                                 gauge1.setUnit("°C");
                                             } else {
                                                 gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(300);
+                                                gauge1.setMaxSpeed(280);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -320,14 +309,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(1000);
+                                                gauge1.setMaxSpeed(1200);
                                                 gauge1.setUnit("°C");
                                             } else {
                                                 gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(1800);
+                                                gauge1.setMaxSpeed(2400);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -344,7 +333,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(350);
+                                                gauge1.setMaxSpeed(360);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -370,7 +359,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(310);
                                             gauge1.setMinSpeed(0);
-                                            gauge1.setMaxSpeed(100);
+                                            gauge1.setMaxSpeed(120);
                                             gauge1.setUnit("%");
                                             break;
                                         case INJECTIONFUEL:
@@ -378,7 +367,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(310);
                                             gauge1.setMinSpeed(0);
-                                            gauge1.setMaxSpeed(150);
+                                            gauge1.setMaxSpeed(160);
                                             gauge1.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
@@ -418,14 +407,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(150);
+                                                gauge2.setMaxSpeed(130);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(300);
+                                                gauge2.setMaxSpeed(280);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -442,7 +431,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(1800);
+                                                gauge2.setMaxSpeed(2000);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -513,66 +502,66 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge3.speedTo(boostActual);
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(400);
                                                 gauge3.setUnit("kPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(60);
+                                                gauge3.setMaxSpeed(80);
                                                 gauge3.setUnit("psi");
                                             }
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(150);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(300);
+                                                gauge3.setMaxSpeed(280);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
                                         case EGT:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(1000);
+                                                gauge3.setMaxSpeed(1200);
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(1800);
+                                                gauge3.setMaxSpeed(2400);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
                                         case OILTEMP:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.oil_temp_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
                                                 gauge3.setMaxSpeed(200);
                                                 gauge3.setUnit("°C");
                                             } else {
-                                                gauge3.setImageSpeedometer(R.drawable.oil_temp_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setImageSpeedometer(R.drawable.oil_temp_standard_right);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
                                                 gauge3.setMaxSpeed(350);
                                                 gauge3.setUnit("°F");
@@ -581,15 +570,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case FUELRAILPRESSURE:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(220);
                                                 gauge3.setUnit("MPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(32000);
                                                 gauge3.setUnit("psi");
@@ -597,24 +586,24 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case TURBO:
                                             gauge3.setImageSpeedometer(R.drawable.turbo_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(0);
-                                            gauge3.setMaxSpeed(100);
+                                            gauge3.setMaxSpeed(120);
                                             gauge3.setUnit("%");
                                             break;
                                         case INJECTIONFUEL:
                                             gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(0);
-                                            gauge3.setMaxSpeed(150);
+                                            gauge3.setMaxSpeed(160);
                                             gauge3.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
                                             gauge3.setImageSpeedometer(R.drawable.timing_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(-40);
                                             gauge3.setMaxSpeed(40);
                                             gauge3.setUnit("°");
@@ -644,7 +633,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge3.setImageSpeedometer(R.drawable.app_right);
                                     }
                                     appActual = variables.getInt(APPVar);
-                                    Log.d(TAG, "app: " + appActual);
                                     oil_pressure_icon1.setVisibility(View.GONE);
                                     oil_pressure_icon2.setVisibility(View.GONE);
                                     oil_pressure_icon3.setVisibility(View.GONE);
@@ -667,7 +655,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(60);
+                                                gauge1.setMaxSpeed(80);
                                                 gauge1.setUnit("psi");
                                             }
                                             break;
@@ -677,14 +665,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(150);
+                                                gauge1.setMaxSpeed(120);
                                                 gauge1.setUnit("°C");
                                             } else {
                                                 gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(300);
+                                                gauge1.setMaxSpeed(280);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -694,14 +682,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(1000);
+                                                gauge1.setMaxSpeed(1200);
                                                 gauge1.setUnit("°C");
                                             } else {
                                                 gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(1800);
+                                                gauge1.setMaxSpeed(2400);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -735,7 +723,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(310);
                                             gauge1.setMinSpeed(0);
-                                            gauge1.setMaxSpeed(100);
+                                            gauge1.setMaxSpeed(120);
                                             gauge1.setUnit("%");
                                             break;
                                         case INJECTIONFUEL:
@@ -743,7 +731,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(310);
                                             gauge1.setMinSpeed(0);
-                                            gauge1.setMaxSpeed(150);
+                                            gauge1.setMaxSpeed(160);
                                             gauge1.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
@@ -783,14 +771,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(150);
+                                                gauge2.setMaxSpeed(130);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(300);
+                                                gauge2.setMaxSpeed(280);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -807,7 +795,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(1800);
+                                                gauge2.setMaxSpeed(2000);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -869,49 +857,49 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge3.speedTo(boostActual);
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(400);
                                                 gauge3.setUnit("kPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(60);
+                                                gauge3.setMaxSpeed(80);
                                                 gauge3.setUnit("psi");
                                             }
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(150);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(300);
+                                                gauge3.setMaxSpeed(280);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
                                         case EGT:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(1000);
+                                                gauge3.setMaxSpeed(1200);
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(1800);
                                                 gauge3.setUnit("°F");
@@ -928,15 +916,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case FUELRAILPRESSURE:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(220);
                                                 gauge3.setUnit("MPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(32000);
                                                 gauge3.setUnit("psi");
@@ -944,24 +932,24 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case TURBO:
                                             gauge3.setImageSpeedometer(R.drawable.turbo_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(0);
-                                            gauge3.setMaxSpeed(100);
+                                            gauge3.setMaxSpeed(120);
                                             gauge3.setUnit("%");
                                             break;
                                         case INJECTIONFUEL:
                                             gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(0);
-                                            gauge3.setMaxSpeed(150);
+                                            gauge3.setMaxSpeed(160);
                                             gauge3.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
                                             gauge3.setImageSpeedometer(R.drawable.timing_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(-40);
                                             gauge3.setMaxSpeed(40);
                                             gauge3.setUnit("°");
@@ -993,7 +981,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                     oil_temp_icon2.setVisibility(View.GONE);
                                     oil_temp_icon3.setVisibility(View.GONE);
                                     // Set gauge 1 value
-                                    Log.d(TAG, "OilPressure: " + oilPressureActual);
                                     switch (getGauge1()) {
                                         case BOOST:
                                             gauge1.speedTo(boostActual);
@@ -1009,7 +996,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(60);
+                                                gauge1.setMaxSpeed(80);
                                                 gauge1.setUnit("psi");
                                             }
                                             break;
@@ -1019,14 +1006,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(150);
+                                                gauge1.setMaxSpeed(120);
                                                 gauge1.setUnit("°C");
                                             } else {
                                                 gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(300);
+                                                gauge1.setMaxSpeed(280);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -1036,14 +1023,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(1000);
+                                                gauge1.setMaxSpeed(1200);
                                                 gauge1.setUnit("°C");
                                             } else {
                                                 gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(1800);
+                                                gauge1.setMaxSpeed(2400);
                                                 gauge1.setUnit("°F");
                                             }
                                             break;
@@ -1086,7 +1073,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(310);
                                             gauge1.setMinSpeed(0);
-                                            gauge1.setMaxSpeed(100);
+                                            gauge1.setMaxSpeed(120);
                                             gauge1.setUnit("%");
                                             break;
                                         case INJECTIONFUEL:
@@ -1094,7 +1081,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(310);
                                             gauge1.setMinSpeed(0);
-                                            gauge1.setMaxSpeed(150);
+                                            gauge1.setMaxSpeed(160);
                                             gauge1.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
@@ -1134,14 +1121,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(150);
+                                                gauge2.setMaxSpeed(130);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(300);
+                                                gauge2.setMaxSpeed(280);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -1158,7 +1145,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setStartDegree(150);
                                                 gauge2.setEndDegree(390);
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(1800);
+                                                gauge2.setMaxSpeed(2000);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -1229,49 +1216,49 @@ public class LiveDataDigitalFragment extends Fragment {
                                             gauge3.speedTo(boostActual);
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(400);
                                                 gauge3.setUnit("kPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(60);
+                                                gauge3.setMaxSpeed(80);
                                                 gauge3.setUnit("psi");
                                             }
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(150);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(300);
+                                                gauge3.setMaxSpeed(280);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
                                         case EGT:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(1000);
+                                                gauge3.setMaxSpeed(1200);
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(1800);
                                                 gauge3.setUnit("°F");
@@ -1280,15 +1267,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case OILPRESSURE:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.oil_pressure_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(1000);
                                                 gauge3.setUnit("kPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.oil_pressure_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(160);
                                                 gauge3.setUnit("psi");
@@ -1297,15 +1284,15 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case FUELRAILPRESSURE:
                                             if (isMetric()) {
                                                 gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(220);
                                                 gauge3.setUnit("MPa");
                                             } else {
                                                 gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(310);
+                                                gauge3.setStartDegree(230);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
                                                 gauge3.setMaxSpeed(32000);
                                                 gauge3.setUnit("psi");
@@ -1313,24 +1300,24 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case TURBO:
                                             gauge3.setImageSpeedometer(R.drawable.turbo_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(0);
-                                            gauge3.setMaxSpeed(100);
+                                            gauge3.setMaxSpeed(120);
                                             gauge3.setUnit("%");
                                             break;
                                         case INJECTIONFUEL:
                                             gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(0);
-                                            gauge3.setMaxSpeed(150);
+                                            gauge3.setMaxSpeed(160);
                                             gauge3.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
                                             gauge3.setImageSpeedometer(R.drawable.timing_right);
-                                            gauge3.setStartDegree(150);
-                                            gauge3.setEndDegree(310);
+                                            gauge3.setStartDegree(230);
+                                            gauge3.setEndDegree(390);
                                             gauge3.setMinSpeed(-40);
                                             gauge3.setMaxSpeed(40);
                                             gauge3.setUnit("°");
@@ -1346,14 +1333,12 @@ public class LiveDataDigitalFragment extends Fragment {
                             e.printStackTrace();
                         }
                         // display response
-                        Log.d("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
                     }
                 }
         );
@@ -1409,13 +1394,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                 frpActual = (float) (frp * 0.1450377);
                             }
 
-                            Log.d(TAG, "BoostActual: " + boostActual);
-                            Log.d(TAG, "EGTActual: " + egtActual);
-                            Log.d(TAG, "FuelActual: " + fuelActual);
-                            Log.d(TAG, "TimingActual: " + timingActual);
-                            Log.d(TAG, "CoolantActual: " + coolantActual);
-                            Log.d(TAG, "TurboActual: " + turboActual);
-                            Log.d(TAG, "FRPActual: " + frpActual);
                             ImageIndicator smallIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
                             ImageIndicator largeIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle1);
                             gauge1.setIndicator(smallIndicator);
@@ -1427,7 +1405,9 @@ public class LiveDataDigitalFragment extends Fragment {
                                 oil_pressure_icon1.setVisibility(View.GONE);
                                 oil_pressure_icon2.setVisibility(View.GONE);
                                 oil_pressure_icon3.setVisibility(View.GONE);
-                                Log.d(TAG, "OilTemp: " + oilTempActual);
+                                app_icon1.setVisibility(View.GONE);
+                                app_icon2.setVisibility(View.GONE);
+                                app_icon3.setVisibility(View.GONE);
                                 if (isMetric()) {
                                     oilTempActual = fordOilTemp;
                                 } else {
@@ -1501,7 +1481,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(60);
+                                                    gauge1.setMaxSpeed(80);
                                                     gauge1.setUnit("psi");
                                                 }
                                             }
@@ -1519,14 +1499,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(150);
+                                                    gauge1.setMaxSpeed(120);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(300);
+                                                    gauge1.setMaxSpeed(280);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -1544,14 +1524,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1000);
+                                                    gauge1.setMaxSpeed(1200);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1800);
+                                                    gauge1.setMaxSpeed(2400);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -1568,7 +1548,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(150);
+                                                gauge1.setMaxSpeed(160);
                                             }
                                         });
                                         injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1599,7 +1579,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(100);
+                                                gauge1.setMaxSpeed(120);
                                                 gauge1.setUnit("%");
                                             }
                                         });
@@ -1641,14 +1621,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(200);
+                                                    gauge1.setMaxSpeed(280);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.oil_temp_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(350);
+                                                    gauge1.setMaxSpeed(360);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -1770,7 +1750,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge2.setStartDegree(150);
                                                     gauge2.setEndDegree(390);
                                                     gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1800);
+                                                    gauge2.setMaxSpeed(2000);
                                                     gauge2.setUnit("°C");
                                                 }
                                             }
@@ -1939,7 +1919,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(60);
+                                                    gauge3.setMaxSpeed(80);
                                                     gauge3.setUnit("psi");
                                                 }
                                             }
@@ -1957,14 +1937,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(150);
+                                                    gauge3.setMaxSpeed(120);
                                                     gauge3.setUnit("°C");
                                                 } else {
                                                     gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(300);
+                                                    gauge3.setMaxSpeed(280);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -1982,14 +1962,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1000);
+                                                    gauge3.setMaxSpeed(1200);
                                                     gauge3.setUnit("°C");
                                                 } else {
                                                     gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1800);
+                                                    gauge3.setMaxSpeed(2400);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -2006,7 +1986,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setStartDegree(230);
                                                 gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(150);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("mm3");
                                             }
                                         });
@@ -2038,7 +2018,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setStartDegree(230);
                                                 gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(100);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("%");
                                             }
                                         });
@@ -2083,11 +2063,11 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setMaxSpeed(200);
                                                     gauge3.setUnit("°C");
                                                 } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.oil_temp_right_standard);
+                                                    gauge3.setImageSpeedometer(R.drawable.oil_temp_standard_right);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(350);
+                                                    gauge3.setMaxSpeed(360);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -2169,7 +2149,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(60);
+                                                    gauge1.setMaxSpeed(80);
                                                     gauge1.setUnit("psi");
                                                 }
                                             }
@@ -2187,14 +2167,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(150);
+                                                    gauge1.setMaxSpeed(120);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(300);
+                                                    gauge1.setMaxSpeed(280);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -2212,14 +2192,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1000);
+                                                    gauge1.setMaxSpeed(1200);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1800);
+                                                    gauge1.setMaxSpeed(2400);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -2236,7 +2216,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(150);
+                                                gauge1.setMaxSpeed(160);
                                             }
                                         });
                                         injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
@@ -2267,7 +2247,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(100);
+                                                gauge1.setMaxSpeed(120);
                                                 gauge1.setUnit("%");
                                             }
                                         });
@@ -2306,7 +2286,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 mScrollView1.setVisibility(View.GONE);
                                                 gauge1.setImageSpeedometer(R.drawable.app_right);
                                                 gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(290);
+                                                gauge1.setEndDegree(390);
                                                 gauge1.setMinSpeed(0);
                                                 gauge1.setMaxSpeed(100);
                                                 gauge1.setUnit("%");
@@ -2589,7 +2569,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(60);
+                                                    gauge3.setMaxSpeed(80);
                                                     gauge3.setUnit("psi");
                                                 }
                                             }
@@ -2607,14 +2587,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(150);
+                                                    gauge3.setMaxSpeed(120);
                                                     gauge3.setUnit("°C");
                                                 } else {
                                                     gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(300);
+                                                    gauge3.setMaxSpeed(280);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -2632,14 +2612,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1000);
+                                                    gauge3.setMaxSpeed(1200);
                                                     gauge3.setUnit("°C");
                                                 } else {
                                                     gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1800);
+                                                    gauge3.setMaxSpeed(2400);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -2656,7 +2636,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setStartDegree(230);
                                                 gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(150);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("mm3");
                                             }
                                         });
@@ -2688,7 +2668,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setStartDegree(230);
                                                 gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(100);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("%");
                                             }
                                         });
@@ -2727,9 +2707,9 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 mScrollView3.setVisibility(View.GONE);
                                                 gauge3.setImageSpeedometer(R.drawable.app_right);
                                                 gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(290);
+                                                gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(100);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("%");
                                             }
                                         });
@@ -2747,7 +2727,9 @@ public class LiveDataDigitalFragment extends Fragment {
                                 oil_temp_icon1.setVisibility(View.GONE);
                                 oil_temp_icon2.setVisibility(View.GONE);
                                 oil_temp_icon3.setVisibility(View.GONE);
-                                Log.d(TAG, "OilPressure: " + oilPressureActual);
+                                app_icon1.setVisibility(View.GONE);
+                                app_icon2.setVisibility(View.GONE);
+                                app_icon3.setVisibility(View.GONE);
                                 // Set gauge 1 value
                                 switch (getGauge1()) {
                                     case BOOST:
@@ -2815,7 +2797,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(60);
+                                                    gauge1.setMaxSpeed(80);
                                                     gauge1.setUnit("psi");
                                                 }
                                             }
@@ -2833,14 +2815,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(150);
+                                                    gauge1.setMaxSpeed(120);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(300);
+                                                    gauge1.setMaxSpeed(280);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -2858,14 +2840,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1000);
+                                                    gauge1.setMaxSpeed(1200);
                                                     gauge1.setUnit("°C");
                                                 } else {
                                                     gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
                                                     gauge1.setStartDegree(150);
                                                     gauge1.setEndDegree(310);
                                                     gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1800);
+                                                    gauge1.setMaxSpeed(2400);
                                                     gauge1.setUnit("°F");
                                                 }
                                             }
@@ -2882,7 +2864,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(150);
+                                                gauge1.setMaxSpeed(160);
                                             }
                                         });
                                         injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
@@ -2913,7 +2895,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setStartDegree(150);
                                                 gauge1.setEndDegree(310);
                                                 gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(100);
+                                                gauge1.setMaxSpeed(120);
                                                 gauge1.setUnit("%");
                                             }
                                         });
@@ -3253,7 +3235,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(60);
+                                                    gauge3.setMaxSpeed(80);
                                                     gauge3.setUnit("psi");
                                                 }
                                             }
@@ -3271,14 +3253,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(150);
+                                                    gauge3.setMaxSpeed(120);
                                                     gauge3.setUnit("°C");
                                                 } else {
                                                     gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(300);
+                                                    gauge3.setMaxSpeed(280);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -3296,14 +3278,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1000);
+                                                    gauge3.setMaxSpeed(1200);
                                                     gauge3.setUnit("°C");
                                                 } else {
                                                     gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
                                                     gauge3.setStartDegree(230);
                                                     gauge3.setEndDegree(390);
                                                     gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1800);
+                                                    gauge3.setMaxSpeed(2400);
                                                     gauge3.setUnit("°F");
                                                 }
                                             }
@@ -3320,7 +3302,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setStartDegree(230);
                                                 gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(150);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("mm3");
                                             }
                                         });
@@ -3352,7 +3334,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setStartDegree(230);
                                                 gauge3.setEndDegree(390);
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(100);
+                                                gauge3.setMaxSpeed(120);
                                                 gauge3.setUnit("%");
                                             }
                                         });
@@ -3419,7 +3401,6 @@ public class LiveDataDigitalFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                        Log.d("Error.Response", error.toString());
 
                         isProcessing = false;
                     }

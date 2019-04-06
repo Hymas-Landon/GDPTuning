@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="190dp"
-        android:layout_toStartOf="@id/arrowRight"
+        android:layout_toStartOf="@id/strobe_on"
         android:text="CURRENT"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
@@ -24,14 +24,14 @@
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_toStartOf="@id/arrowRight"
+        android:layout_toStartOf="@id/strobe_on"
         android:text="DESIRED"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="20dp" />
 
     <ImageView
-        android:id="@+id/arrowRight"
+        android:id="@+id/strobe_on"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector1"
@@ -41,11 +41,11 @@
         app:srcCompat="?attr/triangle_button_right" />
 
     <ImageView
-        android:id="@+id/arrowLeft"
+        android:id="@+id/strobe_off"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector1"
-        android:layout_alignEnd="@id/arrowLeft4"
+        android:layout_alignEnd="@id/aux2_off"
         android:layout_marginStart="-50dp"
         android:layout_marginTop="-5dp"
         app:srcCompat="?attr/triangle_button_left" />
@@ -55,7 +55,7 @@
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
-        android:layout_toStartOf="@id/arrowRight"
+        android:layout_toStartOf="@id/strobe_on"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
@@ -67,14 +67,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:layout_marginEnd="190dp"
-        android:layout_toStartOf="@id/arrowRight"
+        android:layout_toStartOf="@id/strobe_on"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp" />
 
     <ImageView
-        android:id="@+id/arrowRight2"
+        android:id="@+id/work_light_on"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector2"
@@ -84,11 +84,11 @@
         app:srcCompat="?attr/triangle_button_right" />
 
     <ImageView
-        android:id="@+id/arrowLeft2"
+        android:id="@+id/work_light_off"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector2"
-        android:layout_alignEnd="@id/arrowLeft4"
+        android:layout_alignEnd="@id/aux2_off"
         android:layout_marginStart="-60dp"
         android:layout_marginTop="-5dp"
         app:srcCompat="?attr/triangle_button_left" />
@@ -98,7 +98,7 @@
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="135dp"
-        android:layout_toStartOf="@id/arrowRight2"
+        android:layout_toStartOf="@id/work_light_on"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
@@ -110,14 +110,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="135dp"
         android:layout_marginEnd="190dp"
-        android:layout_toStartOf="@id/arrowRight2"
+        android:layout_toStartOf="@id/work_light_on"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp" />
 
     <ImageView
-        android:id="@+id/arrowRight3"
+        android:id="@+id/aux1_on"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector3"
@@ -127,11 +127,11 @@
         app:srcCompat="?attr/triangle_button_right" />
 
     <ImageView
-        android:id="@+id/arrowLeft3"
+        android:id="@+id/aux1_off"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector3"
-        android:layout_alignEnd="@id/arrowLeft4"
+        android:layout_alignEnd="@id/aux2_off"
         android:layout_marginStart="-60dp"
         android:layout_marginTop="-5dp"
         app:srcCompat="?attr/triangle_button_left" />
@@ -141,7 +141,7 @@
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="205dp"
-        android:layout_toStartOf="@id/arrowRight3"
+        android:layout_toStartOf="@id/aux1_on"
         android:text=""
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
@@ -153,14 +153,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="205dp"
         android:layout_marginEnd="190dp"
-        android:layout_toStartOf="@id/arrowRight3"
+        android:layout_toStartOf="@id/aux1_on"
         android:text=''
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp" />
 
     <ImageView
-        android:id="@+id/arrowRight4"
+        android:id="@+id/aux2_on"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector4"
@@ -170,7 +170,7 @@
         app:srcCompat="?attr/triangle_button_right" />
 
     <ImageView
-        android:id="@+id/arrowLeft4"
+        android:id="@+id/aux2_off"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignTop="@+id/selector4"
@@ -184,7 +184,7 @@
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="275dp"
-        android:layout_toStartOf="@id/arrowRight4"
+        android:layout_toStartOf="@id/aux2_on"
         android:maxLines="2"
         android:text=""
         android:textAlignment="center"
@@ -197,7 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="275dp"
         android:layout_marginEnd="190dp"
-        android:layout_toStartOf="@id/arrowRight4"
+        android:layout_toStartOf="@id/aux2_on"
         android:maxLines="2"
         android:text=""
         android:textAlignment="center"

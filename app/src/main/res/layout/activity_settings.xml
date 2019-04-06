@@ -52,7 +52,7 @@
         tools:ignore="RelativeOverlap" />
 
     <ImageView
-        android:id="@+id/arrowRight"
+        android:id="@+id/strobe_on"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignTop="@+id/selector1"
@@ -62,7 +62,7 @@
         app:srcCompat="?attr/triangle_button_right" />
 
     <ImageView
-        android:id="@+id/arrowLeft"
+        android:id="@+id/strobe_off"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignTop="@+id/selector1"
@@ -76,13 +76,13 @@
         android:layout_width="252dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="130dp"
-        android:layout_toStartOf="@id/arrowRight"
+        android:layout_toStartOf="@id/strobe_on"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="30dp" />
 
     <ImageView
-        android:id="@+id/arrowRight3"
+        android:id="@+id/aux1_on"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignTop="@+id/selector3"
@@ -92,7 +92,7 @@
         app:srcCompat="?attr/triangle_button_right" />
 
     <ImageView
-        android:id="@+id/arrowLeft3"
+        android:id="@+id/aux1_off"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignTop="@+id/selector3"
@@ -106,7 +106,7 @@
         android:layout_width="252dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="240dp"
-        android:layout_toStartOf="@id/arrowRight3"
+        android:layout_toStartOf="@id/aux1_on"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="30dp" />

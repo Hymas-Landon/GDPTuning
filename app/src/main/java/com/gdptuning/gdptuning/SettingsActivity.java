@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             colorIndex = 3;
         }
 
-        arrowLeft1 = findViewById(R.id.arrowLeft);
+        arrowLeft1 = findViewById(R.id.strobe_off);
         arrowLeft1.setOnClickListener(new View.OnClickListener() {
             SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
             SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -116,7 +116,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 edit.apply();
             }
         });
-        arrowRight1 = findViewById(R.id.arrowRight);
+        arrowRight1 = findViewById(R.id.strobe_on);
         arrowRight1.setOnClickListener(new View.OnClickListener() {
             SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
             SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -128,7 +128,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 edit.apply();
             }
         });
-        arrowLeft3 = findViewById(R.id.arrowLeft3);
+        arrowLeft3 = findViewById(R.id.aux1_off);
         arrowLeft3.setOnClickListener(new View.OnClickListener() {
             SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
             SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -153,7 +153,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 edit.apply();
             }
         });
-        arrowRight3 = findViewById(R.id.arrowRight3);
+        arrowRight3 = findViewById(R.id.aux1_on);
         arrowRight3.setOnClickListener(new View.OnClickListener() {
             SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
             SharedPreferences.Editor edit = mSharedPreferences.edit();

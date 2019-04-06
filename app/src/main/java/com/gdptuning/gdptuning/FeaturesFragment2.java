@@ -80,14 +80,14 @@ public class FeaturesFragment2 extends Fragment {
         selector_words_second_2 = mView.findViewById(R.id.second_selector_features_2);
         selector_words_third_2 = mView.findViewById(R.id.third_selector_features_2);
         selector_words_fourth_2 = mView.findViewById(R.id.fourth_selector_features_2);
-        arrowLeft1 = mView.findViewById(R.id.arrowLeft);
-        arrowLeft2 = mView.findViewById(R.id.arrowLeft2);
-        arrowLeft3 = mView.findViewById(R.id.arrowLeft3);
-        arrowLeft4 = mView.findViewById(R.id.arrowLeft4);
-        arrowRight1 = mView.findViewById(R.id.arrowRight);
-        arrowRight2 = mView.findViewById(R.id.arrowRight2);
-        arrowRight3 = mView.findViewById(R.id.arrowRight3);
-        arrowRight4 = mView.findViewById(R.id.arrowRight4);
+        arrowLeft1 = mView.findViewById(R.id.strobe_off);
+        arrowLeft2 = mView.findViewById(R.id.work_light_off);
+        arrowLeft3 = mView.findViewById(R.id.aux1_off);
+        arrowLeft4 = mView.findViewById(R.id.aux2_off);
+        arrowRight1 = mView.findViewById(R.id.strobe_on);
+        arrowRight2 = mView.findViewById(R.id.work_light_on);
+        arrowRight3 = mView.findViewById(R.id.aux1_on);
+        arrowRight4 = mView.findViewById(R.id.aux2_on);
 
         return mView;
     }

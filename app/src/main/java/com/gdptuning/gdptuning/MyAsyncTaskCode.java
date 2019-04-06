@@ -9,7 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
-    static private final int Iterations = 1;
+    static private final int Iterations = 2;
 
     private ProgressDialog mProgress = null;
     private Context mContext = null;

@@ -43,7 +43,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
     Timer timer;
     RequestQueue queue;
     WifiManager wifi;
-    public static final String TAG = "GDP Tuning";
     final String coolantVar = "coolant";
     final String oilPressureVar = "oil_pressur";
     final String oilTempVar = "oil_temp";
@@ -225,7 +224,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
                                 injectionTiming.speedTo(timingActual);
                                 injectionTiming.setUnit("°");
                                 fuelRate.speedTo(fuelActual);
-                                fuelRate.setUnit("mm3");
+                                fuelRate.setUnit("L/H");
 
 
                             } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2) {

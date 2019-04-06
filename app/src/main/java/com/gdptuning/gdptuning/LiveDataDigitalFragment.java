@@ -139,12 +139,1656 @@ public class LiveDataDigitalFragment extends Fragment {
         mLinearLayout2 = mView.findViewById(R.id.linear_live_data2);
         mLinearLayout3 = mView.findViewById(R.id.linear_live_data3);
 
+
+        ImageIndicator smallIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
+        ImageIndicator largeIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle1);
+        gauge1.setIndicator(smallIndicator);
+        gauge2.setIndicator(largeIndicator);
+        gauge3.setIndicator(smallIndicator);
+
         return mView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+            oil_pressure_icon1.setVisibility(View.GONE);
+            oil_pressure_icon2.setVisibility(View.GONE);
+            oil_pressure_icon3.setVisibility(View.GONE);
+            app_icon1.setVisibility(View.GONE);
+            app_icon2.setVisibility(View.GONE);
+            app_icon3.setVisibility(View.GONE);
+
+            gauge1.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView1.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView1.setVisibility(View.VISIBLE);
+                    boost_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", BOOST);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.boost_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(400);
+                                gauge1.setUnit("kPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.boost_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(80);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", COOLANT);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.coolant_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(120);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(280);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", EGT);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.egt_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(1200);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(2400);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                    injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.fuel_rate_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(160);
+                            gauge1.setUnit("L/H");
+                        }
+                    });
+                    injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.timing_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(-40);
+                            gauge1.setMaxSpeed(40);
+                            gauge1.setUnit("°");
+                        }
+                    });
+                    turbo_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", TURBO);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.turbo_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(120);
+                            gauge1.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.frp_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(220);
+                                gauge1.setUnit("MPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.frp_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(32000);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                    oil_temp_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", OILTEMP);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.oil_temp_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(280);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.oil_temp_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(360);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                }
+            });
+
+            gauge2.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView2.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView2.setVisibility(View.VISIBLE);
+                    boost_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", BOOST);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(400);
+                                gauge2.setUnit("kPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(60);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", COOLANT);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(150);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(300);
+                                gauge2.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", EGT);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(1000);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(2000);
+                                gauge2.setUnit("°C");
+                            }
+                        }
+                    });
+                    injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(374);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(150);
+                            gauge2.setUnit("L/H");
+                        }
+                    });
+                    injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.timing_middle);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(390);
+                            gauge2.setMinSpeed(-40);
+                            gauge2.setMaxSpeed(40);
+                            gauge2.setUnit("°");
+                        }
+                    });
+                    turbo_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", TURBO);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.turbo_middle);
+                            gauge2.setStartDegree(170);
+                            gauge2.setEndDegree(370);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(100);
+                            gauge2.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
+                                gauge2.setStartDegree(170);
+                                gauge2.setEndDegree(370);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(220);
+                                gauge2.setUnit("MPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(32000);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                    oil_temp_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", OILTEMP);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(200);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_standard);
+                                gauge2.setStartDegree(165);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(350);
+                                gauge2.setUnit("°F");
+                            }
+                        }
+                    });
+                }
+            });
+
+            gauge3.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView3.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView3.setVisibility(View.VISIBLE);
+                    boost_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", BOOST);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(400);
+                                gauge3.setUnit("kPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(80);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", COOLANT);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(120);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(280);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", EGT);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(1200);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(2400);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                    injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("L/H");
+                        }
+                    });
+                    injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.timing_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(-40);
+                            gauge3.setMaxSpeed(40);
+                            gauge3.setUnit("°");
+                        }
+                    });
+                    turbo_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", TURBO);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.turbo_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(220);
+                                gauge3.setUnit("MPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(32000);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                    oil_temp_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", OILTEMP);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.oil_temp_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(200);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.oil_temp_standard_right);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(360);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
+        if (getVehicleType() == VRAM) {
+            oil_pressure_icon1.setVisibility(View.GONE);
+            oil_pressure_icon2.setVisibility(View.GONE);
+            oil_pressure_icon3.setVisibility(View.GONE);
+
+            gauge1.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView1.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView1.setVisibility(View.VISIBLE);
+                    boost_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", BOOST);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.boost_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(400);
+                                gauge1.setUnit("kPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.boost_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(80);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", COOLANT);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.coolant_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(120);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(280);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", EGT);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.egt_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(1200);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(2400);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                    injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.fuel_rate_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(160);
+                            gauge1.setUnit("mm3");
+                        }
+                    });
+                    injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.timing_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(-40);
+                            gauge1.setMaxSpeed(40);
+                            gauge1.setUnit("°");
+                        }
+                    });
+                    turbo_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", TURBO);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.turbo_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(120);
+                            gauge1.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.frp_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(220);
+                                gauge1.setUnit("MPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.frp_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(32000);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                    app_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", APP);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.app_right);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(390);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(100);
+                            gauge1.setUnit("%");
+                        }
+                    });
+                }
+            });
+
+            gauge2.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView2.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView2.setVisibility(View.VISIBLE);
+                    boost_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", BOOST);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(400);
+                                gauge2.setUnit("kPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(60);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", COOLANT);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(150);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(300);
+                                gauge2.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", EGT);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(1000);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(1800);
+                                gauge2.setUnit("°C");
+                            }
+                        }
+                    });
+                    injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(374);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(150);
+                            gauge2.setUnit("mm3");
+                        }
+                    });
+                    injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.timing_middle);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(390);
+                            gauge2.setMinSpeed(-40);
+                            gauge2.setMaxSpeed(40);
+                            gauge2.setUnit("°");
+                        }
+                    });
+                    turbo_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", TURBO);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.turbo_middle);
+                            gauge2.setStartDegree(170);
+                            gauge2.setEndDegree(370);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(100);
+                            gauge2.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
+                                gauge2.setStartDegree(170);
+                                gauge2.setEndDegree(370);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(220);
+                                gauge2.setUnit("MPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(32000);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                    app_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", APP);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.app_right);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(290);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(100);
+                            gauge2.setUnit("%");
+                        }
+                    });
+                }
+            });
+
+            gauge3.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView3.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView3.setVisibility(View.VISIBLE);
+                    boost_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", BOOST);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(400);
+                                gauge3.setUnit("kPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(80);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", COOLANT);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(120);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(280);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", EGT);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(1200);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(2400);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                    injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("mm3");
+                        }
+                    });
+                    injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.timing_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(-40);
+                            gauge3.setMaxSpeed(40);
+                            gauge3.setUnit("°");
+                        }
+                    });
+                    turbo_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", TURBO);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.turbo_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(220);
+                                gauge3.setUnit("MPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(32000);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                    app_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", APP);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.app_right);
+                            gauge3.setStartDegree(150);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("%");
+                        }
+                    });
+                }
+            });
+
+
+        } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2) {
+
+            oil_temp_icon1.setVisibility(View.GONE);
+            oil_temp_icon2.setVisibility(View.GONE);
+            oil_temp_icon3.setVisibility(View.GONE);
+            app_icon1.setVisibility(View.GONE);
+            app_icon2.setVisibility(View.GONE);
+            app_icon3.setVisibility(View.GONE);
+
+            gauge1.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView1.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView1.setVisibility(View.VISIBLE);
+                    boost_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", BOOST);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.boost_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(400);
+                                gauge1.setUnit("kPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.boost_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(80);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", COOLANT);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.coolant_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(120);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(-40);
+                                gauge1.setMaxSpeed(280);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", EGT);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.egt_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(1200);
+                                gauge1.setUnit("°C");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(2400);
+                                gauge1.setUnit("°F");
+                            }
+                        }
+                    });
+                    injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.fuel_rate_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(160);
+                            gauge1.setUnit("mm3");
+                        }
+                    });
+                    injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.timing_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(-40);
+                            gauge1.setMaxSpeed(40);
+                            gauge1.setUnit("°");
+                        }
+                    });
+                    turbo_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", TURBO);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            gauge1.setImageSpeedometer(R.drawable.turbo_left);
+                            gauge1.setStartDegree(150);
+                            gauge1.setEndDegree(310);
+                            gauge1.setMinSpeed(0);
+                            gauge1.setMaxSpeed(120);
+                            gauge1.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.frp_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(220);
+                                gauge1.setUnit("MPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.frp_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(32000);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                    oil_pressure_icon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge1", OILPRESSURE);
+                            edit.apply();
+                            mScrollView1.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge1.setImageSpeedometer(R.drawable.oil_pressure_left_metric);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(1000);
+                                gauge1.setUnit("kPa");
+                            } else {
+                                gauge1.setImageSpeedometer(R.drawable.oil_pressure_left_standard);
+                                gauge1.setStartDegree(150);
+                                gauge1.setEndDegree(310);
+                                gauge1.setMinSpeed(0);
+                                gauge1.setMaxSpeed(150);
+                                gauge1.setUnit("psi");
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            gauge2.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView2.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView2.setVisibility(View.VISIBLE);
+                    boost_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", BOOST);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(400);
+                                gauge2.setUnit("kPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
+                                gauge2.setStartDegree(163);
+                                gauge2.setEndDegree(377);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(60);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", COOLANT);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(150);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(-40);
+                                gauge2.setMaxSpeed(300);
+                                gauge2.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", EGT);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(1000);
+                                gauge2.setUnit("°C");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(1800);
+                                gauge2.setUnit("°C");
+                            }
+                        }
+                    });
+                    injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(374);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(150);
+                            gauge2.setUnit("mm3");
+                        }
+                    });
+                    injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.timing_middle);
+                            gauge2.setStartDegree(150);
+                            gauge2.setEndDegree(390);
+                            gauge2.setMinSpeed(-40);
+                            gauge2.setMaxSpeed(40);
+                            gauge2.setUnit("°");
+                        }
+                    });
+                    turbo_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", TURBO);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            gauge2.setImageSpeedometer(R.drawable.turbo_middle);
+                            gauge2.setStartDegree(170);
+                            gauge2.setEndDegree(370);
+                            gauge2.setMinSpeed(0);
+                            gauge2.setMaxSpeed(100);
+                            gauge2.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
+                                gauge2.setStartDegree(170);
+                                gauge2.setEndDegree(370);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(220);
+                                gauge2.setUnit("MPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(32000);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                    oil_pressure_icon2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge2", OILPRESSURE);
+                            edit.apply();
+                            mScrollView2.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge2.setImageSpeedometer(R.drawable.oil_pressure_middle_metric);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(390);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(1000);
+                                gauge2.setUnit("kPa");
+                            } else {
+                                gauge2.setImageSpeedometer(R.drawable.oil_pressure_middle_standard);
+                                gauge2.setStartDegree(150);
+                                gauge2.setEndDegree(360);
+                                gauge2.setMinSpeed(0);
+                                gauge2.setMaxSpeed(150);
+                                gauge2.setUnit("psi");
+                            }
+                        }
+                    });
+                }
+            });
+
+            gauge3.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public void onClick(View mView) {
+                    mScrollView3.setBackgroundColor(Color.parseColor("#B3000000"));
+                    mScrollView3.setVisibility(View.VISIBLE);
+                    boost_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", BOOST);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(400);
+                                gauge3.setUnit("kPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(80);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                    coolant_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", COOLANT);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(120);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(-40);
+                                gauge3.setMaxSpeed(280);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                    egt_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", EGT);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(1200);
+                                gauge3.setUnit("°C");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(2400);
+                                gauge3.setUnit("°F");
+                            }
+                        }
+                    });
+                    injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", INJECTIONFUEL);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("mm3");
+                        }
+                    });
+                    injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", INJECTIONTIMING);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.timing_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(-40);
+                            gauge3.setMaxSpeed(40);
+                            gauge3.setUnit("°");
+                        }
+                    });
+                    turbo_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", TURBO);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            gauge3.setImageSpeedometer(R.drawable.turbo_right);
+                            gauge3.setStartDegree(230);
+                            gauge3.setEndDegree(390);
+                            gauge3.setMinSpeed(0);
+                            gauge3.setMaxSpeed(120);
+                            gauge3.setUnit("%");
+                        }
+                    });
+                    fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", FUELRAILPRESSURE);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(220);
+                                gauge3.setUnit("MPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(32000);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                    oil_pressure_icon3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View mView) {
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putInt("gauge3", OILPRESSURE);
+                            edit.apply();
+                            mScrollView3.setVisibility(View.GONE);
+                            if (isMetric()) {
+                                gauge3.setImageSpeedometer(R.drawable.oil_pressure_right_metric);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(1000);
+                                gauge3.setUnit("kPa");
+                            } else {
+                                gauge3.setImageSpeedometer(R.drawable.oil_pressure_right_standard);
+                                gauge3.setStartDegree(230);
+                                gauge3.setEndDegree(390);
+                                gauge3.setMinSpeed(0);
+                                gauge3.setMaxSpeed(150);
+                                gauge3.setUnit("psi");
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
         //Working with wifi
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
@@ -1394,11 +3038,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                 frpActual = (float) (frp * 0.1450377);
                             }
 
-                            ImageIndicator smallIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle2);
-                            ImageIndicator largeIndicator = new ImageIndicator(Objects.requireNonNull(getContext()), R.drawable.needle1);
-                            gauge1.setIndicator(smallIndicator);
-                            gauge2.setIndicator(largeIndicator);
-                            gauge3.setIndicator(smallIndicator);
 
                             if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                                 float fordOilTemp = variables.getInt(oilTempVar);
@@ -1453,189 +3092,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge1.setSpeedTextSize(45);
                                         break;
                                 }
-
-
-                                gauge1.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView1.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView1.setVisibility(View.VISIBLE);
-                                        boost_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", BOOST);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.boost_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(400);
-                                                    gauge1.setUnit("kPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.boost_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(80);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", COOLANT);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.coolant_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(120);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(280);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", EGT);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.egt_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1200);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(2400);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.fuel_rate_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(160);
-                                            }
-                                        });
-                                        injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.timing_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(40);
-                                                gauge1.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", TURBO);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.turbo_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(120);
-                                                gauge1.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.frp_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(220);
-                                                    gauge1.setUnit("MPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.frp_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(32000);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        oil_temp_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", OILTEMP);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.oil_temp_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(280);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.oil_temp_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(360);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-
                                 switch (getGauge2()) {
                                     case BOOST:
                                         gauge2.speedTo(boostActual);
@@ -1674,187 +3130,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge2.setSpeedTextSize(45);
                                         break;
                                 }
-                                gauge2.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView2.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView2.setVisibility(View.VISIBLE);
-                                        boost_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", BOOST);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(400);
-                                                    gauge2.setUnit("kPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(60);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", COOLANT);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(150);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(300);
-                                                    gauge2.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", EGT);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1000);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(2000);
-                                                    gauge2.setUnit("°C");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(374);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(150);
-                                                gauge2.setUnit("mm3");
-                                            }
-                                        });
-                                        injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.timing_middle);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(390);
-                                                gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(40);
-                                                gauge2.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", TURBO);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.turbo_middle);
-                                                gauge2.setStartDegree(170);
-                                                gauge2.setEndDegree(370);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(100);
-                                                gauge2.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
-                                                    gauge2.setStartDegree(170);
-                                                    gauge2.setEndDegree(370);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(220);
-                                                    gauge2.setUnit("MPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(32000);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        oil_temp_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", OILTEMP);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(200);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.oil_temp_middle_standard);
-                                                    gauge2.setStartDegree(165);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(350);
-                                                    gauge2.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
                                 switch (getGauge3()) {
                                     case BOOST:
                                         gauge3.speedTo(boostActual);
@@ -1893,187 +3168,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge3.setSpeedTextSize(45);
                                         break;
                                 }
-                                gauge3.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView3.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView3.setVisibility(View.VISIBLE);
-                                        boost_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", BOOST);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(400);
-                                                    gauge3.setUnit("kPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(80);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", COOLANT);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(120);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(280);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", EGT);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1200);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(2400);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("mm3");
-                                            }
-                                        });
-                                        injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.timing_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(40);
-                                                gauge3.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", TURBO);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.turbo_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(220);
-                                                    gauge3.setUnit("MPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(32000);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        oil_temp_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", OILTEMP);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.oil_temp_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(200);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.oil_temp_standard_right);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(360);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
 
                             }
                             if (getVehicleType() == VRAM) {
@@ -2122,179 +3216,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         break;
                                 }
 
-
-                                gauge1.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView1.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView1.setVisibility(View.VISIBLE);
-                                        boost_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", BOOST);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.boost_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(400);
-                                                    gauge1.setUnit("kPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.boost_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(80);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", COOLANT);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.coolant_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(120);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(280);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", EGT);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.egt_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1200);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(2400);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.fuel_rate_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(160);
-                                            }
-                                        });
-                                        injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.timing_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(40);
-                                                gauge1.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", TURBO);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.turbo_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(120);
-                                                gauge1.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.frp_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(220);
-                                                    gauge1.setUnit("MPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.frp_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(32000);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        app_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", APP);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.app_right);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(390);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(100);
-                                                gauge1.setUnit("%");
-                                            }
-                                        });
-                                    }
-                                });
-
                                 switch (getGauge2()) {
                                     case BOOST:
                                         gauge2.speedTo(boostActual);
@@ -2333,178 +3254,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge2.setSpeedTextSize(45);
                                         break;
                                 }
-                                gauge2.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView2.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView2.setVisibility(View.VISIBLE);
-                                        boost_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", BOOST);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(400);
-                                                    gauge2.setUnit("kPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(60);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", COOLANT);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(150);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(300);
-                                                    gauge2.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", EGT);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1000);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1800);
-                                                    gauge2.setUnit("°C");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(374);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(150);
-                                                gauge2.setUnit("mm3");
-                                            }
-                                        });
-                                        injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.timing_middle);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(390);
-                                                gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(40);
-                                                gauge2.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", TURBO);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.turbo_middle);
-                                                gauge2.setStartDegree(170);
-                                                gauge2.setEndDegree(370);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(100);
-                                                gauge2.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
-                                                    gauge2.setStartDegree(170);
-                                                    gauge2.setEndDegree(370);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(220);
-                                                    gauge2.setUnit("MPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(32000);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        app_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", APP);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.app_right);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(290);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(100);
-                                                gauge2.setUnit("%");
-                                            }
-                                        });
-                                    }
-                                });
                                 switch (getGauge3()) {
                                     case BOOST:
                                         gauge3.speedTo(boostActual);
@@ -2543,179 +3292,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge3.setSpeedTextSize(45);
                                         break;
                                 }
-                                gauge3.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView3.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView3.setVisibility(View.VISIBLE);
-                                        boost_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", BOOST);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(400);
-                                                    gauge3.setUnit("kPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(80);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", COOLANT);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(120);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(280);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", EGT);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1200);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(2400);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("mm3");
-                                            }
-                                        });
-                                        injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.timing_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(40);
-                                                gauge3.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", TURBO);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.turbo_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(220);
-                                                    gauge3.setUnit("MPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(32000);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        app_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", APP);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.app_right);
-                                                gauge3.setStartDegree(150);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("%");
-                                            }
-                                        });
-                                    }
-                                });
-
 
                             } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2) {
                                 float oil_pressure = variables.getInt(oilPressureVar);
@@ -2724,12 +3300,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                 } else {
                                     oilPressureActual = (float) (oil_pressure * 0.1450377);
                                 }
-                                oil_temp_icon1.setVisibility(View.GONE);
-                                oil_temp_icon2.setVisibility(View.GONE);
-                                oil_temp_icon3.setVisibility(View.GONE);
-                                app_icon1.setVisibility(View.GONE);
-                                app_icon2.setVisibility(View.GONE);
-                                app_icon3.setVisibility(View.GONE);
                                 // Set gauge 1 value
                                 switch (getGauge1()) {
                                     case BOOST:
@@ -2770,188 +3340,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         break;
                                 }
 
-
-                                gauge1.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView1.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView1.setVisibility(View.VISIBLE);
-                                        boost_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", BOOST);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.boost_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(400);
-                                                    gauge1.setUnit("kPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.boost_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(80);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", COOLANT);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.coolant_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(120);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.coolant_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(-40);
-                                                    gauge1.setMaxSpeed(280);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", EGT);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.egt_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1200);
-                                                    gauge1.setUnit("°C");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.egt_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(2400);
-                                                    gauge1.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.fuel_rate_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(160);
-                                            }
-                                        });
-                                        injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.timing_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(40);
-                                                gauge1.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", TURBO);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                gauge1.setImageSpeedometer(R.drawable.turbo_left);
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setMinSpeed(0);
-                                                gauge1.setMaxSpeed(120);
-                                                gauge1.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.frp_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(220);
-                                                    gauge1.setUnit("MPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.frp_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(32000);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        oil_pressure_icon1.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge1", OILPRESSURE);
-                                                edit.apply();
-                                                mScrollView1.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge1.setImageSpeedometer(R.drawable.oil_pressure_left_metric);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(1000);
-                                                    gauge1.setUnit("kPa");
-                                                } else {
-                                                    gauge1.setImageSpeedometer(R.drawable.oil_pressure_left_standard);
-                                                    gauge1.setStartDegree(150);
-                                                    gauge1.setEndDegree(310);
-                                                    gauge1.setMinSpeed(0);
-                                                    gauge1.setMaxSpeed(150);
-                                                    gauge1.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-
                                 switch (getGauge2()) {
                                     case BOOST:
                                         gauge2.speedTo(boostActual);
@@ -2990,187 +3378,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge2.setSpeedTextSize(45);
                                         break;
                                 }
-                                gauge2.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView2.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView2.setVisibility(View.VISIBLE);
-                                        boost_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", BOOST);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.boost_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(400);
-                                                    gauge2.setUnit("kPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
-                                                    gauge2.setStartDegree(163);
-                                                    gauge2.setEndDegree(377);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(60);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", COOLANT);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.coolant_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(150);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.coolant_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(-40);
-                                                    gauge2.setMaxSpeed(300);
-                                                    gauge2.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", EGT);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.egt_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1000);
-                                                    gauge2.setUnit("°C");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.egt_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1800);
-                                                    gauge2.setUnit("°C");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.fuel_rate_middle);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(374);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(150);
-                                                gauge2.setUnit("mm3");
-                                            }
-                                        });
-                                        injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.timing_middle);
-                                                gauge2.setStartDegree(150);
-                                                gauge2.setEndDegree(390);
-                                                gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(40);
-                                                gauge2.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", TURBO);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                gauge2.setImageSpeedometer(R.drawable.turbo_middle);
-                                                gauge2.setStartDegree(170);
-                                                gauge2.setEndDegree(370);
-                                                gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(100);
-                                                gauge2.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.frp_middle_metric);
-                                                    gauge2.setStartDegree(170);
-                                                    gauge2.setEndDegree(370);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(220);
-                                                    gauge2.setUnit("MPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.frp_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(32000);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        oil_pressure_icon2.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge2", OILPRESSURE);
-                                                edit.apply();
-                                                mScrollView2.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge2.setImageSpeedometer(R.drawable.oil_pressure_middle_metric);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(390);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(1000);
-                                                    gauge2.setUnit("kPa");
-                                                } else {
-                                                    gauge2.setImageSpeedometer(R.drawable.oil_pressure_middle_standard);
-                                                    gauge2.setStartDegree(150);
-                                                    gauge2.setEndDegree(360);
-                                                    gauge2.setMinSpeed(0);
-                                                    gauge2.setMaxSpeed(150);
-                                                    gauge2.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
                                 switch (getGauge3()) {
                                     case BOOST:
                                         gauge3.speedTo(boostActual);
@@ -3209,187 +3416,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge3.setSpeedTextSize(45);
                                         break;
                                 }
-                                gauge3.setOnClickListener(new View.OnClickListener() {
-                                    @SuppressLint("ClickableViewAccessibility")
-                                    @Override
-                                    public void onClick(View mView) {
-                                        mScrollView3.setBackgroundColor(Color.parseColor("#B3000000"));
-                                        mScrollView3.setVisibility(View.VISIBLE);
-                                        boost_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", BOOST);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.boost_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(400);
-                                                    gauge3.setUnit("kPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.boost_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(80);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        coolant_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", COOLANT);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.coolant_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(120);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.coolant_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(-40);
-                                                    gauge3.setMaxSpeed(280);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        egt_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", EGT);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.egt_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1200);
-                                                    gauge3.setUnit("°C");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.egt_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(2400);
-                                                    gauge3.setUnit("°F");
-                                                }
-                                            }
-                                        });
-                                        injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", INJECTIONFUEL);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.fuel_rate_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("mm3");
-                                            }
-                                        });
-                                        injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", INJECTIONTIMING);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.timing_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(40);
-                                                gauge3.setUnit("°");
-                                            }
-                                        });
-                                        turbo_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", TURBO);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                gauge3.setImageSpeedometer(R.drawable.turbo_right);
-                                                gauge3.setStartDegree(230);
-                                                gauge3.setEndDegree(390);
-                                                gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(120);
-                                                gauge3.setUnit("%");
-                                            }
-                                        });
-                                        fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", FUELRAILPRESSURE);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.frp_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(220);
-                                                    gauge3.setUnit("MPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.frp_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(32000);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                        oil_pressure_icon3.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View mView) {
-                                                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                                edit.putInt("gauge3", OILPRESSURE);
-                                                edit.apply();
-                                                mScrollView3.setVisibility(View.GONE);
-                                                if (isMetric()) {
-                                                    gauge3.setImageSpeedometer(R.drawable.oil_pressure_right_metric);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(1000);
-                                                    gauge3.setUnit("kPa");
-                                                } else {
-                                                    gauge3.setImageSpeedometer(R.drawable.oil_pressure_right_standard);
-                                                    gauge3.setStartDegree(230);
-                                                    gauge3.setEndDegree(390);
-                                                    gauge3.setMinSpeed(0);
-                                                    gauge3.setMaxSpeed(150);
-                                                    gauge3.setUnit("psi");
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
                             }
                         } catch (JSONException e1) {
                             e1.printStackTrace();

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -235,7 +236,9 @@ public class FeaturesActivity extends AppCompatActivity {
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
 
+                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
                                     SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
+                                    Log.d(TAG, "onResponse: Did WE make it here?");
                                     SharedPreferences.Editor edit = mSharedPreferences.edit();
                                     int factorySecureIdle = variables.getInt("factory_secure_idle");
 
@@ -344,6 +347,7 @@ public class FeaturesActivity extends AppCompatActivity {
             @Override
             public void onClick(View mView) {
                 programBCM();
+                new MyAsyncTaskCode(FeaturesActivity.this).execute();
             }
         });
 
@@ -424,6 +428,7 @@ public class FeaturesActivity extends AppCompatActivity {
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
+                            new MyAsyncTaskCode(FeaturesActivity.this).execute();
 
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");

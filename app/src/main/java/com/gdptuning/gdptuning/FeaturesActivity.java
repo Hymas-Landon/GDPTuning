@@ -57,7 +57,7 @@ public class FeaturesActivity extends AppCompatActivity {
     private boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
-    Button btn_home, btn_program, btn_read, btn_default;
+    Button btn_home, btn_program, btn_default;
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
@@ -221,6 +221,30 @@ public class FeaturesActivity extends AppCompatActivity {
             });
         }
 
+
+
+        //Working with wifi
+        queue = VolleySingleton.getInstance(this).getRequestQueue();
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (isFirstTime()) {
+            readSettings();
+            sendRequest();
+        } else {
+            sendRequest();
+        }
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isConnected) {
+                    if (!isProcessing) {
+                        updateSettingsRequest();
+                    }
+                }
+            }
+        }, 0, 500);//put here time 1000 milliseconds=1 second
+
         // Set textView
         btn_default = findViewById(R.id.default_settings);
         btn_default.setOnClickListener(new View.OnClickListener() {
@@ -350,28 +374,6 @@ public class FeaturesActivity extends AppCompatActivity {
                 new MyAsyncTaskCode(FeaturesActivity.this).execute();
             }
         });
-
-        //Working with wifi
-        queue = VolleySingleton.getInstance(this).getRequestQueue();
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (isFirstTime()) {
-            readSettings();
-            sendRequest();
-        } else {
-            sendRequest();
-        }
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (isConnected) {
-                    if (!isProcessing) {
-                        updateSettingsRequest();
-                    }
-                }
-            }
-        }, 0, 500);//put here time 1000 milliseconds=1 second
     }
 
     @Override
@@ -428,7 +430,7 @@ public class FeaturesActivity extends AppCompatActivity {
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
-                            new MyAsyncTaskCode(FeaturesActivity.this).execute();
+//                            new MyAsyncTaskCode(FeaturesActivity.this).execute();
 
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");

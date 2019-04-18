@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -101,6 +102,7 @@ public class FeaturesFragment3 extends Fragment {
         aux2On = getView().findViewById(R.id.aux2_on);
         aux3Off = getView().findViewById(R.id.aux3_off);
         aux3On = getView().findViewById(R.id.aux3_on);
+        strobeOff = Objects.requireNonNull(getView()).findViewById(R.id.strobe_off);
 
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -109,33 +111,6 @@ public class FeaturesFragment3 extends Fragment {
         edit.putBoolean(workLightSettings, false);
         edit.putBoolean(strobeSettings, false);
         edit.apply();
-        if (isAux1()) {
-            edit.putBoolean(aux1Settings, true);
-            switchAux1(53);
-            edit.apply();
-        } else {
-            edit.putBoolean(aux1Settings, false);
-            switchAux1(54);
-            edit.apply();
-        }
-        if (isAux2()) {
-            edit.putBoolean(aux2Settings, true);
-            switchAux2(55);
-            edit.apply();
-        } else {
-            edit.putBoolean(aux2Settings, false);
-            switchAux2(56);
-            edit.apply();
-        }
-        if (isAux3()) {
-            edit.putBoolean(aux3Settings, true);
-            switchAux1(57);
-            edit.apply();
-        } else {
-            edit.putBoolean(aux3Settings, false);
-            switchAux3(58);
-            edit.apply();
-        }
         if (isHighIdle()) {
             toggle_high_idle.setChecked(true);
         } else {
@@ -182,7 +157,6 @@ public class FeaturesFragment3 extends Fragment {
 
         //Selector 1
         selector_words_first_3.setText("EXTERIOR STROBE LIGHT MODE");
-        strobeOff = Objects.requireNonNull(getView()).findViewById(R.id.strobe_off);
         strobeOff.setOnClickListener(new View.OnClickListener() {
             SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -190,10 +164,11 @@ public class FeaturesFragment3 extends Fragment {
             @Override
             public void onClick(View mView) {
                 edit.putBoolean(strobeSettings, false);
-                switchStrobeLights(5);
+                switchStrobeLights(4);
                 edit.apply();
             }
         });
+
         strobeOn.setOnClickListener(new View.OnClickListener() {
             SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -201,7 +176,7 @@ public class FeaturesFragment3 extends Fragment {
             @Override
             public void onClick(View mView) {
                 edit.putBoolean(strobeSettings, true);
-                switchStrobeLights(4);
+                switchStrobeLights(5);
                 edit.apply();
             }
         });
@@ -215,7 +190,7 @@ public class FeaturesFragment3 extends Fragment {
             @Override
             public void onClick(View mView) {
                 edit.putBoolean(workLightSettings, false);
-                switchWorkLight(50);
+                switchWorkLight(49);
                 edit.apply();
             }
         });
@@ -226,7 +201,7 @@ public class FeaturesFragment3 extends Fragment {
             @Override
             public void onClick(View mView) {
                 edit.putBoolean(workLightSettings, true);
-                switchWorkLight(49);
+                switchWorkLight(50);
                 edit.apply();
             }
         });
@@ -240,8 +215,6 @@ public class FeaturesFragment3 extends Fragment {
             @Override
             public void onClick(View mView) {
                 edit.putBoolean(aux1Settings, false);
-                aux1Off.setPressed(true);
-                aux1On.setPressed(false);
                 switchAux1(54);
                 edit.apply();
             }
@@ -253,8 +226,6 @@ public class FeaturesFragment3 extends Fragment {
             @Override
             public void onClick(View mView) {
                 edit.putBoolean(aux1Settings, true);
-                aux1Off.setPressed(false);
-                aux1On.setPressed(true);
                 switchAux1(53);
                 edit.apply();
             }
@@ -345,6 +316,34 @@ public class FeaturesFragment3 extends Fragment {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(secureIdleSettings, false);
     }
+//
+//    void updateButtons(){
+//        if (isStrobeLight()){
+//            strobeOff.setPressed(true);
+//        } else {
+//            strobeOn.setPressed(true);
+//        }
+//        if (isWorkLight()){
+//            workLightOff.setPressed(true);
+//        } else {
+//            workLightOn.setPressed(true);
+//        }
+//        if (isAux1()){
+//            aux1Off.setPressed(true);
+//        } else {
+//            aux1On.setPressed(true);
+//        }
+//        if (isAux2()){
+//            aux2Off.setPressed(true);
+//        } else {
+//            aux2On.setPressed(true);
+//        }
+//        if (isAux3()){
+//            aux3Off.setPressed(true);
+//        } else {
+//            aux3On.setPressed(true);
+//        }
+//    }
 
     //Send to sGDP server to verify connection
     void switchStrobeLights(int requestTurnSignals) {

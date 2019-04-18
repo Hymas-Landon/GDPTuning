@@ -117,13 +117,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
         return mSharedPreferences.getBoolean("metric", false);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        timer.cancel();
-        isProcessing = false;
-    }
-
     //Send to sGDP server to verify connection
     public void sendRequest() {
         // prepare the Request
@@ -445,7 +438,7 @@ public class LiveDataDigitalFragment2 extends Fragment {
                                 injectionTiming.speedTo(timingActual);
                                 injectionTiming.setUnit("°");
                                 fuelRate.speedTo(fuelActual);
-                                fuelRate.setUnit("mm3");
+                                fuelRate.setUnit("L/H");
 
                             } else if (getVehicleType() == VGM1 || getVehicleType() == VGM2) {
                                 float oil_pressure = variables.getInt(oilPressureVar);
@@ -500,43 +493,27 @@ public class LiveDataDigitalFragment2 extends Fragment {
                                 EGT.speedTo(egtActual);
                                 if (isMetric()) {
                                     EGT.setUnit("°C");
-                                    EGT.setMinSpeed(0);
-                                    EGT.setMaxSpeed(1000);
                                 } else {
                                     EGT.setUnit("°F");
-                                    EGT.setMinSpeed(0);
-                                    EGT.setMaxSpeed(1800);
                                 }
                                 coolantTemp.speedTo(coolantActual);
                                 if (isMetric()) {
                                     coolantTemp.setUnit("°C");
-                                    coolantTemp.setMinSpeed(-40);
-                                    coolantTemp.setMaxSpeed(150);
                                 } else {
                                     coolantTemp.setUnit("°F");
-                                    coolantTemp.setMinSpeed(-40);
-                                    coolantTemp.setMaxSpeed(300);
                                 }
                                 turboGauge.speedTo(turboActual);
                                 FRP.speedTo(frpActual);
                                 if (isMetric()) {
                                     FRP.setUnit("MPa");
-                                    FRP.setMinSpeed(0);
-                                    FRP.setMaxSpeed(220);
                                 } else {
                                     FRP.setUnit("psi");
-                                    FRP.setMinSpeed(0);
-                                    FRP.setMaxSpeed(32000);
                                 }
                                 boostGauge.speedTo(boostActual);
                                 if (isMetric()) {
                                     boostGauge.setUnit("kPa");
-                                    boostGauge.setMinSpeed(0);
-                                    boostGauge.setMaxSpeed(400);
                                 } else {
                                     boostGauge.setUnit("psi");
-                                    boostGauge.setMinSpeed(0);
-                                    boostGauge.setMaxSpeed(60);
                                 }
                                 injectionTiming.speedTo(timingActual);
                                 injectionTiming.setUnit("°");
@@ -556,8 +533,6 @@ public class LiveDataDigitalFragment2 extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
 
-
-                        isProcessing = false;
                     }
                 }
         );

@@ -3,9 +3,11 @@ package com.gdptuning.gdptuning;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +68,7 @@ public class FeaturesFragment3 extends Fragment {
     private int aux3Num;
     private int highIdleNum;
     private int secureIdleNum;
+    String mTag = "TEST";
 
 
     @Nullable
@@ -103,6 +106,12 @@ public class FeaturesFragment3 extends Fragment {
         aux3Off = getView().findViewById(R.id.aux3_off);
         aux3On = getView().findViewById(R.id.aux3_on);
         strobeOff = Objects.requireNonNull(getView()).findViewById(R.id.strobe_off);
+        if (getVehicleType() == VFORD2){
+            toggle_secure_idle.setVisibility(View.VISIBLE);
+        } else {
+            toggle_secure_idle.setVisibility(View.INVISIBLE);
+            toggle_high_idle.setX(-120);
+        }
 
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -111,6 +120,7 @@ public class FeaturesFragment3 extends Fragment {
         edit.putBoolean(workLightSettings, false);
         edit.putBoolean(strobeSettings, false);
         edit.apply();
+
         if (isHighIdle()) {
             toggle_high_idle.setChecked(true);
         } else {
@@ -305,6 +315,11 @@ public class FeaturesFragment3 extends Fragment {
     public boolean isStrobeLight() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(strobeSettings, false);
+    }
+
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
 
     public boolean isHighIdle() {

@@ -1,6 +1,7 @@
 package com.gdptuning.gdptuning;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.SystemClock;
 
 public class GdpApp extends Application {

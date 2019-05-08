@@ -32,6 +32,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
     final String url = "http://192.168.7.1";
     private boolean isConnected = false;
     private boolean isProcessing = false;
+    final String boostVar = "boost";
     String device = "GDP";
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     private int tuneMode = 0;
@@ -518,6 +519,25 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             tvGear.setText("GEAR: " + pos);
                             setTuneMode(tuneMode);
+                            String boost = variables.getString(boostVar);
+
+                            if (boost.equals("65535")){
+                                new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                                                edit.putBoolean("logging", true);
+                                            }
+                                        })
+                                        .show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -588,6 +608,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
+
+
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();

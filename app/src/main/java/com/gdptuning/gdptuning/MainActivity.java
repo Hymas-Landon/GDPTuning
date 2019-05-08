@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean isProcessing = false;
     String device = "GDP";
     RequestQueue queue;
+    final String boostVar = "boost";
     int item_select = 0;
-    Menu menu;
     Timer timer;
     WifiManager wifi;
     TextView tvTune, tvGear;
@@ -199,6 +199,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 edit.apply();
                 recreate();
                 return true;
+            case R.id.automatic:
+                item_select = 6;
+                item.setChecked(true);
+                edit.putBoolean("auto", true);
+                edit.putBoolean("read_settings", false);
+                edit.apply();
+                recreate();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -214,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MenuItem ram = menu.findItem(R.id.ram_13up_radio);
         MenuItem gm1 = menu.findItem(R.id.gm_7_14_radio);
         MenuItem gm2 = menu.findItem(R.id.gm_15up_radio);
+        MenuItem auto = menu.findItem(R.id.automatic);
 
         if (item_select == 1) {
             ford1.setChecked(true);
@@ -240,6 +249,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             edit.putInt("vehicle", VGM2);
             edit.putBoolean("first_time", false);
             edit.apply();
+        } else if (item_select == 6) {
+            auto.setChecked(true);
+            edit.putBoolean("auto", true);
+            edit.apply();
         }
         if (getVehicleType() == VFORD1) {
             ford1.setChecked(true);
@@ -263,6 +276,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int getVehicleType() {
         SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
         return mSharedPreferences.getInt("vehicle", VFORD1);
+    }
+
+    private boolean isAutomatic() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("auto", true);
+    }
+
+    private boolean isLogging() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("logging", true);
     }
 
     @Override
@@ -311,6 +334,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             tvGear.setText("GEAR: " + pos);
 
+                            String vehicle = variables.getString("pltfrm");
+                            SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            if (isAutomatic()){
+                                switch (vehicle) {
+                                    case "2":
+                                        edit.putInt("vehicle", VGM1);
+                                        edit.putBoolean("first_time", false);
+                                        edit.apply();
+                                        break;
+                                    case "3":
+                                    case "6":
+                                    case "7":
+                                        edit.putInt("vehicle", VGM2);
+                                        edit.putBoolean("first_time", false);
+                                        edit.apply();
+                                        break;
+                                    case "12":
+                                        edit.putInt("vehicle", VFORD1);
+                                        edit.putBoolean("first_time", false);
+                                        edit.apply();
+                                        break;
+                                    case "14":
+                                        edit.putInt("vehicle", VFORD2);
+                                        edit.putBoolean("first_time", false);
+                                        edit.apply();
+                                        break;
+                                    case "21":
+                                        edit.putInt("vehicle", VRAM);
+                                        edit.putBoolean("first_time", false);
+                                        edit.apply();
+                                        break;
+                                }
+                            }
+                            String boost = variables.getString(boostVar);
+                            if (boost.equals("65535")){
+                                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                                                edit.putBoolean("logging", true);
+                                            }
+                                        })
+                                        .show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -380,7 +455,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             tvGear.setText("GEAR: " + pos);
 
-
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -421,46 +495,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
         // add it to the RequestQueue
         queue.add(getRequest);
-    }
-
-    //Show Connection details
-    void displayDevicecInfo() {
-        if (isConnected) {
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Connected")
-                    .setContentText("Youare connected to " + device)
-                    .setConfirmText("ok")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sDialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("No Connection")
-                    .setContentText("You are not connected to a GDP device. Retry by " +
-                            "tapping 'Retry' or check your wifi settings by tapping " +
-                            "'Connect'.")
-                    .setCancelText("Retry")
-                    .setConfirmText("Connect")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendRequest();
-                            sDialog.dismiss();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    })
-                    .show();
-        }
     }
 }
 

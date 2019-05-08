@@ -48,6 +48,10 @@
                                 android:id="@+id/ram_13up_radio"
                                 android:title="Ram 13+"
                                 app:actionLayout="@layout/switch_item" />
+                            <item
+                                android:id="@+id/automatic"
+                                android:title="Automatic"
+                                app:actionLayout="@layout/switch_item" />
                         </group>
 
                     </menu>

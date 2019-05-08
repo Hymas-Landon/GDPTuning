@@ -836,7 +836,7 @@ public class FeaturesFragment extends Fragment {
             });
 
             //Selector 3
-            selector_words_third.setText("Daytime Running Light Configuration");
+            selector_words_third.setText("Daytime Running Light Configuration (Currently Only For 2015-2016)");
             final String[] daytimeLight = new String[7];
             daytimeLight[0] = "Low Beam";
             daytimeLight[1] = "Fog Lights";

@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,6 +35,7 @@ public class LiveDataActivity extends AppCompatActivity {
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
+    final String boostVar = "boost";
     boolean isProcessing = false;
     String device = "GDP";
     int tuneMode = 0;
@@ -145,6 +147,11 @@ public class LiveDataActivity extends AppCompatActivity {
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
+    private boolean isLogging() {
+        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("logging", true);
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -190,6 +197,11 @@ public class LiveDataActivity extends AppCompatActivity {
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
+
+                            SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            edit.putBoolean("logging", true);
+                            edit.apply();
 
 
                         } catch (JSONException mE) {
@@ -256,7 +268,6 @@ public class LiveDataActivity extends AppCompatActivity {
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
-
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();

@@ -85,6 +85,7 @@
     <string name="secure_idle_off">Secure Idle Off</string>
     <string name="secure_idle_on">Secure Idle On</string>
     <string name="pro_series_version">Pro Series Version:</string>
+    <string name="gdp">GDP</string>
 
 
 </resources>

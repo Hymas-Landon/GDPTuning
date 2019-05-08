@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +42,7 @@ public class FeaturesActivity extends AppCompatActivity {
     final String url = "http://192.168.7.1";
     final String themeColor = "ThemeColor";
     final String vehicleSettings = "vehicle";
+    final String boostVar = "boost";
     final String tpmsSettings = "pressure_tpms";
     final String tireSizeSettings = "tire_sizes";
     final String daytimeLightsSettings = "daytime_lights";
@@ -430,6 +432,25 @@ public class FeaturesActivity extends AppCompatActivity {
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
+                            String boost = variables.getString(boostVar);
+
+                            if (boost.equals("65535")){
+                                new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                                                edit.putBoolean("logging", true);
+                                            }
+                                        })
+                                        .show();
+                            }
 //                            new MyAsyncTaskCode(FeaturesActivity.this).execute();
 
                             if (tuneMode == 255) {
@@ -543,6 +564,7 @@ public class FeaturesActivity extends AppCompatActivity {
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
+
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();

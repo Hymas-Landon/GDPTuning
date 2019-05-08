@@ -39,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     boolean isConnected = false;
     boolean isProcessing = false;
     int tuneMode = 0;
+    final String boostVar = "boost";
     String device = "GDP";
     RequestQueue queue;
     Button btn_home;
@@ -278,6 +279,25 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 mE.printStackTrace();
                             }
                             appVersion.setText(version);
+                            String boost = variables.getString(boostVar);
+
+                            if (boost.equals("65535")){
+                                new SweetAlertDialog(SettingsActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                                                edit.putBoolean("logging", true);
+                                            }
+                                        })
+                                        .show();
+                            }
 
 
                         } catch (JSONException mE) {
@@ -346,6 +366,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             tvGear.setText("GEAR: " + pos);
 
                             proVersion.setText(deviceName);
+
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();

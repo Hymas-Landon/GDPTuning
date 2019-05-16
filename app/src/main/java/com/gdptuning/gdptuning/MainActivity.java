@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +30,7 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        toolbar.setSubtitle("");
 
         //Working with wifi
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -94,13 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_tune.setOnClickListener(this);
         btn_configuration.setOnClickListener(this);
         btn_diagnostics.setOnClickListener(this);
-        btn_live.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View mView) {
-                Intent i = new Intent(MainActivity.this, LiveDataActivity.class);
-                startActivity(i);
-            }
-        });
+        btn_live.setOnClickListener(this);
 
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         sendRequest();
@@ -283,28 +282,254 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return mSharedPreferences.getBoolean("auto", true);
     }
 
-    private boolean isLogging() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("logging", true);
-    }
-
     @Override
     public void onClick(View v) {
 
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPreferences.edit();
         int id = v.getId();
         switch (id) {
+            case R.id.btn_live_data:
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                isConnected = true;
+                                try {
+                                    JSONObject variables = response.getJSONObject("variables");
+                                    int bcm_stat = variables.getInt("bcm_stat");
+                                    int pltfrm = variables.getInt("pltfrm");
+                                    if (pltfrm == 0 || bcm_stat == 11) {
+                                        if (pltfrm == 0) {
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN not Detected")
+                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else if (bcm_stat == 11){
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN Mismatch")
+                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    } else {
+                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        startActivity(new Intent(MainActivity.this, LiveDataActivity.class));
+                                        edit.putBoolean("first_time", true);
+                                        edit.apply();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // display response
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
+                break;
             case R.id.btn_tune:
-                startActivity(new Intent(MainActivity.this, TuneActivity.class));
+                getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                isConnected = true;
+                                try {
+                                    JSONObject variables = response.getJSONObject("variables");
+                                    int bcm_stat = variables.getInt("bcm_stat");
+                                    int pltfrm = variables.getInt("pltfrm");
+                                    if (pltfrm == 0 || bcm_stat == 11) {
+                                        if (pltfrm == 0) {
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN not Detected")
+                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else if (bcm_stat == 11){
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN Mismatch")
+                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    } else {
+                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        startActivity(new Intent(MainActivity.this, TuneActivity.class));
+                                        edit.putBoolean("first_time", true);
+                                        edit.apply();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // display response
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
                 break;
             case R.id.btn_config:
-                startActivity(new Intent(MainActivity.this, FeaturesActivity.class));
-                edit.putBoolean("first_time", true);
-                edit.apply();
+                getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                isConnected = true;
+                                try {
+                                    JSONObject variables = response.getJSONObject("variables");
+                                    int bcm_stat = variables.getInt("bcm_stat");
+                                    int pltfrm = 7;
+                                    if (pltfrm == 0 || bcm_stat == 11) {
+                                        if (pltfrm == 0) {
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN not Detected")
+                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else if (bcm_stat == 11){
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN Mismatch")
+                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    } else {
+                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        startActivity(new Intent(MainActivity.this, FeaturesActivity.class));
+                                        edit.putBoolean("first_time", true);
+                                        edit.apply();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // display response
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
                 break;
             case R.id.btn_diag:
-                startActivity(new Intent(MainActivity.this, DiagnosticsActivity.class));
+                getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                isConnected = true;
+                                try {
+                                    JSONObject variables = response.getJSONObject("variables");
+                                    int bcm_stat = variables.getInt("bcm_stat");
+                                    int pltfrm = variables.getInt("pltfrm");
+                                    if (pltfrm == 0 || bcm_stat == 11) {
+                                        if (pltfrm == 0) {
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN not Detected")
+                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else if (bcm_stat == 11){
+                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                    .setTitleText("VIN Mismatch")
+                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
+                                                    .setConfirmText("Okay")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            sDialog.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    } else {
+                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                        startActivity(new Intent(MainActivity.this, DiagnosticsActivity.class));
+                                        edit.putBoolean("first_time", true);
+                                        edit.apply();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                // display response
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                isConnected = false;
+                            }
+                        }
+                );
+                // add it to the RequestQueue
+                queue.add(getRequest);
                 break;
         }
     }
@@ -337,7 +562,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             String vehicle = variables.getString("pltfrm");
                             SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
                             SharedPreferences.Editor edit = mSharedPreferences.edit();
-                            if (isAutomatic()){
+                            if (isAutomatic()) {
                                 switch (vehicle) {
                                     case "2":
                                         edit.putInt("vehicle", VGM1);
@@ -369,7 +594,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                             String boost = variables.getString(boostVar);
-                            if (boost.equals("65535")){
+                            if (boost.equals("65535")) {
                                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                         .setTitleText("Logging Paused")
                                         .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
@@ -438,7 +663,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResponse(JSONObject response) {
                         isConnected = true;
                         try {
-
                             JSONObject variables = response.getJSONObject("variables");
                             int tuneMode = variables.getInt("tune_mode");
                             int gear = variables.getInt("gear");

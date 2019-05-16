@@ -29,7 +29,6 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
             myLongRunningOperation();
             queue = Volley.newRequestQueue(mContext);
         }
-
         return true;
     }
 
@@ -60,5 +59,4 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
     protected void onPostExecute(Boolean mBoolean) {
         mProgress.dismiss();
     }
-
 }

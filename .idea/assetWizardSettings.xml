@@ -129,7 +129,6 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="backgroundColor" value="000000" />
-                                      <entry key="iconShape" value="NONE" />
                                       <entry key="imageAsset" value="C:\Projects\GDPProSeries\app\src\main\res\drawable\logogdp2.png" />
                                     </map>
                                   </option>

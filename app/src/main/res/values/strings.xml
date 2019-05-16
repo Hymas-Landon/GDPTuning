@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"> </string>
+    <string name="app_name">GDP Pro Series</string>
     <string name="splash_img">Start Up Image</string>
     <string name="current_wifi">Current Wifi Status</string>
     <string name="parse">parse</string>

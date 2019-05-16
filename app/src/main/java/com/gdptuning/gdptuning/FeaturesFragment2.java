@@ -112,7 +112,11 @@ public class FeaturesFragment2 extends Fragment {
         }, 0, 500);//put here time 1000 milliseconds=1 second
 
 
-        if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+        if (getVehicleType() == VFORD2) {
+            select1.setText("--");
+            select2.setText("--");
+            select3.setText("--");
+            select4.setText("--");
             //Selector 1
             selector_words_first_2.setText("Daytime Running Light Configuration");
             final String[] daytimeLight = new String[7];
@@ -120,7 +124,7 @@ public class FeaturesFragment2 extends Fragment {
             daytimeLight[1] = "Fog Lights";
             daytimeLight[2] = "Dedicated LED";
             daytimeLight[3] = "Turn Signals";
-            daytimeLight[4] = "Disabled";
+            daytimeLight[4] = "0";
             if (getDaytimeLights() == 0) {
                 select1.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
@@ -333,13 +337,18 @@ public class FeaturesFragment2 extends Fragment {
             });
         }
 
-        if (getVehicleType() == VGM2) {
+        if (getVehicleType() == VFORD1) {
+            select1.setText("--");
+            select2.setText("--");
+            select3.setText("--");
+            select4.setText("--");
             //Selector 1
             selector_words_first_2.setText("Daytime Running Light Configuration");
-            final String[] daytimeLight = new String[7];
+            final String[] daytimeLight = new String[5];
             daytimeLight[0] = "Low Beam";
             daytimeLight[1] = "Fog Lights";
-            daytimeLight[2] = "Disabled";
+            daytimeLight[3] = "Turn Signals";
+            daytimeLight[4] = "0";
             if (getDaytimeLights() == 0) {
                 select1.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
@@ -423,13 +432,13 @@ public class FeaturesFragment2 extends Fragment {
             remoteStart[0] = "5 Minutes";
             remoteStart[1] = "10 Minutes";
             remoteStart[2] = "15 Minutes";
-            if (getRemoteStart() == 5) {
+            if (getRemoteStart() == 1) {
                 select2.setText(remoteStart[0]);
                 remoteStartIndex = 0;
-            } else if (getRemoteStart() == 10) {
+            } else if (getRemoteStart() == 2) {
                 select2.setText(remoteStart[1]);
                 remoteStartIndex = 1;
-            } else if (getRemoteStart() == 15) {
+            } else if (getRemoteStart() == 3) {
                 select2.setText(remoteStart[2]);
                 remoteStartIndex = 2;
             }
@@ -443,13 +452,13 @@ public class FeaturesFragment2 extends Fragment {
                         remoteStartIndex = remoteStartIndex - 1;
                         select2.setText(remoteStart[remoteStartIndex]);
                         if (remoteStartIndex == 0) {
-                            edit.putInt(remoteStartSettings, 5);
+                            edit.putInt(remoteStartSettings, 1);
                             switchRemoteStart(41);
                         } else if (remoteStartIndex == 1) {
-                            edit.putInt(remoteStartSettings, 10);
+                            edit.putInt(remoteStartSettings, 2);
                             switchRemoteStart(42);
                         } else if (remoteStartIndex == 2) {
-                            edit.putInt(remoteStartSettings, 15);
+                            edit.putInt(remoteStartSettings, 3);
                             switchRemoteStart(43);
                         }
                         edit.apply();
@@ -467,13 +476,13 @@ public class FeaturesFragment2 extends Fragment {
                         remoteStartIndex = remoteStartIndex + 1;
                         select2.setText(remoteStart[remoteStartIndex]);
                         if (remoteStartIndex == 0) {
-                            edit.putInt(remoteStartSettings, 5);
+                            edit.putInt(remoteStartSettings, 1);
                             switchRemoteStart(41);
                         } else if (remoteStartIndex == 1) {
-                            edit.putInt(remoteStartSettings, 10);
+                            edit.putInt(remoteStartSettings, 2);
                             switchRemoteStart(42);
                         } else if (remoteStartIndex == 2) {
-                            edit.putInt(remoteStartSettings, 15);
+                            edit.putInt(remoteStartSettings, 3);
                             switchRemoteStart(43);
                         }
                         edit.apply();

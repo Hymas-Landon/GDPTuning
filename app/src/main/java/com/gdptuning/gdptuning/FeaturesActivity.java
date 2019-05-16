@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -35,7 +34,6 @@ public class FeaturesActivity extends AppCompatActivity {
 
     private static int VFORD1 = 7;
     private static int VFORD2 = 8;
-    private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
     //ESP32 aREST server address
@@ -63,7 +61,6 @@ public class FeaturesActivity extends AppCompatActivity {
     WifiManager wifi;
     TextView tvTune, tvGear;
     Timer timer;
-    public static final String TAG = "GDP Tuning";
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     ProgressDialog mProgressDialog;
@@ -95,6 +92,7 @@ public class FeaturesActivity extends AppCompatActivity {
         tab3 = findViewById(R.id.tab3);
 
 
+        int mVGM1 = 9;
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //add tabs
             mTabLayout.addTab(mTabLayout.newTab().setText("PAGE 1"));
@@ -186,7 +184,7 @@ public class FeaturesActivity extends AppCompatActivity {
 
                 }
             });
-        } else if (getVehicleType() == VGM1) {
+        } else if (getVehicleType() == mVGM1) {
             //add tabs
             mTabLayout.addTab(mTabLayout.newTab().setText("Bonus Features"));
             mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -223,14 +221,13 @@ public class FeaturesActivity extends AppCompatActivity {
             });
         }
 
-
-
         //Working with wifi
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (isFirstTime()) {
             readSettings();
+            new MyAsyncTaskCode(FeaturesActivity.this).execute();
             sendRequest();
         } else {
             sendRequest();
@@ -261,10 +258,7 @@ public class FeaturesActivity extends AppCompatActivity {
                                 isConnected = true;
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
-
-                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
                                     SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
-                                    Log.d(TAG, "onResponse: Did WE make it here?");
                                     SharedPreferences.Editor edit = mSharedPreferences.edit();
                                     int factorySecureIdle = variables.getInt("factory_secure_idle");
 
@@ -339,11 +333,29 @@ public class FeaturesActivity extends AppCompatActivity {
                                         edit.putInt(tpmsSettings, factoryTpms);
                                         edit.apply();
                                     }
-                                    recreate();
+                                    new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("Default Settings?")
+                                            .setContentText("You are about to program your BCM back to factory. Do you want to continue?")
+                                            .setCancelText("Cancel")
+                                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                }
+                                            })
+                                            .setConfirmText("Program")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismiss();
+                                                    programDefaultBCM();
+                                                    new MyAsyncTaskCode(FeaturesActivity.this).execute();
+                                                }
+                                            })
+                                            .show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                // display response
                             }
                         },
                         new Response.ErrorListener() {
@@ -372,8 +384,26 @@ public class FeaturesActivity extends AppCompatActivity {
         btn_program.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                programBCM();
-                new MyAsyncTaskCode(FeaturesActivity.this).execute();
+                new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Program BCM?")
+                        .setContentText("You are about to program your BCM. You are responsible for any and all changes that are made to your BCM and how your vehicle responds to those changes. Do not make changes unless you understand how this will affect your vehicle. Do you want to continue?")
+                        .setCancelText("Cancel")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                            }
+                        })
+                        .setConfirmText("Program")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                                programBCM();
+                                new MyAsyncTaskCode(FeaturesActivity.this).execute();
+                            }
+                        })
+                        .show();
             }
         });
     }
@@ -433,8 +463,11 @@ public class FeaturesActivity extends AppCompatActivity {
                             device = deviceName;
                             char pos = (char) gear;
                             String boost = variables.getString(boostVar);
+                            if (isFirstTime()) {
+                                pause();
+                            }
 
-                            if (boost.equals("65535")){
+                            if (boost.equals("65535")) {
                                 new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
                                         .setTitleText("Logging Paused")
                                         .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
@@ -443,15 +476,10 @@ public class FeaturesActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(SweetAlertDialog sDialog) {
                                                 sDialog.dismiss();
-                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                                                edit.putBoolean("logging", true);
                                             }
                                         })
                                         .show();
                             }
-//                            new MyAsyncTaskCode(FeaturesActivity.this).execute();
 
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
@@ -589,6 +617,37 @@ public class FeaturesActivity extends AppCompatActivity {
     void programBCM() {
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 9, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        sendRequest();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    private void pause() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException mE) {
+            mE.printStackTrace();
+        }
+    }
+
+    //Send to sGDP server to verify connection
+    void programDefaultBCM() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/diag_functions?params=" + 8, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

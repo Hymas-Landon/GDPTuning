@@ -1,6 +1,7 @@
 package com.gdptuning.gdptuning;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
@@ -29,15 +30,21 @@ import java.util.TimerTask;
 public class TuneActivity extends AppCompatActivity implements View.OnClickListener {
 
     //ESP32 aREST server address
+    private static int VFORD1 = 7;
+    private static int VFORD2 = 8;
+    private static int VGM1 = 9;
+    private static int VGM2 = 10;
+    final String vehicleSettings = "vehicle";
     final String url = "http://192.168.7.1";
     private boolean isConnected = false;
+    final String themeColor = "ThemeColor";
     private boolean isProcessing = false;
     final String boostVar = "boost";
     String device = "GDP";
     Button btn1, btn2, btn3, btn4, btn5, btn_num1, btn_num2, btn_num3, btn_num4, btn_num5, btn_home;
     private int tuneMode = 0;
     WifiManager wifi;
-    TextView tvTune, tvGear, volt_reading;
+    TextView tvTune, tvGear, volt_reading, volt_title;
     Timer timer;
     private RequestQueue queue;
 
@@ -75,6 +82,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         tvTune = findViewById(R.id.tunenum);
         tvGear = findViewById(R.id.gear_position);
         volt_reading = findViewById(R.id.volt_level);
+        volt_title = findViewById(R.id.volt_title);
 
         //Set On Click Listener
         btn1.setOnClickListener(this);
@@ -492,6 +500,11 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private int getVehicleType() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        return mSharedPreferences.getInt(vehicleSettings, VFORD1);
+    }
+
     //Send to sGDP server to verify connection
     public void sendRequest() {
         // prepare the Request
@@ -510,7 +523,12 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             device = deviceName;
 
                             String fuel_temp = variables.getString("fuel_temp");
-                            volt_reading.setText(fuel_temp);
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2 || getVehicleType() == VGM1 || getVehicleType() == VGM2) {
+                                volt_reading.setText(fuel_temp);
+                            } else {
+                                volt_reading.setVisibility(View.INVISIBLE);
+                                volt_title.setVisibility(View.INVISIBLE);
+                            }
                             char pos = (char) gear;
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
@@ -521,7 +539,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             setTuneMode(tuneMode);
                             String boost = variables.getString(boostVar);
 
-                            if (boost.equals("65535")){
+                            if (boost.equals("65535")) {
                                 new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
                                         .setTitleText("Logging Paused")
                                         .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
@@ -531,7 +549,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                                             public void onClick(SweetAlertDialog sDialog) {
                                                 sDialog.dismiss();
                                                 SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
+                                                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor edit = mSharedPreferences.edit();
 
                                                 edit.putBoolean("logging", true);
                                             }
@@ -601,14 +619,18 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             char pos = (char) gear;
 
                             String fuel_temp = variables.getString("fuel_temp");
-                            volt_reading.setText(fuel_temp);
+                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2 || getVehicleType() == VGM1 || getVehicleType() == VGM2) {
+                                volt_reading.setText(fuel_temp);
+                            } else {
+                                volt_reading.setVisibility(View.INVISIBLE);
+
+                            }
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
                             } else {
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
-
 
 
                         } catch (JSONException e1) {

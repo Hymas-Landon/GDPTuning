@@ -95,7 +95,7 @@ public class FeaturesFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
@@ -149,6 +149,10 @@ public class FeaturesFragment extends Fragment {
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //Selector 1
             selector_words_first.setText("TPMS Settings");
+            select1.setText("--");
+            select2.setText("--");
+            select3.setText("--");
+            select4.setText("--");
             final String[] pressureTPMS = new String[13];
             if (isMetric()) {
                 pressureTPMS[0] = "175 kPa";
@@ -163,7 +167,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "475 kPa";
                 pressureTPMS[10] = "510 kPa";
                 pressureTPMS[11] = "545 kPa";
-                pressureTPMS[12] = "Disable";
+                pressureTPMS[12] = "0";
             } else {
                 pressureTPMS[0] = "25 psi";
                 pressureTPMS[1] = "30 psi";
@@ -177,7 +181,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70 psi";
                 pressureTPMS[10] = "75 psi";
                 pressureTPMS[11] = "80 psi";
-                pressureTPMS[12] = "Disable";
+                pressureTPMS[12] = "0";
             }
             if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
@@ -384,7 +388,8 @@ public class FeaturesFragment extends Fragment {
             lampOutageDisable[1] = "Yes";
             if (!isLampCurrent()) {
                 select2.setText(lampOutageDisable[0]);
-            } else if (isLampCurrent()) {
+            } else {
+                isLampCurrent();
                 select2.setText(lampOutageDisable[1]);
             }
             arrowLeft2.setOnClickListener(new View.OnClickListener() {
@@ -548,7 +553,8 @@ public class FeaturesFragment extends Fragment {
             fogLights[1] = "Yes";
             if (!isFogLights()) {
                 select4.setText(fogLights[0]);
-            } else if (isFogLights()) {
+            } else {
+                isFogLights();
                 select4.setText(fogLights[1]);
             }
 
@@ -577,7 +583,9 @@ public class FeaturesFragment extends Fragment {
                 }
             });
         } else if (getVehicleType() == VGM2) {
-
+            select1.setText("--");
+            select2.setText("--");
+            select3.setText("--");
             arrowLeft4.setImageDrawable(null);
             arrowRight4.setImageDrawable(null);
 
@@ -597,7 +605,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "475 kPa";
                 pressureTPMS[10] = "510 kPa";
                 pressureTPMS[11] = "545 kPa";
-                pressureTPMS[12] = "Disable";
+                pressureTPMS[12] = "0";
             } else {
                 pressureTPMS[0] = "25 psi";
                 pressureTPMS[1] = "30 psi";
@@ -611,7 +619,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70 psi";
                 pressureTPMS[10] = "75 psi";
                 pressureTPMS[11] = "80 psi";
-                pressureTPMS[12] = "Disable";
+                pressureTPMS[12] = "0";
             }
             if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
@@ -806,7 +814,8 @@ public class FeaturesFragment extends Fragment {
             fogLights[1] = "Yes";
             if (!isFogLights()) {
                 select2.setText(fogLights[0]);
-            } else if (isFogLights()) {
+            } else {
+                isFogLights();
                 select2.setText(fogLights[1]);
             }
 
@@ -836,11 +845,11 @@ public class FeaturesFragment extends Fragment {
             });
 
             //Selector 3
-            selector_words_third.setText("Daytime Running Light Configuration (Currently Only For 2015-2016)");
+            selector_words_third.setText("Daytime Running Light Configuration (2015-2016)");
             final String[] daytimeLight = new String[7];
             daytimeLight[0] = "Low Beam";
             daytimeLight[1] = "Fog Lights";
-            daytimeLight[2] = "Disabled";
+            daytimeLight[2] = "0";
             if (getDaytimeLights() == 0) {
                 select3.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
@@ -918,7 +927,9 @@ public class FeaturesFragment extends Fragment {
             });
 
         } else if (getVehicleType() == VRAM) {
-
+            select1.setText("--");
+            select2.setText("--");
+            select3.setText("--");
             arrowLeft4.setImageDrawable(null);
             arrowRight4.setImageDrawable(null);
 
@@ -938,7 +949,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "475 kPa";
                 pressureTPMS[10] = "510 kPa";
                 pressureTPMS[11] = "545 kPa";
-                pressureTPMS[12] = "Disable";
+                pressureTPMS[12] = "0";
             } else {
                 pressureTPMS[0] = "25 psi";
                 pressureTPMS[1] = "30 psi";
@@ -952,7 +963,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70 psi";
                 pressureTPMS[10] = "75 psi";
                 pressureTPMS[11] = "80 psi";
-                pressureTPMS[12] = "Disable";
+                pressureTPMS[12] = "0";
             }
             if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
@@ -1261,7 +1272,8 @@ public class FeaturesFragment extends Fragment {
             fogLights[1] = "Yes";
             if (!isFogLights()) {
                 select3.setText(fogLights[0]);
-            } else if (isFogLights()) {
+            } else {
+                isFogLights();
                 select3.setText(fogLights[1]);
             }
 
@@ -1334,78 +1346,6 @@ public class FeaturesFragment extends Fragment {
     }
 
     //Send to sGDP server to get live data
-    public void updateSettingsRequest() {
-        isProcessing = true;
-        // prepare the Request
-        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    public void onResponse(JSONObject response) {
-                        isConnected = true;
-                        try {
-                            JSONObject variables = response.getJSONObject("variables");
-                            int tpms = variables.getInt("tpms");
-                            int signals = variables.getInt("lamp_out");
-                            int tireSize = variables.getInt("tire_size");
-                            int fogLights = variables.getInt("fog_high");
-                            int drl = variables.getInt("drl");
-
-                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                actual1.setText(tpms + " psi");
-                                if (signals == 1) {
-                                    actual2.setText("Yes");
-                                } else {
-                                    actual2.setText("No");
-                                }
-                                actual3.setText(tireSize + "\"");
-                                if (fogLights == 1) {
-                                    actual4.setText("Yes");
-                                } else {
-                                    actual4.setText("No");
-                                }
-                            } else if (getVehicleType() == VGM2) {
-                                actual1.setText(tpms + " psi");
-                                if (fogLights == 1) {
-                                    actual2.setText("Yes");
-                                } else {
-                                    actual2.setText("No");
-                                }
-                                if (drl == 0) {
-                                    actual3.setText("Low Beam");
-                                } else if (drl == 1) {
-                                    actual3.setText("Fog Lights");
-                                } else if (drl == 2) {
-                                    actual3.setText("Disabled");
-                                }
-                            } else if (getVehicleType() == VRAM) {
-                                actual1.setText(tpms + " psi");
-                                actual2.setText(tireSize + "\"");
-                                if (signals == 1) {
-                                    actual3.setText("Yes");
-                                } else {
-                                    actual3.setText("No");
-                                }
-                            }
-
-
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-                        isProcessing = false;
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        isConnected = false;
-
-                    }
-                }
-        );
-        // add it to the RequestQueue
-        queue.add(getRequest);
-    }
-
-    //Send to sGDP server to get live data
     public void updateRAMSettings() {
         isProcessing = true;
         // prepare the Request
@@ -1418,8 +1358,6 @@ public class FeaturesFragment extends Fragment {
                             int tpms = variables.getInt("tpms");
                             int signals = variables.getInt("lamp_out");
                             int tireSize = variables.getInt("tire_size");
-                            int fogLights = variables.getInt("fog_high");
-                            int drl = variables.getInt("drl");
 
 
                             actual1.setText(tpms + " psi");

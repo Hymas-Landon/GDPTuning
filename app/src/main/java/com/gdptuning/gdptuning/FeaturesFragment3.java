@@ -68,8 +68,6 @@ public class FeaturesFragment3 extends Fragment {
     private int aux3Num;
     private int highIdleNum;
     private int secureIdleNum;
-    String mTag = "TEST";
-
 
     @Nullable
     @Override
@@ -292,31 +290,6 @@ public class FeaturesFragment3 extends Fragment {
         });
     }
 
-    public boolean isAux1() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(aux1Settings, false);
-    }
-
-    public boolean isAux2() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(aux2Settings, false);
-    }
-
-    public boolean isAux3() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(aux3Settings, false);
-    }
-
-    public boolean isWorkLight() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(workLightSettings, false);
-    }
-
-    public boolean isStrobeLight() {
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(strobeSettings, false);
-    }
-
     private int getVehicleType() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
         return mSharedPreferences.getInt(vehicleSettings, VFORD1);
@@ -331,34 +304,6 @@ public class FeaturesFragment3 extends Fragment {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean(secureIdleSettings, false);
     }
-//
-//    void updateButtons(){
-//        if (isStrobeLight()){
-//            strobeOff.setPressed(true);
-//        } else {
-//            strobeOn.setPressed(true);
-//        }
-//        if (isWorkLight()){
-//            workLightOff.setPressed(true);
-//        } else {
-//            workLightOn.setPressed(true);
-//        }
-//        if (isAux1()){
-//            aux1Off.setPressed(true);
-//        } else {
-//            aux1On.setPressed(true);
-//        }
-//        if (isAux2()){
-//            aux2Off.setPressed(true);
-//        } else {
-//            aux2On.setPressed(true);
-//        }
-//        if (isAux3()){
-//            aux3Off.setPressed(true);
-//        } else {
-//            aux3On.setPressed(true);
-//        }
-//    }
 
     //Send to sGDP server to verify connection
     void switchStrobeLights(int requestTurnSignals) {

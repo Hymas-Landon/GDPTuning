@@ -271,11 +271,11 @@ public class FeaturesFragment2 extends Fragment {
             final String[] navOverride = new String[2];
             navOverride[0] = "No";
             navOverride[1] = "Yes";
-            if (!isNavOverride()) {
-                select3.setText(navOverride[0]);
-            } else if (isNavOverride()) {
-                select3.setText(navOverride[1]);
-            }
+//            if (!isNavOverride()) {
+//                select3.setText(navOverride[0]);
+//            } else if (isNavOverride()) {
+//                select3.setText(navOverride[1]);
+//            }
             arrowLeft3.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = mSharedPreferences.edit();
@@ -306,11 +306,11 @@ public class FeaturesFragment2 extends Fragment {
             final String[] remoteWindow = new String[2];
             remoteWindow[0] = "No";
             remoteWindow[1] = "Yes";
-            if (!isRemoteWindow()) {
-                select4.setText(remoteWindow[0]);
-            } else if (isRemoteWindow()) {
-                select4.setText(remoteWindow[1]);
-            }
+//            if (!isRemoteWindow()) {
+//                select4.setText(remoteWindow[0]);
+//            } else if (isRemoteWindow()) {
+//                select4.setText(remoteWindow[1]);
+//            }
             arrowLeft4.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = mSharedPreferences.edit();

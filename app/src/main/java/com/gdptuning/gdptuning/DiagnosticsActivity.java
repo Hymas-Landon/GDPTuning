@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class DiagnosticsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,6 +74,17 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_diagnostics);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isConnected) {
+                    if (!isProcessing) {
+                        updateSettingsRequest();
+                    }
+                }
+            }
+        }, 0, 500);//put here time 1000 milliseconds=1 second
 
         recyclerView = findViewById(R.id.recycler_codes);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -170,10 +184,9 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         try {
             String csvLine;
             while ((csvLine = mReader.readLine()) != null) {
-                data = csvLine.split(",");
+                data = csvLine.split("-");
                 try {
-                    Log.e("Data ", "" + data[1]);
-                    //Log.e("Data ","" + data[0] + "" + data[1] + "" + data[2]);
+                    Log.d("DataFind ", "" + data[0] + " - " + data[1]);
                 } catch (Exception e) {
                     Log.e("Problem", e.toString());
                 }
@@ -216,7 +229,6 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-
         int id = v.getId();
 
         if (id == R.id.btn_home) {
@@ -240,12 +252,16 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-                            String codes = variables.getString("dtcList");
-                            pause();
+                            final String codes = variables.getString("dtcList");
 
-                            for (String mCodes : codes.split(" ")) {
-                                diagnosticsList.add(new Code(mCodes));
-                            }
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    for (String mCodes : codes.split(" ")) {
+                                        diagnosticsList.add(new Code(mCodes));
+                                    }
+                                }
+                            }, 3000);
 
                             adapter = new DiagnosticsAdapter(DiagnosticsActivity.this, diagnosticsList);
                             recyclerView.setAdapter(adapter);
@@ -277,11 +293,47 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
         queue.add(getRequest);
     }
 
-    private void pause() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException mE) {
-            mE.printStackTrace();
-        }
+    //Send to sGDP server to get live data
+    public void updateSettingsRequest() {
+        isProcessing = true;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            int tuneMode = variables.getInt("tune_mode");
+                            int gear = variables.getInt("gear");
+                            String deviceName = response.getString("name");
+                            deviceName += response.getString("id");
+                            device = deviceName;
+                            char pos = (char) gear;
+
+                            if (tuneMode == 255) {
+                                tvTune.setText("TUNE: E");
+                            } else {
+                                tvTune.setText("TUNE: " + tuneMode);
+                            }
+                            tvGear.setText("GEAR: " + pos);
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        isProcessing = false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
     }
 }

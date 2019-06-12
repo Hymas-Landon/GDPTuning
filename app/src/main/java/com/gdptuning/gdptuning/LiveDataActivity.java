@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -147,10 +146,6 @@ public class LiveDataActivity extends AppCompatActivity {
         return mSharedPreferences.getInt("theme", Utils.THEME_DEFAULT);
     }
 
-    private boolean isLogging() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("logging", true);
-    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -268,6 +263,33 @@ public class LiveDataActivity extends AppCompatActivity {
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
+
+                            String boost = variables.getString(boostVar);
+                            if (boost.equals("65535")) {
+                                timer.cancel();
+                                new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                timer = new Timer();
+                                                timer.scheduleAtFixedRate(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (isConnected) {
+                                                            if (!isProcessing) {
+                                                                updateRequest();
+                                                            }
+                                                        }
+                                                    }
+                                                }, 0, 500);//put here time 1000 milliseconds=1 second
+                                            }
+                                        })
+                                        .show();
+                            }
 
                         } catch (JSONException mE) {
                             mE.printStackTrace();

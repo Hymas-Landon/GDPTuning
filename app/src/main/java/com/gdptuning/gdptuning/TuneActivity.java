@@ -490,7 +490,7 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                 btn_num2.setBackgroundResource(R.drawable.grey2);
                 btn_num3.setBackgroundResource(R.drawable.grey3);
                 btn_num4.setBackgroundResource(R.drawable.grey4);
-                btn_num4.setBackgroundResource(R.drawable.grey5);
+                btn_num5.setBackgroundResource(R.drawable.grey5);
             default:
                 btn1.setBackgroundResource(R.drawable.tune_off);
                 btn2.setBackgroundResource(R.drawable.tune_off);
@@ -537,25 +537,6 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             tvGear.setText("GEAR: " + pos);
                             setTuneMode(tuneMode);
-                            String boost = variables.getString(boostVar);
-
-                            if (boost.equals("65535")) {
-                                new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Logging Paused")
-                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
-                                        .setConfirmText("Okay")
-                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sDialog) {
-                                                sDialog.dismiss();
-                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                                                edit.putBoolean("logging", true);
-                                            }
-                                        })
-                                        .show();
-                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -623,8 +604,33 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                                 volt_reading.setText(fuel_temp);
                             } else {
                                 volt_reading.setVisibility(View.INVISIBLE);
-
                             }
+                            String boost = variables.getString(boostVar);
+                            if (boost.equals("65535")) {
+                                timer.cancel();
+                                new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                timer.scheduleAtFixedRate(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (isConnected) {
+                                                            if (!isProcessing) {
+                                                                updateRequest();
+                                                            }
+                                                        }
+                                                    }
+                                                }, 0, 500);//put here time 1000 milliseconds=1 second
+                                            }
+                                        })
+                                        .show();
+                            }
+
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
                             } else {

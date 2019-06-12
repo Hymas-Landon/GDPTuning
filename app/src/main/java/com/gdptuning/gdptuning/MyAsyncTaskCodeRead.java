@@ -1,25 +1,30 @@
 package com.gdptuning.gdptuning;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
-    static private final int Iterations = 3;
+public class MyAsyncTaskCodeRead extends AsyncTask<String, Integer, Boolean> {
+    static private final int Iterations = 5;
 
     private ProgressDialog mProgress = null;
+    @SuppressLint("StaticFieldLeak")
     private Context mContext = null;
+    View mView;
     RequestQueue queue;
     WifiManager wifi;
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
 
-    MyAsyncTaskCode(Context context) {
+    MyAsyncTaskCodeRead(Context context) {
         mContext = context;
     }
 
@@ -29,15 +34,15 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
             myLongRunningOperation();
             queue = Volley.newRequestQueue(mContext);
         }
+
         return true;
     }
 
     @Override
     protected void onPreExecute() {
         mProgress = new ProgressDialog(mContext);
-
-        mProgress.setMessage("Request in progress. Please wait...");
-        mProgress.setTitle("Sending Request");
+        mProgress.setMessage("Reading BCM in progress. Please wait...");
+        mProgress.setTitle("Reading in Progress");
 
         mProgress.show();
     }

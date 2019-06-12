@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -58,7 +59,7 @@ public class FeaturesFragment3 extends Fragment {
     RequestQueue queue;
     ToggleButton toggle_high_idle, toggle_secure_idle;
     WifiManager wifi;
-    TextView selector_words_first_3, selector_words_second_3, selector_words_third_3, selector_words_fourth_3, selector_words_fifth_3;
+    TextView selector_words_first_3, selector_words_second_3, selector_words_third_3, selector_words_fourth_3, selector_words_fifth_3, selector_words_sixth_3;
     Button strobeOn, workLightOn, aux1On, strobeOff, workLightOff, aux1Off, aux2Off, aux2On, aux3Off, aux3On;
     Timer timer;
     private int strobeNum;
@@ -71,7 +72,7 @@ public class FeaturesFragment3 extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_features3, container, false);
 
         //Id's
@@ -80,6 +81,7 @@ public class FeaturesFragment3 extends Fragment {
         selector_words_third_3 = mView.findViewById(R.id.third_selector_features_3);
         selector_words_fourth_3 = mView.findViewById(R.id.fourth_selector_features_3);
         selector_words_fifth_3 = mView.findViewById(R.id.fifth_selector_features_3);
+        selector_words_sixth_3 = mView.findViewById(R.id.sixth_selector_features_3);
         toggle_high_idle = mView.findViewById(R.id.high_idle);
         toggle_secure_idle = mView.findViewById(R.id.secure_idle);
 
@@ -109,6 +111,16 @@ public class FeaturesFragment3 extends Fragment {
         } else {
             toggle_secure_idle.setVisibility(View.INVISIBLE);
             toggle_high_idle.setX(-120);
+        }
+        if (getVehicleType() == VFORD2 || getVehicleType() == VFORD1){
+            toggle_high_idle.setVisibility(View.INVISIBLE);
+        } else {
+            toggle_high_idle.setVisibility(View.VISIBLE);
+            toggle_secure_idle.setX(120);
+        } if (getVehicleType() == VFORD1){
+            selector_words_sixth_3.setVisibility(View.INVISIBLE);
+        } else {
+            selector_words_sixth_3.setVisibility(View.VISIBLE);
         }
 
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);

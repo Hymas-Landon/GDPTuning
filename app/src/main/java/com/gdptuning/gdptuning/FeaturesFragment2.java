@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
@@ -34,9 +35,6 @@ public class FeaturesFragment2 extends Fragment {
 
     final private static int VFORD1 = 7;
     final private static int VFORD2 = 8;
-    final private static int VGM1 = 9;
-    final private static int VGM2 = 10;
-    final private static int VRAM = 11;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     final String themeColor = "ThemeColor";
@@ -45,6 +43,10 @@ public class FeaturesFragment2 extends Fragment {
     final String remoteStartSettings = "remote_start";
     final String navOverrideSettings = "nav_override";
     final String remoteWindowSettings = "remote_window";
+    final String remoteWindowSettingsChanged = "remote_window_changed";
+    final String remoteStartSettingsChanged = "remoteStartSettings_changed";
+    final String navOverrideSettingsChanged = "navOverrideSettings_changed";
+    final String daytimeLightsSettingsChanged = "daytimeLightsSettings_changed";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
@@ -94,7 +96,7 @@ public class FeaturesFragment2 extends Fragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
@@ -111,12 +113,25 @@ public class FeaturesFragment2 extends Fragment {
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
 
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+
+        if (isFirstTime()) {
+            edit.putInt(navOverrideSettings, 99);
+            edit.putInt(remoteWindowSettings, 99);
+            edit.putInt(remoteStartSettings, 99);
+            edit.putInt(daytimeLightsSettings, 99);
+            edit.putBoolean(daytimeLightsSettingsChanged, false);
+            edit.putBoolean(remoteStartSettingsChanged, false);
+            edit.putBoolean(navOverrideSettingsChanged, false);
+            edit.putBoolean(remoteWindowSettingsChanged, false);
+            edit.apply();
+        } else {
+            sendRequest();
+        }
 
         if (getVehicleType() == VFORD2) {
-            select1.setText("--");
-            select2.setText("--");
-            select3.setText("--");
-            select4.setText("--");
             //Selector 1
             selector_words_first_2.setText("Daytime Running Light Configuration");
             final String[] daytimeLight = new String[7];
@@ -124,22 +139,24 @@ public class FeaturesFragment2 extends Fragment {
             daytimeLight[1] = "Fog Lights";
             daytimeLight[2] = "Dedicated LED";
             daytimeLight[3] = "Turn Signals";
-            daytimeLight[4] = "0";
+            daytimeLight[4] = "Disabled";
             if (getDaytimeLights() == 0) {
                 select1.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
             } else if (getDaytimeLights() == 1) {
                 select1.setText(daytimeLight[1]);
                 daytimeLightIndex = 1;
-            } else if (getDaytimeLights() == 2) {
+            } else if (getDaytimeLights() == 4) {
                 select1.setText(daytimeLight[2]);
                 daytimeLightIndex = 2;
             } else if (getDaytimeLights() == 3) {
                 select1.setText(daytimeLight[3]);
                 daytimeLightIndex = 3;
-            } else if (getDaytimeLights() == 4) {
+            } else if (getDaytimeLights() == 2) {
                 select1.setText(daytimeLight[4]);
                 daytimeLightIndex = 4;
+            } else if (getDaytimeLights() == 99) {
+                select1.setText("--");
             }
             arrowLeft1.setOnClickListener(new View.OnClickListener() {
 
@@ -147,23 +164,24 @@ public class FeaturesFragment2 extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    edit.putBoolean("daytimeLightsSettings_changed", true);
                     if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
                         daytimeLightIndex = daytimeLightIndex - 1;
                         select1.setText(daytimeLight[daytimeLightIndex]);
                         if (daytimeLightIndex == 0) {
-                            edit.putInt(daytimeLightsSettings, 1);
+                            edit.putInt(daytimeLightsSettings, 0);
                             switchDayTime(34);
                         } else if (daytimeLightIndex == 1) {
-                            edit.putInt(daytimeLightsSettings, 2);
+                            edit.putInt(daytimeLightsSettings, 1);
                             switchDayTime(35);
                         } else if (daytimeLightIndex == 2) {
-                            edit.putInt(daytimeLightsSettings, 3);
+                            edit.putInt(daytimeLightsSettings, 4);
                             switchDayTime(38);
                         } else if (daytimeLightIndex == 3) {
-                            edit.putInt(daytimeLightsSettings, 4);
+                            edit.putInt(daytimeLightsSettings, 3);
                             switchDayTime(36);
                         } else if (daytimeLightIndex == 4) {
-                            edit.putInt(daytimeLightsSettings, 5);
+                            edit.putInt(daytimeLightsSettings, 2);
                             switchDayTime(37);
                         }
                         edit.apply();
@@ -177,23 +195,24 @@ public class FeaturesFragment2 extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    edit.putBoolean("daytimeLightsSettings_changed", true);
                     if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
                         daytimeLightIndex = daytimeLightIndex + 1;
                         select1.setText(daytimeLight[daytimeLightIndex]);
                         if (daytimeLightIndex == 0) {
-                            edit.putInt(daytimeLightsSettings, 1);
+                            edit.putInt(daytimeLightsSettings, 0);
                             switchDayTime(34);
                         } else if (daytimeLightIndex == 1) {
-                            edit.putInt(daytimeLightsSettings, 2);
+                            edit.putInt(daytimeLightsSettings, 1);
                             switchDayTime(35);
                         } else if (daytimeLightIndex == 2) {
-                            edit.putInt(daytimeLightsSettings, 3);
+                            edit.putInt(daytimeLightsSettings, 4);
                             switchDayTime(38);
                         } else if (daytimeLightIndex == 3) {
-                            edit.putInt(daytimeLightsSettings, 4);
+                            edit.putInt(daytimeLightsSettings, 3);
                             switchDayTime(36);
                         } else if (daytimeLightIndex == 4) {
-                            edit.putInt(daytimeLightsSettings, 5);
+                            edit.putInt(daytimeLightsSettings, 2);
                             switchDayTime(37);
                         }
                         edit.apply();
@@ -201,10 +220,9 @@ public class FeaturesFragment2 extends Fragment {
                 }
             });
 
-
             //Selector 2
             selector_words_second_2.setText("Remote Start Duration");
-            final String[] remoteStart = new String[7];
+            final String[] remoteStart = new String[3];
             remoteStart[0] = "5 Minutes";
             remoteStart[1] = "10 Minutes";
             remoteStart[2] = "15 Minutes";
@@ -217,13 +235,15 @@ public class FeaturesFragment2 extends Fragment {
             } else if (getRemoteStart() == 3) {
                 select2.setText(remoteStart[2]);
                 remoteStartIndex = 2;
+            } else if (getRemoteStart() == 99) {
+                select2.setText("--");
             }
             arrowLeft2.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    edit.putBoolean(remoteStartSettingsChanged, true);
                     if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
                         remoteStartIndex = remoteStartIndex - 1;
                         select2.setText(remoteStart[remoteStartIndex]);
@@ -242,12 +262,11 @@ public class FeaturesFragment2 extends Fragment {
                 }
             });
             arrowRight2.setOnClickListener(new View.OnClickListener() {
-
-
                 @Override
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    edit.putBoolean(remoteStartSettingsChanged, true);
                     if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
                         remoteStartIndex = remoteStartIndex + 1;
                         select2.setText(remoteStart[remoteStartIndex]);
@@ -267,14 +286,16 @@ public class FeaturesFragment2 extends Fragment {
             });
 
             //Selector 3
-            selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
+            selector_words_third_2.setText("Navigation Override(Allows Passenger Destination Entry While Driving)");
             final String[] navOverride = new String[2];
             navOverride[0] = "No";
             navOverride[1] = "Yes";
-            if (!isNavOverride()) {
+            if (getNavOverride() == 0) {
                 select3.setText(navOverride[0]);
-            } else if (isNavOverride()) {
+            } else if (getNavOverride() == 1) {
                 select3.setText(navOverride[1]);
+            } else if (getNavOverride() == 99) {
+                select3.setText("--");
             }
             arrowLeft3.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
@@ -282,8 +303,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("navOverrideSettings_changed", true);
                     select3.setText(navOverride[0]);
-                    edit.putBoolean(navOverrideSettings, true);
+                    edit.putInt(navOverrideSettings, 1);
                     switchNavOverride(45);
                     edit.apply();
                 }
@@ -294,8 +316,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("navOverrideSettings_changed", true);
                     select3.setText(navOverride[1]);
-                    edit.putBoolean(navOverrideSettings, false);
+                    edit.putInt(navOverrideSettings, 0);
                     switchNavOverride(44);
                     edit.apply();
                 }
@@ -306,10 +329,12 @@ public class FeaturesFragment2 extends Fragment {
             final String[] remoteWindow = new String[2];
             remoteWindow[0] = "No";
             remoteWindow[1] = "Yes";
-            if (!isRemoteWindow()) {
+            if (getRemoteWindow() == 0) {
                 select4.setText(remoteWindow[0]);
-            } else if (isRemoteWindow()) {
+            } else if (getRemoteWindow() == 1) {
                 select4.setText(remoteWindow[1]);
+            } else if (getRemoteWindow() == 99) {
+                select4.setText("--");
             }
             arrowLeft4.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
@@ -317,8 +342,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("remoteWindowSettings_changed", true);
                     select4.setText(remoteWindow[0]);
-                    edit.putBoolean(remoteWindowSettings, true);
+                    edit.putInt(remoteWindowSettings, 1);
                     switchWindowUpDown(40);
                     edit.apply();
                 }
@@ -329,8 +355,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("remoteWindowSettings_changed", true);
                     select4.setText(remoteWindow[1]);
-                    edit.putBoolean(remoteWindowSettings, false);
+                    edit.putInt(remoteWindowSettings, 0);
                     switchWindowUpDown(39);
                     edit.apply();
                 }
@@ -338,32 +365,27 @@ public class FeaturesFragment2 extends Fragment {
         }
 
         if (getVehicleType() == VFORD1) {
-            select1.setText("--");
-            select2.setText("--");
-            select3.setText("--");
-            select4.setText("--");
             //Selector 1
             selector_words_first_2.setText("Daytime Running Light Configuration");
-            final String[] daytimeLight = new String[5];
+            final String[] daytimeLight = new String[4];
             daytimeLight[0] = "Low Beam";
             daytimeLight[1] = "Fog Lights";
-            daytimeLight[3] = "Turn Signals";
-            daytimeLight[4] = "0";
+            daytimeLight[2] = "Turn Signals";
+            daytimeLight[3] = "Disabled";
             if (getDaytimeLights() == 0) {
                 select1.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
             } else if (getDaytimeLights() == 1) {
                 select1.setText(daytimeLight[1]);
                 daytimeLightIndex = 1;
-            } else if (getDaytimeLights() == 2) {
+            } else if (getDaytimeLights() == 3) {
                 select1.setText(daytimeLight[2]);
                 daytimeLightIndex = 2;
-            } else if (getDaytimeLights() == 3) {
+            } else if (getDaytimeLights() == 2) {
                 select1.setText(daytimeLight[3]);
                 daytimeLightIndex = 3;
-            } else if (getDaytimeLights() == 4) {
-                select1.setText(daytimeLight[4]);
-                daytimeLightIndex = 4;
+            } else if (getDaytimeLights() == 99) {
+                select1.setText("--");
             }
             arrowLeft1.setOnClickListener(new View.OnClickListener() {
 
@@ -371,23 +393,21 @@ public class FeaturesFragment2 extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
-                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
+                    edit.putBoolean("daytimeLightsSettings_changed", true);
+                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 3) {
                         daytimeLightIndex = daytimeLightIndex - 1;
                         select1.setText(daytimeLight[daytimeLightIndex]);
                         if (daytimeLightIndex == 0) {
-                            edit.putInt(daytimeLightsSettings, 1);
+                            edit.putInt(daytimeLightsSettings, 0);
                             switchDayTime(34);
                         } else if (daytimeLightIndex == 1) {
-                            edit.putInt(daytimeLightsSettings, 2);
+                            edit.putInt(daytimeLightsSettings, 1);
                             switchDayTime(35);
                         } else if (daytimeLightIndex == 2) {
                             edit.putInt(daytimeLightsSettings, 3);
-                            switchDayTime(38);
-                        } else if (daytimeLightIndex == 3) {
-                            edit.putInt(daytimeLightsSettings, 4);
                             switchDayTime(36);
-                        } else if (daytimeLightIndex == 4) {
-                            edit.putInt(daytimeLightsSettings, 5);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 2);
                             switchDayTime(37);
                         }
                         edit.apply();
@@ -396,28 +416,25 @@ public class FeaturesFragment2 extends Fragment {
             });
             arrowRight1.setOnClickListener(new View.OnClickListener() {
 
-
                 @Override
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
-                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
+                    edit.putBoolean("daytimeLightsSettings_changed", true);
+                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 3) {
                         daytimeLightIndex = daytimeLightIndex + 1;
                         select1.setText(daytimeLight[daytimeLightIndex]);
                         if (daytimeLightIndex == 0) {
-                            edit.putInt(daytimeLightsSettings, 1);
+                            edit.putInt(daytimeLightsSettings, 0);
                             switchDayTime(34);
                         } else if (daytimeLightIndex == 1) {
-                            edit.putInt(daytimeLightsSettings, 2);
+                            edit.putInt(daytimeLightsSettings, 1);
                             switchDayTime(35);
                         } else if (daytimeLightIndex == 2) {
                             edit.putInt(daytimeLightsSettings, 3);
-                            switchDayTime(38);
-                        } else if (daytimeLightIndex == 3) {
-                            edit.putInt(daytimeLightsSettings, 4);
                             switchDayTime(36);
-                        } else if (daytimeLightIndex == 4) {
-                            edit.putInt(daytimeLightsSettings, 5);
+                        } else if (daytimeLightIndex == 3) {
+                            edit.putInt(daytimeLightsSettings, 2);
                             switchDayTime(37);
                         }
                         edit.apply();
@@ -428,7 +445,7 @@ public class FeaturesFragment2 extends Fragment {
 
             //Selector 2
             selector_words_second_2.setText("Remote Start Duration");
-            final String[] remoteStart = new String[7];
+            final String[] remoteStart = new String[3];
             remoteStart[0] = "5 Minutes";
             remoteStart[1] = "10 Minutes";
             remoteStart[2] = "15 Minutes";
@@ -441,6 +458,8 @@ public class FeaturesFragment2 extends Fragment {
             } else if (getRemoteStart() == 3) {
                 select2.setText(remoteStart[2]);
                 remoteStartIndex = 2;
+            } else if (getRemoteStart() == 99) {
+                select2.setText("--");
             }
             arrowLeft2.setOnClickListener(new View.OnClickListener() {
 
@@ -448,6 +467,7 @@ public class FeaturesFragment2 extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    edit.putBoolean(remoteStartSettingsChanged, true);
                     if (remoteStartIndex > 0 && remoteStartIndex <= 2) {
                         remoteStartIndex = remoteStartIndex - 1;
                         select2.setText(remoteStart[remoteStartIndex]);
@@ -472,6 +492,7 @@ public class FeaturesFragment2 extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
+                    edit.putBoolean(remoteStartSettingsChanged, true);
                     if (remoteStartIndex >= 0 && remoteStartIndex < 2) {
                         remoteStartIndex = remoteStartIndex + 1;
                         select2.setText(remoteStart[remoteStartIndex]);
@@ -491,14 +512,16 @@ public class FeaturesFragment2 extends Fragment {
             });
 
             //Selector 3
-            selector_words_third_2.setText("Navigation Override(Allows Destination Entry While Driving)");
+            selector_words_third_2.setText("Navigation Override(Allows Passenger Destination Entry While Driving)");
             final String[] navOverride = new String[2];
             navOverride[0] = "No";
             navOverride[1] = "Yes";
-            if (!isNavOverride()) {
+            if (getNavOverride() == 0) {
                 select3.setText(navOverride[0]);
-            } else if (isNavOverride()) {
+            } else if (getNavOverride() == 1) {
                 select3.setText(navOverride[1]);
+            } else if (getNavOverride() == 99) {
+                select3.setText("--");
             }
             arrowLeft3.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
@@ -506,8 +529,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("navOverrideSettings_changed", true);
                     select3.setText(navOverride[0]);
-                    edit.putBoolean(navOverrideSettings, true);
+                    edit.putInt(navOverrideSettings, 1);
                     switchNavOverride(45);
                     edit.apply();
                 }
@@ -518,8 +542,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("navOverrideSettings_changed", true);
                     select3.setText(navOverride[1]);
-                    edit.putBoolean(navOverrideSettings, false);
+                    edit.putInt(navOverrideSettings, 0);
                     switchNavOverride(44);
                     edit.apply();
                 }
@@ -530,10 +555,12 @@ public class FeaturesFragment2 extends Fragment {
             final String[] remoteWindow = new String[2];
             remoteWindow[0] = "No";
             remoteWindow[1] = "Yes";
-            if (!isRemoteWindow()) {
+            if (getRemoteWindow() == 0) {
                 select4.setText(remoteWindow[0]);
-            } else if (isRemoteWindow()) {
+            } else if (getRemoteWindow() == 1) {
                 select4.setText(remoteWindow[1]);
+            } else if (getRemoteWindow() == 99) {
+                select4.setText("--");
             }
             arrowLeft4.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
@@ -541,8 +568,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("remoteWindowSettings_changed", true);
                     select4.setText(remoteWindow[0]);
-                    edit.putBoolean(remoteWindowSettings, true);
+                    edit.putInt(remoteWindowSettings, 1);
                     switchWindowUpDown(40);
                     edit.apply();
                 }
@@ -553,8 +581,9 @@ public class FeaturesFragment2 extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean("remoteWindowSettings_changed", true);
                     select4.setText(remoteWindow[1]);
-                    edit.putBoolean(remoteWindowSettings, false);
+                    edit.putInt(remoteWindowSettings, 0);
                     switchWindowUpDown(39);
                     edit.apply();
                 }
@@ -577,16 +606,119 @@ public class FeaturesFragment2 extends Fragment {
         return mSharedPreferences.getInt(remoteStartSettings, 3);
     }
 
-    public boolean isNavOverride() {
+    public int getNavOverride() {
         SharedPreferences mSharedPreferences;
         mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(navOverrideSettings, false);
+        return mSharedPreferences.getInt(navOverrideSettings, 0);
     }
 
-    public boolean isRemoteWindow() {
+    public int getRemoteWindow() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(remoteWindowSettings, false);
+        return mSharedPreferences.getInt(remoteWindowSettings, 0);
     }
+
+    private boolean isNavOverrideSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(navOverrideSettingsChanged, false);
+    }
+
+    private boolean isRemoteStartSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(remoteStartSettingsChanged, false);
+    }
+
+    private boolean isRemoteWindowSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(remoteWindowSettingsChanged, false);
+    }
+
+    private boolean isDaytimeLightsSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(daytimeLightsSettingsChanged, false);
+    }
+
+    private boolean isFirstTime() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("first_time", false);
+    }
+
+    //Send to sGDP server to verify connection
+    public void sendRequest() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+
+                            int daytimeRunningLights = variables.getInt("drl");
+                            int remoteWindow = variables.getInt("rke_windows");
+                            int remoteStartDuration = variables.getInt("rvs");
+                            int navOverride = variables.getInt("nav_override");
+
+                            if (isDaytimeLightsSettingsChanged()) {
+                                if (daytimeRunningLights == 0) {
+                                    select1.setText("Low Beam");
+                                } else if (daytimeRunningLights == 1) {
+                                    select1.setText("Fog Lights");
+                                } else if (daytimeRunningLights == 2) {
+                                    select1.setText("Disabled");
+                                }
+                            } else {
+                                select1.setText("--");
+                            }
+                            if (isRemoteStartSettingsChanged()) {
+                                if (remoteStartDuration == 1) {
+                                    select2.setText("5 Minutes");
+                                } else if (remoteStartDuration == 2) {
+                                    select2.setText("10 Minutes");
+                                } else if (remoteStartDuration == 3) {
+                                    select2.setText("15 Minutes");
+                                }
+                            } else {
+                                select2.setText("--");
+                            }
+
+                            if (isNavOverrideSettingsChanged()) {
+                                if (navOverride == 0) {
+                                    select3.setText("No");
+                                } else if (navOverride == 1) {
+                                    select3.setText("Yes");
+                                }
+                            } else {
+                                select3.setText("--");
+                            }
+
+                            if (isRemoteWindowSettingsChanged()) {
+                                if (remoteWindow == 0) {
+                                    select4.setText("No");
+                                } else if (remoteWindow == 1) {
+                                    select4.setText("Yes");
+                                }
+                            } else {
+                                select4.setText("--");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
 
     //Send to sGDP server to get live data
     public void updateSettingsRequest() {
@@ -597,19 +729,34 @@ public class FeaturesFragment2 extends Fragment {
                     public void onResponse(JSONObject response) {
                         isConnected = true;
                         try {
+
                             JSONObject variables = response.getJSONObject("variables");
                             int drl = variables.getInt("drl");
                             int remote = variables.getInt("rvs");
                             int nav_override = variables.getInt("nav_override");
                             int rke_windows = variables.getInt("rke_windows");
-                            if (drl == 0) {
-                                actual1.setText("Low Beam");
-                            } else if (drl == 1) {
-                                actual1.setText("Fog Lights");
-                            } else if (drl == 2) {
-                                actual1.setText("Disabled");
-                            } else if (drl == 3) {
-                                actual1.setText("Turn Signals");
+                            if (getVehicleType() == VFORD1) {
+                                if (drl == 0) {
+                                    actual1.setText("Low Beam");
+                                } else if (drl == 1) {
+                                    actual1.setText("Fog Lights");
+                                } else if (drl == 2) {
+                                    actual1.setText("Disabled");
+                                } else if (drl == 3) {
+                                    actual1.setText("Turn Signals");
+                                }
+                            } else if (getVehicleType() == VFORD2) {
+                                if (drl == 0) {
+                                    actual1.setText("Low Beam");
+                                } else if (drl == 1) {
+                                    actual1.setText("Fog Lights");
+                                } else if (drl == 2) {
+                                    actual1.setText("Disabled");
+                                } else if (drl == 3) {
+                                    actual1.setText("Turn Signals");
+                                } else if (drl == 4) {
+                                    actual1.setText("Dedicated LED");
+                                }
                             }
                             if (remote == 1) {
                                 actual2.setText("5 Minutes");
@@ -625,7 +772,7 @@ public class FeaturesFragment2 extends Fragment {
                             }
                             if (rke_windows == 1) {
                                 actual4.setText("Yes");
-                            } else {
+                            } else if (rke_windows == 0) {
                                 actual4.setText("No");
                             }
 
@@ -665,27 +812,27 @@ public class FeaturesFragment2 extends Fragment {
                         switch (daytimeNum) {
                             // Set as Headlights
                             case 34:
-                                edit.putInt(daytimeLightsSettings, 1);
+                                edit.putInt(daytimeLightsSettings, 0);
                                 edit.apply();
                                 break;
                             // Set as Fog Lights
                             case 35:
-                                edit.putInt(daytimeLightsSettings, 2);
+                                edit.putInt(daytimeLightsSettings, 1);
                                 edit.apply();
                                 break;
                             // Set as Turn Signals
                             case 36:
-                                edit.putInt(daytimeLightsSettings, 4);
+                                edit.putInt(daytimeLightsSettings, 3);
                                 edit.apply();
                                 break;
                             // Set as Disabled
                             case 37:
-                                edit.putInt(daytimeLightsSettings, 5);
+                                edit.putInt(daytimeLightsSettings, 2);
                                 edit.apply();
                                 break;
                             // Set as Led's
                             case 38:
-                                edit.putInt(daytimeLightsSettings, 3);
+                                edit.putInt(daytimeLightsSettings, 4);
                                 edit.apply();
                                 break;
 
@@ -723,16 +870,16 @@ public class FeaturesFragment2 extends Fragment {
                         switch (remoteNum) {
                             // Set as 5 Minutes
                             case 40:
-                                edit.putInt(remoteStartSettings, 5);
+                                edit.putInt(remoteStartSettings, 1);
                                 edit.apply();
                                 break;
                             // Set as 10 Minutes
                             case 41:
-                                edit.putInt(remoteStartSettings, 10);
+                                edit.putInt(remoteStartSettings, 2);
                                 edit.apply();
                                 // Set as 15 Minutes
                             case 43:
-                                edit.putInt(remoteStartSettings, 15);
+                                edit.putInt(remoteStartSettings, 3);
                                 edit.apply();
                         }
                         // display response
@@ -768,12 +915,12 @@ public class FeaturesFragment2 extends Fragment {
                         switch (navNum) {
                             // Nav Entry not allowed while driving
                             case 44:
-                                edit.putBoolean(navOverrideSettings, false);
+                                edit.putInt(navOverrideSettings, 0);
                                 edit.apply();
                                 break;
                             // Nav Entry allowed while driving
                             case 45:
-                                edit.putBoolean(navOverrideSettings, true);
+                                edit.putInt(navOverrideSettings, 1);
                                 edit.apply();
                                 break;
                         }
@@ -810,12 +957,12 @@ public class FeaturesFragment2 extends Fragment {
                         switch (windowNum) {
                             // Control windows via key fob is off
                             case 39:
-                                edit.putBoolean(remoteWindowSettings, false);
+                                edit.putInt(remoteWindowSettings, 0);
                                 edit.apply();
                                 break;
                             // Control windows via key fob is on
                             case 40:
-                                edit.putBoolean(remoteWindowSettings, true);
+                                edit.putInt(remoteWindowSettings, 1);
                                 edit.apply();
                                 break;
                         }
@@ -831,6 +978,14 @@ public class FeaturesFragment2 extends Fragment {
         );
         // add it to the RequestQueue
         queue.add(getRequest);
+    }
+
+    private void pause(int x) {
+        try {
+            Thread.sleep(x);
+        } catch (InterruptedException mE) {
+            mE.printStackTrace();
+        }
     }
 
 }

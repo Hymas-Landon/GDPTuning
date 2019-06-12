@@ -226,27 +226,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (item_select == 1) {
             ford1.setChecked(true);
             edit.putInt("vehicle", VFORD1);
-            edit.putBoolean("first_time", false);
+            edit.putBoolean("auto", false);
             edit.apply();
         } else if (item_select == 2) {
             ford2.setChecked(true);
             edit.putInt("vehicle", VFORD2);
-            edit.putBoolean("first_time", false);
+            edit.putBoolean("auto", false);
             edit.apply();
         } else if (item_select == 3) {
             ram.setChecked(true);
             edit.putInt("vehicle", VRAM);
-            edit.putBoolean("first_time", false);
+            edit.putBoolean("auto", false);
             edit.apply();
         } else if (item_select == 4) {
             gm1.setChecked(true);
             edit.putInt("vehicle", VGM1);
-            edit.putBoolean("first_time", false);
+            edit.putBoolean("auto", false);
             edit.apply();
         } else if (item_select == 5) {
             gm2.setChecked(true);
             edit.putInt("vehicle", VGM2);
-            edit.putBoolean("first_time", false);
+            edit.putBoolean("auto", false);
             edit.apply();
         } else if (item_select == 6) {
             auto.setChecked(true);
@@ -296,40 +296,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 isConnected = true;
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
-                                    int bcm_stat = variables.getInt("bcm_stat");
                                     int pltfrm = variables.getInt("pltfrm");
-                                    if (pltfrm == 0 || bcm_stat == 11) {
-                                        if (pltfrm == 0) {
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN not Detected")
-                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        } else if (bcm_stat == 11){
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN Mismatch")
-                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        }
+                                    if (pltfrm == 0) {
+                                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("VIN not Detected")
+                                                .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                .setConfirmText("Okay")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
                                     } else {
-                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
                                         startActivity(new Intent(MainActivity.this, LiveDataActivity.class));
-                                        edit.putBoolean("first_time", true);
-                                        edit.apply();
                                     }
 
                                 } catch (JSONException e) {
@@ -357,40 +338,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 isConnected = true;
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
-                                    int bcm_stat = variables.getInt("bcm_stat");
                                     int pltfrm = variables.getInt("pltfrm");
-                                    if (pltfrm == 0 || bcm_stat == 11) {
-                                        if (pltfrm == 0) {
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN not Detected")
-                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        } else if (bcm_stat == 11){
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN Mismatch")
-                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        }
+                                    if (pltfrm == 0) {
+                                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("VIN not Detected")
+                                                .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                .setConfirmText("Okay")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
                                     } else {
-                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
                                         startActivity(new Intent(MainActivity.this, TuneActivity.class));
-                                        edit.putBoolean("first_time", true);
-                                        edit.apply();
                                     }
 
                                 } catch (JSONException e) {
@@ -419,39 +381,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
                                     int bcm_stat = variables.getInt("bcm_stat");
-                                    int pltfrm = 7;
-                                    if (pltfrm == 0 || bcm_stat == 11) {
-                                        if (pltfrm == 0) {
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN not Detected")
-                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        } else if (bcm_stat == 11){
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN Mismatch")
-                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        }
+                                    int pltfrm = variables.getInt("pltfrm");
+                                    if (pltfrm == 0) {
+                                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("VIN not Detected")
+                                                .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                .setConfirmText("Okay")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    } else if (bcm_stat == 11) {
+                                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("VIN Mismatch")
+                                                .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
+                                                .setConfirmText("Okay")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
                                     } else {
-                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
                                         startActivity(new Intent(MainActivity.this, FeaturesActivity.class));
-                                        edit.putBoolean("first_time", true);
-                                        edit.apply();
                                     }
 
                                 } catch (JSONException e) {
@@ -477,42 +433,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void onResponse(final JSONObject response) {
                                 isConnected = true;
+
                                 try {
                                     JSONObject variables = response.getJSONObject("variables");
-                                    int bcm_stat = variables.getInt("bcm_stat");
                                     int pltfrm = variables.getInt("pltfrm");
-                                    if (pltfrm == 0 || bcm_stat == 11) {
-                                        if (pltfrm == 0) {
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN not Detected")
-                                                    .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        } else if (bcm_stat == 11){
-                                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                                    .setTitleText("VIN Mismatch")
-                                                    .setContentText("Please reconnect Pro Series to original vehicle and return BCM settings to stock before transferring Pro Series to a new vehicle.")
-                                                    .setConfirmText("Okay")
-                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sDialog) {
-                                                            sDialog.dismiss();
-                                                        }
-                                                    })
-                                                    .show();
-                                        }
+                                    if (pltfrm == 0) {
+                                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("VIN not Detected")
+                                                .setContentText("Please turn the ignition off, unplug the pro dongle, plug it back in, and turn the ignition back on.")
+                                                .setConfirmText("Okay")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
                                     } else {
-                                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                        SharedPreferences.Editor edit = mSharedPreferences.edit();
                                         startActivity(new Intent(MainActivity.this, DiagnosticsActivity.class));
-                                        edit.putBoolean("first_time", true);
-                                        edit.apply();
                                     }
 
                                 } catch (JSONException e) {
@@ -566,50 +504,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 switch (vehicle) {
                                     case "2":
                                         edit.putInt("vehicle", VGM1);
-                                        edit.putBoolean("first_time", false);
                                         edit.apply();
                                         break;
                                     case "3":
                                     case "6":
                                     case "7":
                                         edit.putInt("vehicle", VGM2);
-                                        edit.putBoolean("first_time", false);
                                         edit.apply();
                                         break;
                                     case "12":
                                         edit.putInt("vehicle", VFORD1);
-                                        edit.putBoolean("first_time", false);
                                         edit.apply();
                                         break;
                                     case "14":
                                         edit.putInt("vehicle", VFORD2);
-                                        edit.putBoolean("first_time", false);
                                         edit.apply();
                                         break;
                                     case "21":
                                         edit.putInt("vehicle", VRAM);
-                                        edit.putBoolean("first_time", false);
                                         edit.apply();
                                         break;
                                 }
-                            }
-                            String boost = variables.getString(boostVar);
-                            if (boost.equals("65535")) {
-                                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Logging Paused")
-                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
-                                        .setConfirmText("Okay")
-                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sDialog) {
-                                                sDialog.dismiss();
-                                                SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-                                                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                                                edit.putBoolean("logging", true);
-                                            }
-                                        })
-                                        .show();
                             }
 
                         } catch (JSONException e) {
@@ -678,6 +593,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
+                            String boost = variables.getString(boostVar);
+                            if (boost.equals("65535")) {
+                                timer.cancel();
+                                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                timer.scheduleAtFixedRate(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (isConnected) {
+                                                            if (!isProcessing) {
+                                                                updateRequest();
+                                                            }
+                                                        }
+                                                    }
+                                                }, 0, 500);//put here time 1000 milliseconds=1 second
+                                            }
+                                        })
+                                        .show();
+                            }
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();

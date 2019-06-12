@@ -50,8 +50,15 @@ public class FeaturesActivity extends AppCompatActivity {
     final String fogLightsSettings = "fog_lights";
     final String remoteWindowSettings = "remote_window";
     final String highIdleSettings = "high_idle";
+    final String remoteWindowSettingsChanged = "remote_window";
+    final String remoteStartSettingsChanged = "remoteStartSettings_changed";
+    final String navOverrideSettingsChanged = "navOverrideSettings_changed";
+    final String daytimeLightsSettingsChanged = "daytimeLightsSettings_changed";
+    final String tpmsSettingsChanged = "pressure_tpms_changed";
+    final String tireSizeSettingsChanged = "tire_size_changed";
+    final String lampCurrentSettingsChanged = "lamp_current_changed";
+    final String fogLightsSettingsChanged = "fog_lights_changed";
     TextView tab1, tab2, tab3;
-
 
     private boolean isConnected = false;
     private boolean isProcessing = false;
@@ -81,8 +88,9 @@ public class FeaturesActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE);
         setContentView(R.layout.activity_features);
+
         mProgressDialog = new ProgressDialog(this);
 
         //tab
@@ -110,18 +118,24 @@ public class FeaturesActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View mView) {
                     mViewPager.setCurrentItem(0);
+                    btn_default.setVisibility(View.VISIBLE);
+                    btn_program.setVisibility(View.VISIBLE);
                 }
             });
             tab2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View mView) {
                     mViewPager.setCurrentItem(1);
+                    btn_default.setVisibility(View.VISIBLE);
+                    btn_program.setVisibility(View.VISIBLE);
                 }
             });
             tab3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View mView) {
                     mViewPager.setCurrentItem(2);
+                    btn_default.setVisibility(View.INVISIBLE);
+                    btn_program.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -135,6 +149,13 @@ public class FeaturesActivity extends AppCompatActivity {
                 public void onPageSelected(int position) {
                     mTabLayout.setScrollPosition(position, 0, true);
                     mTabLayout.setSelected(true);
+                    if (position == 2) {
+                        btn_default.setVisibility(View.INVISIBLE);
+                        btn_program.setVisibility(View.INVISIBLE);
+                    } else {
+                        btn_default.setVisibility(View.VISIBLE);
+                        btn_program.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 @Override
@@ -221,17 +242,20 @@ public class FeaturesActivity extends AppCompatActivity {
             });
         }
 
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // this code will be executed after 3 seconds
+                sendRequest();
+            }
+        }, 3000);
+
         //Working with wifi
         queue = VolleySingleton.getInstance(this).getRequestQueue();
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (isFirstTime()) {
-            readSettings();
-            new MyAsyncTaskCode(FeaturesActivity.this).execute();
-            sendRequest();
-        } else {
-            sendRequest();
-        }
+        readSettings();
+        new MyAsyncTaskCodeRead(FeaturesActivity.this).execute();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -260,77 +284,77 @@ public class FeaturesActivity extends AppCompatActivity {
                                     JSONObject variables = response.getJSONObject("variables");
                                     SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
                                     SharedPreferences.Editor edit = mSharedPreferences.edit();
-                                    int factorySecureIdle = variables.getInt("factory_secure_idle");
+                                    int SecureIdle = variables.getInt("secure_idle");
 
                                     if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-                                        int factoryTpms = variables.getInt("factory_tpms");
-                                        int factoryDaytimeRunningLights = variables.getInt("factory_drl");
-                                        int factoryLampOutage = variables.getInt("factory_lamp_out");
-                                        int factoryFogLights = variables.getInt("factory_fog_high");
-                                        int factoryTireSize = variables.getInt("factory_tire_size");
-                                        int factoryRemoteWindow = variables.getInt("factory_rke_windows");
-                                        int factoryRemoteStartDuration = variables.getInt("factory_rvs");
-                                        int factoryNavOverride = variables.getInt("factory_nav_override");
+                                        int Tpms = variables.getInt("tpms");
+                                        int DaytimeRunningLights = variables.getInt("drl");
+                                        int LampOutage = variables.getInt("lamp_out");
+                                        int FogLights = variables.getInt("fog_high");
+                                        int TireSize = variables.getInt("tire_size");
+                                        int RemoteWindow = variables.getInt("rke_windows");
+                                        int RemoteStartDuration = variables.getInt("rvs");
+                                        int NavOverride = variables.getInt("nav_override");
 
-                                        edit.putInt(tpmsSettings, factoryTpms);
-                                        if (factoryLampOutage == 0) {
-                                            edit.putBoolean(lampCurrentSettings, false);
-                                        } else if (factoryLampOutage == 1) {
-                                            edit.putBoolean(lampCurrentSettings, true);
+                                        edit.putInt(tpmsSettings, Tpms);
+                                        if (LampOutage == 0) {
+                                            edit.putInt(lampCurrentSettings, 0);
+                                        } else if (LampOutage == 1) {
+                                            edit.putInt(lampCurrentSettings, 1);
                                         }
-                                        edit.putInt(tireSizeSettings, factoryTireSize);
-                                        if (factoryFogLights == 0) {
-                                            edit.putBoolean(fogLightsSettings, false);
-                                        } else if (factoryFogLights == 1) {
-                                            edit.putBoolean(fogLightsSettings, true);
+                                        edit.putInt(tireSizeSettings, TireSize);
+                                        if (FogLights == 0) {
+                                            edit.putInt(fogLightsSettings, 0);
+                                        } else if (FogLights == 1) {
+                                            edit.putInt(fogLightsSettings, 1);
                                         }
-                                        edit.putInt(daytimeLightsSettings, factoryDaytimeRunningLights);
-                                        edit.putInt(remoteStartSettings, factoryRemoteStartDuration);
-                                        edit.putInt(remoteWindowSettings, factoryRemoteWindow);
-                                        if (factoryRemoteWindow == 0) {
-                                            edit.putBoolean(remoteWindowSettings, false);
-                                        } else if (factoryRemoteWindow == 1) {
-                                            edit.putBoolean(remoteWindowSettings, true);
+                                        edit.putInt(daytimeLightsSettings, DaytimeRunningLights);
+                                        edit.putInt(remoteStartSettings, RemoteStartDuration);
+                                        edit.putInt(remoteWindowSettings, RemoteWindow);
+                                        if (RemoteWindow == 0) {
+                                            edit.putInt(remoteWindowSettings, 0);
+                                        } else if (RemoteWindow == 1) {
+                                            edit.putInt(remoteWindowSettings, 1);
                                         }
-                                        if (factoryFogLights == 0) {
-                                            edit.putBoolean(fogLightsSettings, false);
-                                        } else if (factoryFogLights == 1) {
-                                            edit.putBoolean(fogLightsSettings, true);
+                                        if (FogLights == 0) {
+                                            edit.putInt(fogLightsSettings, 0);
+                                        } else if (FogLights == 1) {
+                                            edit.putInt(fogLightsSettings, 1);
                                         }
-                                        if (factoryNavOverride == 0) {
-                                            edit.putBoolean(navOverrideSettings, false);
-                                        } else if (factoryNavOverride == 1) {
-                                            edit.putBoolean(navOverrideSettings, true);
+                                        if (NavOverride == 0) {
+                                            edit.putInt(navOverrideSettings, 0);
+                                        } else if (NavOverride == 1) {
+                                            edit.putInt(navOverrideSettings, 1);
                                         }
-                                        if (factorySecureIdle == 0) {
-                                            edit.putBoolean(highIdleSettings, false);
-                                        } else if (factorySecureIdle == 1) {
-                                            edit.putBoolean(highIdleSettings, true);
+                                        if (SecureIdle == 0) {
+                                            edit.putInt(highIdleSettings, 0);
+                                        } else if (SecureIdle == 1) {
+                                            edit.putInt(highIdleSettings, 1);
                                         }
                                         edit.apply();
                                     } else if (getVehicleType() == VGM2) {
-                                        int factoryTpms = variables.getInt("factory_tpms");
-                                        edit.putInt(tpmsSettings, factoryTpms);
-                                        if (factorySecureIdle == 0) {
-                                            edit.putBoolean(highIdleSettings, false);
-                                        } else if (factorySecureIdle == 1) {
-                                            edit.putBoolean(highIdleSettings, true);
+                                        int Tpms = variables.getInt("tpms");
+                                        edit.putInt(tpmsSettings, Tpms);
+                                        if (SecureIdle == 0) {
+                                            edit.putInt(highIdleSettings, 0);
+                                        } else if (SecureIdle == 1) {
+                                            edit.putInt(highIdleSettings, 1);
                                         }
                                         edit.apply();
                                     } else if (getVehicleType() == VRAM) {
-                                        int factoryTpms = variables.getInt("factory_tpms");
-                                        int factoryFogLights = variables.getInt("factory_fog_high");
-                                        if (factoryFogLights == 0) {
-                                            edit.putBoolean(fogLightsSettings, false);
-                                        } else if (factoryFogLights == 1) {
-                                            edit.putBoolean(fogLightsSettings, true);
+                                        int Tpms = variables.getInt("tpms");
+                                        int FogLights = variables.getInt("fog_high");
+                                        if (FogLights == 0) {
+                                            edit.putInt(fogLightsSettings, 0);
+                                        } else if (FogLights == 1) {
+                                            edit.putInt(fogLightsSettings, 1);
                                         }
-                                        if (factorySecureIdle == 0) {
-                                            edit.putBoolean(highIdleSettings, false);
-                                        } else if (factorySecureIdle == 1) {
-                                            edit.putBoolean(highIdleSettings, true);
+                                        if (SecureIdle == 0) {
+                                            edit.putInt(highIdleSettings, 0);
+                                        } else if (SecureIdle == 1) {
+                                            edit.putInt(highIdleSettings, 1);
                                         }
-                                        edit.putInt(tpmsSettings, factoryTpms);
+                                        edit.putInt(tpmsSettings, Tpms);
                                         edit.apply();
                                     }
                                     new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -400,7 +424,6 @@ public class FeaturesActivity extends AppCompatActivity {
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
                                 programBCM();
-                                new MyAsyncTaskCode(FeaturesActivity.this).execute();
                             }
                         })
                         .show();
@@ -432,11 +455,6 @@ public class FeaturesActivity extends AppCompatActivity {
         return mSharedPreferences.getInt(vehicleSettings, VFORD1);
     }
 
-    private boolean isFirstTime() {
-        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
-        return mSharedPreferences.getBoolean("first_time", false);
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -462,15 +480,13 @@ public class FeaturesActivity extends AppCompatActivity {
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
-                            String boost = variables.getString(boostVar);
-                            if (isFirstTime()) {
-                                pause();
-                            }
 
-                            if (boost.equals("65535")) {
+                            String bcm_stat = variables.getString("bcm_stat");
+                            if (bcm_stat.equals("12")) {
+                                timer.cancel();
                                 new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Logging Paused")
-                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setTitleText("Warning")
+                                        .setContentText("You are not able to program the BCM while the engine is running. If you wish to do so, please turn the ignition off and then turn it to the run position.")
                                         .setConfirmText("Okay")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
@@ -488,68 +504,6 @@ public class FeaturesActivity extends AppCompatActivity {
                             }
                             tvGear.setText("GEAR: " + pos);
 
-
-                            SharedPreferences mSharedPreferences = getSharedPreferences(themeColor, MODE_PRIVATE);
-                            SharedPreferences.Editor edit = mSharedPreferences.edit();
-                            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
-
-                                int tpms = variables.getInt("tpms");
-                                int daytimeRunningLights = variables.getInt("drl");
-                                int lampOutage = variables.getInt("lamp_out");
-                                int fogLights = variables.getInt("fog_high");
-                                int tireSize = variables.getInt("tire_size");
-                                int remoteWindow = variables.getInt("rke_windows");
-                                int remoteStartDuration = variables.getInt("rvs");
-                                int navOverride = variables.getInt("nav_override");
-
-                                edit.putInt(tpmsSettings, tpms);
-                                if (lampOutage == 0) {
-                                    edit.putBoolean(lampCurrentSettings, false);
-                                } else if (lampOutage == 1) {
-                                    edit.putBoolean(lampCurrentSettings, true);
-                                }
-                                edit.putInt(tireSizeSettings, tireSize);
-                                if (fogLights == 0) {
-                                    edit.putBoolean(fogLightsSettings, false);
-                                } else if (fogLights == 1) {
-                                    edit.putBoolean(fogLightsSettings, true);
-                                }
-                                edit.putInt(daytimeLightsSettings, daytimeRunningLights);
-                                edit.putInt(remoteStartSettings, remoteStartDuration);
-                                edit.putInt(remoteWindowSettings, remoteWindow);
-                                if (remoteWindow == 0) {
-                                    edit.putBoolean(remoteWindowSettings, false);
-                                } else if (remoteWindow == 1) {
-                                    edit.putBoolean(remoteWindowSettings, true);
-                                }
-                                if (fogLights == 0) {
-                                    edit.putBoolean(fogLightsSettings, false);
-                                } else if (fogLights == 1) {
-                                    edit.putBoolean(fogLightsSettings, true);
-                                }
-                                if (navOverride == 0) {
-                                    edit.putBoolean(navOverrideSettings, false);
-                                } else if (navOverride == 1) {
-                                    edit.putBoolean(navOverrideSettings, true);
-                                }
-                                edit.apply();
-                            } else if (getVehicleType() == VGM2) {
-                                int tpms = variables.getInt("tpms");
-                                edit.putInt(tpmsSettings, tpms);
-                                edit.apply();
-                            } else if (getVehicleType() == VRAM) {
-                                int tpms = variables.getInt("tpms");
-                                int fogLights = variables.getInt("fog_high");
-                                int tireSize = variables.getInt(tireSizeSettings);
-                                edit.putInt(tireSizeSettings, tireSize);
-                                if (fogLights == 0) {
-                                    edit.putBoolean(fogLightsSettings, false);
-                                } else if (fogLights == 1) {
-                                    edit.putBoolean(fogLightsSettings, true);
-                                }
-                                edit.putInt(tpmsSettings, tpms);
-                                edit.apply();
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -585,6 +539,31 @@ public class FeaturesActivity extends AppCompatActivity {
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
+                            String boost = variables.getString(boostVar);
+                            if (boost.equals("65535")) {
+                                timer.cancel();
+                                new SweetAlertDialog(FeaturesActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Logging Paused")
+                                        .setContentText("Please close any other apps communicating through the OBD II Port, logging should resume.")
+                                        .setConfirmText("Okay")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                                timer.scheduleAtFixedRate(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (isConnected) {
+                                                            if (!isProcessing) {
+                                                                updateSettingsRequest();
+                                                            }
+                                                        }
+                                                    }
+                                                }, 0, 500);//put here time 1000 milliseconds=1 second
+                                            }
+                                        })
+                                        .show();
+                            }
 
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
@@ -592,7 +571,6 @@ public class FeaturesActivity extends AppCompatActivity {
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
-
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
@@ -622,6 +600,8 @@ public class FeaturesActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         isConnected = true;
                         sendRequest();
+                        new MyAsyncTaskCodeProgram(FeaturesActivity.this).execute();
+                        onWindowFocusChanged(true);
                     }
                 },
                 new Response.ErrorListener() {
@@ -636,14 +616,6 @@ public class FeaturesActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
-    private void pause() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException mE) {
-            mE.printStackTrace();
-        }
-    }
-
     //Send to sGDP server to verify connection
     void programDefaultBCM() {
         // prepare the Request
@@ -652,7 +624,28 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         isConnected = true;
-                        sendRequest();
+                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                        new MyAsyncTaskCodeReset(FeaturesActivity.this).execute();
+                        onWindowFocusChanged(true);
+                        edit.putBoolean("first_time", true);
+                        edit.putInt(navOverrideSettings, 99);
+                        edit.putInt(remoteWindowSettings, 99);
+                        edit.putInt(remoteStartSettings, 99);
+                        edit.putInt(lampCurrentSettings, 99);
+                        edit.putInt(tpmsSettings, 99);
+                        edit.putInt(tireSizeSettings, 99);
+                        edit.putInt(fogLightsSettings, 99);
+                        edit.putInt(daytimeLightsSettings, 99);
+                        edit.putBoolean(tpmsSettingsChanged, false);
+                        edit.putBoolean(lampCurrentSettingsChanged, false);
+                        edit.putBoolean(tireSizeSettingsChanged, false);
+                        edit.putBoolean(fogLightsSettingsChanged, false);
+                        edit.putBoolean(daytimeLightsSettingsChanged, false);
+                        edit.putBoolean(remoteWindowSettingsChanged, false);
+                        edit.putBoolean(remoteStartSettingsChanged, false);
+                        edit.putBoolean(navOverrideSettingsChanged, false);
+                        edit.apply();
                     }
                 },
                 new Response.ErrorListener() {
@@ -673,8 +666,12 @@ public class FeaturesActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        onWindowFocusChanged(true);
                         isConnected = true;
-                        sendRequest();
+                        SharedPreferences mSharedPreferences = getSharedPreferences("ThemeColor", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = mSharedPreferences.edit();
+                        edit.putBoolean("first_time", false);
+                        edit.apply();
                     }
                 },
                 new Response.ErrorListener() {

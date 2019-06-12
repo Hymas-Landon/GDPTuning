@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FeaturesActivity"
-    tools:ignore="spUsage">
+    tools:ignore="spUsage"
+    android:id="@+id/features_fragment">
 
     <TextView
         android:id="@+id/actual"

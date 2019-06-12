@@ -1,15 +1,19 @@
 package com.gdptuning.gdptuning;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
-    static private final int Iterations = 3;
+public class MyAsyncTaskCodeReset extends AsyncTask<String, Integer, Boolean> {
+    static private final int Iterations = 2;
 
     private ProgressDialog mProgress = null;
     private Context mContext = null;
@@ -19,7 +23,7 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
     boolean isConnected = false;
     boolean isProcessing = false;
 
-    MyAsyncTaskCode(Context context) {
+    MyAsyncTaskCodeReset(Context context) {
         mContext = context;
     }
 
@@ -36,8 +40,8 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
     protected void onPreExecute() {
         mProgress = new ProgressDialog(mContext);
 
-        mProgress.setMessage("Request in progress. Please wait...");
-        mProgress.setTitle("Sending Request");
+        mProgress.setMessage("Returning to factory settings. Please wait...");
+        mProgress.setTitle("Request in Progress.");
 
         mProgress.show();
     }
@@ -58,5 +62,7 @@ public class MyAsyncTaskCode extends AsyncTask<String, Integer, Boolean> {
     @Override
     protected void onPostExecute(Boolean mBoolean) {
         mProgress.dismiss();
+        Intent i = new Intent(mContext.getApplicationContext(), MainActivity.class);
+        mContext.startActivity(i);
     }
 }

@@ -1,5 +1,6 @@
 package com.gdptuning.gdptuning;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
@@ -34,7 +35,6 @@ public class FeaturesFragment extends Fragment {
 
     final private static int VFORD1 = 7;
     final private static int VFORD2 = 8;
-    final private static int VGM1 = 9;
     final private static int VGM2 = 10;
     final private static int VRAM = 11;
     //ESP32 aREST server address
@@ -45,6 +45,12 @@ public class FeaturesFragment extends Fragment {
     final String tireSizeSettings = "tire_size";
     final String lampCurrentSettings = "lamp_current";
     final String fogLightsSettings = "fog_lights";
+    final String daytimeLightsSettings = "daytime_lights";
+    final String tpmsSettingsChanged = "pressure_tpms_changed";
+    final String tireSizeSettingsChanged = "tire_size_changed";
+    final String lampCurrentSettingsChanged = "lamp_current_changed";
+    final String fogLightsSettingsChanged = "fog_lights_changed";
+    final String daytimeLightsSettingsChanged = "daytime_lights_changed";
     boolean isConnected = false;
     boolean isProcessing = false;
     String device = "GDP";
@@ -54,7 +60,6 @@ public class FeaturesFragment extends Fragment {
             selector_words_third, selector_words_fourth, actual1, actual2, actual3, actual4;
     ImageView arrowRight1, arrowRight2, arrowRight3, arrowLeft1, arrowLeft2, arrowLeft3, arrowLeft4, arrowRight4;
     Timer timer;
-    final String daytimeLightsSettings = "daytime_lights";
     private int pressureTPMSIndex;
     private int tireIndex;
     private int tpmsNum;
@@ -99,10 +104,35 @@ public class FeaturesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+        if (isFirstTime()) {
+            edit.putInt(lampCurrentSettings, 99);
+            edit.putInt(tpmsSettings, 99);
+            edit.putInt(tireSizeSettings, 99);
+            edit.putInt(fogLightsSettings, 99);
+            edit.putInt(daytimeLightsSettings, 99);
+            edit.putBoolean(tpmsSettingsChanged, false);
+            edit.putBoolean(lampCurrentSettingsChanged, false);
+            edit.putBoolean(tireSizeSettingsChanged, false);
+            edit.putBoolean(fogLightsSettingsChanged, false);
+            edit.putBoolean(daytimeLightsSettingsChanged, false);
+            edit.apply();
+        } else {
+            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+                        sendRequestFord();
+            } else if (getVehicleType() == VGM2) {
+                        sendRequestGM();
+            } else if (getVehicleType() == VRAM) {
+                        sendRequestRam();
+            }
+        }
+
+
         switch (getVehicleType()) {
             case VFORD1:
             case VFORD2:
-                updateFordSettings();
                 timer = new Timer();
                 timer.scheduleAtFixedRate(new TimerTask() {
                     @Override
@@ -116,7 +146,6 @@ public class FeaturesFragment extends Fragment {
                 }, 0, 500);//put here time 1000 milliseconds=1 second
                 break;
             case VGM2:
-                updateGMSettings();
                 timer = new Timer();
                 timer.scheduleAtFixedRate(new TimerTask() {
                     @Override
@@ -130,7 +159,6 @@ public class FeaturesFragment extends Fragment {
                 }, 0, 500);//put here time 1000 milliseconds=1 second
                 break;
             case VRAM:
-                updateRAMSettings();
                 timer = new Timer();
                 timer.scheduleAtFixedRate(new TimerTask() {
                     @Override
@@ -143,16 +171,13 @@ public class FeaturesFragment extends Fragment {
                     }
                 }, 0, 500);//put here time 1000 milliseconds=1 second
                 break;
+
         }
 
 
         if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
             //Selector 1
             selector_words_first.setText("TPMS Settings");
-            select1.setText("--");
-            select2.setText("--");
-            select3.setText("--");
-            select4.setText("--");
             final String[] pressureTPMS = new String[13];
             if (isMetric()) {
                 pressureTPMS[0] = "175 kPa";
@@ -167,7 +192,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "475 kPa";
                 pressureTPMS[10] = "510 kPa";
                 pressureTPMS[11] = "545 kPa";
-                pressureTPMS[12] = "0";
+                pressureTPMS[12] = "0 psi";
             } else {
                 pressureTPMS[0] = "25 psi";
                 pressureTPMS[1] = "30 psi";
@@ -181,7 +206,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70 psi";
                 pressureTPMS[10] = "75 psi";
                 pressureTPMS[11] = "80 psi";
-                pressureTPMS[12] = "0";
+                pressureTPMS[12] = "0 psi";
             }
             if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
@@ -222,6 +247,8 @@ public class FeaturesFragment extends Fragment {
             } else if (getTPMS() == 0) {
                 select1.setText(pressureTPMS[12]);
                 pressureTPMSIndex = 12;
+            } else if (getTPMS() == 99) {
+                select1.setText("--");
             }
             arrowLeft1.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
@@ -232,6 +259,7 @@ public class FeaturesFragment extends Fragment {
                     if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
                         pressureTPMSIndex = pressureTPMSIndex - 1;
                         select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        edit.putBoolean(tpmsSettingsChanged, true);
                         switch (pressureTPMSIndex) {
                             case 0:
                                 edit.putInt(tpmsSettings, 25);
@@ -310,6 +338,7 @@ public class FeaturesFragment extends Fragment {
                     if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
                         pressureTPMSIndex = pressureTPMSIndex + 1;
                         select1.setText(pressureTPMS[pressureTPMSIndex]);
+                        edit.putBoolean(tpmsSettingsChanged, true);
                         switch (pressureTPMSIndex) {
                             case 0:
                                 edit.putInt(tpmsSettings, 25);
@@ -386,11 +415,12 @@ public class FeaturesFragment extends Fragment {
             final String[] lampOutageDisable = new String[2];
             lampOutageDisable[0] = "No";
             lampOutageDisable[1] = "Yes";
-            if (!isLampCurrent()) {
+            if (getLampCurrent() == 0) {
                 select2.setText(lampOutageDisable[0]);
-            } else {
-                isLampCurrent();
+            } else if (getLampCurrent() == 1) {
                 select2.setText(lampOutageDisable[1]);
+            } else if (getLampCurrent() == 99) {
+                select2.setText("--");
             }
             arrowLeft2.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
@@ -398,8 +428,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(lampCurrentSettingsChanged, true);
                     select2.setText(lampOutageDisable[0]);
-                    edit.putBoolean(lampCurrentSettings, true);
+                    edit.putInt(lampCurrentSettings, 1);
                     switchTurnSignals(33);
                     edit.apply();
                 }
@@ -410,8 +441,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(lampCurrentSettingsChanged, true);
                     select2.setText(lampOutageDisable[1]);
-                    edit.putBoolean(lampCurrentSettings, false);
+                    edit.putInt(lampCurrentSettings, 0);
                     switchTurnSignals(32);
                     edit.apply();
                 }
@@ -458,6 +490,8 @@ public class FeaturesFragment extends Fragment {
             } else if (getTireSize() == 37) {
                 select3.setText(tireSize[6]);
                 tireIndex = 6;
+            } else if (getTireSize() == 99) {
+                select3.setText("--");
             }
             arrowLeft3.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
@@ -466,6 +500,7 @@ public class FeaturesFragment extends Fragment {
                 @Override
                 public void onClick(View mView) {
 
+                    edit.putBoolean(tireSizeSettingsChanged, true);
                     if (tireIndex > 0 && tireIndex <= 6) {
                         tireIndex = tireIndex - 1;
                         select3.setText(tireSize[tireIndex]);
@@ -510,6 +545,7 @@ public class FeaturesFragment extends Fragment {
                 @Override
                 public void onClick(View mView) {
 
+                    edit.putBoolean(tireSizeSettingsChanged, true);
                     if (tireIndex >= 0 && tireIndex < 6) {
                         tireIndex = tireIndex + 1;
                         select3.setText(tireSize[tireIndex]);
@@ -551,11 +587,12 @@ public class FeaturesFragment extends Fragment {
             final String[] fogLights = new String[2];
             fogLights[0] = "No";
             fogLights[1] = "Yes";
-            if (!isFogLights()) {
+            if (getFogLights() == 0) {
                 select4.setText(fogLights[0]);
-            } else {
-                isFogLights();
+            } else if (getFogLights() == 1) {
                 select4.setText(fogLights[1]);
+            } else if (getFogLights() == 99) {
+                select4.setText("--");
             }
 
             arrowLeft4.setOnClickListener(new View.OnClickListener() {
@@ -564,8 +601,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(fogLightsSettingsChanged, true);
                     select4.setText(fogLights[0]);
-                    edit.putBoolean(fogLightsSettings, true);
+                    edit.putInt(fogLightsSettings, 1);
                     switchFogLights(31);
                     edit.apply();
                 }
@@ -576,8 +614,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(fogLightsSettingsChanged, true);
                     select4.setText(fogLights[1]);
-                    edit.putBoolean(fogLightsSettings, false);
+                    edit.putInt(fogLightsSettings, 1);
                     switchFogLights(30);
                     edit.apply();
                 }
@@ -586,6 +625,7 @@ public class FeaturesFragment extends Fragment {
             select1.setText("--");
             select2.setText("--");
             select3.setText("--");
+            select4.setText(null);
             arrowLeft4.setImageDrawable(null);
             arrowRight4.setImageDrawable(null);
 
@@ -605,7 +645,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "475 kPa";
                 pressureTPMS[10] = "510 kPa";
                 pressureTPMS[11] = "545 kPa";
-                pressureTPMS[12] = "0";
+                pressureTPMS[12] = "0 psi";
             } else {
                 pressureTPMS[0] = "25 psi";
                 pressureTPMS[1] = "30 psi";
@@ -619,7 +659,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70 psi";
                 pressureTPMS[10] = "75 psi";
                 pressureTPMS[11] = "80 psi";
-                pressureTPMS[12] = "0";
+                pressureTPMS[12] = "0 psi";
             }
             if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
@@ -657,6 +697,8 @@ public class FeaturesFragment extends Fragment {
             } else if (getTPMS() == 80) {
                 select1.setText(pressureTPMS[11]);
                 pressureTPMSIndex = 11;
+            } else if (getTPMS() == 99) {
+                select1.setText("--");
             }
             arrowLeft1.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
@@ -664,6 +706,7 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(tpmsSettingsChanged, true);
                     if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 11) {
                         pressureTPMSIndex = pressureTPMSIndex - 1;
                         select1.setText(pressureTPMS[pressureTPMSIndex]);
@@ -738,6 +781,7 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(tpmsSettingsChanged, true);
                     if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 11) {
                         pressureTPMSIndex = pressureTPMSIndex + 1;
                         select1.setText(pressureTPMS[pressureTPMSIndex]);
@@ -812,11 +856,12 @@ public class FeaturesFragment extends Fragment {
             final String[] fogLights = new String[2];
             fogLights[0] = "No";
             fogLights[1] = "Yes";
-            if (!isFogLights()) {
+            if (getFogLights() == 0) {
                 select2.setText(fogLights[0]);
-            } else {
-                isFogLights();
+            } else if (getFogLights() == 1) {
                 select2.setText(fogLights[1]);
+            } else if (getFogLights() == 99) {
+                select2.setText("--");
             }
 
             arrowLeft2.setOnClickListener(new View.OnClickListener() {
@@ -825,8 +870,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(fogLightsSettingsChanged, true);
                     select2.setText(fogLights[0]);
-                    edit.putBoolean(fogLightsSettings, true);
+                    edit.putInt(fogLightsSettings, 1);
                     switchFogLights(31);
                     edit.apply();
                 }
@@ -837,8 +883,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(fogLightsSettingsChanged, true);
                     select2.setText(fogLights[1]);
-                    edit.putBoolean(fogLightsSettings, false);
+                    edit.putInt(fogLightsSettings, 0);
                     switchFogLights(30);
                     edit.apply();
                 }
@@ -846,10 +893,10 @@ public class FeaturesFragment extends Fragment {
 
             //Selector 3
             selector_words_third.setText("Daytime Running Light Configuration (2015-2016)");
-            final String[] daytimeLight = new String[7];
+            final String[] daytimeLight = new String[3];
             daytimeLight[0] = "Low Beam";
             daytimeLight[1] = "Fog Lights";
-            daytimeLight[2] = "0";
+            daytimeLight[2] = "Disabled";
             if (getDaytimeLights() == 0) {
                 select3.setText(daytimeLight[0]);
                 daytimeLightIndex = 0;
@@ -859,12 +906,8 @@ public class FeaturesFragment extends Fragment {
             } else if (getDaytimeLights() == 2) {
                 select3.setText(daytimeLight[2]);
                 daytimeLightIndex = 2;
-            } else if (getDaytimeLights() == 3) {
-                select3.setText(daytimeLight[3]);
-                daytimeLightIndex = 3;
-            } else if (getDaytimeLights() == 4) {
-                select3.setText(daytimeLight[4]);
-                daytimeLightIndex = 4;
+            } else if (getDaytimeLights() == 99) {
+                select3.setText("--");
             }
             arrowLeft3.setOnClickListener(new View.OnClickListener() {
 
@@ -872,23 +915,18 @@ public class FeaturesFragment extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
-                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 4) {
+                    edit.putBoolean(daytimeLightsSettingsChanged, true);
+                    if (daytimeLightIndex > 0 && daytimeLightIndex <= 2) {
                         daytimeLightIndex = daytimeLightIndex - 1;
                         select3.setText(daytimeLight[daytimeLightIndex]);
                         if (daytimeLightIndex == 0) {
-                            edit.putInt(daytimeLightsSettings, 1);
+                            edit.putInt(daytimeLightsSettings, 0);
                             switchDayTime(34);
                         } else if (daytimeLightIndex == 1) {
-                            edit.putInt(daytimeLightsSettings, 2);
+                            edit.putInt(daytimeLightsSettings, 1);
                             switchDayTime(35);
                         } else if (daytimeLightIndex == 2) {
-                            edit.putInt(daytimeLightsSettings, 3);
-                            switchDayTime(38);
-                        } else if (daytimeLightIndex == 3) {
-                            edit.putInt(daytimeLightsSettings, 4);
-                            switchDayTime(36);
-                        } else if (daytimeLightIndex == 4) {
-                            edit.putInt(daytimeLightsSettings, 5);
+                            edit.putInt(daytimeLightsSettings, 2);
                             switchDayTime(37);
                         }
                         edit.apply();
@@ -902,23 +940,18 @@ public class FeaturesFragment extends Fragment {
                 public void onClick(View mView) {
                     SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = mSharedPreferences.edit();
-                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 4) {
+                    edit.putBoolean(daytimeLightsSettingsChanged, true);
+                    if (daytimeLightIndex >= 0 && daytimeLightIndex < 2) {
                         daytimeLightIndex = daytimeLightIndex + 1;
                         select3.setText(daytimeLight[daytimeLightIndex]);
                         if (daytimeLightIndex == 0) {
-                            edit.putInt(daytimeLightsSettings, 1);
+                            edit.putInt(daytimeLightsSettings, 0);
                             switchDayTime(34);
                         } else if (daytimeLightIndex == 1) {
-                            edit.putInt(daytimeLightsSettings, 2);
+                            edit.putInt(daytimeLightsSettings, 1);
                             switchDayTime(35);
                         } else if (daytimeLightIndex == 2) {
-                            edit.putInt(daytimeLightsSettings, 3);
-                            switchDayTime(38);
-                        } else if (daytimeLightIndex == 3) {
-                            edit.putInt(daytimeLightsSettings, 4);
-                            switchDayTime(36);
-                        } else if (daytimeLightIndex == 4) {
-                            edit.putInt(daytimeLightsSettings, 5);
+                            edit.putInt(daytimeLightsSettings, 2);
                             switchDayTime(37);
                         }
                         edit.apply();
@@ -927,11 +960,6 @@ public class FeaturesFragment extends Fragment {
             });
 
         } else if (getVehicleType() == VRAM) {
-            select1.setText("--");
-            select2.setText("--");
-            select3.setText("--");
-            arrowLeft4.setImageDrawable(null);
-            arrowRight4.setImageDrawable(null);
 
             //Selector 1
             selector_words_first.setText("TPMS Settings");
@@ -949,7 +977,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "475 kPa";
                 pressureTPMS[10] = "510 kPa";
                 pressureTPMS[11] = "545 kPa";
-                pressureTPMS[12] = "0";
+                pressureTPMS[12] = "0 psi";
             } else {
                 pressureTPMS[0] = "25 psi";
                 pressureTPMS[1] = "30 psi";
@@ -963,7 +991,7 @@ public class FeaturesFragment extends Fragment {
                 pressureTPMS[9] = "70 psi";
                 pressureTPMS[10] = "75 psi";
                 pressureTPMS[11] = "80 psi";
-                pressureTPMS[12] = "0";
+                pressureTPMS[12] = "0 psi";
             }
             if (getTPMS() == 25) {
                 select1.setText(pressureTPMS[0]);
@@ -1004,6 +1032,8 @@ public class FeaturesFragment extends Fragment {
             } else if (getTPMS() == 0) {
                 select1.setText(pressureTPMS[12]);
                 pressureTPMSIndex = 12;
+            } else if (getTPMS() == 99) {
+                select1.setText("--");
             }
             arrowLeft1.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
@@ -1011,6 +1041,7 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(tpmsSettingsChanged, true);
                     if (pressureTPMSIndex > 0 && pressureTPMSIndex <= 12) {
                         pressureTPMSIndex = pressureTPMSIndex - 1;
                         select1.setText(pressureTPMS[pressureTPMSIndex]);
@@ -1076,6 +1107,7 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(tpmsSettingsChanged, true);
                     if (pressureTPMSIndex >= 0 && pressureTPMSIndex < 12) {
                         pressureTPMSIndex = pressureTPMSIndex + 1;
                         select1.setText(pressureTPMS[pressureTPMSIndex]);
@@ -1177,6 +1209,8 @@ public class FeaturesFragment extends Fragment {
             } else if (getTireSize() == 37) {
                 select2.setText(tireSize[6]);
                 tireIndex = 6;
+            } else if (getTireSize() == 99) {
+                select3.setText("--");
             }
             arrowLeft2.setOnClickListener(new View.OnClickListener() {
                 SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
@@ -1185,6 +1219,7 @@ public class FeaturesFragment extends Fragment {
                 @Override
                 public void onClick(View mView) {
 
+                    edit.putBoolean(tireSizeSettingsChanged, true);
                     if (tireIndex > 0 && tireIndex <= 6) {
                         tireIndex = tireIndex - 1;
                         select2.setText(tireSize[tireIndex]);
@@ -1229,6 +1264,7 @@ public class FeaturesFragment extends Fragment {
                 @Override
                 public void onClick(View mView) {
 
+                    edit.putBoolean(tireSizeSettingsChanged, true);
                     if (tireIndex >= 0 && tireIndex < 6) {
                         tireIndex = tireIndex + 1;
                         select2.setText(tireSize[tireIndex]);
@@ -1270,11 +1306,12 @@ public class FeaturesFragment extends Fragment {
             final String[] fogLights = new String[2];
             fogLights[0] = "No";
             fogLights[1] = "Yes";
-            if (!isFogLights()) {
+            if (getFogLights() == 0) {
                 select3.setText(fogLights[0]);
-            } else {
-                isFogLights();
+            } else if (getFogLights() == 1) {
                 select3.setText(fogLights[1]);
+            } else if (getFogLights() == 99) {
+                select3.setText("--");
             }
 
             arrowLeft3.setOnClickListener(new View.OnClickListener() {
@@ -1283,8 +1320,9 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(fogLightsSettingsChanged, true);
                     select3.setText(fogLights[0]);
-                    edit.putBoolean(fogLightsSettings, true);
+                    edit.putInt(fogLightsSettings, 1);
                     switchFogLights(31);
                     edit.apply();
                 }
@@ -1295,9 +1333,49 @@ public class FeaturesFragment extends Fragment {
 
                 @Override
                 public void onClick(View mView) {
+                    edit.putBoolean(fogLightsSettingsChanged, true);
                     select3.setText(fogLights[1]);
-                    edit.putBoolean(fogLightsSettings, false);
+                    edit.putInt(fogLightsSettings, 0);
                     switchFogLights(30);
+                    edit.apply();
+                }
+            });
+
+            //Selector 2
+            selector_words_fourth.setText("Turn Signal Lamp Outage Disable");
+            final String[] lampOutageDisable = new String[2];
+            lampOutageDisable[0] = "No";
+            lampOutageDisable[1] = "Yes";
+            if (getLampCurrent() == 0) {
+                select4.setText(lampOutageDisable[0]);
+            } else if (getLampCurrent() == 1) {
+                select4.setText(lampOutageDisable[1]);
+            } else if (getLampCurrent() == 99) {
+                select4.setText("--");
+            }
+            arrowLeft4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    edit.putBoolean(lampCurrentSettingsChanged, true);
+                    select4.setText(lampOutageDisable[0]);
+                    edit.putInt(lampCurrentSettings, 1);
+                    switchTurnSignals(33);
+                    edit.apply();
+                }
+            });
+            arrowRight4.setOnClickListener(new View.OnClickListener() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+
+                @Override
+                public void onClick(View mView) {
+                    edit.putBoolean(lampCurrentSettingsChanged, true);
+                    select4.setText(lampOutageDisable[1]);
+                    edit.putInt(lampCurrentSettings, 0);
+                    switchTurnSignals(32);
                     edit.apply();
                 }
             });
@@ -1325,14 +1403,14 @@ public class FeaturesFragment extends Fragment {
         return mSharedPreferences.getInt(tpmsSettings, 80);
     }
 
-    public boolean isLampCurrent() {
+    public int getLampCurrent() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(lampCurrentSettings, false);
+        return mSharedPreferences.getInt(lampCurrentSettings, 0);
     }
 
-    public boolean isFogLights() {
+    public int getFogLights() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
-        return mSharedPreferences.getBoolean(fogLightsSettings, false);
+        return mSharedPreferences.getInt(fogLightsSettings, 0);
     }
 
     public int getDaytimeLights() {
@@ -1343,6 +1421,268 @@ public class FeaturesFragment extends Fragment {
     public boolean isDefault() {
         SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, MODE_PRIVATE);
         return mSharedPreferences.getBoolean("factory_settings", false);
+    }
+
+    private boolean isTpmsSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(tpmsSettingsChanged, false);
+    }
+
+    private boolean isFogLightsSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(fogLightsSettingsChanged, false);
+    }
+
+    private boolean isTireSizeSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(tireSizeSettingsChanged, false);
+    }
+
+    private boolean isLampCurrentSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(lampCurrentSettingsChanged, false);
+    }
+
+    private boolean isDaytimeLightsSettingsChanged() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean(daytimeLightsSettingsChanged, false);
+    }
+
+    private boolean isFirstTime() {
+        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", MODE_PRIVATE);
+        return mSharedPreferences.getBoolean("first_time", false);
+    }
+
+    //Send to sGDP server to verify connection
+    public void sendRequestFord() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+
+
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            int tpms = variables.getInt("tpms");
+                            int lampOutage = variables.getInt("lamp_out");
+                            int fogLights = variables.getInt("fog_high");
+                            int tireSize = variables.getInt("tire_size");
+
+                            if (isTpmsSettingsChanged()) {
+                                edit.putInt(tpmsSettings, tpms);
+                                select1.setText(tpms + " psi");
+                                edit.apply();
+                            } else {
+                                select1.setText("--");
+                            }
+                            if (isLampCurrentSettingsChanged()) {
+                                if (lampOutage == 0) {
+                                    edit.putInt(lampCurrentSettings, lampOutage);
+                                    select2.setText("No");
+                                    edit.apply();
+                                } else if (lampOutage == 1) {
+                                    edit.putInt(lampCurrentSettings, lampOutage);
+                                    select2.setText("Yes");
+                                    edit.apply();
+                                }
+                            } else {
+                                select2.setText("--");
+                            }
+                            if (isTireSizeSettingsChanged()) {
+                                select3.setText(tireSize + "\"");
+                                edit.putInt(tireSizeSettings, tireSize);
+                                edit.apply();
+                            } else {
+                                select3.setText("--");
+                            }
+                            if (isFogLightsSettingsChanged()) {
+                                if (fogLights == 0) {
+                                    edit.putInt(fogLightsSettings, fogLights);
+                                    select4.setText("No");
+                                    edit.apply();
+                                } else if (fogLights == 1) {
+                                    edit.putInt(fogLightsSettings, fogLights);
+                                    select4.setText("Yes");
+                                    edit.apply();
+                                }
+                            } else {
+                                select4.setText("--");
+                            }
+                            edit.apply();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    public void sendRequestGM() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            int tpms = variables.getInt("tpms");
+                            int fogLights = variables.getInt("fog_high");
+                            int daytimeRunningLights = variables.getInt("drl");
+
+                            select4.setText(null);
+                            selector_words_fourth.setText(null);
+                            if (isTpmsSettingsChanged()) {
+                                edit.putInt(tpmsSettings, tpms);
+                                select1.setText(tpms + " psi");
+                                edit.apply();
+                            } else {
+                                select1.setText("--");
+                            }
+                            if (isFogLightsSettingsChanged()) {
+                                if (fogLights == 0) {
+                                    edit.putInt(fogLightsSettings, fogLights);
+                                    select2.setText("No");
+                                    edit.apply();
+                                } else if (fogLights == 1) {
+                                    edit.putInt(fogLightsSettings, fogLights);
+                                    select2.setText("Yes");
+                                    edit.apply();
+                                }
+                            } else {
+                                select2.setText("--");
+                            }
+                            if (isDaytimeLightsSettingsChanged()) {
+                                if (daytimeRunningLights == 0) {
+                                    edit.putInt(daytimeLightsSettings, daytimeRunningLights);
+                                    select3.setText("Low Beam");
+                                    edit.apply();
+                                } else if (daytimeRunningLights == 1) {
+                                    select3.setText("Fog Lights");
+                                    edit.putInt(daytimeLightsSettings, daytimeRunningLights);
+                                    edit.apply();
+                                } else if (daytimeRunningLights == 2) {
+                                    select3.setText("Disabled");
+                                    edit.putInt(daytimeLightsSettings, daytimeRunningLights);
+                                    edit.apply();
+                                }
+                            } else {
+                                select3.setText("--");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    //Send to sGDP server to verify connection
+    public void sendRequestRam() {
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                            @SuppressLint("CommitPrefEdits") SharedPreferences.Editor edit = mSharedPreferences.edit();
+                            int tpms = variables.getInt("tpms");
+                            int fogLights = variables.getInt("fog_high");
+                            int tireSize = variables.getInt("tire_size");
+                            int lampOutage = variables.getInt("lamp_out");
+
+                            select4.setText(null);
+                            if (isTpmsSettingsChanged()) {
+                                select1.setText(tpms + " psi");
+                                edit.putInt(tpmsSettings, tpms);
+                                edit.apply();
+                            } else {
+                                select1.setText("--");
+                            }
+                            if (isTireSizeSettingsChanged()) {
+                                select2.setText(tireSize + "\"");
+                                edit.putInt(tireSizeSettings, tireSize);
+                                edit.apply();
+                            } else {
+                                select2.setText("--");
+                            }
+                            if (isFogLightsSettingsChanged()) {
+                                if (fogLights == 0) {
+                                    select3.setText("No");
+                                    edit.putInt(fogLightsSettings, fogLights);
+                                    edit.apply();
+                                } else if (fogLights == 1) {
+                                    select3.setText("Yes");
+                                    edit.putInt(fogLightsSettings, fogLights);
+                                    edit.apply();
+                                }
+                            } else {
+                                select3.setText("--");
+                            }
+                            if (isLampCurrentSettingsChanged()) {
+                                if (lampOutage == 0) {
+                                    edit.putInt(lampCurrentSettings, lampOutage);
+                                    select4.setText("No");
+                                    edit.apply();
+                                } else if (lampOutage == 1) {
+                                    edit.putInt(lampCurrentSettings, lampOutage);
+                                    select4.setText("Yes");
+                                    edit.apply();
+                                }
+                            } else {
+                                select4.setText("--");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
     }
 
     //Send to sGDP server to get live data
@@ -1356,16 +1696,21 @@ public class FeaturesFragment extends Fragment {
                         try {
                             JSONObject variables = response.getJSONObject("variables");
                             int tpms = variables.getInt("tpms");
-                            int signals = variables.getInt("lamp_out");
+                            int fogLights = variables.getInt("fog_high");
                             int tireSize = variables.getInt("tire_size");
-
+                            int lampOutage = variables.getInt("lamp_out");
 
                             actual1.setText(tpms + " psi");
                             actual2.setText(tireSize + "\"");
-                            if (signals == 1) {
-                                actual3.setText("Yes");
-                            } else {
+                            if (fogLights == 0) {
                                 actual3.setText("No");
+                            } else if (fogLights == 1) {
+                                actual3.setText("Yes");
+                            }
+                            if (lampOutage == 0) {
+                                actual4.setText("No");
+                            } else if (lampOutage == 1) {
+                                actual4.setText("Yes");
                             }
 
 
@@ -1402,10 +1747,10 @@ public class FeaturesFragment extends Fragment {
                             int drl = variables.getInt("drl");
 
                             actual1.setText(tpms + " psi");
-                            if (fogLights == 1) {
-                                actual2.setText("Yes");
-                            } else {
+                            if (fogLights == 0) {
                                 actual2.setText("No");
+                            } else if (fogLights == 1) {
+                                actual2.setText("Yes");
                             }
                             if (drl == 0) {
                                 actual3.setText("Low Beam");
@@ -1450,16 +1795,16 @@ public class FeaturesFragment extends Fragment {
                             int fogLights = variables.getInt("fog_high");
 
                             actual1.setText(tpms + " psi");
-                            if (signals == 1) {
-                                actual2.setText("Yes");
-                            } else {
+                            if (signals == 0) {
                                 actual2.setText("No");
+                            } else if (signals == 1) {
+                                actual2.setText("Yes");
                             }
                             actual3.setText(tireSize + "\"");
-                            if (fogLights == 1) {
-                                actual4.setText("Yes");
-                            } else {
+                            if (fogLights == 0) {
                                 actual4.setText("No");
+                            } else if (fogLights == 1) {
+                                actual4.setText("Yes");
                             }
 
                         } catch (JSONException e1) {
@@ -1649,12 +1994,12 @@ public class FeaturesFragment extends Fragment {
                         switch (lampNum) {
                             // Set LED turn Signals OFF
                             case 32:
-                                edit.putBoolean(lampCurrentSettings, false);
+                                edit.putInt(lampCurrentSettings, 0);
                                 edit.apply();
                                 break;
                             // Set LED turn Signals ON
                             case 33:
-                                edit.putBoolean(lampCurrentSettings, true);
+                                edit.putInt(lampCurrentSettings, 1);
                                 edit.apply();
                                 break;
                         }
@@ -1749,12 +2094,12 @@ public class FeaturesFragment extends Fragment {
                         switch (fogNum) {
                             // NO Fog Lights with High Beams
                             case 30:
-                                edit.putBoolean(fogLightsSettings, false);
+                                edit.putInt(fogLightsSettings, 0);
                                 edit.apply();
                                 break;
                             // YES Fog Lights with High Beams
                             case 31:
-                                edit.putBoolean(fogLightsSettings, true);
+                                edit.putInt(fogLightsSettings, 1);
                                 edit.apply();
                                 break;
                         }

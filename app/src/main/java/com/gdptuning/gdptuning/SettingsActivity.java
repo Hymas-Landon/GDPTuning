@@ -38,13 +38,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
     boolean isProcessing = false;
-    int tuneMode = 0;
     final String boostVar = "boost";
     String device = "GDP";
     RequestQueue queue;
     Button btn_home;
     WifiManager wifi;
-    TextView tvTune, tvGear, select1, select3, proVersion, appVersion;
+    TextView tvTune, tvGear, select1, select3, proVersion, appVersion, serialNum;
     Timer timer;
     ImageView arrowRight1, arrowRight3, arrowLeft1, arrowLeft3;
 
@@ -70,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         proVersion = findViewById(R.id.pro_version_num);
         appVersion = findViewById(R.id.app_version_num);
+        serialNum = findViewById(R.id.serial_num);
 
         //Id's
         select1 = findViewById(R.id.selector1);
@@ -238,10 +238,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         int id = v.getId();
 
-        switch (id) {
-            case R.id.btn_home:
-                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                break;
+        if (id == R.id.btn_home) {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
         }
     }
 
@@ -262,6 +260,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
+                            String serial = variables.getString("sn");
 
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
@@ -280,6 +279,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             }
                             appVersion.setText(version);
                             String boost = variables.getString(boostVar);
+                            serialNum.setText(serial);
+
 
                             if (boost.equals("65535")){
                                 new SweetAlertDialog(SettingsActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -357,6 +358,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             deviceName += response.getString("id");
                             device = deviceName;
                             char pos = (char) gear;
+                            String serial = variables.getString("sn");
 
                             if (tuneMode == 255) {
                                 tvTune.setText("TUNE: E");
@@ -366,6 +368,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             tvGear.setText("GEAR: " + pos);
 
                             proVersion.setText(deviceName);
+                            serialNum.setText(serial);
 
 
                         } catch (JSONException mE) {

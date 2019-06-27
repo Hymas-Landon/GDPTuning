@@ -514,6 +514,8 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -582,7 +584,8 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -608,7 +611,8 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -678,6 +682,8 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
 
                 }

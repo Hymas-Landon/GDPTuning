@@ -23,7 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -252,16 +251,20 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             String deviceName = response.getString("name");
                             deviceName += response.getString("id");
                             device = deviceName;
-                            final String codes = variables.getString("dtcList");
+                            final String codes;
+                            codes = variables.getString("dtcList");
 
-                            new Timer().schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    for (String mCodes : codes.split(" ")) {
-                                        diagnosticsList.add(new Code(mCodes));
+                            for (final String mCodes : codes.split(" ")) {
+                                new Timer().schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        if (mCodes.equals("P0000") || mCodes.equals("p0000")) {
+                                        } else {
+                                            diagnosticsList.add(new Code(mCodes));
+                                        }
                                     }
-                                }
-                            }, 3000);
+                                }, 3000);
+                            }
 
                             adapter = new DiagnosticsAdapter(DiagnosticsActivity.this, diagnosticsList);
                             recyclerView.setAdapter(adapter);
@@ -274,6 +277,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                                 tvTune.setText("TUNE: " + tuneMode);
                             }
                             tvGear.setText("GEAR: " + pos);
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

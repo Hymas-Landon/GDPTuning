@@ -87,7 +87,6 @@ public class LiveDataDigitalFragment extends Fragment {
     float oilPressureActual;
     float oilTempActual;
     float appActual;
-    String TAG = "WORK FOR ME: ";
 
     @Nullable
     @Override
@@ -366,8 +365,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                 gauge2.setUnit("kPa");
                             } else {
                                 gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
-                                gauge2.setStartDegree(150);
-                                gauge2.setEndDegree(390);
+                                gauge2.setStartDegree(162);
+                                gauge2.setEndDegree(377);
                                 gauge2.setMinSpeed(0);
                                 gauge2.setMaxSpeed(60);
                                 gauge2.setUnit("psi");
@@ -394,7 +393,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                 gauge2.setStartDegree(150);
                                 gauge2.setEndDegree(390);
                                 gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(300);
+                                gauge2.setMaxSpeed(280);
                                 gauge2.setUnit("°F");
                             }
                         }
@@ -875,7 +874,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", APP);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setImageSpeedometer(R.drawable.app_right);
+                            gauge1.setImageSpeedometer(R.drawable.app_left);
                             gauge1.setStartDegree(150);
                             gauge1.setEndDegree(390);
                             gauge1.setMinSpeed(0);
@@ -909,8 +908,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                 gauge2.setUnit("kPa");
                             } else {
                                 gauge2.setImageSpeedometer(R.drawable.boost_middle_standard);
-                                gauge2.setStartDegree(150);
-                                gauge2.setEndDegree(390);
+                                gauge2.setStartDegree(162);
+                                gauge2.setEndDegree(377);
                                 gauge2.setMinSpeed(0);
                                 gauge2.setMaxSpeed(60);
                                 gauge2.setUnit("psi");
@@ -937,7 +936,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                 gauge2.setStartDegree(150);
                                 gauge2.setEndDegree(390);
                                 gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(300);
+                                gauge2.setMaxSpeed(280);
                                 gauge2.setUnit("°F");
                             }
                         }
@@ -1048,7 +1047,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", APP);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setImageSpeedometer(R.drawable.app_right);
+                            gauge2.setImageSpeedometer(R.drawable.app_center);
                             gauge2.setStartDegree(150);
                             gauge2.setEndDegree(290);
                             gauge2.setMinSpeed(0);
@@ -1476,7 +1475,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                 gauge2.setStartDegree(150);
                                 gauge2.setEndDegree(390);
                                 gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(300);
+                                gauge2.setMaxSpeed(280);
                                 gauge2.setUnit("°F");
                             }
                         }
@@ -2338,7 +2337,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             }
                                             break;
                                         case APP:
-                                            gauge1.setImageSpeedometer(R.drawable.app_right);
+                                            gauge1.setImageSpeedometer(R.drawable.app_left);
                                             gauge1.setStartDegree(150);
                                             gauge1.setEndDegree(290);
                                             gauge1.setMinSpeed(0);
@@ -2444,7 +2443,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             }
                                             break;
                                         case APP:
-                                            gauge2.setImageSpeedometer(R.drawable.app_right);
+                                            gauge2.setImageSpeedometer(R.drawable.app_center);
                                             gauge2.setStartDegree(170);
                                             gauge2.setEndDegree(370);
                                             gauge2.setMinSpeed(0);
@@ -3230,8 +3229,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge2.setSpeedTextSize(45);
                                         break;
                                     case APP:
-                                        gauge1.speedTo(appActual);
-                                        gauge1.setSpeedTextSize(45);
+                                        gauge2.speedTo(appActual);
+                                        gauge2.setSpeedTextSize(45);
                                         break;
                                     case FUELRAILPRESSURE:
                                         gauge2.speedTo((frpActual));
@@ -3268,8 +3267,8 @@ public class LiveDataDigitalFragment extends Fragment {
                                         gauge3.setSpeedTextSize(45);
                                         break;
                                     case APP:
-                                        gauge1.speedTo(appActual);
-                                        gauge1.setSpeedTextSize(45);
+                                        gauge3.speedTo(appActual);
+                                        gauge3.setSpeedTextSize(45);
                                         break;
                                     case FUELRAILPRESSURE:
                                         gauge3.speedTo((frpActual));

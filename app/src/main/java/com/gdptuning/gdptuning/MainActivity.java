@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int VGM1 = 9;
     private static int VGM2 = 10;
     private static int VRAM = 11;
+    private static int start = 0;
     //ESP32 aREST server address
     final String url = "http://192.168.7.1";
     boolean isConnected = false;
@@ -283,20 +284,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-        switch (id) {
-            case R.id.btn_live_data:
-                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onResponse(final JSONObject response) {
-                                isConnected = true;
-                                try {
-                                    JSONObject variables = response.getJSONObject("variables");
-                                    int pltfrm = variables.getInt("pltfrm");
+    public void onClick(final View v) {
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        isConnected = true;
+                        try {
+                            JSONObject variables = response.getJSONObject("variables");
+                            int pltfrm = variables.getInt("pltfrm");
+                            int bcm_stat = variables.getInt("bcm_stat");
+                            int id = v.getId();
+                            switch (id) {
+                                case R.id.btn_live_data:
                                     if (pltfrm == 0) {
                                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                                 .setTitleText("VIN not Detected")
@@ -312,33 +313,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     } else {
                                         startActivity(new Intent(MainActivity.this, LiveDataActivity.class));
                                     }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                // display response
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                isConnected = false;
-                            }
-                        }
-                );
-                // add it to the RequestQueue
-                queue.add(getRequest);
-                break;
-            case R.id.btn_tune:
-                getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onResponse(final JSONObject response) {
-                                isConnected = true;
-                                try {
-                                    JSONObject variables = response.getJSONObject("variables");
-                                    int pltfrm = variables.getInt("pltfrm");
+                                    break;
+                                case R.id.btn_tune:
                                     if (pltfrm == 0) {
                                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                                 .setTitleText("VIN not Detected")
@@ -354,34 +330,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     } else {
                                         startActivity(new Intent(MainActivity.this, TuneActivity.class));
                                     }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                // display response
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                isConnected = false;
-                            }
-                        }
-                );
-                // add it to the RequestQueue
-                queue.add(getRequest);
-                break;
-            case R.id.btn_config:
-                getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onResponse(final JSONObject response) {
-                                isConnected = true;
-                                try {
-                                    JSONObject variables = response.getJSONObject("variables");
-                                    int bcm_stat = variables.getInt("bcm_stat");
-                                    int pltfrm = variables.getInt("pltfrm");
+                                    break;
+                                case R.id.btn_config:
                                     if (pltfrm == 0) {
                                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                                 .setTitleText("VIN not Detected")
@@ -409,34 +359,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     } else {
                                         startActivity(new Intent(MainActivity.this, FeaturesActivity.class));
                                     }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                // display response
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                isConnected = false;
-                            }
-                        }
-                );
-                // add it to the RequestQueue
-                queue.add(getRequest);
-                break;
-            case R.id.btn_diag:
-                getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onResponse(final JSONObject response) {
-                                isConnected = true;
-
-                                try {
-                                    JSONObject variables = response.getJSONObject("variables");
-                                    int pltfrm = variables.getInt("pltfrm");
+                                    break;
+                                case R.id.btn_diag:
                                     if (pltfrm == 0) {
                                         new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                                                 .setTitleText("VIN not Detected")
@@ -452,24 +376,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     } else {
                                         startActivity(new Intent(MainActivity.this, DiagnosticsActivity.class));
                                     }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                // display response
+                                    break;
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                isConnected = false;
-                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                );
-                // add it to the RequestQueue
-                queue.add(getRequest);
-                break;
-        }
+                        // display response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        isConnected = false;
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
     }
 
     //Send to sGDP server to verify connection
@@ -537,30 +460,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
-                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-                        isProcessing = false;
+                        if (start == 0 || start == 1 || start == 2) {
+                            new MyAsyncTaskCodeConnecting(MainActivity.this).execute();
+                            start++;
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    // this code will be executed after 3 seconds
+                                    sendRequest();
+                                }
+                            }, 1500);
+                        } else {
+                            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("No Connection")
+                                    .setContentText("You are not connected to a GDP device. Retry by " +
+                                            "tapping 'Retry' or check your wifi settings by tapping " +
+                                            "'Connect'.")
+                                    .setCancelText("Retry")
+                                    .setConfirmText("Connect")
+                                    .showCancelButton(true)
+                                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sendRequest();
+                                            sDialog.dismiss();
+                                        }
+                                    })
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                        }
+                                    })
+                                    .show();
+                            isProcessing = false;
+                            start = 0;
+                        }
                     }
                 }
         );

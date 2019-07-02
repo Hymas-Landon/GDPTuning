@@ -386,7 +386,8 @@ public class FeaturesActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                            }
+                                Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                                startActivity(i);}
                         }
                 );
                 // add it to the RequestQueue
@@ -656,7 +657,8 @@ public class FeaturesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(FeaturesActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );

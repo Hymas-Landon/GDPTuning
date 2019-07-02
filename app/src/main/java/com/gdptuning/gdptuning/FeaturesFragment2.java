@@ -2,6 +2,7 @@ package com.gdptuning.gdptuning;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -113,25 +114,38 @@ public class FeaturesFragment2 extends Fragment {
             }
         }, 0, 500);//put here time 1000 milliseconds=1 second
 
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPreferences.edit();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+                if (isFirstTime()) {
+                    edit.putInt(navOverrideSettings, 99);
+                    edit.putInt(remoteWindowSettings, 99);
+                    edit.putInt(remoteStartSettings, 99);
+                    edit.putInt(daytimeLightsSettings, 99);
+                    edit.putBoolean(daytimeLightsSettingsChanged, false);
+                    edit.putBoolean(remoteStartSettingsChanged, false);
+                    edit.putBoolean(navOverrideSettingsChanged, false);
+                    edit.putBoolean(remoteWindowSettingsChanged, false);
+                    edit.apply();
+                } else {
+                    sendRequest();
+                }
+            }
+        }, 3000);
+        arrowLeft3.setImageDrawable(null);
+        arrowRight3.setImageDrawable(null);
+        arrowRight4.setImageDrawable(null);
+        arrowLeft4.setImageDrawable(null);
+        actual3.setText("");
+        actual3.setText("");
+        select3.setText("");
+        select4.setText("");
 
-
-        if (isFirstTime()) {
-            edit.putInt(navOverrideSettings, 99);
-            edit.putInt(remoteWindowSettings, 99);
-            edit.putInt(remoteStartSettings, 99);
-            edit.putInt(daytimeLightsSettings, 99);
-            edit.putBoolean(daytimeLightsSettingsChanged, false);
-            edit.putBoolean(remoteStartSettingsChanged, false);
-            edit.putBoolean(navOverrideSettingsChanged, false);
-            edit.putBoolean(remoteWindowSettingsChanged, false);
-            edit.apply();
-        } else {
-            sendRequest();
-        }
 
         if (getVehicleType() == VFORD2) {
+
             //Selector 1
             selector_words_first_2.setText("Daytime Running Light Configuration");
             final String[] daytimeLight = new String[7];
@@ -285,83 +299,83 @@ public class FeaturesFragment2 extends Fragment {
                 }
             });
 
-            //Selector 3
-            selector_words_third_2.setText("Navigation Override(Allows Passenger Destination Entry While Driving)");
-            final String[] navOverride = new String[2];
-            navOverride[0] = "No";
-            navOverride[1] = "Yes";
-            if (getNavOverride() == 0) {
-                select3.setText(navOverride[0]);
-            } else if (getNavOverride() == 1) {
-                select3.setText(navOverride[1]);
-            } else if (getNavOverride() == 99) {
-                select3.setText("--");
-            }
-            arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("navOverrideSettings_changed", true);
-                    select3.setText(navOverride[0]);
-                    edit.putInt(navOverrideSettings, 1);
-                    switchNavOverride(45);
-                    edit.apply();
-                }
-            });
-            arrowRight3.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("navOverrideSettings_changed", true);
-                    select3.setText(navOverride[1]);
-                    edit.putInt(navOverrideSettings, 0);
-                    switchNavOverride(44);
-                    edit.apply();
-                }
-            });
-
-            //Selector 4
-            selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
-            final String[] remoteWindow = new String[2];
-            remoteWindow[0] = "No";
-            remoteWindow[1] = "Yes";
-            if (getRemoteWindow() == 0) {
-                select4.setText(remoteWindow[0]);
-            } else if (getRemoteWindow() == 1) {
-                select4.setText(remoteWindow[1]);
-            } else if (getRemoteWindow() == 99) {
-                select4.setText("--");
-            }
-            arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("remoteWindowSettings_changed", true);
-                    select4.setText(remoteWindow[0]);
-                    edit.putInt(remoteWindowSettings, 1);
-                    switchWindowUpDown(40);
-                    edit.apply();
-                }
-            });
-            arrowRight4.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("remoteWindowSettings_changed", true);
-                    select4.setText(remoteWindow[1]);
-                    edit.putInt(remoteWindowSettings, 0);
-                    switchWindowUpDown(39);
-                    edit.apply();
-                }
-            });
+//            //Selector 3
+//            selector_words_third_2.setText("Navigation Override(Allows Passenger Destination Entry While Driving)");
+//            final String[] navOverride = new String[2];
+//            navOverride[0] = "No";
+//            navOverride[1] = "Yes";
+//            if (getNavOverride() == 0) {
+//                select3.setText(navOverride[0]);
+//            } else if (getNavOverride() == 1) {
+//                select3.setText(navOverride[1]);
+//            } else if (getNavOverride() == 99) {
+//                select3.setText("--");
+//            }
+//            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("navOverrideSettings_changed", true);
+//                    select3.setText(navOverride[0]);
+//                    edit.putInt(navOverrideSettings, 1);
+//                    switchNavOverride(45);
+//                    edit.apply();
+//                }
+//            });
+//            arrowRight3.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("navOverrideSettings_changed", true);
+//                    select3.setText(navOverride[1]);
+//                    edit.putInt(navOverrideSettings, 0);
+//                    switchNavOverride(44);
+//                    edit.apply();
+//                }
+//            });
+//
+//            //Selector 4
+//            selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
+//            final String[] remoteWindow = new String[2];
+//            remoteWindow[0] = "No";
+//            remoteWindow[1] = "Yes";
+//            if (getRemoteWindow() == 0) {
+//                select4.setText(remoteWindow[0]);
+//            } else if (getRemoteWindow() == 1) {
+//                select4.setText(remoteWindow[1]);
+//            } else if (getRemoteWindow() == 99) {
+//                select4.setText("--");
+//            }
+//            arrowLeft4.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("remoteWindowSettings_changed", true);
+//                    select4.setText(remoteWindow[0]);
+//                    edit.putInt(remoteWindowSettings, 1);
+//                    switchWindowUpDown(40);
+//                    edit.apply();
+//                }
+//            });
+//            arrowRight4.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("remoteWindowSettings_changed", true);
+//                    select4.setText(remoteWindow[1]);
+//                    edit.putInt(remoteWindowSettings, 0);
+//                    switchWindowUpDown(39);
+//                    edit.apply();
+//                }
+//            });
         }
 
         if (getVehicleType() == VFORD1) {
@@ -511,83 +525,83 @@ public class FeaturesFragment2 extends Fragment {
                 }
             });
 
-            //Selector 3
-            selector_words_third_2.setText("Navigation Override(Allows Passenger Destination Entry While Driving)");
-            final String[] navOverride = new String[2];
-            navOverride[0] = "No";
-            navOverride[1] = "Yes";
-            if (getNavOverride() == 0) {
-                select3.setText(navOverride[0]);
-            } else if (getNavOverride() == 1) {
-                select3.setText(navOverride[1]);
-            } else if (getNavOverride() == 99) {
-                select3.setText("--");
-            }
-            arrowLeft3.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("navOverrideSettings_changed", true);
-                    select3.setText(navOverride[0]);
-                    edit.putInt(navOverrideSettings, 1);
-                    switchNavOverride(45);
-                    edit.apply();
-                }
-            });
-            arrowRight3.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("navOverrideSettings_changed", true);
-                    select3.setText(navOverride[1]);
-                    edit.putInt(navOverrideSettings, 0);
-                    switchNavOverride(44);
-                    edit.apply();
-                }
-            });
-
-            //Selector 4
-            selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
-            final String[] remoteWindow = new String[2];
-            remoteWindow[0] = "No";
-            remoteWindow[1] = "Yes";
-            if (getRemoteWindow() == 0) {
-                select4.setText(remoteWindow[0]);
-            } else if (getRemoteWindow() == 1) {
-                select4.setText(remoteWindow[1]);
-            } else if (getRemoteWindow() == 99) {
-                select4.setText("--");
-            }
-            arrowLeft4.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("remoteWindowSettings_changed", true);
-                    select4.setText(remoteWindow[0]);
-                    edit.putInt(remoteWindowSettings, 1);
-                    switchWindowUpDown(40);
-                    edit.apply();
-                }
-            });
-            arrowRight4.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = mSharedPreferences.edit();
-
-                @Override
-                public void onClick(View mView) {
-                    edit.putBoolean("remoteWindowSettings_changed", true);
-                    select4.setText(remoteWindow[1]);
-                    edit.putInt(remoteWindowSettings, 0);
-                    switchWindowUpDown(39);
-                    edit.apply();
-                }
-            });
+//            //Selector 3
+//            selector_words_third_2.setText("Navigation Override(Allows Passenger Destination Entry While Driving)");
+//            final String[] navOverride = new String[2];
+//            navOverride[0] = "No";
+//            navOverride[1] = "Yes";
+//            if (getNavOverride() == 0) {
+//                select3.setText(navOverride[0]);
+//            } else if (getNavOverride() == 1) {
+//                select3.setText(navOverride[1]);
+//            } else if (getNavOverride() == 99) {
+//                select3.setText("--");
+//            }
+//            arrowLeft3.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("navOverrideSettings_changed", true);
+//                    select3.setText(navOverride[0]);
+//                    edit.putInt(navOverrideSettings, 1);
+//                    switchNavOverride(45);
+//                    edit.apply();
+//                }
+//            });
+//            arrowRight3.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("navOverrideSettings_changed", true);
+//                    select3.setText(navOverride[1]);
+//                    edit.putInt(navOverrideSettings, 0);
+//                    switchNavOverride(44);
+//                    edit.apply();
+//                }
+//            });
+//
+//            //Selector 4
+//            selector_words_fourth_2.setText("Windows Up/Down With Key Fob");
+//            final String[] remoteWindow = new String[2];
+//            remoteWindow[0] = "No";
+//            remoteWindow[1] = "Yes";
+//            if (getRemoteWindow() == 0) {
+//                select4.setText(remoteWindow[0]);
+//            } else if (getRemoteWindow() == 1) {
+//                select4.setText(remoteWindow[1]);
+//            } else if (getRemoteWindow() == 99) {
+//                select4.setText("--");
+//            }
+//            arrowLeft4.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("remoteWindowSettings_changed", true);
+//                    select4.setText(remoteWindow[0]);
+//                    edit.putInt(remoteWindowSettings, 1);
+//                    switchWindowUpDown(40);
+//                    edit.apply();
+//                }
+//            });
+//            arrowRight4.setOnClickListener(new View.OnClickListener() {
+//                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor edit = mSharedPreferences.edit();
+//
+//                @Override
+//                public void onClick(View mView) {
+//                    edit.putBoolean("remoteWindowSettings_changed", true);
+//                    select4.setText(remoteWindow[1]);
+//                    edit.putInt(remoteWindowSettings, 0);
+//                    switchWindowUpDown(39);
+//                    edit.apply();
+//                }
+//            });
         }
     }
 
@@ -655,51 +669,129 @@ public class FeaturesFragment2 extends Fragment {
                             JSONObject variables = response.getJSONObject("variables");
 
                             int daytimeRunningLights = variables.getInt("drl");
-                            int remoteWindow = variables.getInt("rke_windows");
+//                            int remoteWindow = variables.getInt("rke_windows");
                             int remoteStartDuration = variables.getInt("rvs");
-                            int navOverride = variables.getInt("nav_override");
+//                            int navOverride = variables.getInt("nav_override");
+                            SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = mSharedPreferences.edit();
 
-                            if (isDaytimeLightsSettingsChanged()) {
-                                if (daytimeRunningLights == 0) {
-                                    select1.setText("Low Beam");
-                                } else if (daytimeRunningLights == 1) {
-                                    select1.setText("Fog Lights");
-                                } else if (daytimeRunningLights == 2) {
-                                    select1.setText("Disabled");
+                            if (getVehicleType() == VFORD1) {
+                                if (isDaytimeLightsSettingsChanged()) {
+                                    if (daytimeRunningLights == 0) {
+                                        edit.putInt(daytimeLightsSettings, 0);
+                                        select1.setText("Low Beam");
+                                    } else if (daytimeRunningLights == 1) {
+                                        edit.putInt(daytimeLightsSettings, 1);
+                                        select1.setText("Fog Lights");
+                                    } else if (daytimeRunningLights == 2) {
+                                        edit.putInt(daytimeLightsSettings, 2);
+                                        select1.setText("Disabled");
+                                    } else if (daytimeRunningLights == 3) {
+                                        edit.putInt(daytimeLightsSettings, 3);
+                                        select1.setText("Turn Signals");
+                                    }
+                                } else {
+                                    select1.setText("--");
                                 }
-                            } else {
-                                select1.setText("--");
-                            }
-                            if (isRemoteStartSettingsChanged()) {
-                                if (remoteStartDuration == 1) {
-                                    select2.setText("5 Minutes");
-                                } else if (remoteStartDuration == 2) {
-                                    select2.setText("10 Minutes");
-                                } else if (remoteStartDuration == 3) {
-                                    select2.setText("15 Minutes");
+                                if (isRemoteStartSettingsChanged()) {
+                                    if (remoteStartDuration == 1) {
+                                        edit.putInt(remoteStartSettings, 1);
+                                        select2.setText("5 Minutes");
+                                    } else if (remoteStartDuration == 2) {
+                                        edit.putInt(remoteStartSettings, 2);
+                                        select2.setText("10 Minutes");
+                                    } else if (remoteStartDuration == 3) {
+                                        edit.putInt(remoteStartSettings, 3);
+                                        select2.setText("15 Minutes");
+                                    }
+                                } else {
+                                    select2.setText("--");
                                 }
-                            } else {
-                                select2.setText("--");
-                            }
 
-                            if (isNavOverrideSettingsChanged()) {
-                                if (navOverride == 0) {
-                                    select3.setText("No");
-                                } else if (navOverride == 1) {
-                                    select3.setText("Yes");
+//                                if (isNavOverrideSettingsChanged()) {
+//                                    if (navOverride == 0) {
+//                                        edit.putInt(navOverrideSettings, 0);
+//                                        select3.setText("No");
+//                                    } else if (navOverride == 1) {
+//                                        edit.putInt(navOverrideSettings, 1);
+//                                        select3.setText("Yes");
+//                                    }
+//                                } else {
+//                                    select3.setText("--");
+//                                }
+//
+//                                if (isRemoteWindowSettingsChanged()) {
+//                                    if (remoteWindow == 0) {
+//                                        edit.putInt(remoteWindowSettings, 0);
+//                                        select4.setText("No");
+//                                    } else if (remoteWindow == 1) {
+//                                        edit.putInt(remoteWindowSettings, 1);
+//                                        select4.setText("Yes");
+//                                    }
+//                                } else {
+//                                    select4.setText("--");
+//                                }
+                                edit.apply();
+                            } else if (getVehicleType() == VFORD2) {
+                                if (isDaytimeLightsSettingsChanged()) {
+                                    if (daytimeRunningLights == 0) {
+                                        edit.putInt(daytimeLightsSettings, 0);
+                                        select1.setText("Low Beam");
+                                    } else if (daytimeRunningLights == 1) {
+                                        edit.putInt(daytimeLightsSettings, 1);
+                                        select1.setText("Fog Lights");
+                                    } else if (daytimeRunningLights == 2) {
+                                        edit.putInt(daytimeLightsSettings, 2);
+                                        select1.setText("Disabled");
+                                    } else if (daytimeRunningLights == 3) {
+                                        edit.putInt(daytimeLightsSettings, 3);
+                                        select1.setText("Turn Signals");
+                                    } else if (daytimeRunningLights == 4) {
+                                        edit.putInt(daytimeLightsSettings, 4);
+                                        select1.setText("Dedicated LED");
+                                    }
+                                } else {
+                                    select1.setText("--");
                                 }
-                            } else {
-                                select3.setText("--");
-                            }
+                                if (isRemoteStartSettingsChanged()) {
+                                    if (remoteStartDuration == 1) {
+                                        edit.putInt(remoteStartSettings, 1);
+                                        select2.setText("5 Minutes");
+                                    } else if (remoteStartDuration == 2) {
+                                        edit.putInt(remoteStartSettings, 2);
+                                        select2.setText("10 Minutes");
+                                    } else if (remoteStartDuration == 3) {
+                                        edit.putInt(remoteStartSettings, 3);
+                                        select2.setText("15 Minutes");
+                                    }
+                                } else {
+                                    select2.setText("--");
+                                }
 
-                            if (isRemoteWindowSettingsChanged()) {
-                                if (remoteWindow == 0) {
-                                    select4.setText("No");
-                                } else if (remoteWindow == 1) {
-                                    select4.setText("Yes");
-                                }
-                            } else {
-                                select4.setText("--");
+//                                if (isNavOverrideSettingsChanged()) {
+//                                    if (navOverride == 0) {
+//                                        edit.putInt(navOverrideSettings, 0);
+//                                        select3.setText("No");
+//                                    } else if (navOverride == 1) {
+//                                        edit.putInt(navOverrideSettings, 1);
+//                                        select3.setText("Yes");
+//                                    }
+//                                } else {
+//                                    select3.setText("--");
+//                                }
+//
+//                                if (isRemoteWindowSettingsChanged()) {
+//                                    if (remoteWindow == 0) {
+//                                        edit.putInt(remoteWindowSettings, 0);
+//                                        select4.setText("No");
+//                                    } else if (remoteWindow == 1) {
+//                                        edit.putInt(remoteWindowSettings, 1);
+//                                        select4.setText("Yes");
+//                                    }
+//                                } else {
+//                                    select4.setText("--");
+//                                }
+                                edit.apply();
                             }
 
                         } catch (JSONException e) {
@@ -712,6 +804,8 @@ public class FeaturesFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -733,8 +827,8 @@ public class FeaturesFragment2 extends Fragment {
                             JSONObject variables = response.getJSONObject("variables");
                             int drl = variables.getInt("drl");
                             int remote = variables.getInt("rvs");
-                            int nav_override = variables.getInt("nav_override");
-                            int rke_windows = variables.getInt("rke_windows");
+//                            int nav_override = variables.getInt("nav_override");
+//                            int rke_windows = variables.getInt("rke_windows");
                             if (getVehicleType() == VFORD1) {
                                 if (drl == 0) {
                                     actual1.setText("Low Beam");
@@ -765,16 +859,16 @@ public class FeaturesFragment2 extends Fragment {
                             } else if (remote == 3) {
                                 actual2.setText("15 Minutes");
                             }
-                            if (nav_override == 1) {
-                                actual3.setText("Yes");
-                            } else {
-                                actual3.setText("No");
-                            }
-                            if (rke_windows == 1) {
-                                actual4.setText("Yes");
-                            } else if (rke_windows == 0) {
-                                actual4.setText("No");
-                            }
+//                            if (nav_override == 1) {
+//                                actual3.setText("Yes");
+//                            } else {
+//                                actual3.setText("No");
+//                            }
+//                            if (rke_windows == 1) {
+//                                actual4.setText("Yes");
+//                            } else if (rke_windows == 0) {
+//                                actual4.setText("No");
+//                            }
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
@@ -786,7 +880,8 @@ public class FeaturesFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -844,7 +939,8 @@ public class FeaturesFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -869,12 +965,12 @@ public class FeaturesFragment2 extends Fragment {
                         SharedPreferences.Editor edit = readSharedPreferences.edit();
                         switch (remoteNum) {
                             // Set as 5 Minutes
-                            case 40:
+                            case 41:
                                 edit.putInt(remoteStartSettings, 1);
                                 edit.apply();
                                 break;
                             // Set as 10 Minutes
-                            case 41:
+                            case 42:
                                 edit.putInt(remoteStartSettings, 2);
                                 edit.apply();
                                 // Set as 15 Minutes
@@ -889,7 +985,8 @@ public class FeaturesFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -931,7 +1028,8 @@ public class FeaturesFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -973,19 +1071,13 @@ public class FeaturesFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
         // add it to the RequestQueue
         queue.add(getRequest);
-    }
-
-    private void pause(int x) {
-        try {
-            Thread.sleep(x);
-        } catch (InterruptedException mE) {
-            mE.printStackTrace();
-        }
     }
 
 }

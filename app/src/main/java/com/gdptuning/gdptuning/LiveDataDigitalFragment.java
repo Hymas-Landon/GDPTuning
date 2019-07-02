@@ -2,6 +2,7 @@ package com.gdptuning.gdptuning;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
@@ -2982,6 +2983,8 @@ public class LiveDataDigitalFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -3426,8 +3429,8 @@ public class LiveDataDigitalFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
-                        isProcessing = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );

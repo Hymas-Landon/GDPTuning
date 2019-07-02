@@ -293,8 +293,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         isConnected = true;
                         try {
                             JSONObject variables = response.getJSONObject("variables");
-                            int pltfrm = variables.getInt("pltfrm");
-                            int bcm_stat = variables.getInt("bcm_stat");
+                            int pltfrm = 14;
+                            int bcm_stat = 0;
                             int id = v.getId();
                             switch (id) {
                                 case R.id.btn_live_data:

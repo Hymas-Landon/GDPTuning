@@ -120,7 +120,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-
+                                Intent i = new Intent(DiagnosticsActivity.this, MainActivity.class);
+                                startActivity(i);
                             }
                         }
                 );
@@ -145,7 +146,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                            }
+                                Intent i = new Intent(DiagnosticsActivity.this, MainActivity.class);
+                                startActivity(i);   }
                         }
                 );
                 // add it to the RequestQueue
@@ -169,7 +171,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 isConnected = false;
-                            }
+                                Intent i = new Intent(DiagnosticsActivity.this, MainActivity.class);
+                                startActivity(i);}
                         }
                 );
                 // add it to the RequestQueue
@@ -290,7 +293,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-                    }
+                        Intent i = new Intent(DiagnosticsActivity.this, MainActivity.class);
+                        startActivity(i);}
                 }
         );
 
@@ -334,7 +338,8 @@ public class DiagnosticsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(DiagnosticsActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );

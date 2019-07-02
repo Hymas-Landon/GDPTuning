@@ -549,29 +549,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
 
-                        new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-                        isProcessing = false;
+                        Intent i = new Intent(TuneActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -650,30 +629,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
 
-                        new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
-
-                        isProcessing = false;
+                        Intent i = new Intent(TuneActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -703,27 +660,8 @@ public class TuneActivity extends AppCompatActivity implements View.OnClickListe
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
 
-                        new SweetAlertDialog(TuneActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
+                        Intent i = new Intent(TuneActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );

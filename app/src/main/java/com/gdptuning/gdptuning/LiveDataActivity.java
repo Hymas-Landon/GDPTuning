@@ -210,26 +210,8 @@ public class LiveDataActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
 
-                        new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("You are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                }).show();
+                        Intent i = new Intent(LiveDataActivity.this, MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -304,30 +286,9 @@ public class LiveDataActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
 
-                        new SweetAlertDialog(LiveDataActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("No Connection")
-                                .setContentText("Your are not connected to a GDP device. Retry by " +
-                                        "tapping 'Retry' or check your wifi settings by tapping " +
-                                        "'Connect'.")
-                                .setCancelText("Retry")
-                                .setConfirmText("Connect")
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sendRequest();
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                })
-                                .show();
+                        Intent i = new Intent(LiveDataActivity.this, MainActivity.class);
+                        startActivity(i);
 
-                        isProcessing = false;
                     }
                 }
         );

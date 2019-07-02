@@ -1,6 +1,7 @@
 package com.gdptuning.gdptuning;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -348,7 +349,8 @@ public class LiveDataDigitalFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -532,7 +534,8 @@ public class LiveDataDigitalFragment2 extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );

@@ -2,6 +2,7 @@ package com.gdptuning.gdptuning;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -104,30 +105,37 @@ public class FeaturesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
-        SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPreferences.edit();
 
-        if (isFirstTime()) {
-            edit.putInt(lampCurrentSettings, 99);
-            edit.putInt(tpmsSettings, 99);
-            edit.putInt(tireSizeSettings, 99);
-            edit.putInt(fogLightsSettings, 99);
-            edit.putInt(daytimeLightsSettings, 99);
-            edit.putBoolean(tpmsSettingsChanged, false);
-            edit.putBoolean(lampCurrentSettingsChanged, false);
-            edit.putBoolean(tireSizeSettingsChanged, false);
-            edit.putBoolean(fogLightsSettingsChanged, false);
-            edit.putBoolean(daytimeLightsSettingsChanged, false);
-            edit.apply();
-        } else {
-            if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(themeColor, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = mSharedPreferences.edit();
+                // this code will be executed after 3 seconds
+                if (isFirstTime()) {
+                    edit.putInt(lampCurrentSettings, 99);
+                    edit.putInt(tpmsSettings, 99);
+                    edit.putInt(tireSizeSettings, 99);
+                    edit.putInt(fogLightsSettings, 99);
+                    edit.putInt(daytimeLightsSettings, 99);
+                    edit.putBoolean(tpmsSettingsChanged, false);
+                    edit.putBoolean(lampCurrentSettingsChanged, false);
+                    edit.putBoolean(tireSizeSettingsChanged, false);
+                    edit.putBoolean(fogLightsSettingsChanged, false);
+                    edit.putBoolean(daytimeLightsSettingsChanged, false);
+                    edit.apply();
+                } else {
+                    if (getVehicleType() == VFORD1 || getVehicleType() == VFORD2) {
                         sendRequestFord();
-            } else if (getVehicleType() == VGM2) {
+                    } else if (getVehicleType() == VGM2) {
                         sendRequestGM();
-            } else if (getVehicleType() == VRAM) {
+                    } else if (getVehicleType() == VRAM) {
                         sendRequestRam();
+                    }
+                }
             }
-        }
+        }, 3000);
+
 
 
         switch (getVehicleType()) {
@@ -1525,6 +1533,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1600,6 +1610,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1678,6 +1690,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1724,7 +1738,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1771,7 +1786,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1817,7 +1833,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1901,7 +1918,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -1968,7 +1986,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -2010,7 +2029,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -2068,7 +2088,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );
@@ -2110,7 +2131,8 @@ public class FeaturesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         isConnected = false;
-
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
                     }
                 }
         );

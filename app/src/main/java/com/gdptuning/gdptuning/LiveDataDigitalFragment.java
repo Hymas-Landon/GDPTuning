@@ -167,21 +167,12 @@ public class LiveDataDigitalFragment extends Fragment {
                     boost_icon1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View mView) {
-                            gauge1.setTickNumber(9);
                             SharedPreferences mSharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("ThemeColor", Context.MODE_PRIVATE);
                             SharedPreferences.Editor edit = mSharedPreferences.edit();
                             edit.putInt("gauge1", BOOST);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(400);
-                                gauge1.setUnit("kPa");
-                            } else {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(80);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon1.setOnClickListener(new View.OnClickListener() {
@@ -192,17 +183,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", COOLANT);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setTickNumber(8);
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(100);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(280);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon1.setOnClickListener(new View.OnClickListener() {
@@ -213,16 +194,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", EGT);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(1000);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(2400);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
@@ -233,11 +205,10 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", INJECTIONFUEL);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(160);
-                            gauge1.setUnit("L/H");
+                            sendRequest();
                         }
                     });
+
                     injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View mView) {
@@ -246,9 +217,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", INJECTIONTIMING);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(-40);
-                            gauge1.setMaxSpeed(40);
-                            gauge1.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon1.setOnClickListener(new View.OnClickListener() {
@@ -259,9 +228,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", TURBO);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(100);
-                            gauge1.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
@@ -272,15 +239,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(220);
-                                gauge1.setUnit("MPa");
-                            } else {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(32000);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     oil_temp_icon1.setOnClickListener(new View.OnClickListener() {
@@ -291,15 +250,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", OILTEMP);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(280);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(360);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                 }
@@ -319,15 +270,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", BOOST);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(400);
-                                gauge2.setUnit("kPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(60);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon2.setOnClickListener(new View.OnClickListener() {
@@ -338,15 +281,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", COOLANT);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(150);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(280);
-                                gauge2.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon2.setOnClickListener(new View.OnClickListener() {
@@ -357,15 +292,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", EGT);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(1000);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(2000);
-                                gauge2.setUnit("°C");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
@@ -376,9 +303,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", INJECTIONFUEL);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(150);
-                            gauge2.setUnit("L/H");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
@@ -389,9 +314,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", INJECTIONTIMING);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(-40);
-                            gauge2.setMaxSpeed(40);
-                            gauge2.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon2.setOnClickListener(new View.OnClickListener() {
@@ -402,9 +325,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", TURBO);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(100);
-                            gauge2.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
@@ -415,15 +336,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(220);
-                                gauge2.setUnit("MPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(32000);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     oil_temp_icon2.setOnClickListener(new View.OnClickListener() {
@@ -434,15 +347,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", OILTEMP);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(200);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(350);
-                                gauge2.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                 }
@@ -462,15 +367,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", BOOST);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(400);
-                                gauge3.setUnit("kPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(80);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon3.setOnClickListener(new View.OnClickListener() {
@@ -481,15 +378,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", COOLANT);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(100);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(280);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon3.setOnClickListener(new View.OnClickListener() {
@@ -500,15 +389,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", EGT);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(1000);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(2400);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
@@ -519,9 +400,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", INJECTIONFUEL);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("L/H");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
@@ -532,9 +411,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", INJECTIONTIMING);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(-40);
-                            gauge3.setMaxSpeed(40);
-                            gauge3.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon3.setOnClickListener(new View.OnClickListener() {
@@ -545,9 +422,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", TURBO);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
@@ -558,15 +433,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(220);
-                                gauge3.setUnit("MPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(32000);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     oil_temp_icon3.setOnClickListener(new View.OnClickListener() {
@@ -577,15 +444,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", OILTEMP);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(200);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(360);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                 }
@@ -611,17 +470,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", BOOST);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(400);
-                                gauge1.setUnit("kPa");
-                            } else {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(80);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon1.setOnClickListener(new View.OnClickListener() {
@@ -632,17 +481,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", COOLANT);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setTickNumber(8);
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(100);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(280);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon1.setOnClickListener(new View.OnClickListener() {
@@ -653,18 +492,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", EGT);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(1000);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setStartDegree(150);
-                                gauge1.setEndDegree(310);
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(2400);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
@@ -675,9 +503,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", INJECTIONFUEL);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(160);
-                            gauge1.setUnit("mm3");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
@@ -688,9 +514,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", INJECTIONTIMING);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(-40);
-                            gauge1.setMaxSpeed(40);
-                            gauge1.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon1.setOnClickListener(new View.OnClickListener() {
@@ -701,9 +525,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", TURBO);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(100);
-                            gauge1.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
@@ -714,15 +536,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(220);
-                                gauge1.setUnit("MPa");
-                            } else {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(32000);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     app_icon1.setOnClickListener(new View.OnClickListener() {
@@ -733,9 +547,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", APP);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(100);
-                            gauge1.setUnit("%");
+                            sendRequest();
                         }
                     });
                 }
@@ -755,15 +567,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", BOOST);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(400);
-                                gauge2.setUnit("kPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(60);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon2.setOnClickListener(new View.OnClickListener() {
@@ -774,15 +578,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", COOLANT);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(150);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(280);
-                                gauge2.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon2.setOnClickListener(new View.OnClickListener() {
@@ -793,15 +589,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", EGT);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(1000);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(1800);
-                                gauge2.setUnit("°C");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
@@ -812,9 +600,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", INJECTIONFUEL);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(150);
-                            gauge2.setUnit("mm3");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
@@ -825,9 +611,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", INJECTIONTIMING);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(-40);
-                            gauge2.setMaxSpeed(40);
-                            gauge2.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon2.setOnClickListener(new View.OnClickListener() {
@@ -838,9 +622,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", TURBO);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(100);
-                            gauge2.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
@@ -851,15 +633,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(220);
-                                gauge2.setUnit("MPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(32000);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     app_icon2.setOnClickListener(new View.OnClickListener() {
@@ -870,9 +644,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", APP);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(100);
-                            gauge2.setUnit("%");
+                            sendRequest();
                         }
                     });
                 }
@@ -892,15 +664,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", BOOST);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(400);
-                                gauge3.setUnit("kPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(80);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon3.setOnClickListener(new View.OnClickListener() {
@@ -911,15 +675,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", COOLANT);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(100);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(280);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon3.setOnClickListener(new View.OnClickListener() {
@@ -930,15 +686,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", EGT);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(1000);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(2400);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
@@ -949,9 +697,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", INJECTIONFUEL);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("mm3");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
@@ -962,9 +708,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", INJECTIONTIMING);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(-40);
-                            gauge3.setMaxSpeed(40);
-                            gauge3.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon3.setOnClickListener(new View.OnClickListener() {
@@ -975,9 +719,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", TURBO);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
@@ -988,15 +730,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(220);
-                                gauge3.setUnit("MPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(32000);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     app_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1007,9 +741,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", APP);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("%");
+                            sendRequest();
                         }
                     });
                 }
@@ -1039,17 +771,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", BOOST);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(400);
-                                gauge1.setUnit("kPa");
-                            } else {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(80);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1060,17 +782,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", COOLANT);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setTickNumber(8);
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(100);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(-40);
-                                gauge1.setMaxSpeed(280);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1081,18 +793,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", EGT);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(1000);
-                                gauge1.setUnit("°C");
-                            } else {
-                                gauge1.setStartDegree(150);
-                                gauge1.setEndDegree(310);
-                                gauge1.setTickNumber(9);
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(2400);
-                                gauge1.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1103,9 +804,6 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", INJECTIONFUEL);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(160);
-                            gauge1.setUnit("mm3");
                         }
                     });
                     injection_timing_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1116,9 +814,6 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", INJECTIONTIMING);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(-40);
-                            gauge1.setMaxSpeed(40);
-                            gauge1.setUnit("°");
                         }
                     });
                     turbo_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1129,9 +824,6 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", TURBO);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            gauge1.setMinSpeed(0);
-                            gauge1.setMaxSpeed(100);
-                            gauge1.setUnit("%");
                         }
                     });
                     fuel_rail_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1142,15 +834,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(220);
-                                gauge1.setUnit("MPa");
-                            } else {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(32000);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     oil_pressure_icon1.setOnClickListener(new View.OnClickListener() {
@@ -1161,15 +845,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge1", OILPRESSURE);
                             edit.apply();
                             mScrollView1.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(1000);
-                                gauge1.setUnit("kPa");
-                            } else {
-                                gauge1.setMinSpeed(0);
-                                gauge1.setMaxSpeed(150);
-                                gauge1.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                 }
@@ -1190,15 +866,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", BOOST);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(400);
-                                gauge2.setUnit("kPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(60);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1209,15 +877,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", COOLANT);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(150);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(-40);
-                                gauge2.setMaxSpeed(280);
-                                gauge2.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1228,15 +888,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", EGT);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(1000);
-                                gauge2.setUnit("°C");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(1800);
-                                gauge2.setUnit("°C");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1247,9 +899,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", INJECTIONFUEL);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(150);
-                            gauge2.setUnit("mm3");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1260,9 +910,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", INJECTIONTIMING);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(-40);
-                            gauge2.setMaxSpeed(40);
-                            gauge2.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1273,9 +921,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", TURBO);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            gauge2.setMinSpeed(0);
-                            gauge2.setMaxSpeed(100);
-                            gauge2.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1286,15 +932,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(220);
-                                gauge2.setUnit("MPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(32000);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     oil_pressure_icon2.setOnClickListener(new View.OnClickListener() {
@@ -1305,15 +943,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge2", OILPRESSURE);
                             edit.apply();
                             mScrollView2.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(1000);
-                                gauge2.setUnit("kPa");
-                            } else {
-                                gauge2.setMinSpeed(0);
-                                gauge2.setMaxSpeed(150);
-                                gauge2.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                 }
@@ -1333,15 +963,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", BOOST);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(400);
-                                gauge3.setUnit("kPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(80);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     coolant_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1352,15 +974,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", COOLANT);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(100);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(-40);
-                                gauge3.setMaxSpeed(280);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     egt_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1371,15 +985,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", EGT);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(1000);
-                                gauge3.setUnit("°C");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(2400);
-                                gauge3.setUnit("°F");
-                            }
+                            sendRequest();
                         }
                     });
                     injection_fuel_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1390,9 +996,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", INJECTIONFUEL);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("mm3");
+                            sendRequest();
                         }
                     });
                     injection_timing_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1403,9 +1007,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", INJECTIONTIMING);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(-40);
-                            gauge3.setMaxSpeed(40);
-                            gauge3.setUnit("°");
+                            sendRequest();
                         }
                     });
                     turbo_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1416,9 +1018,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", TURBO);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            gauge3.setMinSpeed(0);
-                            gauge3.setMaxSpeed(100);
-                            gauge3.setUnit("%");
+                            sendRequest();
                         }
                     });
                     fuel_rail_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1429,15 +1029,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", FUELRAILPRESSURE);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(220);
-                                gauge3.setUnit("MPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(32000);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                     oil_pressure_icon3.setOnClickListener(new View.OnClickListener() {
@@ -1448,15 +1040,7 @@ public class LiveDataDigitalFragment extends Fragment {
                             edit.putInt("gauge3", OILPRESSURE);
                             edit.apply();
                             mScrollView3.setVisibility(View.GONE);
-                            if (isMetric()) {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(1000);
-                                gauge3.setUnit("kPa");
-                            } else {
-                                gauge3.setMinSpeed(0);
-                                gauge3.setMaxSpeed(150);
-                                gauge3.setUnit("psi");
-                            }
+                            sendRequest();
                         }
                     });
                 }
@@ -1591,12 +1175,9 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge1.setMinSpeed(-40);
-                                                gauge1.setMaxSpeed(100);
+                                                gauge1.setMaxSpeed(160);
                                                 gauge1.setUnit("°C");
                                             } else {
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setTickNumber(9);
                                                 gauge1.setMinSpeed(-40);
                                                 gauge1.setMaxSpeed(280);
                                                 gauge1.setUnit("°F");
@@ -1643,7 +1224,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONFUEL:
                                             gauge1.setMinSpeed(0);
                                             gauge1.setMaxSpeed(160);
-                                            gauge1.setUnit("mm3");
+                                            gauge1.setUnit("L/H");
                                             break;
                                         case INJECTIONTIMING:
                                             gauge1.setMinSpeed(-40);
@@ -1663,14 +1244,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("kPa");
                                             } else {
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(60);
+                                                gauge2.setMaxSpeed(80);
                                                 gauge2.setUnit("psi");
                                             }
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(130);
+                                                gauge2.setMaxSpeed(100);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(-40);
@@ -1685,7 +1266,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(2000);
+                                                gauge2.setMaxSpeed(2400);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -1696,7 +1277,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(350);
+                                                gauge2.setMaxSpeed(360);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -1718,7 +1299,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case INJECTIONFUEL:
                                             gauge2.setMinSpeed(0);
-                                            gauge2.setMaxSpeed(150);
+                                            gauge2.setMaxSpeed(160);
                                             gauge2.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
@@ -1745,10 +1326,12 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
+                                                gauge3.setTickNumber(8);
                                                 gauge3.setMinSpeed(-40);
                                                 gauge3.setMaxSpeed(100);
                                                 gauge3.setUnit("°C");
                                             } else {
+                                                gauge3.setTickNumber(9);
                                                 gauge3.setMinSpeed(-40);
                                                 gauge3.setMaxSpeed(280);
                                                 gauge3.setUnit("°F");
@@ -1772,7 +1355,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setMinSpeed(-40);
-                                                gauge3.setMaxSpeed(350);
+                                                gauge3.setMaxSpeed(360);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
@@ -1835,9 +1418,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setMaxSpeed(100);
                                                 gauge1.setUnit("°C");
                                             } else {
-                                                gauge1.setStartDegree(150);
-                                                gauge1.setEndDegree(310);
-                                                gauge1.setTickNumber(9);
                                                 gauge1.setMinSpeed(-40);
                                                 gauge1.setMaxSpeed(280);
                                                 gauge1.setUnit("°F");
@@ -1878,7 +1458,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONFUEL:
                                             gauge1.setMinSpeed(0);
                                             gauge1.setMaxSpeed(160);
-                                            gauge1.setUnit("mm3");
+                                            gauge1.setUnit("L/H");
                                             break;
                                         case INJECTIONTIMING:
                                             gauge1.setMinSpeed(-40);
@@ -1898,14 +1478,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("kPa");
                                             } else {
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(60);
+                                                gauge2.setMaxSpeed(80);
                                                 gauge2.setUnit("psi");
                                             }
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(130);
+                                                gauge2.setMaxSpeed(100);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(-40);
@@ -1920,7 +1500,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(2000);
+                                                gauge2.setMaxSpeed(2400);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -1947,7 +1527,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case INJECTIONFUEL:
                                             gauge2.setMinSpeed(0);
-                                            gauge2.setMaxSpeed(150);
+                                            gauge2.setMaxSpeed(160);
                                             gauge2.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
@@ -1990,7 +1570,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(1800);
+                                                gauge3.setMaxSpeed(2400);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
@@ -2063,7 +1643,6 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge1.setMaxSpeed(100);
                                                 gauge1.setUnit("°C");
                                             } else {
-                                                gauge1.setTickNumber(9);
                                                 gauge1.setMinSpeed(-40);
                                                 gauge1.setMaxSpeed(280);
                                                 gauge1.setUnit("°F");
@@ -2110,7 +1689,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                         case INJECTIONFUEL:
                                             gauge1.setMinSpeed(0);
                                             gauge1.setMaxSpeed(160);
-                                            gauge1.setUnit("mm3");
+                                            gauge1.setUnit("L/H");
                                             break;
                                         case INJECTIONTIMING:
                                             gauge1.setMinSpeed(-40);
@@ -2130,14 +1709,14 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("kPa");
                                             } else {
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(60);
+                                                gauge2.setMaxSpeed(80);
                                                 gauge2.setUnit("psi");
                                             }
                                             break;
                                         case COOLANT:
                                             if (isMetric()) {
                                                 gauge2.setMinSpeed(-40);
-                                                gauge2.setMaxSpeed(130);
+                                                gauge2.setMaxSpeed(140);
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(-40);
@@ -2152,7 +1731,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge2.setUnit("°C");
                                             } else {
                                                 gauge2.setMinSpeed(0);
-                                                gauge2.setMaxSpeed(2000);
+                                                gauge2.setMaxSpeed(2400);
                                                 gauge2.setUnit("°F");
                                             }
                                             break;
@@ -2185,7 +1764,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                             break;
                                         case INJECTIONFUEL:
                                             gauge2.setMinSpeed(0);
-                                            gauge2.setMaxSpeed(150);
+                                            gauge2.setMaxSpeed(160);
                                             gauge2.setUnit("mm3");
                                             break;
                                         case INJECTIONTIMING:
@@ -2228,7 +1807,7 @@ public class LiveDataDigitalFragment extends Fragment {
                                                 gauge3.setUnit("°C");
                                             } else {
                                                 gauge3.setMinSpeed(0);
-                                                gauge3.setMaxSpeed(1800);
+                                                gauge3.setMaxSpeed(1400);
                                                 gauge3.setUnit("°F");
                                             }
                                             break;
@@ -2361,34 +1940,55 @@ public class LiveDataDigitalFragment extends Fragment {
                                 // Set gauge 1 value
                                 switch (getGauge1()) {
                                     case BOOST:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(boostActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(8);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo((coolantActual));
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(11);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
                                         gauge1.speedTo((egtActual));
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case OILTEMP:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(oilTempActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(6);
+                                        } else {
+                                            gauge1.setTickNumber(5);
+                                        }
                                         gauge1.speedTo((frpActual));
-                                        gauge1.setSpeedTextSize(33);
+                                        gauge1.setSpeedTextSize(31);
                                         break;
                                     case TURBO:
+                                        gauge1.setTickNumber(11);
                                         gauge1.speedTo(turboActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(fuelActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(timingActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
@@ -2399,72 +1999,112 @@ public class LiveDataDigitalFragment extends Fragment {
                                 }
                                 switch (getGauge2()) {
                                     case BOOST:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(boostActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(45);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(8);
+                                        } else {
+                                            gauge2.setTickNumber(9);
+                                        }
                                         gauge2.speedTo((coolantActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(11);
+                                        } else {
+                                            gauge2.setTickNumber(9);
+                                        }
                                         gauge2.speedTo((egtActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case OILTEMP:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(oilTempActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(6);
+                                        } else {
+                                            gauge2.setTickNumber(5);
+                                        }
                                         gauge2.speedTo((frpActual));
-                                        gauge2.setSpeedTextSize(33);
+                                        gauge2.setSpeedTextSize(34);
                                         break;
                                     case TURBO:
+                                        gauge2.setTickNumber(11);
                                         gauge2.speedTo(turboActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(fuelActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(timingActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     default:
                                         gauge2.speedTo(0);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                 }
                                 switch (getGauge3()) {
                                     case BOOST:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(boostActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(8);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo((coolantActual));
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(11);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo((egtActual));
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case OILTEMP:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(oilTempActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(6);
+                                        } else {
+                                            gauge3.setTickNumber(5);
+                                        }
                                         gauge3.speedTo((frpActual));
-                                        gauge3.setSpeedTextSize(33);
+                                        gauge3.setSpeedTextSize(31);
                                         break;
                                     case TURBO:
+                                        gauge3.setTickNumber(11);
                                         gauge3.speedTo(turboActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(fuelActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(timingActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
@@ -2484,34 +2124,54 @@ public class LiveDataDigitalFragment extends Fragment {
                                 // Set gauge 1 value
                                 switch (getGauge1()) {
                                     case BOOST:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(boostActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(8);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
                                         gauge1.speedTo((coolantActual));
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(11);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
                                         gauge1.speedTo((egtActual));
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case APP:
+                                        gauge1.setTickNumber(11);
                                         gauge1.speedTo(appActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(6);
+                                        } else {
+                                            gauge1.setTickNumber(5);
+                                        }
                                         gauge1.speedTo((frpActual));
                                         gauge1.setSpeedTextSize(33);
                                         break;
                                     case TURBO:
+                                        gauge1.setTickNumber(11);
                                         gauge1.speedTo(turboActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(fuelActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(timingActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
@@ -2523,72 +2183,108 @@ public class LiveDataDigitalFragment extends Fragment {
 
                                 switch (getGauge2()) {
                                     case BOOST:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(boostActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case COOLANT:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo((coolantActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(11);
+                                        } else {
+                                            gauge2.setTickNumber(9);
+                                        }
                                         gauge2.speedTo((egtActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case APP:
+                                        gauge2.setTickNumber(11);
                                         gauge2.speedTo(appActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(6);
+                                        } else {
+                                            gauge2.setTickNumber(5);
+                                        }
                                         gauge2.speedTo((frpActual));
-                                        gauge2.setSpeedTextSize(33);
+                                        gauge2.setSpeedTextSize(38);
                                         break;
                                     case TURBO:
+                                        gauge2.setTickNumber(11);
                                         gauge2.speedTo(turboActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(fuelActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(timingActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     default:
                                         gauge2.speedTo(0);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                 }
                                 switch (getGauge3()) {
                                     case BOOST:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(boostActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(8);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo((coolantActual));
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(11);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo((egtActual));
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case APP:
+                                        gauge1.setTickNumber(11);
                                         gauge3.speedTo(appActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(6);
+                                        } else {
+                                            gauge3.setTickNumber(5);
+                                        }
                                         gauge3.speedTo((frpActual));
                                         gauge3.setSpeedTextSize(33);
                                         break;
                                     case TURBO:
+                                        gauge3.setTickNumber(11);
                                         gauge3.speedTo(turboActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(fuelActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(timingActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
@@ -2608,34 +2304,58 @@ public class LiveDataDigitalFragment extends Fragment {
                                 // Set gauge 1 value
                                 switch (getGauge1()) {
                                     case BOOST:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(boostActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(8);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
                                         gauge1.speedTo((coolantActual));
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(11);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
                                         gauge1.speedTo((egtActual));
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case OILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(11);
+                                        } else {
+                                            gauge1.setTickNumber(9);
+                                        }
                                         gauge1.speedTo(oilPressureActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge1.setTickNumber(6);
+                                        } else {
+                                            gauge1.setTickNumber(5);
+                                        }
                                         gauge1.speedTo((frpActual));
                                         gauge1.setSpeedTextSize(33);
                                         break;
                                     case TURBO:
+                                        gauge1.setTickNumber(11);
                                         gauge1.speedTo(turboActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(fuelActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge1.setTickNumber(9);
                                         gauge1.speedTo(timingActual);
                                         gauge1.setSpeedTextSize(40);
                                         break;
@@ -2647,72 +2367,120 @@ public class LiveDataDigitalFragment extends Fragment {
 
                                 switch (getGauge2()) {
                                     case BOOST:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(boostActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(8);
+                                        } else {
+                                            gauge2.setTickNumber(9);
+                                        }
                                         gauge2.speedTo((coolantActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(11);
+                                        } else {
+                                            gauge2.setTickNumber(9);
+                                        }
                                         gauge2.speedTo((egtActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case OILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(11);
+                                        } else {
+                                            gauge2.setTickNumber(9);
+                                        }
                                         gauge2.speedTo(oilPressureActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge2.setTickNumber(6);
+                                        } else {
+                                            gauge2.setTickNumber(5);
+                                        }
                                         gauge2.speedTo((frpActual));
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(90);
                                         break;
                                     case TURBO:
+                                        gauge2.setTickNumber(11);
                                         gauge2.speedTo(turboActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(fuelActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge2.setTickNumber(9);
                                         gauge2.speedTo(timingActual);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                     default:
                                         gauge2.speedTo(0);
-                                        gauge2.setSpeedTextSize(40);
+                                        gauge2.setSpeedTextSize(41);
                                         break;
                                 }
                                 switch (getGauge3()) {
                                     case BOOST:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(boostActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case COOLANT:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(8);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo((coolantActual));
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case EGT:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(11);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo((egtActual));
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case OILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(11);
+                                        } else {
+                                            gauge3.setTickNumber(9);
+                                        }
                                         gauge3.speedTo(oilPressureActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case FUELRAILPRESSURE:
+                                        if (isMetric()) {
+                                            gauge3.setTickNumber(6);
+                                        } else {
+                                            gauge3.setTickNumber(5);
+                                        }
                                         gauge3.speedTo((frpActual));
                                         gauge3.setSpeedTextSize(33);
                                         break;
                                     case TURBO:
+                                        gauge3.setTickNumber(11);
                                         gauge3.speedTo(turboActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONFUEL:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(fuelActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;
                                     case INJECTIONTIMING:
+                                        gauge3.setTickNumber(9);
                                         gauge3.speedTo(timingActual);
                                         gauge3.setSpeedTextSize(40);
                                         break;

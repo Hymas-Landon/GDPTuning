@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/features_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FeaturesActivity"
-    tools:ignore="spUsage"
-    android:id="@+id/features_fragment">
+    tools:ignore="spUsage">
 
     <TextView
         android:id="@+id/actual"
@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="190dp"
         android:layout_toStartOf="@id/strobe_on"
-        android:text="CURRENT"
+        android:text="@string/current"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="20dp" />
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_toStartOf="@id/strobe_on"
-        android:text="DESIRED"
+        android:text="@string/desired"
         android:textAlignment="center"
         android:textColor="?attr/features_text_color"
         android:textSize="20dp" />
@@ -39,7 +39,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="30dp"
-        app:srcCompat="?attr/triangle_button_right" />
+        app:srcCompat="?attr/triangle_button_right"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/strobe_off"
@@ -49,7 +50,8 @@
         android:layout_alignEnd="@id/aux2_off"
         android:layout_marginStart="-50dp"
         android:layout_marginTop="-5dp"
-        app:srcCompat="?attr/triangle_button_left" />
+        app:srcCompat="?attr/triangle_button_left"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/selector1"
@@ -82,7 +84,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="30dp"
-        app:srcCompat="?attr/triangle_button_right" />
+        app:srcCompat="?attr/triangle_button_right"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/work_light_off"
@@ -92,7 +95,8 @@
         android:layout_alignEnd="@id/aux2_off"
         android:layout_marginStart="-60dp"
         android:layout_marginTop="-5dp"
-        app:srcCompat="?attr/triangle_button_left" />
+        app:srcCompat="?attr/triangle_button_left"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/selector2"
@@ -125,7 +129,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="30dp"
-        app:srcCompat="?attr/triangle_button_right" />
+        app:srcCompat="?attr/triangle_button_right"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/aux1_off"
@@ -135,7 +140,8 @@
         android:layout_alignEnd="@id/aux2_off"
         android:layout_marginStart="-60dp"
         android:layout_marginTop="-5dp"
-        app:srcCompat="?attr/triangle_button_left" />
+        app:srcCompat="?attr/triangle_button_left"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/selector3"
@@ -168,7 +174,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="30dp"
-        app:srcCompat="?attr/triangle_button_right" />
+        app:srcCompat="?attr/triangle_button_right"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/aux2_off"
@@ -178,7 +185,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="210dp"
-        app:srcCompat="?attr/triangle_button_left" />
+        app:srcCompat="?attr/triangle_button_left"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/selector4"
@@ -209,12 +217,12 @@
         android:id="@+id/first_selector_features"
         android:layout_width="400dp"
         android:layout_height="75dp"
-        android:layout_marginTop="45dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="45dp"
+        android:gravity="center"
         android:text=""
         android:textAlignment="textStart"
-        android:gravity="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp"
         tools:ignore="RtlCompat" />
@@ -223,12 +231,12 @@
         android:id="@+id/second_selector_features"
         android:layout_width="400dp"
         android:layout_height="75dp"
-        android:layout_marginTop="115dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="115dp"
+        android:gravity="center"
         android:text=""
         android:textAlignment="textStart"
-        android:gravity="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp"
         tools:ignore="RtlCompat" />
@@ -237,12 +245,12 @@
         android:id="@+id/third_selector_features"
         android:layout_width="400dp"
         android:layout_height="75dp"
-        android:layout_marginTop="185dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="185dp"
+        android:gravity="center"
         android:text=""
         android:textAlignment="textStart"
-        android:gravity="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp"
         tools:ignore="RtlCompat" />
@@ -251,12 +259,12 @@
         android:id="@+id/fourth_selector_features"
         android:layout_width="400dp"
         android:layout_height="75dp"
-        android:layout_marginTop="255dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="255dp"
+        android:gravity="center"
         android:text=""
         android:textAlignment="textStart"
-        android:gravity="center"
         android:textColor="?attr/features_text_color"
         android:textSize="28dp"
         tools:ignore="RtlCompat" />

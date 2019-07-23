@@ -87,6 +87,12 @@
     <string name="pro_series_version">Pro Series Version:</string>
     <string name="gdp">GDP</string>
     <string name="serial_number">Serial Number:</string>
+    <string name="textview">TextView</string>
+    <string name="current">CURRENT</string>
+    <string name="desired">DESIRED</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="idle_features">IDLE FEATURES</string>
 
 
 </resources>

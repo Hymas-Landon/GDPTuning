@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:background="@color/transparent"
-        android:text="HOME"
+        android:text="@string/home"
         android:textColor="@color/colorGray"
         android:textSize="26dp" />
 

@@ -14,10 +14,10 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="0dp"
         app:sv_endDegree="310"
-        app:sv_image="@drawable/test_me"
-        app:sv_speedTextPadding="90dp"
+        app:sv_image="@drawable/test3mdpi"
+        app:sv_speedTextPadding="94dp"
         app:sv_speedTextColor="@color/colorWhite"
-        app:sv_speedTextSize="18dp"
+        app:sv_speedTextSize="40dp"
         app:sv_startDegree="150"
         app:sv_textColor="@color/colorWhite"
         app:sv_textSize="15dp"
@@ -37,10 +37,10 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="-225dp"
         app:sv_endDegree="390"
-        app:sv_image="@drawable/test_me"
-        app:sv_speedTextPadding="90dp"
+        app:sv_image="@drawable/test3mdpi"
+        app:sv_speedTextPadding="94dp"
         app:sv_speedTextColor="@color/colorWhite"
-        app:sv_speedTextSize="20dp"
+        app:sv_speedTextSize="40dp"
         app:sv_startDegree="230"
         app:sv_textColor="@color/colorWhite"
         app:sv_textSize="15dp"
@@ -58,74 +58,19 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
         app:sv_endDegree="390"
-        app:sv_image="@drawable/test_me"
-        app:sv_speedTextPadding="101dp"
+        app:sv_image="@drawable/test3mdpi"
+        app:sv_speedTextPadding="108dp"
         app:sv_speedTextColor="@color/colorWhite"
         app:sv_startDegree="150"
-        app:sv_speedTextSize="30dp"
+        app:sv_speedTextSize="45dp"
         app:sv_textColor="@color/colorWhite"
-        app:sv_textSize="22dp"
+        app:sv_textSize="19dp"
         app:sv_tickNumber="11"
         app:sv_tickPadding="22dp"
         app:sv_tickRotation="false"
         app:sv_unit=""
         app:sv_unitTextColor="@color/colorWhite"
         app:sv_unitTextSize="20dp" />
-
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/gauge1"-->
-    <!--android:layout_width="310dp"-->
-    <!--android:layout_height="310dp"-->
-    <!--android:layout_marginStart="30dp"-->
-    <!--android:layout_marginTop="0dp"-->
-    <!--app:sv_image="@drawable/app_left"-->
-    <!--app:sv_speedTextColor="@color/colorWhite"-->
-    <!--app:sv_indicator="NeedleIndicator"-->
-    <!--app:sv_speedTextPadding="93dp"-->
-    <!--app:sv_speedTextSize="30dp"-->
-    <!--app:sv_startDegree="310"-->
-    <!--app:sv_textSize="0dp"-->
-    <!--app:sv_unit=""-->
-    <!--app:sv_unitTextColor="@color/colorWhite"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
-
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/gauge3"-->
-    <!--android:layout_width="310dp"-->
-    <!--android:layout_height="310dp"-->
-    <!--android:layout_alignEnd="@id/gauge2"-->
-    <!--android:layout_marginTop="0dp"-->
-    <!--android:layout_marginEnd="-225dp"-->
-    <!--app:sv_image="@drawable/app_right"-->
-    <!--app:sv_speedTextColor="@color/colorWhite"-->
-    <!--app:sv_speedTextPadding="93dp"-->
-    <!--app:sv_speedTextSize="30dp"-->
-    <!--app:sv_startDegree="230"-->
-    <!--app:sv_textSize="0dp"-->
-    <!--app:sv_unit=""-->
-    <!--app:sv_unitTextColor="@color/colorWhite"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
-
-    <!--<com.github.anastr.speedviewlib.ImageSpeedometer-->
-    <!--android:id="@+id/gauge2"-->
-    <!--android:layout_width="350dp"-->
-    <!--android:layout_height="350dp"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_marginTop="0dp"-->
-    <!--app:sv_image="@drawable/boost_middle_standard"-->
-    <!--app:sv_speedTextColor="@color/colorWhite"-->
-    <!--app:sv_speedTextPadding="105dp"-->
-    <!--app:sv_speedTextSize="30dp"-->
-    <!--app:sv_startDegree="377"-->
-    <!--app:sv_textSize="0dp"-->
-    <!--app:sv_indicator="NeedleIndicator"-->
-    <!--app:sv_unit=""-->
-    <!--app:sv_unitTextColor="@color/colorWhite"-->
-    <!--app:sv_unitTextSize="20dp"-->
-    <!--app:sv_withTremble="false" />-->
-
 
     <HorizontalScrollView
         android:id="@+id/horizontal_menu1"
@@ -146,70 +91,80 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/boost_icon" />
+                android:background="@drawable/boost_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/turbo_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/turbo_vanes_icon" />
+                android:background="@drawable/turbo_vanes_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/egt_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/egt_icon" />
+                android:background="@drawable/egt_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/coolant_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/coolant_temperature_icon" />
+                android:background="@drawable/coolant_temperature_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/injection_fuel_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/injection_fuel_rate_icon" />
+                android:background="@drawable/injection_fuel_rate_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/injection_timing_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/injection_timing_icon" />
+                android:background="@drawable/injection_timing_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/oil_pressure_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/oil_pressure_icon" />
+                android:background="@drawable/oil_pressure_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/oil_temp_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/oil_temperature_icon" />
+                android:background="@drawable/oil_temperature_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/fuel_rail_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/fuel_rail_pressure_icon" />
+                android:background="@drawable/fuel_rail_pressure_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/app_ic1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/appicon" />
+                android:background="@drawable/appicon"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -233,70 +188,80 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/boost_icon" />
+                android:background="@drawable/boost_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/turbo_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/turbo_vanes_icon" />
+                android:background="@drawable/turbo_vanes_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/egt_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/egt_icon" />
+                android:background="@drawable/egt_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/coolant_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/coolant_temperature_icon" />
+                android:background="@drawable/coolant_temperature_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/injection_fuel_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/injection_fuel_rate_icon" />
+                android:background="@drawable/injection_fuel_rate_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/injection_timing_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/injection_timing_icon" />
+                android:background="@drawable/injection_timing_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/oil_pressure_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/oil_pressure_icon" />
+                android:background="@drawable/oil_pressure_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/oil_temp_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/oil_temperature_icon" />
+                android:background="@drawable/oil_temperature_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/fuel_rail_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/fuel_rail_pressure_icon" />
+                android:background="@drawable/fuel_rail_pressure_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/app_ic2"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/appicon" />
+                android:background="@drawable/appicon"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -320,70 +285,80 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/boost_icon" />
+                android:background="@drawable/boost_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/turbo_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/turbo_vanes_icon" />
+                android:background="@drawable/turbo_vanes_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/egt_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/egt_icon" />
+                android:background="@drawable/egt_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/coolant_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/coolant_temperature_icon" />
+                android:background="@drawable/coolant_temperature_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/injection_fuel_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/injection_fuel_rate_icon" />
+                android:background="@drawable/injection_fuel_rate_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/injection_timing_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/injection_timing_icon" />
+                android:background="@drawable/injection_timing_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/oil_pressure_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/oil_pressure_icon" />
+                android:background="@drawable/oil_pressure_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/oil_temp_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/oil_temperature_icon" />
+                android:background="@drawable/oil_temperature_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/fuel_rail_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/fuel_rail_pressure_icon" />
+                android:background="@drawable/fuel_rail_pressure_icon"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/app_ic3"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/appicon" />
+                android:background="@drawable/appicon"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
     </HorizontalScrollView>

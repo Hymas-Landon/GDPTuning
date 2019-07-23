@@ -14,7 +14,8 @@
         android:layout_alignStart="@+id/digital_gauge1"
         android:layout_alignTop="@+id/digital_gauge1"
         android:layout_marginStart="-20dp"
-        android:background="@drawable/oil_pressure_analog" />
+        android:background="@drawable/oil_pressure_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge1"
@@ -36,7 +37,8 @@
         android:layout_alignStart="@+id/digital_gauge2"
         android:layout_alignTop="@+id/digital_gauge2"
         android:layout_marginStart="-30dp"
-        android:background="@drawable/egt_analog" />
+        android:background="@drawable/egt_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge2"
@@ -61,7 +63,8 @@
         android:layout_alignStart="@+id/digital_gauge3"
         android:layout_alignTop="@+id/digital_gauge3"
         android:layout_marginStart="-30dp"
-        android:background="@drawable/turbo_vanes_analog" />
+        android:background="@drawable/turbo_vanes_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge3"
@@ -86,7 +89,8 @@
         android:layout_alignStart="@+id/digital_gauge4"
         android:layout_alignTop="@+id/digital_gauge4"
         android:layout_marginStart="-30dp"
-        android:background="@drawable/fuel_rail_pressure_analog" />
+        android:background="@drawable/fuel_rail_pressure_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge4"
@@ -110,7 +114,8 @@
         android:layout_height="120dp"
         android:layout_alignStart="@+id/oil_digital"
         android:layout_alignTop="@+id/digital_gauge5"
-        android:background="@drawable/coolant_temperature_analog" />
+        android:background="@drawable/coolant_temperature_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge5"
@@ -135,7 +140,8 @@
         android:layout_alignStart="@+id/digital_gauge6"
         android:layout_alignTop="@+id/digital_gauge6"
         android:layout_marginStart="-30dp"
-        android:background="@drawable/boost_analog" />
+        android:background="@drawable/boost_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge6"
@@ -160,7 +166,8 @@
         android:layout_alignStart="@+id/digital_gauge7"
         android:layout_alignTop="@+id/digital_gauge7"
         android:layout_marginStart="-30dp"
-        android:background="@drawable/injection_timing_analog" />
+        android:background="@drawable/injection_timing_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge7"
@@ -185,7 +192,8 @@
         android:layout_alignStart="@+id/digital_gauge8"
         android:layout_alignTop="@+id/digital_gauge8"
         android:layout_marginStart="-26dp"
-        android:background="@drawable/injection_fuel_rate_analog" />
+        android:background="@drawable/injection_fuel_rate_analog"
+        tools:ignore="ContentDescription" />
 
     <com.github.anastr.speedviewlib.ImageSpeedometer
         android:id="@+id/digital_gauge8"
